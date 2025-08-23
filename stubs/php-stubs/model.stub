@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+{{ softDeleteImport }}
+
+class {{ Name }} extends Model
+{
+    use HasFactory;
+    {{ softDeleteTrait }}
+
+    //protected $table = '{{ table }}';
+
+    /*
+    protected $fillable = [
+        {{ fillable }}
+    ];
+    */
+
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at',
+    ];
+
+    /*
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('preview')
+            ->fit(Fit::Contain, 300, 300)
+            ->nonQueued();
+    }
+    */
+}

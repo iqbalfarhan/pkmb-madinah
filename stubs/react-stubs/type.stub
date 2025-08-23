@@ -1,0 +1,6 @@
+export type {{ Name }} = {
+  id: number;
+{{ fields }}
+  created_at?: string;
+  updated_at?: string;
+};
