@@ -19,9 +19,5 @@ class UserSeeder extends Seeder
             'password' => 'password',
         ]);
         $superadmin->assignRole('superadmin');
-
-        User::factory(5)->create()->each(function ($user) {
-            $user->assignRole('user');
-        });
     }
 }
