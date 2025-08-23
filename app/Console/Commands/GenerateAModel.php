@@ -89,9 +89,6 @@ class GenerateAModel extends Command
 
         // Add router to web.php
         $this->addRoute($softDelete,$name, $Name);
-
-        // Generate permissions
-        $this->generatePermissions($softDelete, $name);
     }
 
     protected function makeFromStub($filePath, $stubPath, $replacements)
@@ -270,33 +267,6 @@ class GenerateAModel extends Command
                 \$model->forceDelete();
             }
         EOT;
-    }
-
-    protected function generatePermissions(bool $softDelete, string $name)
-    {
-        $permissions = [
-            "menu {$name}",
-            "index {$name}",
-            "show {$name}",
-            "create {$name}",
-            "update {$name}",
-            "delete {$name}",
-        ];
-
-        if ($softDelete) {
-            $permissions[] = "archived {$name}";
-            $permissions[] = "restore {$name}";
-            $permissions[] = "force delete {$name}";
-        }
-
-        foreach ($permissions as $permit) {
-            Permission::updateOrCreate([
-                'group' => $name,
-                'name' => $permit,
-            ]);
-        }
-
-        $this->info("🔑 Permissions created: " . implode(', ', $permissions));
     }
 
 }
