@@ -27,7 +27,7 @@ class Lesson extends Model
         'updated_at',
     ];
 
-    public $appends = ['name'];
+    public $appends = ['name', 'description'];
 
     public function classroom(){
         return $this->belongsTo(Classroom::class);
@@ -44,6 +44,23 @@ class Lesson extends Model
     public function getNameAttribute()
     {
         return $this->subject->name . ' - ' . $this->classroom->name;
+    }
+
+    public function getDescriptionAttribute()
+    {
+        return implode(" ", [
+            'Kelas group',
+            'mata pelajaran',
+            $this->subject->name,
+            'untuk kelas',
+            $this->classroom->name,
+            'dibimbing oleh',
+            $this->teacher->name
+        ]);
+    }
+
+    public function materials(){
+        return $this->hasMany(Material::class);
     }
 
     /*

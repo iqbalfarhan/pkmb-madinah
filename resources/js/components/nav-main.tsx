@@ -12,11 +12,11 @@ export function NavMain({ items = [], label }: Props) {
   const page = usePage();
 
   // kalau items kosong, skip
-  // if (items.length === 0) return null;
+  if (items.length === 0) return null;
 
   // kalau semua item.available === false, skip
-  // const hasAvailable = items.some((item) => item.available !== false);
-  // if (!hasAvailable) return null;
+  const hasAvailable = items.some((item) => item.available !== false);
+  if (!hasAvailable) return null;
 
   return (
     <SidebarGroup className="px-2 py-0">

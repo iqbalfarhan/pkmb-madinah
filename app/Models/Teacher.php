@@ -47,4 +47,14 @@ class Teacher extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function classrooms()
+    {
+        return $this->hasMany(Classroom::class);
+    }
+
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class);
+    }
 }

@@ -54,6 +54,11 @@ class User extends Authenticatable implements HasMedia
         ];
     }
 
+    public function teacher()
+    {
+        return $this->hasOne(Teacher::class);
+    }
+
     public function getAvatarAttribute()
     {
         return "https://api.dicebear.com/9.x/dylan/png?seed={$this->email}";

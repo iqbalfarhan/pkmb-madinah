@@ -2,6 +2,8 @@ import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
+import { Classroom } from '@/types/classroom';
+import { Lesson } from '@/types/lesson';
 import { Link, usePage } from '@inertiajs/react';
 import {
   Book,
@@ -36,7 +38,15 @@ const mainNavItems: NavItem[] = [
 // const footerNavItems: NavItem[] = [];
 
 export function AppSidebar() {
-  const { menus } = usePage<{ menus: Record<string, boolean> }>().props;
+  const {
+    menus,
+    myclassrooms = [],
+    mylessons = [],
+  } = usePage<{
+    menus: Record<string, boolean>;
+    myclassrooms: Classroom[];
+    mylessons: Lesson[];
+  }>().props;
 
   return (
     <Sidebar collapsible="icon" variant="sidebar">
@@ -55,34 +65,20 @@ export function AppSidebar() {
       <SidebarContent className="space-y-4">
         <NavMain items={[...mainNavItems]} label="Dashboard" />
         <NavMain
-          items={[
-            {
-              title: 'Kelas 5 SD',
-              href: route('classroom.show', 1),
-              icon: KeySquare,
-            },
-          ]}
-          label="Kelas saya"
+          items={myclassrooms.map((c) => ({
+            title: c.name,
+            href: route('classroom.show', c.id),
+            icon: Folder,
+          }))}
+          label="Menu walikelas"
         />
         <NavMain
-          items={[
-            {
-              title: 'Matematika - Kelas 5 SD',
-              href: route('lesson.show', 1),
-              icon: Folder,
-            },
-            {
-              title: 'Bahasa indonesia - Kelas 5 SD',
-              href: route('lesson.show', 4),
-              icon: Folder,
-            },
-            {
-              title: 'Matematika - Kelas 5 SD',
-              href: route('lesson.show', 3),
-              icon: Folder,
-            },
-          ]}
-          label="Pelajaran saya"
+          items={mylessons.map((l) => ({
+            title: l.name,
+            href: route('lesson.show', l.id),
+            icon: Newspaper,
+          }))}
+          label="Guru mata pelajaran"
         />
         <NavMain
           items={[

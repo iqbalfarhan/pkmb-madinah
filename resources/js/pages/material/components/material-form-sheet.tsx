@@ -7,6 +7,7 @@ import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHe
 import { Textarea } from '@/components/ui/textarea';
 import { capitalizeWords, em } from '@/lib/utils';
 import { FormPurpose } from '@/types';
+import { Lesson } from '@/types/lesson';
 import { Material } from '@/types/material';
 import { useForm } from '@inertiajs/react';
 import { X } from 'lucide-react';
@@ -16,12 +17,14 @@ import { toast } from 'sonner';
 type Props = PropsWithChildren & {
   material?: Material;
   purpose: FormPurpose;
+  lessonId?: Lesson['id'];
 };
 
-const MaterialFormSheet: FC<Props> = ({ children, material, purpose }) => {
+const MaterialFormSheet: FC<Props> = ({ children, material, purpose, lessonId }) => {
   const [open, setOpen] = useState(false);
 
   const { data, setData, put, post, reset, processing } = useForm({
+    lesson_id: material?.lesson_id ?? lessonId ?? '',
     title: material?.title ?? '',
     description: material?.description ?? '',
     url: material?.url ?? '',
@@ -55,7 +58,9 @@ const MaterialFormSheet: FC<Props> = ({ children, material, purpose }) => {
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>{capitalizeWords(purpose)} data material</SheetTitle>
+          <SheetTitle>
+            {capitalizeWords(purpose)} data material {data.lesson_id}
+          </SheetTitle>
           <SheetDescription>Form untuk {purpose} data material</SheetDescription>
         </SheetHeader>
         <ScrollArea className="flex-1 overflow-y-auto">

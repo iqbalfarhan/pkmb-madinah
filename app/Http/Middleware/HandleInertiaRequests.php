@@ -40,6 +40,8 @@ class HandleInertiaRequests extends Middleware
         [$message, $author] = str(Inspiring::quotes()->random())->explode('-');
         $user = $request->user();
 
+        // dd($user?->teacher->lessons);
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),
@@ -63,6 +65,8 @@ class HandleInertiaRequests extends Middleware
                 "lesson" => $user?->can('menu lesson'),
                 "material" => $user?->can('menu material'),
             ],
+            "myclassrooms" => $user?->teacher->classrooms ?? [],
+            "mylessons" => $user?->teacher->lessons ?? [],
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

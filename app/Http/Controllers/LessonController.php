@@ -56,7 +56,7 @@ class LessonController extends Controller
     public function show(Lesson $lesson)
     {
         return Inertia::render('lesson/show', [
-            'lesson' => $lesson
+            'lesson' => $lesson->load('materials', 'classroom', 'subject', 'teacher')
         ]);
     }
 
