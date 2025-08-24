@@ -1,0 +1,137 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreStudentRequest;
+use App\Http\Requests\UpdateStudentRequest;
+use App\Http\Requests\BulkUpdateStudentRequest;
+use App\Http\Requests\BulkDeleteStudentRequest;
+use App\Models\Student;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+
+class StudentController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        $data = Student::query()->with(['user', 'grade', 'classroom'])->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+
+        return Inertia::render('student/index', [
+            'students' => $data->aktif()->get(),
+            'query' => $request->input(),
+            'users' => User::get(),
+            'permissions' => [
+                'canAdd' => $this->user->can('create student'),
+                'canUpdate' => $this->user->can('update student'),
+                'canDelete' => $this->user->can('delete student'),
+                'canShow' => $this->user->can('show student'),
+            ]
+        ]);
+    }
+
+    /**
+     * create a new student.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreStudentRequest $request)
+    {
+        $data = $request->validated();
+        Student::create($data);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Student $student)
+    {
+        return Inertia::render('student/show', [
+            'student' => $student->load(['user', 'grade', 'classroom']),
+        ]);
+    }
+
+    /**
+     * edit the specified student.
+     */
+    public function edit(Student $student)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateStudentRequest $request, Student $student)
+    {
+        $data = $request->validated();
+        $student->update($data);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Student $student)
+    {
+        $student->delete();
+    }
+
+    /**
+     * BulkUpdate the specified resource from storage.
+     */
+    public function bulkUpdate(BulkUpdateStudentRequest $request)
+    {
+        $data = $request->validated();
+        Student::whereIn('id', $data['student_ids'])->update($data);
+    }
+
+    /**
+     * BulkDelete the specified resource from storage.
+     */
+    public function bulkDelete(BulkDeleteStudentRequest $request)
+    {
+        $data = $request->validated();
+        Student::whereIn('id', $data['student_ids'])->delete();
+    }
+
+        /**
+     * View archived resource from storage.
+     */
+    public function archived()
+    {
+        return Inertia::render('student/archived', [
+            'students' => Student::onlyTrashed()->get(),
+        ]);
+    }
+
+    /**
+     * Restore the specified resource from storage.
+     */
+    public function restore($id)
+    {
+        $model = Student::onlyTrashed()->findOrFail($id);
+        $model->restore();
+
+        $model->update([
+            'status' => 'aktif'
+        ]);
+    }
+
+    /**
+     * Force delete the specified resource from storage.
+     */
+    public function forceDelete($id)
+    {
+        $model = Student::onlyTrashed()->findOrFail($id);
+        $model->forceDelete();
+    }
+}

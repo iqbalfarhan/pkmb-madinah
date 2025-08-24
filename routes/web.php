@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\PpdbController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -17,16 +18,7 @@ use App\Http\Controllers\PaymentTypeController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\MaterialController;
-
-
-
-
-
-
-
-
-
-
+use App\Http\Controllers\StudentController;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -78,16 +70,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('paymenttype/bulk', [PaymentTypeController::class, 'bulkUpdate'])->name('paymenttype.bulk.update');
     Route::delete('paymenttype/bulk', [PaymentTypeController::class, 'bulkDelete'])->name('paymenttype.bulk.destroy');
     Route::apiResource('paymenttype', PaymentTypeController::class);
+
     Route::put('classroom/bulk', [ClassroomController::class, 'bulkUpdate'])->name('classroom.bulk.update');
     Route::delete('classroom/bulk', [ClassroomController::class, 'bulkDelete'])->name('classroom.bulk.destroy');
     Route::apiResource('classroom', ClassroomController::class);
+
     Route::put('lesson/bulk', [LessonController::class, 'bulkUpdate'])->name('lesson.bulk.update');
     Route::delete('lesson/bulk', [LessonController::class, 'bulkDelete'])->name('lesson.bulk.destroy');
     Route::apiResource('lesson', LessonController::class);
+
     Route::put('material/bulk', [MaterialController::class, 'bulkUpdate'])->name('material.bulk.update');
     Route::delete('material/bulk', [MaterialController::class, 'bulkDelete'])->name('material.bulk.destroy');
     Route::apiResource('material', MaterialController::class);
+
+    Route::resource('ppdb', PpdbController::class);
 });
 
+require __DIR__.'/student.php';
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

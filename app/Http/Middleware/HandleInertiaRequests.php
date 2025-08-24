@@ -64,9 +64,11 @@ class HandleInertiaRequests extends Middleware
                 "classroom" => $user?->can('menu classroom'),
                 "lesson" => $user?->can('menu lesson'),
                 "material" => $user?->can('menu material'),
+                "student" => $user?->can('menu student'),
             ],
             "myclassrooms" => $user?->teacher->classrooms ?? [],
             "mylessons" => $user?->teacher->lessons ?? [],
+            "mystudents" => $user?->students ?? [],
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

@@ -3,6 +3,7 @@ import { CalendarIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { dateDFY } from '@/lib/utils';
 import { FC, useState } from 'react';
 
 type Props = {
@@ -16,7 +17,7 @@ const DatePicker: FC<Props> = ({ value, onValueChange }) => {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button variant="outline" className="w-full justify-between font-normal">
-          {value ? value.toLocaleDateString() : 'Select value'}
+          {value ? dateDFY(value) : 'Select value'}
           <CalendarIcon />
         </Button>
       </PopoverTrigger>

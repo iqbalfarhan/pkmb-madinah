@@ -64,6 +64,11 @@ class User extends Authenticatable implements HasMedia
         return "https://api.dicebear.com/9.x/dylan/png?seed={$this->email}";
     }
 
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
+
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('preview')

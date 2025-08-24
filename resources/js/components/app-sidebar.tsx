@@ -4,6 +4,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { type NavItem } from '@/types';
 import { Classroom } from '@/types/classroom';
 import { Lesson } from '@/types/lesson';
+import { Student } from '@/types/student';
 import { Link, usePage } from '@inertiajs/react';
 import {
   Book,
@@ -17,8 +18,12 @@ import {
   Newspaper,
   Palette,
   RemoveFormatting,
+  Settings,
+  UserCircle,
+  UserPlus,
   Users,
   UsersRound,
+  Wallet,
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
@@ -42,10 +47,12 @@ export function AppSidebar() {
     menus,
     myclassrooms = [],
     mylessons = [],
+    mystudents = [],
   } = usePage<{
     menus: Record<string, boolean>;
     myclassrooms: Classroom[];
     mylessons: Lesson[];
+    mystudents: Student[];
   }>().props;
 
   return (
@@ -64,6 +71,39 @@ export function AppSidebar() {
 
       <SidebarContent className="space-y-4">
         <NavMain items={[...mainNavItems]} label="Dashboard" />
+        <NavMain
+          items={[
+            {
+              title: 'Pendaftaran siswa baru',
+              href: route('ppdb.create'),
+              icon: UserPlus,
+              available: menus.student,
+            },
+            {
+              title: 'Pengaturan PPDB',
+              href: route('ppdb.index'),
+              icon: Settings,
+              available: menus.student,
+            },
+          ]}
+          label="Pendaftaran siswa baru"
+        />
+        <NavMain
+          items={[
+            ...mystudents.map((s) => ({
+              title: s.name,
+              href: route('student.show', s.id),
+              icon: UserCircle,
+            })),
+            {
+              title: 'Tagihan biaya sekolah',
+              href: route('student.index'),
+              icon: Wallet,
+              available: menus.student,
+            },
+          ]}
+          label="Menu orangtua"
+        />
         <NavMain
           items={myclassrooms.map((c) => ({
             title: c.name,
@@ -144,8 +184,14 @@ export function AppSidebar() {
             {
               title: 'Payment lists',
               href: route('paymenttype.index'),
-              icon: Palette,
+              icon: Wallet,
               available: menus.paymenttype,
+            },
+            {
+              title: 'Student lists',
+              href: route('student.index'),
+              icon: Users,
+              available: menus.student,
             },
           ]}
           label="Master data"
