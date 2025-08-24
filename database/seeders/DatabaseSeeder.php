@@ -21,6 +21,10 @@ class DatabaseSeeder extends Seeder
             TeacherSeeder::class,
             SubjectSeeder::class,
             NewsSeeder::class,
+            ExtracurricularSeeder::class,
+            PaymentTypeSeeder::class,
+            ClassroomSeeder::class,
+            LessonSeeder::class,
         ]);
     }
 }

@@ -1,0 +1,99 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreLessonRequest;
+use App\Http\Requests\UpdateLessonRequest;
+use App\Http\Requests\BulkUpdateLessonRequest;
+use App\Http\Requests\BulkDeleteLessonRequest;
+use App\Models\Classroom;
+use App\Models\Lesson;
+use App\Models\Subject;
+use App\Models\Teacher;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+
+class LessonController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        $data = Lesson::query()->with([
+            'classroom',
+            'subject',
+            'teacher'
+        ])->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+
+        return Inertia::render('lesson/index', [
+            'lessons' => $data->get(),
+            'query' => $request->input(),
+            'teachers' => Teacher::get(),
+            'subjects' => Subject::get(),
+            'classrooms' => Classroom::get(),
+            'permissions' => [
+                'canAdd' => $this->user->can('create lesson'),
+                'canUpdate' => $this->user->can('update lesson'),
+                'canDelete' => $this->user->can('delete lesson'),
+                'canShow' => $this->user->can('show lesson'),
+            ]
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreLessonRequest $request)
+    {
+        $data = $request->validated();
+        Lesson::create($data);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Lesson $lesson)
+    {
+        return Inertia::render('lesson/show', [
+            'lesson' => $lesson
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateLessonRequest $request, Lesson $lesson)
+    {
+        $data = $request->validated();
+        $lesson->update($data);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Lesson $lesson)
+    {
+        $lesson->delete();
+    }
+
+    /**
+     * BulkUpdate the specified resource from storage.
+     */
+    public function bulkUpdate(BulkUpdateLessonRequest $request)
+    {
+        $data = $request->validated();
+        Lesson::whereIn('id', $data['lesson_ids'])->update($data);
+    }
+
+    /**
+     * BulkDelete the specified resource from storage.
+     */
+    public function bulkDelete(BulkDeleteLessonRequest $request)
+    {
+        $data = $request->validated();
+        Lesson::whereIn('id', $data['lesson_ids'])->delete();
+    }
+
+    
+}

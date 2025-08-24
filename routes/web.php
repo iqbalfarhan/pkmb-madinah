@@ -15,6 +15,8 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ExtracurricularController;
 use App\Http\Controllers\PaymentTypeController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\LessonController;
+
 
 
 
@@ -77,6 +79,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('classroom/bulk', [ClassroomController::class, 'bulkUpdate'])->name('classroom.bulk.update');
     Route::delete('classroom/bulk', [ClassroomController::class, 'bulkDelete'])->name('classroom.bulk.destroy');
     Route::apiResource('classroom', ClassroomController::class);
+    Route::put('lesson/bulk', [LessonController::class, 'bulkUpdate'])->name('lesson.bulk.update');
+    Route::delete('lesson/bulk', [LessonController::class, 'bulkDelete'])->name('lesson.bulk.destroy');
+    Route::apiResource('lesson', LessonController::class);
 });
 
 require __DIR__.'/settings.php';

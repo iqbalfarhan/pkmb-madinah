@@ -3,7 +3,20 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { Book, BookOpen, CalendarCheck, ChevronsUpDown, Database, KeySquare, LayoutGrid, Newspaper, Palette, Users, UsersRound } from 'lucide-react';
+import {
+  Book,
+  BookOpen,
+  CalendarCheck,
+  ChevronsUpDown,
+  Database,
+  KeySquare,
+  LayoutGrid,
+  Newspaper,
+  Palette,
+  RemoveFormatting,
+  Users,
+  UsersRound,
+} from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -47,6 +60,12 @@ export function AppSidebar() {
               href: route('classroom.index'),
               icon: KeySquare,
               available: menus.classroom,
+            },
+            {
+              title: 'Classroom sessions',
+              href: route('lesson.index'),
+              icon: RemoveFormatting,
+              available: menus.lesson,
             },
           ]}
           label="Kelas & pelajaran"
