@@ -30,11 +30,15 @@ class AcademicYear extends Model
 
     public function scopeActive($query)
     {
-        return $query->where('active', true);
+        return $query->where('active', true)->first();
     }
 
     public $casts = [
         'active' => 'boolean',
+    ];
+
+    public $appends = [
+        'label',
     ];
 
     public function setActive()
@@ -45,6 +49,11 @@ class AcademicYear extends Model
             $this->active = true;
             $this->save();
         });
+    }
+
+    public function getLabelAttribute()
+    {
+        return $this->year . ' - ' . $this->semester;
     }
 
     /*

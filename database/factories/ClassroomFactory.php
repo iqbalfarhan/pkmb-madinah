@@ -1,0 +1,24 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\AcademicYear;
+use App\Models\Classroom;
+use App\Models\Grade;
+use App\Models\Teacher;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class ClassroomFactory extends Factory
+{
+    protected $model = Classroom::class;
+
+    public function definition(): array
+    {
+        return [
+            'name' => fake()->sentence(),
+            'academic_year_id' => AcademicYear::pluck('id')->random(),
+            'teacher_id' => Teacher::pluck('id')->random(),
+            'grade_id' => Grade::pluck('id')->random(),
+        ];
+    }
+}

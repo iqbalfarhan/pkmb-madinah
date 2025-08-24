@@ -22,6 +22,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { ScrollArea } from "./scroll-area"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -368,7 +369,8 @@ function SidebarSeparator({
 
 function SidebarContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div
+    <ScrollArea className="flex-1 overflow-y-auto">
+      <div
       data-slot="sidebar-content"
       data-sidebar="content"
       className={cn(
@@ -377,6 +379,7 @@ function SidebarContent({ className, ...props }: React.ComponentProps<"div">) {
       )}
       {...props}
     />
+    </ScrollArea>
   )
 }
 
