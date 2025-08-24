@@ -12,6 +12,8 @@ use App\Http\Controllers\GradeController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\ExtracurricularController;
+
 
 
 
@@ -56,6 +58,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('news/bulk', [NewsController::class, 'bulkUpdate'])->name('news.bulk.update');
     Route::delete('news/bulk', [NewsController::class, 'bulkDelete'])->name('news.bulk.destroy');
     Route::apiResource('news', NewsController::class);
+    Route::put('extracurricular/bulk', [ExtracurricularController::class, 'bulkUpdate'])->name('extracurricular.bulk.update');
+    Route::delete('extracurricular/bulk', [ExtracurricularController::class, 'bulkDelete'])->name('extracurricular.bulk.destroy');
+    Route::apiResource('extracurricular', ExtracurricularController::class);
 });
 
 require __DIR__.'/settings.php';

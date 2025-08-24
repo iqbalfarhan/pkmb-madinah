@@ -4,7 +4,19 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { Book, BookOpen, CalendarCheck, ChevronsUpDown, Database, KeySquare, LayoutGrid, Newspaper, Users, UsersRound } from 'lucide-react';
+import {
+  Accessibility,
+  Book,
+  BookOpen,
+  CalendarCheck,
+  ChevronsUpDown,
+  Database,
+  KeySquare,
+  LayoutGrid,
+  Newspaper,
+  Users,
+  UsersRound,
+} from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -72,6 +84,12 @@ export function AppSidebar() {
               href: route('news.index'),
               icon: Newspaper,
               available: menus.news,
+            },
+            {
+              title: 'Extracurricular lists',
+              href: route('extracurricular.index'),
+              icon: Accessibility,
+              available: menus.extracurricular,
             },
           ]}
           label="Master data"
