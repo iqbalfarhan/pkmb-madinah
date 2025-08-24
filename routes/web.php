@@ -13,6 +13,8 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ExtracurricularController;
+use App\Http\Controllers\PaymentTypeController;
+
 
 
 
@@ -43,24 +45,33 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('academicyear/bulk', [AcademicYearController::class, 'bulkDelete'])->name('academicyear.bulk.destroy');
     Route::put('academicyear/{academicyear}/set-active', [AcademicYearController::class, 'setActive'])->name('academicyear.set-active');
     Route::apiResource('academicyear', AcademicYearController::class);
+
     Route::put('grade/bulk', [GradeController::class, 'bulkUpdate'])->name('grade.bulk.update');
     Route::delete('grade/bulk', [GradeController::class, 'bulkDelete'])->name('grade.bulk.destroy');
     Route::apiResource('grade', GradeController::class);
+
     Route::put('teacher/bulk', [TeacherController::class, 'bulkUpdate'])->name('teacher.bulk.update');
     Route::delete('teacher/bulk', [TeacherController::class, 'bulkDelete'])->name('teacher.bulk.destroy');
     Route::get('teacher/archived', [TeacherController::class, 'archived'])->name('teacher.archived');
     Route::put('teacher/{teacher}/restore', [TeacherController::class, 'restore'])->name('teacher.restore');
     Route::delete('teacher/{teacher}/force-delete', [TeacherController::class, 'forceDelete'])->name('teacher.force-delete');
     Route::apiResource('teacher', TeacherController::class);
+
     Route::put('subject/bulk', [SubjectController::class, 'bulkUpdate'])->name('subject.bulk.update');
     Route::delete('subject/bulk', [SubjectController::class, 'bulkDelete'])->name('subject.bulk.destroy');
     Route::apiResource('subject', SubjectController::class);
+
     Route::put('news/bulk', [NewsController::class, 'bulkUpdate'])->name('news.bulk.update');
     Route::delete('news/bulk', [NewsController::class, 'bulkDelete'])->name('news.bulk.destroy');
     Route::apiResource('news', NewsController::class);
+
     Route::put('extracurricular/bulk', [ExtracurricularController::class, 'bulkUpdate'])->name('extracurricular.bulk.update');
     Route::delete('extracurricular/bulk', [ExtracurricularController::class, 'bulkDelete'])->name('extracurricular.bulk.destroy');
     Route::apiResource('extracurricular', ExtracurricularController::class);
+
+    Route::put('paymenttype/bulk', [PaymentTypeController::class, 'bulkUpdate'])->name('paymenttype.bulk.update');
+    Route::delete('paymenttype/bulk', [PaymentTypeController::class, 'bulkDelete'])->name('paymenttype.bulk.destroy');
+    Route::apiResource('paymenttype', PaymentTypeController::class);
 });
 
 require __DIR__.'/settings.php';

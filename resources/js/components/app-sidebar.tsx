@@ -79,6 +79,12 @@ export function AppSidebar() {
               icon: Palette,
               available: menus.extracurricular,
             },
+            {
+              title: 'Payment lists',
+              href: route('paymenttype.index'),
+              icon: Palette,
+              available: menus.paymenttype,
+            },
           ]}
           label="Master data"
         />
