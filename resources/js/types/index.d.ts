@@ -21,6 +21,7 @@ export interface NavItem {
   href: string;
   icon?: LucideIcon | null;
   isActive?: boolean;
+  available?: boolean;
 }
 
 export interface SharedData {
@@ -29,6 +30,7 @@ export interface SharedData {
   auth: Auth;
   ziggy: Config & { location: string };
   sidebarOpen: boolean;
+  permissions?: Record<string, boolean>;
   [key: string]: unknown;
 }
 

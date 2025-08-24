@@ -15,14 +15,6 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         $permissionGroups = [
-            "acadmicyear" => [
-                "academicyear menu" => ["admin"],
-                "academicyear index" => ["admin"],
-                "academicyear show" => ["admin"],
-                "academicyear create" => ["admin"],
-                "academicyear update" => ["admin"],
-                "academicyear delete" => ["admin"],
-            ],
             "settings" => [
                 "user menu" => ['admin'],
                 "role menu" => ['superadmin'],

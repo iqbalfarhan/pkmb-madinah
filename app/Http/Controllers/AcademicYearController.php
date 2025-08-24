@@ -22,6 +22,12 @@ class AcademicYearController extends Controller
         return Inertia::render('academicyear/index', [
             'academicyears' => $data->get(),
             'query' => $request->input(),
+            'permissions' => [
+                'canAdd' => $this->user->can('create academicyear'),
+                'canUpdate' => $this->user->can('update academicyear'),
+                'canDelete' => $this->user->can('delete academicyear'),
+                'canShow' => $this->user->can('show academicyear'),
+            ]
         ]);
     }
 

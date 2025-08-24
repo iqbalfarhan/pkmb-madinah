@@ -9,20 +9,31 @@ type Props = {
 
 export function NavMain({ items = [], label }: Props) {
   const page = usePage();
+
+  // kalau items kosong, skip
+  if (items.length === 0) return null;
+
+  // kalau semua item.available === false, skip
+  const hasAvailable = items.some((item) => item.available !== false);
+  if (!hasAvailable) return null;
+
   return (
     <SidebarGroup className="px-2 py-0">
       <SidebarGroupLabel>{label ? label : 'Main Navigation'}</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
-          <SidebarMenuItem key={item.title}>
-            <SidebarMenuButton asChild isActive={page.url.startsWith(item.href)} tooltip={{ children: item.title }}>
-              <Link href={item.href} prefetch>
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        ))}
+        {items.map((item) => {
+          if (item.available === false) return null;
+          return (
+            <SidebarMenuItem key={item.title}>
+              <SidebarMenuButton asChild isActive={page.url.startsWith(item.href)} tooltip={{ children: item.title }}>
+                <Link href={item.href} prefetch>
+                  {item.icon && <item.icon />}
+                  <span>{item.title}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          );
+        })}
       </SidebarMenu>
     </SidebarGroup>
   );

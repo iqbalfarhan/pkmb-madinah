@@ -6,23 +6,22 @@ import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { SharedData } from '@/types';
-import { Academicyear } from '@/types/academicyear';
+import { Grade } from '@/types/grade';
 import { Link, usePage } from '@inertiajs/react';
-import { CheckCheck, Edit, Filter, Folder, Plus, Trash2 } from 'lucide-react';
+import { Edit, Filter, Folder, Plus, Trash2 } from 'lucide-react';
 import { FC, useState } from 'react';
-import AcademicyearBulkDeleteDialog from './components/academicyear-bulk-delete-dialog';
-import AcademicyearBulkEditSheet from './components/academicyear-bulk-edit-sheet';
-import AcademicyearDeleteDialog from './components/academicyear-delete-dialog';
-import AcademicyearFilterSheet from './components/academicyear-filter-sheet';
-import AcademicyearFormSheet from './components/academicyear-form-sheet';
-import AcademicyearSetActiveDialog from './components/academicyear-set-active-dialog';
+import GradeBulkDeleteDialog from './components/grade-bulk-delete-dialog';
+import GradeBulkEditSheet from './components/grade-bulk-edit-sheet';
+import GradeDeleteDialog from './components/grade-delete-dialog';
+import GradeFilterSheet from './components/grade-filter-sheet';
+import GradeFormSheet from './components/grade-form-sheet';
 
 type Props = {
-  academicyears: Academicyear[];
+  grades: Grade[];
   query: { [key: string]: string };
 };
 
-const AcademicyearList: FC<Props> = ({ academicyears, query }) => {
+const GradeList: FC<Props> = ({ grades, query }) => {
   const [ids, setIds] = useState<number[]>([]);
   const [cari, setCari] = useState('');
 
@@ -30,24 +29,24 @@ const AcademicyearList: FC<Props> = ({ academicyears, query }) => {
 
   return (
     <AppLayout
-      title="Academicyears"
-      description="Manage your academicyears"
+      title="Grades"
+      description="Manage your grades"
       actions={
         <>
           {permissions?.canAdd && (
-            <AcademicyearFormSheet purpose="create">
+            <GradeFormSheet purpose="create">
               <Button>
                 <Plus />
-                Create new academicyear
+                Create new grade
               </Button>
-            </AcademicyearFormSheet>
+            </GradeFormSheet>
           )}
         </>
       }
     >
       <div className="flex gap-2">
-        <Input placeholder="Search academicyears..." value={cari} onChange={(e) => setCari(e.target.value)} />
-        <AcademicyearFilterSheet query={query}>
+        <Input placeholder="Search grades..." value={cari} onChange={(e) => setCari(e.target.value)} />
+        <GradeFilterSheet query={query}>
           <Button>
             <Filter />
             Filter data
@@ -55,22 +54,22 @@ const AcademicyearList: FC<Props> = ({ academicyears, query }) => {
               <Badge variant="secondary">{Object.values(query).filter((val) => val && val !== '').length}</Badge>
             )}
           </Button>
-        </AcademicyearFilterSheet>
+        </GradeFilterSheet>
         {ids.length > 0 && (
           <>
             <Button variant={'ghost'} disabled>
               {ids.length} item selected
             </Button>
-            <AcademicyearBulkEditSheet academicyearIds={ids}>
+            <GradeBulkEditSheet gradeIds={ids}>
               <Button>
                 <Edit /> Edit selected
               </Button>
-            </AcademicyearBulkEditSheet>
-            <AcademicyearBulkDeleteDialog academicyearIds={ids}>
+            </GradeBulkEditSheet>
+            <GradeBulkDeleteDialog gradeIds={ids}>
               <Button variant={'destructive'}>
                 <Trash2 /> Delete selected
               </Button>
-            </AcademicyearBulkDeleteDialog>
+            </GradeBulkDeleteDialog>
           </>
         )}
       </div>
@@ -81,10 +80,10 @@ const AcademicyearList: FC<Props> = ({ academicyears, query }) => {
               <Button variant={'ghost'} size={'icon'} asChild>
                 <Label>
                   <Checkbox
-                    checked={ids.length === academicyears.length}
+                    checked={ids.length === grades.length}
                     onCheckedChange={(checked) => {
                       if (checked) {
-                        setIds(academicyears.map((academicyear) => academicyear.id));
+                        setIds(grades.map((grade) => grade.id));
                       } else {
                         setIds([]);
                       }
@@ -93,64 +92,55 @@ const AcademicyearList: FC<Props> = ({ academicyears, query }) => {
                 </Label>
               </Button>
             </TableHead>
-            <TableHead>Tahun ajaran</TableHead>
-            <TableHead>Semester</TableHead>
-            <TableHead>Active</TableHead>
+            <TableHead>Grade</TableHead>
+            <TableHead>Name</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {academicyears
-            .filter((academicyear) => JSON.stringify(academicyear).toLowerCase().includes(cari.toLowerCase()))
-            .map((academicyear) => (
-              <TableRow key={academicyear.id}>
+          {grades
+            .filter((grade) => JSON.stringify(grade).toLowerCase().includes(cari.toLowerCase()))
+            .map((grade) => (
+              <TableRow key={grade.id}>
                 <TableCell>
                   <Button variant={'ghost'} size={'icon'} asChild>
                     <Label>
                       <Checkbox
-                        checked={ids.includes(academicyear.id)}
+                        checked={ids.includes(grade.id)}
                         onCheckedChange={(checked) => {
                           if (checked) {
-                            setIds([...ids, academicyear.id]);
+                            setIds([...ids, grade.id]);
                           } else {
-                            setIds(ids.filter((id) => id !== academicyear.id));
+                            setIds(ids.filter((id) => id !== grade.id));
                           }
                         }}
                       />
                     </Label>
                   </Button>
                 </TableCell>
-                <TableCell>{academicyear.year}</TableCell>
-                <TableCell>{academicyear.semester}</TableCell>
-                <TableCell>{academicyear.active && <Badge>Active</Badge>}</TableCell>
+                <TableCell>{grade.group}</TableCell>
+                <TableCell>{grade.name}</TableCell>
                 <TableCell>
-                  {permissions?.canUpdate && (
-                    <AcademicyearSetActiveDialog academicyear={academicyear}>
-                      <Button variant={'ghost'} size={'icon'}>
-                        <CheckCheck />
-                      </Button>
-                    </AcademicyearSetActiveDialog>
-                  )}
                   {permissions?.canShow && (
                     <Button variant={'ghost'} size={'icon'}>
-                      <Link href={route('academicyear.show', academicyear.id)}>
+                      <Link href={route('grade.show', grade.id)}>
                         <Folder />
                       </Link>
                     </Button>
                   )}
                   {permissions?.canUpdate && (
-                    <AcademicyearFormSheet purpose="edit" academicyear={academicyear}>
+                    <GradeFormSheet purpose="edit" grade={grade}>
                       <Button variant={'ghost'} size={'icon'}>
                         <Edit />
                       </Button>
-                    </AcademicyearFormSheet>
+                    </GradeFormSheet>
                   )}
                   {permissions?.canDelete && (
-                    <AcademicyearDeleteDialog academicyear={academicyear}>
+                    <GradeDeleteDialog grade={grade}>
                       <Button variant={'ghost'} size={'icon'}>
                         <Trash2 />
                       </Button>
-                    </AcademicyearDeleteDialog>
+                    </GradeDeleteDialog>
                   )}
                 </TableCell>
               </TableRow>
@@ -161,4 +151,4 @@ const AcademicyearList: FC<Props> = ({ academicyears, query }) => {
   );
 };
 
-export default AcademicyearList;
+export default GradeList;

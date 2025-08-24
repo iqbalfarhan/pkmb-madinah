@@ -15,7 +15,7 @@ interface LoginProps {
 
 export default function Login({ status, canResetPassword }: LoginProps) {
   const { data, setData, post, processing } = useForm({
-    email: 'admin@gmail.com',
+    email: 'superadmin@gmail.com',
     password: 'password',
     remember: false,
   });
