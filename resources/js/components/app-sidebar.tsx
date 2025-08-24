@@ -9,6 +9,7 @@ import {
   CalendarCheck,
   ChevronsUpDown,
   Database,
+  Folder,
   KeySquare,
   LayoutGrid,
   Newspaper,
@@ -26,7 +27,7 @@ const mainNavItems: NavItem[] = [
     icon: LayoutGrid,
   },
   {
-    title: 'Documentation',
+    title: 'Buku panduan',
     href: route('documentation'),
     icon: BookOpen,
   },
@@ -56,6 +57,36 @@ export function AppSidebar() {
         <NavMain
           items={[
             {
+              title: 'Kelas 5 SD',
+              href: route('classroom.show', 1),
+              icon: KeySquare,
+            },
+          ]}
+          label="Kelas saya"
+        />
+        <NavMain
+          items={[
+            {
+              title: 'Matematika - Kelas 5 SD',
+              href: route('lesson.show', 1),
+              icon: Folder,
+            },
+            {
+              title: 'Bahasa indonesia - Kelas 5 SD',
+              href: route('lesson.show', 4),
+              icon: Folder,
+            },
+            {
+              title: 'Matematika - Kelas 5 SD',
+              href: route('lesson.show', 3),
+              icon: Folder,
+            },
+          ]}
+          label="Pelajaran saya"
+        />
+        <NavMain
+          items={[
+            {
               title: 'Classroom lists',
               href: route('classroom.index'),
               icon: KeySquare,
@@ -66,6 +97,12 @@ export function AppSidebar() {
               href: route('lesson.index'),
               icon: RemoveFormatting,
               available: menus.lesson,
+            },
+            {
+              title: 'Lesson materials',
+              href: route('material.index'),
+              icon: BookOpen,
+              available: menus.material,
             },
           ]}
           label="Kelas & pelajaran"

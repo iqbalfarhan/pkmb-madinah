@@ -61,6 +61,7 @@ class HandleInertiaRequests extends Middleware
                 "paymenttype" => $user?->can('menu paymenttype'),
                 "classroom" => $user?->can('menu classroom'),
                 "lesson" => $user?->can('menu lesson'),
+                "material" => $user?->can('menu material'),
             ],
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),

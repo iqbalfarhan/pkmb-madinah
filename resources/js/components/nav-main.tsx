@@ -1,4 +1,5 @@
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { strLimit } from '@/lib/utils';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 
@@ -11,11 +12,11 @@ export function NavMain({ items = [], label }: Props) {
   const page = usePage();
 
   // kalau items kosong, skip
-  if (items.length === 0) return null;
+  // if (items.length === 0) return null;
 
   // kalau semua item.available === false, skip
-  const hasAvailable = items.some((item) => item.available !== false);
-  if (!hasAvailable) return null;
+  // const hasAvailable = items.some((item) => item.available !== false);
+  // if (!hasAvailable) return null;
 
   return (
     <SidebarGroup className="px-2 py-0">
@@ -28,7 +29,7 @@ export function NavMain({ items = [], label }: Props) {
               <SidebarMenuButton asChild isActive={page.url.startsWith(item.href)} tooltip={{ children: item.title }}>
                 <Link href={item.href} prefetch>
                   {item.icon && <item.icon />}
-                  <span>{item.title}</span>
+                  <span>{strLimit(item.title, 25)}</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
