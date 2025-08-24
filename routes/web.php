@@ -11,6 +11,8 @@ use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\NewsController;
+
 
 
 
@@ -51,6 +53,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('subject/bulk', [SubjectController::class, 'bulkUpdate'])->name('subject.bulk.update');
     Route::delete('subject/bulk', [SubjectController::class, 'bulkDelete'])->name('subject.bulk.destroy');
     Route::apiResource('subject', SubjectController::class);
+    Route::put('news/bulk', [NewsController::class, 'bulkUpdate'])->name('news.bulk.update');
+    Route::delete('news/bulk', [NewsController::class, 'bulkDelete'])->name('news.bulk.destroy');
+    Route::apiResource('news', NewsController::class);
 });
 
 require __DIR__.'/settings.php';

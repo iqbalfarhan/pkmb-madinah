@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { Book, BookOpen, CalendarCheck, ChevronsUpDown, Database, KeySquare, LayoutGrid, Users, UsersRound } from 'lucide-react';
+import { Book, BookOpen, CalendarCheck, ChevronsUpDown, Database, KeySquare, LayoutGrid, Newspaper, Users, UsersRound } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -66,6 +66,12 @@ export function AppSidebar() {
               href: route('subject.index'),
               icon: Book,
               available: menus.subject,
+            },
+            {
+              title: 'Schools news',
+              href: route('news.index'),
+              icon: Newspaper,
+              available: menus.news,
             },
           ]}
           label="Master data"
