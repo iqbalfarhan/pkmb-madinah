@@ -10,6 +10,8 @@ use Inertia\Inertia;
 use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\SubjectController;
+
 
 
 
@@ -46,6 +48,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('teacher/{teacher}/restore', [TeacherController::class, 'restore'])->name('teacher.restore');
     Route::delete('teacher/{teacher}/force-delete', [TeacherController::class, 'forceDelete'])->name('teacher.force-delete');
     Route::apiResource('teacher', TeacherController::class);
+    Route::put('subject/bulk', [SubjectController::class, 'bulkUpdate'])->name('subject.bulk.update');
+    Route::delete('subject/bulk', [SubjectController::class, 'bulkDelete'])->name('subject.bulk.destroy');
+    Route::apiResource('subject', SubjectController::class);
 });
 
 require __DIR__.'/settings.php';
