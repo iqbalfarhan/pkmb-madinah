@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { em, capitalizeWords } from '@/lib/utils';
+import { capitalizeWords, em } from '@/lib/utils';
 import { FormPurpose } from '@/types';
 import { Permission } from '@/types/permission';
 import { useForm } from '@inertiajs/react';
@@ -21,6 +21,7 @@ const PermissionFormSheet: FC<Props> = ({ children, permission, purpose }) => {
   const [open, setOpen] = useState(false);
 
   const { data, setData, put, post, reset, processing } = useForm({
+    group: permission?.group ?? '',
     name: permission?.name ?? '',
   });
 
@@ -63,6 +64,9 @@ const PermissionFormSheet: FC<Props> = ({ children, permission, purpose }) => {
               handleSubmit();
             }}
           >
+            <FormControl label="Group permission">
+              <Input type="text" placeholder="Name" value={data.group} onChange={(e) => setData('group', e.target.value)} />
+            </FormControl>
             <FormControl label="Nama permission">
               <Input type="text" placeholder="Name" value={data.name} onChange={(e) => setData('name', e.target.value)} />
             </FormControl>
