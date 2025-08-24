@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, CalendarCheck, ChevronsUpDown, Database, KeySquare, LayoutGrid, Users } from 'lucide-react';
+import { BookOpen, CalendarCheck, ChevronsUpDown, Database, KeySquare, LayoutGrid, Users, UsersRound } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -53,6 +53,12 @@ export function AppSidebar() {
               title: 'Grade lists',
               href: route('grade.index'),
               icon: ChevronsUpDown,
+              available: menus.grade,
+            },
+            {
+              title: 'Teachers lists',
+              href: route('teacher.index'),
+              icon: UsersRound,
               available: menus.grade,
             },
           ]}

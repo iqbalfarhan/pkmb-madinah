@@ -6,22 +6,22 @@ import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { SharedData } from '@/types';
-import { {{ Name }} } from '@/types/{{ name }}';
-import { Link } from '@inertiajs/react';
-import { Edit, Filter, Folder, Plus, Trash2 } from 'lucide-react';
+import { Teacher } from '@/types/teacher';
+import { Link, usePage } from '@inertiajs/react';
+import { Edit, Filter, Folder, FolderArchive, Plus, Trash2 } from 'lucide-react';
 import { FC, useState } from 'react';
-import {{ Name }}DeleteDialog from './components/{{ name }}-delete-dialog';
-import {{ Name }}FilterSheet from './components/{{ name }}-filter-sheet';
-import {{ Name }}FormSheet from './components/{{ name }}-form-sheet';
-import {{ Name }}BulkEditSheet from './components/{{ name }}-bulk-edit-sheet';
-import {{ Name }}BulkDeleteDialog from './components/{{ name }}-bulk-delete-dialog';
+import TeacherBulkDeleteDialog from './components/teacher-bulk-delete-dialog';
+import TeacherBulkEditSheet from './components/teacher-bulk-edit-sheet';
+import TeacherDeleteDialog from './components/teacher-delete-dialog';
+import TeacherFilterSheet from './components/teacher-filter-sheet';
+import TeacherFormSheet from './components/teacher-form-sheet';
 
 type Props = {
-  {{ names }}: {{ Name }}[];
+  teachers: Teacher[];
   query: { [key: string]: string };
 };
 
-const {{ Name }}List: FC<Props> = ({ {{ names }}, query }) => {
+const TeacherList: FC<Props> = ({ teachers, query }) => {
   const [ids, setIds] = useState<number[]>([]);
   const [cari, setCari] = useState('');
 
@@ -29,25 +29,29 @@ const {{ Name }}List: FC<Props> = ({ {{ names }}, query }) => {
 
   return (
     <AppLayout
-      title="{{ Name }}s"
-      description="Manage your {{ names }}"
+      title="Teachers"
+      description="Manage your teachers"
       actions={
         <>
           {permissions?.canAdd && (
-            <{{ Name }}FormSheet purpose="create">
+            <TeacherFormSheet purpose="create">
               <Button>
                 <Plus />
-                Create new {{ name }}
+                Create new teacher
               </Button>
-            </{{ Name }}FormSheet>
+            </TeacherFormSheet>
           )}
-          {{ archivedButton }}
+          <Button variant={'destructive'} size={'icon'} asChild>
+            <Link href={route('teacher.archived')}>
+              <FolderArchive />
+            </Link>
+          </Button>
         </>
       }
     >
       <div className="flex gap-2">
-        <Input placeholder="Search {{ names }}..." value={cari} onChange={(e) => setCari(e.target.value)} />
-        <{{ Name }}FilterSheet query={query}>
+        <Input placeholder="Search teachers..." value={cari} onChange={(e) => setCari(e.target.value)} />
+        <TeacherFilterSheet query={query}>
           <Button>
             <Filter />
             Filter data
@@ -55,22 +59,22 @@ const {{ Name }}List: FC<Props> = ({ {{ names }}, query }) => {
               <Badge variant="secondary">{Object.values(query).filter((val) => val && val !== '').length}</Badge>
             )}
           </Button>
-        </{{ Name }}FilterSheet>
+        </TeacherFilterSheet>
         {ids.length > 0 && (
           <>
             <Button variant={'ghost'} disabled>
               {ids.length} item selected
             </Button>
-            <{{ Name }}BulkEditSheet {{ name }}Ids={ids}>
+            <TeacherBulkEditSheet teacherIds={ids}>
               <Button>
                 <Edit /> Edit selected
               </Button>
-            </{{ Name }}BulkEditSheet>
-            <{{ Name }}BulkDeleteDialog {{ name }}Ids={ids}>
+            </TeacherBulkEditSheet>
+            <TeacherBulkDeleteDialog teacherIds={ids}>
               <Button variant={'destructive'}>
                 <Trash2 /> Delete selected
               </Button>
-            </{{ Name }}BulkDeleteDialog>
+            </TeacherBulkDeleteDialog>
           </>
         )}
       </div>
@@ -81,10 +85,10 @@ const {{ Name }}List: FC<Props> = ({ {{ names }}, query }) => {
               <Button variant={'ghost'} size={'icon'} asChild>
                 <Label>
                   <Checkbox
-                    checked={ids.length === {{ names }}.length}
+                    checked={ids.length === teachers.length}
                     onCheckedChange={(checked) => {
                       if (checked) {
-                        setIds({{ names }}.map(({{ name }}) => {{ name }}.id));
+                        setIds(teachers.map((teacher) => teacher.id));
                       } else {
                         setIds([]);
                       }
@@ -94,52 +98,58 @@ const {{ Name }}List: FC<Props> = ({ {{ names }}, query }) => {
               </Button>
             </TableHead>
             <TableHead>Name</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Gender</TableHead>
+            <TableHead>Phone</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {{{ names }}
-            .filter(({{ name }}) => JSON.stringify({{ name }}).toLowerCase().includes(cari.toLowerCase()))
-            .map(({{ name }}) => (
-              <TableRow key={{{ name }}.id}>
+          {teachers
+            .filter((teacher) => JSON.stringify(teacher).toLowerCase().includes(cari.toLowerCase()))
+            .map((teacher) => (
+              <TableRow key={teacher.id}>
                 <TableCell>
                   <Button variant={'ghost'} size={'icon'} asChild>
                     <Label>
                       <Checkbox
-                        checked={ids.includes({{ name }}.id)}
+                        checked={ids.includes(teacher.id)}
                         onCheckedChange={(checked) => {
                           if (checked) {
-                            setIds([...ids, {{ name }}.id]);
+                            setIds([...ids, teacher.id]);
                           } else {
-                            setIds(ids.filter((id) => id !== {{ name }}.id));
+                            setIds(ids.filter((id) => id !== teacher.id));
                           }
                         }}
                       />
                     </Label>
                   </Button>
                 </TableCell>
-                <TableCell>{ {{ name }}.name }</TableCell>
+                <TableCell>{teacher.name}</TableCell>
+                <TableCell>{teacher.email}</TableCell>
+                <TableCell>{teacher.gender ? 'Laki-laki' : 'Perempuan'}</TableCell>
+                <TableCell>{teacher.phone}</TableCell>
                 <TableCell>
                   {permissions?.canShow && (
                     <Button variant={'ghost'} size={'icon'}>
-                      <Link href={route('{{ name }}.show', {{ name }}.id)}>
+                      <Link href={route('teacher.show', teacher.id)}>
                         <Folder />
                       </Link>
                     </Button>
                   )}
                   {permissions?.canUpdate && (
-                    <{{ Name }}FormSheet purpose="edit" {{ name }}={{{ name }}}>
+                    <TeacherFormSheet purpose="edit" teacher={teacher}>
                       <Button variant={'ghost'} size={'icon'}>
                         <Edit />
                       </Button>
-                    </{{ Name }}FormSheet>
+                    </TeacherFormSheet>
                   )}
                   {permissions?.canDelete && (
-                    <{{ Name }}DeleteDialog {{ name }}={{{ name }}}>
+                    <TeacherDeleteDialog teacher={teacher}>
                       <Button variant={'ghost'} size={'icon'}>
                         <Trash2 />
                       </Button>
-                    </{{ Name }}DeleteDialog>
+                    </TeacherDeleteDialog>
                   )}
                 </TableCell>
               </TableRow>
@@ -150,4 +160,4 @@ const {{ Name }}List: FC<Props> = ({ {{ names }}, query }) => {
   );
 };
 
-export default {{ Name }}List;
+export default TeacherList;

@@ -49,6 +49,7 @@ class HandleInertiaRequests extends Middleware
                 'roles' => $request->user()?->getRoleNames(),
             ],
             'menus' => [
+                "teacher" => $user?->can('menu teacher'),
                 "grade" => $user?->can('menu grade'),
                 "academicyear" => $user?->can('menu academicyear'),
                 "adminer" => $user?->can('open adminer'),

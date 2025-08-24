@@ -5,24 +5,23 @@ import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { em } from '@/lib/utils';
-import { {{ Name }} } from '@/types/{{ name }}';
+import { Teacher } from '@/types/teacher';
 import { Link, router } from '@inertiajs/react';
-import { ArrowLeft, Filter, Trash2, Undo2 } from 'lucide-react';
+import { ArrowLeft, Trash2, Undo2 } from 'lucide-react';
 import { FC, useState } from 'react';
 import { toast } from 'sonner';
-import {{ Name }}FilterSheet from './components/{{ name }}-filter-sheet';
 
 type Props = {
-  {{ names }}: {{ Name }}[];
+  teachers: Teacher[];
 };
 
-const Archived{{ Name }}List: FC<Props> = ({ {{ names }} }) => {
+const ArchivedTeacherList: FC<Props> = ({ teachers }) => {
   const [ids, setIds] = useState<number[]>([]);
   const [cari, setCari] = useState('');
 
-  const handleRestore = (id: {{ Name }}['id']) => {
+  const handleRestore = (id: Teacher['id']) => {
     router.put(
-      route('{{ name }}.restore', id),
+      route('teacher.restore', id),
       {},
       {
         preserveScroll: true,
@@ -32,8 +31,8 @@ const Archived{{ Name }}List: FC<Props> = ({ {{ names }} }) => {
     );
   };
 
-  const handleForceDelete = (id: {{ Name }}['id']) => {
-    router.delete(route('{{ name }}.force-delete', id), {
+  const handleForceDelete = (id: Teacher['id']) => {
+    router.delete(route('teacher.force-delete', id), {
       preserveScroll: true,
       onSuccess: () => toast.success('Data berhasil di hapus permanen!'),
       onError: (e) => toast.error(em(e)),
@@ -42,11 +41,11 @@ const Archived{{ Name }}List: FC<Props> = ({ {{ names }} }) => {
 
   return (
     <AppLayout
-      title="{{ Name }}s"
-      description="Manage your {{ names }}"
+      title="Teachers"
+      description="Manage your teachers"
       actions={
         <Button variant={'secondary'} asChild>
-          <Link href={route('{{ name }}.index')}>
+          <Link href={route('teacher.index')}>
             <ArrowLeft />
             Kembali ke list
           </Link>
@@ -54,7 +53,7 @@ const Archived{{ Name }}List: FC<Props> = ({ {{ names }} }) => {
       }
     >
       <div className="flex gap-2">
-        <Input placeholder="Search {{ names }}..." value={cari} onChange={(e) => setCari(e.target.value)} />
+        <Input placeholder="Search teachers..." value={cari} onChange={(e) => setCari(e.target.value)} />
         {ids.length > 0 && (
           <>
             <Button variant={'ghost'} disabled>
@@ -70,10 +69,10 @@ const Archived{{ Name }}List: FC<Props> = ({ {{ names }} }) => {
               <Button variant={'ghost'} size={'icon'} asChild>
                 <Label>
                   <Checkbox
-                    checked={ids.length === {{ names }}.length}
+                    checked={ids.length === teachers.length}
                     onCheckedChange={(checked) => {
                       if (checked) {
-                        setIds({{ names }}.map(({{ name }}) => {{ name }}.id));
+                        setIds(teachers.map((teacher) => teacher.id));
                       } else {
                         setIds([]);
                       }
@@ -87,32 +86,32 @@ const Archived{{ Name }}List: FC<Props> = ({ {{ names }} }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {{{ names }}
-            .filter(({{ name }}) => JSON.stringify({{ name }}).toLowerCase().includes(cari.toLowerCase()))
-            .map(({{ name }}) => (
-              <TableRow key={{{ name }}.id}>
+          {teachers
+            .filter((teacher) => JSON.stringify(teacher).toLowerCase().includes(cari.toLowerCase()))
+            .map((teacher) => (
+              <TableRow key={teacher.id}>
                 <TableCell>
                   <Button variant={'ghost'} size={'icon'} asChild>
                     <Label>
                       <Checkbox
-                        checked={ids.includes({{ name }}.id)}
+                        checked={ids.includes(teacher.id)}
                         onCheckedChange={(checked) => {
                           if (checked) {
-                            setIds([...ids, {{ name }}.id]);
+                            setIds([...ids, teacher.id]);
                           } else {
-                            setIds(ids.filter((id) => id !== {{ name }}.id));
+                            setIds(ids.filter((id) => id !== teacher.id));
                           }
                         }}
                       />
                     </Label>
                   </Button>
                 </TableCell>
-                <TableCell>{{{ name }}.name}</TableCell>
+                <TableCell>{teacher.name}</TableCell>
                 <TableCell>
-                  <Button variant={'ghost'} size={'icon'} onClick={() => handleRestore({{ name }}.id)}>
+                  <Button variant={'ghost'} size={'icon'} onClick={() => handleRestore(teacher.id)}>
                     <Undo2 />
                   </Button>
-                  <Button variant={'ghost'} size={'icon'} onClick={() => handleForceDelete({{ name }}.id)}>
+                  <Button variant={'ghost'} size={'icon'} onClick={() => handleForceDelete(teacher.id)}>
                     <Trash2 />
                   </Button>
                 </TableCell>
@@ -124,4 +123,4 @@ const Archived{{ Name }}List: FC<Props> = ({ {{ names }} }) => {
   );
 };
 
-export default Archived{{ Name }}List;
+export default ArchivedTeacherList;

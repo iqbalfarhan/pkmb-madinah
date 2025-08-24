@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             UserSeeder::class,
             AcademicYearSeeder::class,
-            GradeSeeder::class
+            GradeSeeder::class,
+            TeacherSeeder::class,
         ]);
     }
 }

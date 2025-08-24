@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\GradeController;
+use App\Http\Controllers\TeacherController;
+
 
 
 
@@ -38,6 +40,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('grade/bulk', [GradeController::class, 'bulkUpdate'])->name('grade.bulk.update');
     Route::delete('grade/bulk', [GradeController::class, 'bulkDelete'])->name('grade.bulk.destroy');
     Route::apiResource('grade', GradeController::class);
+    Route::put('teacher/bulk', [TeacherController::class, 'bulkUpdate'])->name('teacher.bulk.update');
+    Route::delete('teacher/bulk', [TeacherController::class, 'bulkDelete'])->name('teacher.bulk.destroy');
+    Route::get('teacher/archived', [TeacherController::class, 'archived'])->name('teacher.archived');
+    Route::put('teacher/{teacher}/restore', [TeacherController::class, 'restore'])->name('teacher.restore');
+    Route::delete('teacher/{teacher}/force-delete', [TeacherController::class, 'forceDelete'])->name('teacher.force-delete');
+    Route::apiResource('teacher', TeacherController::class);
 });
 
 require __DIR__.'/settings.php';
