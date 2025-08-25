@@ -52,7 +52,7 @@ const ShowStudent: FC<Props> = ({ student }) => {
           </Card>
         </div>
         <div className="row-span-2">
-          <Card className="relative">
+          <Card>
             <CardHeader>
               <CardTitle>Kontak siswa</CardTitle>
               <CardDescription>Kontak yand bisa dihubungi</CardDescription>
@@ -72,10 +72,10 @@ const ShowStudent: FC<Props> = ({ student }) => {
               </div>
             </CardContent>
             {permissions?.canUpdate && (
-              <CardFooter className="absolute right-0">
+              <CardFooter>
                 <StudentContactFormSheet student={student}>
-                  <Button variant={'secondary'} size={'icon'}>
-                    <Edit />
+                  <Button variant={'secondary'}>
+                    <Edit /> Edit kontak
                   </Button>
                 </StudentContactFormSheet>
               </CardFooter>
