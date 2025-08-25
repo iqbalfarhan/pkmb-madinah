@@ -1,0 +1,42 @@
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import AppLayout from '@/layouts/app-layout';
+import { Classroom } from '@/types/classroom';
+import { router, usePage } from '@inertiajs/react';
+import { FC, PropsWithChildren } from 'react';
+
+type Props = PropsWithChildren & {};
+
+const ClassroomLayout: FC<Props> = ({ children }) => {
+  const { tabname = '', classroom } = usePage<{ tabname: string; classroom: Classroom }>().props;
+
+  const handleNavigate = (v: string) => {
+    router.visit(route(`classroom.${v}`, classroom.id));
+  };
+
+  return (
+    <AppLayout title="Detail Classroom" description="Detail classroom">
+      <Card>
+        <CardHeader>
+          <CardTitle>{classroom.name}</CardTitle>
+          <CardDescription>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, quo impedit cupiditate voluptas culpa magnam itaque distinctio at ullam,
+            beatae perferendis doloremque facilis mollitia, quod corporis. Autem voluptatum ipsum placeat.
+          </CardDescription>
+        </CardHeader>
+      </Card>
+      <Tabs defaultValue={tabname} onValueChange={(v) => handleNavigate(v)}>
+        <TabsList>
+          <TabsTrigger value="show">Preview</TabsTrigger>
+          <TabsTrigger value="students">Students</TabsTrigger>
+          <TabsTrigger value="lessons">Lessons</TabsTrigger>
+          <TabsTrigger value="absents">Absents</TabsTrigger>
+          <TabsTrigger value="rapors">E-reports</TabsTrigger>
+        </TabsList>
+      </Tabs>
+      {children}
+    </AppLayout>
+  );
+};
+
+export default ClassroomLayout;

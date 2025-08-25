@@ -9,6 +9,8 @@ use App\Http\Requests\BulkDeleteClassroomRequest;
 use App\Models\AcademicYear;
 use App\Models\Classroom;
 use App\Models\Grade;
+use App\Models\Lesson;
+use App\Models\Student;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -52,7 +54,8 @@ class ClassroomController extends Controller
     public function show(Classroom $classroom)
     {
         return Inertia::render('classroom/show', [
-            'classroom' => $classroom
+            'classroom' => $classroom->load('grade', 'students'),
+            'tabname' => 'show'
         ]);
     }
 
@@ -89,6 +92,48 @@ class ClassroomController extends Controller
     {
         $data = $request->validated();
         Classroom::whereIn('id', $data['classroom_ids'])->delete();
+    }
+
+    public function students(Classroom $classroom)
+    {
+        return Inertia::render('classroom/tabs/classroom-students-tab', [
+            'classroom' => $classroom,
+            'students' => Student::whereClassroomId($classroom->id)->aktif()->get(),
+            'tabname' => 'students',
+            'permissions' => [
+                'canAdd' => $this->user->can('create student'),
+                'canUpdate' => $this->user->can('update student'),
+                'canDelete' => $this->user->can('delete student'),
+                'canShow' => $this->user->can('show student'),
+            ]
+        ]);
+    }
+
+    public function lessons(Classroom $classroom)
+    {
+        return Inertia::render('classroom/tabs/classroom-lessons-tab', [
+            'classroom' => $classroom,
+            'lessons' => Lesson::whereClassroomId($classroom->id)->get(),
+            'tabname' => 'lessons'
+        ]);
+    }
+
+    public function absents(Classroom $classroom)
+    {
+        return Inertia::render('classroom/tabs/classroom-absents-tab', [
+            'classroom' => $classroom,
+            'absents' => Student::whereClassroomId($classroom->id)->aktif(),
+            'tabname' => 'absents'
+        ]);
+    }
+
+    public function rapors(Classroom $classroom)
+    {
+        return Inertia::render('classroom/tabs/classroom-rapors-tab', [
+            'classroom' => $classroom,
+            'rapors' => Student::whereClassroomId($classroom->id)->aktif(),
+            'tabname' => 'rapors'
+        ]);
     }
 
     

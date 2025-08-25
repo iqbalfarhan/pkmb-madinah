@@ -6,6 +6,8 @@ use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Http\Requests\BulkUpdateStudentRequest;
 use App\Http\Requests\BulkDeleteStudentRequest;
+use App\Models\Classroom;
+use App\Models\Family;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -56,7 +58,11 @@ class StudentController extends Controller
     public function show(Student $student)
     {
         return Inertia::render('student/show', [
-            'student' => $student->load(['user', 'grade', 'classroom']),
+            'student' => $student->load(['user', 'grade', 'classroom', 'family']),
+            'sallaryLists' => Family::$sallaryLists,
+            'permissions' => [
+                'canUpdate' => $this->user->can('update student'),
+            ]
         ]);
     }
 
@@ -133,5 +139,26 @@ class StudentController extends Controller
     {
         $model = Student::onlyTrashed()->findOrFail($id);
         $model->forceDelete();
+    }
+
+    public function rapor(Student $student)
+    {
+        return Inertia::render('student/rapor', [
+            'student' => $student
+        ]);
+    }
+
+    public function absent(Student $student)
+    {
+        return Inertia::render('student/absent', [
+            'student' => $student
+        ]);
+    }
+
+    public function extracurricular(Student $student)
+    {
+        return Inertia::render('student/extracurricular', [
+            'student' => $student
+        ]);
     }
 }

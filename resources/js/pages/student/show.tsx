@@ -2,16 +2,24 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
+import { SharedData } from '@/types';
 import { Student } from '@/types/student';
-import { Link } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import { Download, Edit, Settings, Trash2, Upload } from 'lucide-react';
 import { FC } from 'react';
+import FamilyCardContent from '../family/components/family-card-content';
+import FamilyFormSheet from '../family/components/family-form-sheet';
+import StudentContactFormSheet from './components/student-contact-form-sheet';
+import StudentFormSheet from './components/student-form-sheet';
+import StudentLinkCard from './components/student-link-card';
 
 type Props = {
   student: Student;
 };
 
 const ShowStudent: FC<Props> = ({ student }) => {
+  const { permissions } = usePage<SharedData>().props;
+
   return (
     <AppLayout title="Detail Student" description="Detail student">
       <div className="grid grid-cols-4 gap-6">
@@ -23,12 +31,16 @@ const ShowStudent: FC<Props> = ({ student }) => {
                 Tingkat {student.grade?.name} - Kelas {student.classroom?.name}
               </CardDescription>
             </CardHeader>
-            <CardFooter>
-              <Button>
-                <Settings />
-                Edit student
-              </Button>
-            </CardFooter>
+            {permissions?.canUpdate && (
+              <CardFooter>
+                <StudentFormSheet purpose="edit" student={student}>
+                  <Button>
+                    <Settings />
+                    Edit student
+                  </Button>
+                </StudentFormSheet>
+              </CardFooter>
+            )}
           </div>
         </Card>
         <div className="space-y-6">
@@ -51,6 +63,16 @@ const ShowStudent: FC<Props> = ({ student }) => {
                 <span className="text-sm">{student.address}</span>
               </div>
             </CardContent>
+            {permissions?.canUpdate && (
+              <CardFooter>
+                <StudentContactFormSheet student={student}>
+                  <Button variant={'secondary'}>
+                    <Edit />
+                    Edit kontak
+                  </Button>
+                </StudentContactFormSheet>
+              </CardFooter>
+            )}
           </Card>
           <Card>
             <CardHeader>
@@ -62,59 +84,32 @@ const ShowStudent: FC<Props> = ({ student }) => {
           </Card>
         </div>
         <div className="col-span-3 grid h-fit grid-cols-3 gap-6">
-          <Link href={route('student.show', student.id)}>
-            <Card>
-              <CardHeader>
-                <CardTitle>E-rapor</CardTitle>
-                <CardDescription>Rapor perkembangan, nilai, doa dan hafalan.</CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-          <Link href={route('student.show', student.id)}>
-            <Card>
-              <CardHeader>
-                <CardTitle>Ketidakhadiran</CardTitle>
-                <CardDescription>Rekap ketidakhadiran tahun ajaran ini.</CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-          <Link href={route('student.show', student.id)}>
-            <Card>
-              <CardHeader>
-                <CardTitle>Ekstrakulikuler</CardTitle>
-                <CardDescription>Ekskul dan kegiatan yang diikuti siswa.</CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
+          <StudentLinkCard href={route('student.rapor', student.id)} title="E-rapor" description="Rapor perkembangan, nilai, doa dan hafalan." />
+          <StudentLinkCard href={route('student.absent', student.id)} title="Ketidakhadiran" description="Rekap ketidakhadiran tahun ajaran ini." />
+          <StudentLinkCard
+            href={route('student.extracurricular', student.id)}
+            title="Ekstrakulikuler"
+            description="Ekskul dan kegiatan yang diikuti siswa."
+          />
+
           <Card className="col-span-full">
             <div className="flex justify-between">
               <CardHeader>
                 <CardTitle>Orangtua</CardTitle>
-                <CardDescription>Rekap ketidakhadiran tahun ajaran ini.</CardDescription>
+                <CardDescription>Informasi data orangtua.</CardDescription>
               </CardHeader>
-              <CardFooter>
-                <Button variant={'secondary'}>
-                  <Edit />
-                  Edit
-                </Button>
-              </CardFooter>
+              {permissions?.canUpdate && (
+                <CardFooter>
+                  <FamilyFormSheet student={student} purpose={student.family ? 'edit' : 'create'} family={student.family}>
+                    <Button variant={'secondary'}>
+                      <Edit />
+                      Edit
+                    </Button>
+                  </FamilyFormSheet>
+                </CardFooter>
+              )}
             </div>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Ayah</CardTitle>
-                    <CardDescription>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, tempora!</CardDescription>
-                  </CardHeader>
-                </Card>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Ibu</CardTitle>
-                    <CardDescription>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, porro.</CardDescription>
-                  </CardHeader>
-                </Card>
-              </div>
-            </CardContent>
+            {student.family && <FamilyCardContent family={student.family} />}
           </Card>
           <Card className="col-span-full">
             <div className="flex justify-between">
@@ -122,12 +117,14 @@ const ShowStudent: FC<Props> = ({ student }) => {
                 <CardTitle>Dokumen pelengkap</CardTitle>
                 <CardDescription>Rekap ketidakhadiran tahun ajaran ini.</CardDescription>
               </CardHeader>
-              <CardFooter>
-                <Button>
-                  <Upload />
-                  Upload dokumen
-                </Button>
-              </CardFooter>
+              {permissions?.canUpdate && (
+                <CardFooter>
+                  <Button>
+                    <Upload />
+                    Upload dokumen
+                  </Button>
+                </CardFooter>
+              )}
             </div>
             <CardContent>
               <Table>
@@ -139,30 +136,22 @@ const ShowStudent: FC<Props> = ({ student }) => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  <TableRow>
-                    <TableCell>Kartu keluarga</TableCell>
-                    <TableCell>file.pdf</TableCell>
-                    <TableCell>
-                      <Button variant={'ghost'} size={'icon'}>
-                        <Download />
-                      </Button>
-                      <Button variant={'ghost'} size={'icon'}>
-                        <Trash2 />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Akta kelahiran</TableCell>
-                    <TableCell>Akta kelahiran siswa.pdf</TableCell>
-                    <TableCell>
-                      <Button variant={'ghost'} size={'icon'}>
-                        <Download />
-                      </Button>
-                      <Button variant={'ghost'} size={'icon'}>
-                        <Trash2 />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
+                  {['Kartu Keluarga', 'Akte Kelahiran', 'Kartu Indonesia Pintar'].map((doc) => (
+                    <TableRow>
+                      <TableCell>{doc}</TableCell>
+                      <TableCell>file.pdf</TableCell>
+                      <TableCell>
+                        <Button variant={'ghost'} size={'icon'}>
+                          <Download />
+                        </Button>
+                        {permissions?.canUpdate && (
+                          <Button variant={'ghost'} size={'icon'}>
+                            <Trash2 />
+                          </Button>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </CardContent>

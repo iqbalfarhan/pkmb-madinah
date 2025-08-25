@@ -90,4 +90,9 @@ class Student extends Model
     {
         return date_diff(date_create($this->dob), date_create('now'))->y . ' tahun';
     }
+
+    public function family()
+    {
+        return $this->hasOne(Family::class);
+    }
 }

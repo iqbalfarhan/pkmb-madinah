@@ -19,6 +19,10 @@ use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\FamilyController;
+use App\Http\Controllers\ReportController;
+
+
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -71,10 +75,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('paymenttype/bulk', [PaymentTypeController::class, 'bulkDelete'])->name('paymenttype.bulk.destroy');
     Route::apiResource('paymenttype', PaymentTypeController::class);
 
-    Route::put('classroom/bulk', [ClassroomController::class, 'bulkUpdate'])->name('classroom.bulk.update');
-    Route::delete('classroom/bulk', [ClassroomController::class, 'bulkDelete'])->name('classroom.bulk.destroy');
-    Route::apiResource('classroom', ClassroomController::class);
-
     Route::put('lesson/bulk', [LessonController::class, 'bulkUpdate'])->name('lesson.bulk.update');
     Route::delete('lesson/bulk', [LessonController::class, 'bulkDelete'])->name('lesson.bulk.destroy');
     Route::apiResource('lesson', LessonController::class);
@@ -84,8 +84,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::apiResource('material', MaterialController::class);
 
     Route::resource('ppdb', PpdbController::class);
+    Route::put('family/bulk', [FamilyController::class, 'bulkUpdate'])->name('family.bulk.update');
+    Route::delete('family/bulk', [FamilyController::class, 'bulkDelete'])->name('family.bulk.destroy');
+    Route::apiResource('family', FamilyController::class);
 });
 
+require __DIR__.'/classroom.php';
 require __DIR__.'/student.php';
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

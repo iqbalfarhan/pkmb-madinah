@@ -1,5 +1,6 @@
 import { User } from '.';
 import { Classroom } from './classroom';
+import { Family } from './family';
 import { Grade } from './grade';
 
 export type Student = {
@@ -22,6 +23,7 @@ export type Student = {
   user?: User;
   kelahiran: string;
   umur: number;
+  family?: Family;
   created_at: string;
   updated_at?: string;
 };

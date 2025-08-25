@@ -9,7 +9,15 @@ type Props = {
 };
 
 export function NavMain({ items = [], label }: Props) {
-  const page = usePage();
+  const { url } = usePage();
+
+  const isActive = (href: string) => {
+    try {
+      return url.startsWith(new URL(href).pathname);
+    } catch {
+      return false;
+    }
+  };
 
   // kalau items kosong, skip
   if (items.length === 0) return null;
@@ -26,7 +34,7 @@ export function NavMain({ items = [], label }: Props) {
           if (item.available === false) return null;
           return (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild isActive={page.url.startsWith(item.href)} tooltip={{ children: item.title }}>
+              <SidebarMenuButton asChild isActive={isActive(item.href)} tooltip={{ children: item.title }}>
                 <Link href={item.href} prefetch>
                   {item.icon && <item.icon />}
                   <span>{strLimit(item.title, 25)}</span>

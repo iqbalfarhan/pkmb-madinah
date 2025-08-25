@@ -109,6 +109,7 @@ export function AppSidebar() {
             title: c.name,
             href: route('classroom.show', c.id),
             icon: Folder,
+            isActive: true,
           }))}
           label="Menu walikelas"
         />
@@ -118,7 +119,7 @@ export function AppSidebar() {
             href: route('lesson.show', l.id),
             icon: Newspaper,
           }))}
-          label="Guru mata pelajaran"
+          label="Menu guru mapel"
         />
         <NavMain
           items={[

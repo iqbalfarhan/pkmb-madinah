@@ -7,9 +7,9 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { capitalizeWords, em } from '@/lib/utils';
-import { FormPurpose, User } from '@/types';
+import { FormPurpose } from '@/types';
 import { Student } from '@/types/student';
-import { useForm, usePage } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
 import dayjs from 'dayjs';
 import { X } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
@@ -22,8 +22,6 @@ type Props = PropsWithChildren & {
 
 const StudentFormSheet: FC<Props> = ({ children, student, purpose }) => {
   const [open, setOpen] = useState(false);
-
-  const { users } = usePage<{ users: User[] }>().props;
 
   const { data, setData, put, post, reset, processing } = useForm({
     nisn: student?.nisn ?? '',
@@ -74,29 +72,14 @@ const StudentFormSheet: FC<Props> = ({ children, student, purpose }) => {
               handleSubmit();
             }}
           >
+            <FormControl label="Nama student">
+              <Input type="text" placeholder="Name" value={data.name} onChange={(e) => setData('name', e.target.value)} />
+            </FormControl>
             <FormControl label="NISN">
               <Input type="text" placeholder="NISN" value={data.nisn} onChange={(e) => setData('nisn', e.target.value)} />
             </FormControl>
             <FormControl label="NIS">
               <Input type="text" placeholder="NIS" value={data.nis} onChange={(e) => setData('nis', e.target.value)} />
-            </FormControl>
-            <FormControl label="Nama student">
-              <Input type="text" placeholder="Name" value={data.name} onChange={(e) => setData('name', e.target.value)} />
-            </FormControl>
-            <FormControl label="Nama student">
-              <Select value={data.user_id.toString()} onValueChange={(e) => setData('user_id', e)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih user" />
-                </SelectTrigger>
-
-                <SelectContent>
-                  {users.map((user) => (
-                    <SelectItem key={user.id} value={user.id.toString()}>
-                      {user.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
             </FormControl>
             <FormControl label="Jenis kelamin">
               <Select value={data.gender.toString()} onValueChange={(e) => setData('gender', e)}>
