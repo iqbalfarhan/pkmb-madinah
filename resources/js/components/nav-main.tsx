@@ -13,7 +13,16 @@ export function NavMain({ items = [], label }: Props) {
 
   const isActive = (href: string) => {
     try {
-      return url.startsWith(new URL(href).pathname);
+      const path = new URL(href).pathname;
+
+      // kalau ada wildcard "*"
+      if (path.endsWith('/*')) {
+        const base = path.replace('/*', '');
+        return url === base || url.startsWith(base + '/');
+      }
+
+      // default exact match
+      return url === path;
     } catch {
       return false;
     }

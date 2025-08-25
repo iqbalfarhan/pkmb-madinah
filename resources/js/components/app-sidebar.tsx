@@ -110,7 +110,6 @@ export function AppSidebar() {
             title: c.name,
             href: route('classroom.show', c.id),
             icon: Folder,
-            isActive: true,
           }))}
           label="Menu walikelas"
         />
