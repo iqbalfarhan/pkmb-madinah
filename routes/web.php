@@ -21,6 +21,8 @@ use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\AbsentController;
+
 
 
 
@@ -90,6 +92,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('report/bulk', [ReportController::class, 'bulkUpdate'])->name('report.bulk.update');
     Route::delete('report/bulk', [ReportController::class, 'bulkDelete'])->name('report.bulk.destroy');
     Route::apiResource('report', ReportController::class);
+    Route::put('absent/bulk', [AbsentController::class, 'bulkUpdate'])->name('absent.bulk.update');
+    Route::delete('absent/bulk', [AbsentController::class, 'bulkDelete'])->name('absent.bulk.destroy');
+    Route::apiResource('absent', AbsentController::class);
 });
 
 require __DIR__.'/classroom.php';

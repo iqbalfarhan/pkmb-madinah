@@ -14,7 +14,7 @@ const StudentAbsentPage: FC<Props> = ({ student }) => {
     <AppLayout
       actions={
         <>
-          <Button>
+          <Button asChild>
             <Link href={route('student.show', student.id)}>
               <ChevronLeft />
               Kembali ke detail

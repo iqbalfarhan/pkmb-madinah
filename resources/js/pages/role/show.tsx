@@ -62,9 +62,7 @@ const ShowRole: FC<Props> = ({ role, permissions }) => {
       <Card>
         <CardHeader>
           <CardTitle>{capitalizeWords(role.name)}</CardTitle>
-          <CardDescription>
-            {role.permissions.length ? role.permissions?.map((permission) => permission.name).join(', ') : 'Belum ada permission'}
-          </CardDescription>
+          <CardDescription>{role.permissions.length} permissions</CardDescription>
         </CardHeader>
       </Card>
 

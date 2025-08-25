@@ -25,6 +25,7 @@ import {
   Users,
   UsersRound,
   Wallet,
+  XSquare,
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
@@ -188,6 +189,11 @@ export function AppSidebar() {
               icon: Wallet,
               available: menus.paymenttype,
             },
+          ]}
+          label="Master data"
+        />
+        <NavMain
+          items={[
             {
               title: 'Student lists',
               href: route('student.index'),
@@ -200,8 +206,14 @@ export function AppSidebar() {
               icon: FileBadge,
               available: menus.report,
             },
+            {
+              title: 'Student Absent',
+              href: route('absent.index'),
+              icon: XSquare,
+              available: menus.absent,
+            },
           ]}
-          label="Master data"
+          label="Students data"
         />
         <NavMain
           items={[
