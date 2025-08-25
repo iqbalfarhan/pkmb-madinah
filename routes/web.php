@@ -87,6 +87,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('family/bulk', [FamilyController::class, 'bulkUpdate'])->name('family.bulk.update');
     Route::delete('family/bulk', [FamilyController::class, 'bulkDelete'])->name('family.bulk.destroy');
     Route::apiResource('family', FamilyController::class);
+    Route::put('report/bulk', [ReportController::class, 'bulkUpdate'])->name('report.bulk.update');
+    Route::delete('report/bulk', [ReportController::class, 'bulkDelete'])->name('report.bulk.destroy');
+    Route::apiResource('report', ReportController::class);
 });
 
 require __DIR__.'/classroom.php';

@@ -14,7 +14,7 @@ const StudentLinkCard: FC<Props> = ({ href, title = 'Card link title', descripti
       <Card>
         <CardHeader>
           <CardTitle>{title}</CardTitle>
-          <CardDescription>{description}</CardDescription>
+          <CardDescription className="line-clamp-2">{description}</CardDescription>
         </CardHeader>
       </Card>
     </Link>

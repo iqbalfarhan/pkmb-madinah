@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\AcademicYear;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -65,10 +66,12 @@ class HandleInertiaRequests extends Middleware
                 "lesson" => $user?->can('menu lesson'),
                 "material" => $user?->can('menu material'),
                 "student" => $user?->can('menu student'),
+                "report" => $user?->can('menu report'),
             ],
             "myclassrooms" => $user?->teacher->classrooms ?? [],
             "mylessons" => $user?->teacher->lessons ?? [],
             "mystudents" => $user?->students ?? [],
+            'activeAcademicYear' => AcademicYear::active() ?? null,
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

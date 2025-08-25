@@ -12,6 +12,7 @@ import {
   CalendarCheck,
   ChevronsUpDown,
   Database,
+  FileBadge,
   Folder,
   KeySquare,
   LayoutGrid,
@@ -193,6 +194,12 @@ export function AppSidebar() {
               href: route('student.index'),
               icon: Users,
               available: menus.student,
+            },
+            {
+              title: 'Student Report',
+              href: route('report.index'),
+              icon: FileBadge,
+              available: menus.report,
             },
           ]}
           label="Master data"

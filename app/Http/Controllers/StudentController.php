@@ -6,8 +6,10 @@ use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Http\Requests\BulkUpdateStudentRequest;
 use App\Http\Requests\BulkDeleteStudentRequest;
+use App\Models\AcademicYear;
 use App\Models\Classroom;
 use App\Models\Family;
+use App\Models\Report;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -141,9 +143,28 @@ class StudentController extends Controller
         $model->forceDelete();
     }
 
-    public function rapor(Student $student)
+    public function rapor(Request $request, Student $student)
     {
-        return Inertia::render('student/rapor', [
+        $data = Report::query()
+            ->whereStudentId($student->id)
+            ->with(['academic_year', 'classroom', 'student'])
+            ->when($request->report_type, function($q, $v)  {
+                $q->where('report_type', $v);
+            });
+
+        return Inertia::render('report/index', [
+            'reports' => $data->get(),
+            'query' => $request->input(),
+            'academicYears' => AcademicYear::get(),
+            'classrooms' => Classroom::get(),
+            'students' => Student::get(),
+            'reportTypes' => Report::$reportTypes,
+            'permissions' => [
+                'canAdd' => false,
+                'canUpdate' => $this->user->can('update report'),
+                'canDelete' => $this->user->can('delete report'),
+                'canShow' => $this->user->can('show report'),
+            ],
             'student' => $student
         ]);
     }
@@ -158,6 +179,13 @@ class StudentController extends Controller
     public function extracurricular(Student $student)
     {
         return Inertia::render('student/extracurricular', [
+            'student' => $student
+        ]);
+    }
+
+    public function nilai(Student $student)
+    {
+        return Inertia::render('student/nilai', [
             'student' => $student
         ]);
     }

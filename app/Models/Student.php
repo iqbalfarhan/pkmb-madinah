@@ -42,7 +42,7 @@ class Student extends Model
 
     public static $statusLists = ['ppdb', 'aktif', 'dikeluarkan', 'lulus', 'pindah'];
 
-    public $appends = ['kelahiran', 'umur'];
+    public $appends = ['kelahiran', 'umur', 'avatar'];
     public $casts = [
         'gender' => 'boolean',
     ];
@@ -94,5 +94,10 @@ class Student extends Model
     public function family()
     {
         return $this->hasOne(Family::class);
+    }
+
+    public function getAvatarAttribute()
+    {
+        return "https://api.dicebear.com/9.x/dylan/png?seed=" . $this->name;
     }
 }

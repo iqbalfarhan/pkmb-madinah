@@ -1,3 +1,4 @@
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -23,28 +24,35 @@ const ShowStudent: FC<Props> = ({ student }) => {
   return (
     <AppLayout title="Detail Student" description="Detail student">
       <div className="grid grid-cols-4 gap-6">
-        <Card className="col-span-full">
-          <div className="flex items-center justify-between">
-            <CardHeader>
-              <CardTitle>{student.name}</CardTitle>
-              <CardDescription>
-                Tingkat {student.grade?.name} - Kelas {student.classroom?.name}
-              </CardDescription>
-            </CardHeader>
-            {permissions?.canUpdate && (
-              <CardFooter>
-                <StudentFormSheet purpose="edit" student={student}>
-                  <Button>
-                    <Settings />
-                    Edit student
-                  </Button>
-                </StudentFormSheet>
-              </CardFooter>
-            )}
-          </div>
-        </Card>
-        <div className="space-y-6">
-          <Card>
+        <div className="col-span-4">
+          <Card className="col-span-full">
+            <div className="flex items-center justify-between">
+              <CardHeader>
+                <Avatar className="size-12">
+                  <AvatarImage src={student.avatar} />
+                </Avatar>
+              </CardHeader>
+              <CardHeader className="flex-1 pl-0">
+                <CardTitle>{student.name}</CardTitle>
+                <CardDescription>
+                  Tingkat {student.grade?.name} - Kelas {student.classroom?.name}
+                </CardDescription>
+              </CardHeader>
+              {permissions?.canUpdate && (
+                <CardFooter>
+                  <StudentFormSheet purpose="edit" student={student}>
+                    <Button>
+                      <Settings />
+                      Edit student
+                    </Button>
+                  </StudentFormSheet>
+                </CardFooter>
+              )}
+            </div>
+          </Card>
+        </div>
+        <div className="row-span-2">
+          <Card className="relative">
             <CardHeader>
               <CardTitle>Kontak siswa</CardTitle>
               <CardDescription>Kontak yand bisa dihubungi</CardDescription>
@@ -64,35 +72,31 @@ const ShowStudent: FC<Props> = ({ student }) => {
               </div>
             </CardContent>
             {permissions?.canUpdate && (
-              <CardFooter>
+              <CardFooter className="absolute right-0">
                 <StudentContactFormSheet student={student}>
-                  <Button variant={'secondary'}>
+                  <Button variant={'secondary'} size={'icon'}>
                     <Edit />
-                    Edit kontak
                   </Button>
                 </StudentContactFormSheet>
               </CardFooter>
             )}
           </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Kelahiran</CardTitle>
-              <CardDescription>
-                {student.kelahiran} - {student.umur}
-              </CardDescription>
-            </CardHeader>
-          </Card>
         </div>
-        <div className="col-span-3 grid h-fit grid-cols-3 gap-6">
+        <div>
           <StudentLinkCard href={route('student.rapor', student.id)} title="E-rapor" description="Rapor perkembangan, nilai, doa dan hafalan." />
+        </div>
+        <div>
           <StudentLinkCard href={route('student.absent', student.id)} title="Ketidakhadiran" description="Rekap ketidakhadiran tahun ajaran ini." />
+        </div>
+        <div>
           <StudentLinkCard
-            href={route('student.extracurricular', student.id)}
-            title="Ekstrakulikuler"
-            description="Ekskul dan kegiatan yang diikuti siswa."
+            href={route('student.nilai', student.id)}
+            title="Nilai siswa"
+            description="Rekap nilai siswa untuk semester dan kelas ini."
           />
-
-          <Card className="col-span-full">
+        </div>
+        <div className="col-span-3">
+          <Card className="col-span-full h-full">
             <div className="flex justify-between">
               <CardHeader>
                 <CardTitle>Orangtua</CardTitle>
@@ -111,6 +115,18 @@ const ShowStudent: FC<Props> = ({ student }) => {
             </div>
             {student.family && <FamilyCardContent family={student.family} />}
           </Card>
+        </div>
+        <div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Kelahiran</CardTitle>
+              <CardDescription>
+                {student.kelahiran} - {student.umur}
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </div>
+        <div className="col-span-3 row-span-3">
           <Card className="col-span-full">
             <div className="flex justify-between">
               <CardHeader>
@@ -156,6 +172,13 @@ const ShowStudent: FC<Props> = ({ student }) => {
               </Table>
             </CardContent>
           </Card>
+        </div>
+        <div>
+          <StudentLinkCard
+            href={route('student.extracurricular', student.id)}
+            title="Ekstrakulikuler"
+            description="Ekskul dan kegiatan yang diikuti siswa."
+          />
         </div>
       </div>
     </AppLayout>

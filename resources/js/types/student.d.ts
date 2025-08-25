@@ -23,6 +23,7 @@ export type Student = {
   user?: User;
   kelahiran: string;
   umur: number;
+  avatar: string;
   family?: Family;
   created_at: string;
   updated_at?: string;

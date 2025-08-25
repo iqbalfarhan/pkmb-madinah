@@ -6,22 +6,22 @@ import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { SharedData } from '@/types';
-import { Lesson } from '@/types/lesson';
+import { Report } from '@/types/report';
 import { Link, usePage } from '@inertiajs/react';
 import { Edit, Filter, Folder, Plus, Trash2 } from 'lucide-react';
 import { FC, useState } from 'react';
-import LessonBulkDeleteDialog from './components/lesson-bulk-delete-dialog';
-import LessonBulkEditSheet from './components/lesson-bulk-edit-sheet';
-import LessonDeleteDialog from './components/lesson-delete-dialog';
-import LessonFilterSheet from './components/lesson-filter-sheet';
-import LessonFormSheet from './components/lesson-form-sheet';
+import ReportBulkDeleteDialog from './components/report-bulk-delete-dialog';
+import ReportBulkEditSheet from './components/report-bulk-edit-sheet';
+import ReportDeleteDialog from './components/report-delete-dialog';
+import ReportFilterSheet from './components/report-filter-sheet';
+import ReportFormSheet from './components/report-form-sheet';
 
 type Props = {
-  lessons: Lesson[];
+  reports: Report[];
   query: { [key: string]: string };
 };
 
-const LessonList: FC<Props> = ({ lessons, query }) => {
+const ReportList: FC<Props> = ({ reports, query }) => {
   const [ids, setIds] = useState<number[]>([]);
   const [cari, setCari] = useState('');
 
@@ -29,24 +29,24 @@ const LessonList: FC<Props> = ({ lessons, query }) => {
 
   return (
     <AppLayout
-      title="Lessons"
-      description="Manage your lessons"
+      title="Reports"
+      description="Manage your reports"
       actions={
         <>
           {permissions?.canAdd && (
-            <LessonFormSheet purpose="create">
+            <ReportFormSheet purpose="create">
               <Button>
                 <Plus />
-                Create new lesson
+                Create new report
               </Button>
-            </LessonFormSheet>
+            </ReportFormSheet>
           )}
         </>
       }
     >
       <div className="flex gap-2">
-        <Input placeholder="Search lessons..." value={cari} onChange={(e) => setCari(e.target.value)} />
-        <LessonFilterSheet query={query}>
+        <Input placeholder="Search reports..." value={cari} onChange={(e) => setCari(e.target.value)} />
+        <ReportFilterSheet query={query}>
           <Button>
             <Filter />
             Filter data
@@ -54,22 +54,22 @@ const LessonList: FC<Props> = ({ lessons, query }) => {
               <Badge variant="secondary">{Object.values(query).filter((val) => val && val !== '').length}</Badge>
             )}
           </Button>
-        </LessonFilterSheet>
+        </ReportFilterSheet>
         {ids.length > 0 && (
           <>
             <Button variant={'ghost'} disabled>
               {ids.length} item selected
             </Button>
-            <LessonBulkEditSheet lessonIds={ids}>
+            <ReportBulkEditSheet reportIds={ids}>
               <Button>
                 <Edit /> Edit selected
               </Button>
-            </LessonBulkEditSheet>
-            <LessonBulkDeleteDialog lessonIds={ids}>
+            </ReportBulkEditSheet>
+            <ReportBulkDeleteDialog reportIds={ids}>
               <Button variant={'destructive'}>
                 <Trash2 /> Delete selected
               </Button>
-            </LessonBulkDeleteDialog>
+            </ReportBulkDeleteDialog>
           </>
         )}
       </div>
@@ -80,10 +80,10 @@ const LessonList: FC<Props> = ({ lessons, query }) => {
               <Button variant={'ghost'} size={'icon'} asChild>
                 <Label>
                   <Checkbox
-                    checked={ids.length === lessons.length}
+                    checked={ids.length === reports.length}
                     onCheckedChange={(checked) => {
                       if (checked) {
-                        setIds(lessons.map((lesson) => lesson.id));
+                        setIds(reports.map((report) => report.id));
                       } else {
                         setIds([]);
                       }
@@ -92,57 +92,61 @@ const LessonList: FC<Props> = ({ lessons, query }) => {
                 </Label>
               </Button>
             </TableHead>
-            <TableHead>Nama pelajaran</TableHead>
-            <TableHead>Pengajar</TableHead>
-            <TableHead>Kelas</TableHead>
+            <TableHead>NISN</TableHead>
+            <TableHead>Student Name</TableHead>
+            <TableHead>Jenis rapor</TableHead>
+            <TableHead>Classroom</TableHead>
+            <TableHead>Academic year</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {lessons
-            .filter((lesson) => JSON.stringify(lesson).toLowerCase().includes(cari.toLowerCase()))
-            .map((lesson) => (
-              <TableRow key={lesson.id}>
+          {reports
+            .filter((report) => JSON.stringify(report).toLowerCase().includes(cari.toLowerCase()))
+            .map((report) => (
+              <TableRow key={report.id}>
                 <TableCell>
                   <Button variant={'ghost'} size={'icon'} asChild>
                     <Label>
                       <Checkbox
-                        checked={ids.includes(lesson.id)}
+                        checked={ids.includes(report.id)}
                         onCheckedChange={(checked) => {
                           if (checked) {
-                            setIds([...ids, lesson.id]);
+                            setIds([...ids, report.id]);
                           } else {
-                            setIds(ids.filter((id) => id !== lesson.id));
+                            setIds(ids.filter((id) => id !== report.id));
                           }
                         }}
                       />
                     </Label>
                   </Button>
                 </TableCell>
-                <TableCell>{lesson.name}</TableCell>
-                <TableCell>{lesson.teacher.name}</TableCell>
-                <TableCell>{lesson.classroom.name}</TableCell>
+                <TableCell>{report.student.nisn}</TableCell>
+                <TableCell>{report.student.name}</TableCell>
+                <TableCell>{report.report_type}</TableCell>
+                <TableCell>{report.classroom.name}</TableCell>
+                <TableCell>{report.academic_year.label}</TableCell>
                 <TableCell>
                   {permissions?.canShow && (
                     <Button variant={'ghost'} size={'icon'}>
-                      <Link href={route('lesson.show', lesson.id)}>
+                      <Link href={route('report.show', report.id)}>
                         <Folder />
                       </Link>
                     </Button>
                   )}
                   {permissions?.canUpdate && (
-                    <LessonFormSheet purpose="edit" lesson={lesson}>
+                    <ReportFormSheet purpose="edit" report={report}>
                       <Button variant={'ghost'} size={'icon'}>
                         <Edit />
                       </Button>
-                    </LessonFormSheet>
+                    </ReportFormSheet>
                   )}
                   {permissions?.canDelete && (
-                    <LessonDeleteDialog lesson={lesson}>
+                    <ReportDeleteDialog report={report}>
                       <Button variant={'ghost'} size={'icon'}>
                         <Trash2 />
                       </Button>
-                    </LessonDeleteDialog>
+                    </ReportDeleteDialog>
                   )}
                 </TableCell>
               </TableRow>
@@ -153,4 +157,4 @@ const LessonList: FC<Props> = ({ lessons, query }) => {
   );
 };
 
-export default LessonList;
+export default ReportList;
