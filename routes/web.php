@@ -15,14 +15,10 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ExtracurricularController;
 use App\Http\Controllers\PaymentTypeController;
-use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\MaterialController;
-use App\Http\Controllers\StudentController;
 use App\Http\Controllers\FamilyController;
-use App\Http\Controllers\ReportController;
-use App\Http\Controllers\AbsentController;
-
+use App\Http\Controllers\PrevschoolController;
 
 
 
@@ -86,15 +82,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::apiResource('material', MaterialController::class);
 
     Route::resource('ppdb', PpdbController::class);
+
     Route::put('family/bulk', [FamilyController::class, 'bulkUpdate'])->name('family.bulk.update');
     Route::delete('family/bulk', [FamilyController::class, 'bulkDelete'])->name('family.bulk.destroy');
     Route::apiResource('family', FamilyController::class);
-    Route::put('report/bulk', [ReportController::class, 'bulkUpdate'])->name('report.bulk.update');
-    Route::delete('report/bulk', [ReportController::class, 'bulkDelete'])->name('report.bulk.destroy');
-    Route::apiResource('report', ReportController::class);
-    Route::put('absent/bulk', [AbsentController::class, 'bulkUpdate'])->name('absent.bulk.update');
-    Route::delete('absent/bulk', [AbsentController::class, 'bulkDelete'])->name('absent.bulk.destroy');
-    Route::apiResource('absent', AbsentController::class);
+    Route::put('prevschool/bulk', [PrevschoolController::class, 'bulkUpdate'])->name('prevschool.bulk.update');
+    Route::delete('prevschool/bulk', [PrevschoolController::class, 'bulkDelete'])->name('prevschool.bulk.destroy');
+    Route::apiResource('prevschool', PrevschoolController::class);
 });
 
 require __DIR__.'/classroom.php';

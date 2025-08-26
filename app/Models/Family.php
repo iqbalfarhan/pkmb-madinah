@@ -36,7 +36,8 @@ class Family extends Model
     ];
 
     public static $sallaryLists = [
-        '0 ~ Rp. 5.000.000',
+        'Tidak ada penghasilan',
+        'Rp. 0 ~ Rp. 5.000.000',
         'Rp. 5.000.000 ~ Rp. 10.000.000',
         'Rp. 10.000.000 ~ Rp. 15.000.000',
         'Rp. 15.000.000 ~ Rp. 20.000.000',

@@ -66,7 +66,7 @@ class User extends Authenticatable implements HasMedia
 
     public function students()
     {
-        return $this->hasMany(Student::class);
+        return $this->hasMany(Student::class)->aktif();
     }
 
     public function registerMediaConversions(?Media $media = null): void

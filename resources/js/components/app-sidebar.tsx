@@ -70,9 +70,19 @@ export function AppSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-
       <SidebarContent className="space-y-4">
-        <NavMain items={[...mainNavItems]} label="Dashboard" />
+        <NavMain
+          items={[
+            ...mainNavItems,
+            {
+              title: 'Tagihan pembayaran',
+              href: route('student.index'),
+              icon: Wallet,
+              available: menus.payment,
+            },
+          ]}
+          label="Dashboard"
+        />
         <NavMain
           items={[
             {
@@ -97,12 +107,6 @@ export function AppSidebar() {
               href: route('student.show', s.id),
               icon: UserCircle,
             })),
-            {
-              title: 'Tagihan biaya sekolah',
-              href: route('student.index'),
-              icon: Wallet,
-              available: menus.student,
-            },
           ]}
           label="Menu orangtua"
         />

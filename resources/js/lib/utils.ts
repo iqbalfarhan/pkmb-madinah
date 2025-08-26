@@ -117,3 +117,37 @@ export function formatRupiah(angka: number): string {
     minimumFractionDigits: 0,
   }).format(angka);
 }
+
+export function numberPad(num: number, size = 5): string {
+  return num.toString().padStart(size, '0');
+}
+
+export function implode(...parts: (string | number | null | undefined)[]): string {
+  return parts.filter((p) => p !== null && p !== undefined && String(p).trim() !== '').join(', ');
+}
+
+type AddressPart = string | number | null | undefined;
+
+export function implodeAddress(
+  provinsi?: AddressPart,
+  kabupaten?: AddressPart,
+  kecamatan?: AddressPart,
+  kelurahan?: AddressPart,
+  jalan?: AddressPart,
+  rt?: AddressPart,
+  rw?: AddressPart,
+  kodepos?: AddressPart,
+): string {
+  const parts: string[] = [];
+
+  if (jalan) parts.push(`${jalan}`);
+  if (rt) parts.push(`RT ${rt}`);
+  if (rw) parts.push(`RW ${rw}`);
+  if (kelurahan) parts.push(`${kelurahan}`);
+  if (kecamatan) parts.push(`Kec. ${kecamatan}`);
+  if (kabupaten) parts.push(`${kabupaten}`);
+  if (provinsi) parts.push(`${provinsi}`);
+  if (kodepos) parts.push(`${kodepos}`);
+
+  return parts.join(', ');
+}

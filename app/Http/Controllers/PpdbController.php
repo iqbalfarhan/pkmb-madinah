@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePpdbRequest;
+use App\Http\Requests\UpdatePpdbRequest;
+use App\Models\Family;
+use App\Models\Grade;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -33,16 +37,20 @@ class PpdbController extends Controller
     public function create()
     {
         return Inertia::render('ppdb/create', [
-            
+            'grades' => Grade::get()
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePpdbRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['user_id'] = auth()->id();
+
+        $student = Student::create($data);
+        return redirect(route('ppdb.edit', $student->id));
     }
 
     /**
@@ -51,16 +59,30 @@ class PpdbController extends Controller
     public function show(Student $ppdb)
     {
         return Inertia::render('ppdb/show', [
-            'ppdb' => $ppdb
+            'ppdb' => $ppdb,
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function edit(Student $ppdb)
+    {
+        return Inertia::render('ppdb/edit', [
+            'grades' => Grade::get(),
+            'student' => $ppdb,
+            'family' => $ppdb->family,
+            'salaryLists' => Family::$sallaryLists
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Student $ppdb)
+    public function update(UpdatePpdbRequest $request, Student $ppdb)
     {
-        //
+        $data = $request->validated();
+        $ppdb->update($data);
     }
 
     /**
@@ -68,6 +90,6 @@ class PpdbController extends Controller
      */
     public function destroy(Student $ppdb)
     {
-        //
+        $ppdb->delete();
     }
 }

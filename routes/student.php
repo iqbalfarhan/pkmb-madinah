@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AbsentController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StudentController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -15,4 +17,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 	Route::delete('student/{student}/force-delete', [StudentController::class, 'forceDelete'])->name('student.force-delete');
 
 	Route::resource('student', StudentController::class);
+
+	Route::put('report/bulk', [ReportController::class, 'bulkUpdate'])->name('report.bulk.update');
+    Route::delete('report/bulk', [ReportController::class, 'bulkDelete'])->name('report.bulk.destroy');
+    Route::apiResource('report', ReportController::class);
+    
+    Route::put('absent/bulk', [AbsentController::class, 'bulkUpdate'])->name('absent.bulk.update');
+    Route::delete('absent/bulk', [AbsentController::class, 'bulkDelete'])->name('absent.bulk.destroy');
+    Route::apiResource('absent', AbsentController::class);
 });

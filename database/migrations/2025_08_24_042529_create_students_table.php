@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('nis')->nullable();
             $table->string('name')->nullable();
             $table->boolean('gender')->default(true);
-            $table->enum('status', Student::$statusLists)->default('aktif');
+            $table->enum('status', Student::$statusLists)->default('draft');
             $table->text('address')->nullable();
             $table->foreignId('grade_id')->nullable()->constrained('grades')->nullOnDelete();
             $table->foreignId('classroom_id')->nullable()->constrained('classrooms')->nullOnDelete();

@@ -12,14 +12,6 @@ class GradeSeeder extends Seeder
     {
         $grades = [
             [
-                "group" => "TK",
-                "name" => "TK A",
-            ],
-            [
-                "group" => "TK",
-                "name" => "TK B",
-            ],
-            [
                 "group" => "SD",
                 "name" => "SD 1",
             ],
@@ -42,30 +34,6 @@ class GradeSeeder extends Seeder
             [
                 "group" => "SD",
                 "name" => "SD 6",
-            ],
-            [
-                "group" => "SMP",
-                "name" => "SMP 1",
-            ],
-            [
-                "group" => "SMP",
-                "name" => "SMP 2",
-            ],
-            [
-                "group" => "SMP",
-                "name" => "SMP 3",
-            ],
-            [
-                "group" => "SMA",
-                "name" => "SMA 1",
-            ],
-            [
-                "group" => "SMA",
-                "name" => "SMA 2",
-            ],
-            [
-                "group" => "SMA",
-                "name" => "SMA 3",
             ],
         ];
         Grade::insert($grades);

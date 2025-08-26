@@ -40,7 +40,7 @@ class Student extends Model
         'updated_at',
     ];
 
-    public static $statusLists = ['ppdb', 'aktif', 'dikeluarkan', 'lulus', 'pindah'];
+    public static $statusLists = ['draft', 'ppdb', 'aktif', 'dikeluarkan', 'lulus', 'pindah'];
 
     public $appends = ['kelahiran', 'umur', 'avatar'];
     public $casts = [
@@ -59,6 +59,11 @@ class Student extends Model
     public function scopeAktif($query)
     {
         return $query->where('status', 'aktif');
+    }
+
+    public function scopeDraft($query)
+    {
+        return $query->where('status', 'draft');
     }
 
     public function scopePpdb($query)
@@ -94,6 +99,11 @@ class Student extends Model
     public function family()
     {
         return $this->hasOne(Family::class);
+    }
+
+    public function prevschool()
+    {
+        return $this->hasOne(Prevschool::class);
     }
 
     public function getAvatarAttribute()

@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Link } from '@inertiajs/react';
 import { ChevronRight } from 'lucide-react';
 
 const PpdbCardWidget = () => {
@@ -13,8 +14,10 @@ const PpdbCardWidget = () => {
         </CardDescription>
       </CardHeader>
       <CardFooter>
-        <Button>
-          Lihat selengkapnya <ChevronRight />
+        <Button asChild>
+          <Link href={route('ppdb.create')}>
+            Lihat selengkapnya <ChevronRight />
+          </Link>
         </Button>
       </CardFooter>
     </Card>
