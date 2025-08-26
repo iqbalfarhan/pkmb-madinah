@@ -14,7 +14,7 @@ class StorePrevschoolRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'student_id' => 'required|numeric',
+            'student_id' => 'required|exists:students,id',
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
         ];

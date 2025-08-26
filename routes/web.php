@@ -86,6 +86,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('family/bulk', [FamilyController::class, 'bulkUpdate'])->name('family.bulk.update');
     Route::delete('family/bulk', [FamilyController::class, 'bulkDelete'])->name('family.bulk.destroy');
     Route::apiResource('family', FamilyController::class);
+
     Route::put('prevschool/bulk', [PrevschoolController::class, 'bulkUpdate'])->name('prevschool.bulk.update');
     Route::delete('prevschool/bulk', [PrevschoolController::class, 'bulkDelete'])->name('prevschool.bulk.destroy');
     Route::apiResource('prevschool', PrevschoolController::class);

@@ -9,7 +9,7 @@ const StudentStatusBadge: FC<Props> = ({ status }) => {
   return (
     <>
       {status == 'draft' && <Badge variant={'secondary'}>Draft</Badge>}
-      {status == 'ppdb' && <Badge variant={'secondary'}>PPDB</Badge>}
+      {status == 'ppdb' && <Badge variant={'warning'}>PPDB</Badge>}
       {status == 'aktif' && <Badge variant={'default'}>Aktif</Badge>}
       {status == 'dikeluarkan' && <Badge variant={'destructive'}>Dikeluarkan</Badge>}
       {status == 'lulus' && <Badge variant={'success'}>Lulus</Badge>}

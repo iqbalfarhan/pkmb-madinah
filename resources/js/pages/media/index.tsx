@@ -5,25 +5,22 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { SharedData } from '@/types';
-import { Student } from '@/types/student';
+import { Media, SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import dayjs from 'dayjs';
 import { Edit, Filter, Folder, Plus, Trash2 } from 'lucide-react';
 import { FC, useState } from 'react';
-import StudentStatusBadge from '../student/components/student-status-badge';
-import PpdbBulkDeleteDialog from './components/ppdb-bulk-delete-dialog';
-import PpdbBulkEditSheet from './components/ppdb-bulk-edit-sheet';
-import PpdbDeleteDialog from './components/ppdb-delete-dialog';
-import PpdbFilterSheet from './components/ppdb-filter-sheet';
-import PpdbFormSheet from './components/ppdb-form-sheet';
+import MediaBulkDeleteDialog from './components/media-bulk-delete-dialog';
+import MediaBulkEditSheet from './components/media-bulk-edit-sheet';
+import MediaDeleteDialog from './components/media-delete-dialog';
+import MediaFilterSheet from './components/media-filter-sheet';
+import MediaFormSheet from './components/media-form-sheet';
 
 type Props = {
-  ppdbs: Student[];
+  media: Media[];
   query: { [key: string]: string };
 };
 
-const PpdbList: FC<Props> = ({ ppdbs, query }) => {
+const MediaList: FC<Props> = ({ media, query }) => {
   const [ids, setIds] = useState<number[]>([]);
   const [cari, setCari] = useState('');
 
@@ -31,24 +28,24 @@ const PpdbList: FC<Props> = ({ ppdbs, query }) => {
 
   return (
     <AppLayout
-      title="Ppdbs"
-      description="Manage your ppdbs"
+      title="Medias"
+      description="Manage your media"
       actions={
         <>
           {permissions?.canAdd && (
-            <Button asChild>
-              <Link href={route('ppdb.create')}>
+            <MediaFormSheet purpose="create">
+              <Button>
                 <Plus />
-                Pendaftaran siswa baru
-              </Link>
-            </Button>
+                Create new media
+              </Button>
+            </MediaFormSheet>
           )}
         </>
       }
     >
       <div className="flex gap-2">
-        <Input placeholder="Search ppdbs..." value={cari} onChange={(e) => setCari(e.target.value)} />
-        <PpdbFilterSheet query={query}>
+        <Input placeholder="Search media..." value={cari} onChange={(e) => setCari(e.target.value)} />
+        <MediaFilterSheet query={query}>
           <Button>
             <Filter />
             Filter data
@@ -56,22 +53,22 @@ const PpdbList: FC<Props> = ({ ppdbs, query }) => {
               <Badge variant="secondary">{Object.values(query).filter((val) => val && val !== '').length}</Badge>
             )}
           </Button>
-        </PpdbFilterSheet>
+        </MediaFilterSheet>
         {ids.length > 0 && (
           <>
             <Button variant={'ghost'} disabled>
               {ids.length} item selected
             </Button>
-            <PpdbBulkEditSheet ppdbIds={ids}>
+            <MediaBulkEditSheet mediaIds={ids}>
               <Button>
                 <Edit /> Edit selected
               </Button>
-            </PpdbBulkEditSheet>
-            <PpdbBulkDeleteDialog ppdbIds={ids}>
+            </MediaBulkEditSheet>
+            <MediaBulkDeleteDialog mediaIds={ids}>
               <Button variant={'destructive'}>
                 <Trash2 /> Delete selected
               </Button>
-            </PpdbBulkDeleteDialog>
+            </MediaBulkDeleteDialog>
           </>
         )}
       </div>
@@ -82,10 +79,10 @@ const PpdbList: FC<Props> = ({ ppdbs, query }) => {
               <Button variant={'ghost'} size={'icon'} asChild>
                 <Label>
                   <Checkbox
-                    checked={ids.length === ppdbs.length}
+                    checked={ids.length === media.length}
                     onCheckedChange={(checked) => {
                       if (checked) {
-                        setIds(ppdbs.map((ppdb) => ppdb.id));
+                        setIds(media.map((media) => media.id));
                       } else {
                         setIds([]);
                       }
@@ -94,65 +91,53 @@ const PpdbList: FC<Props> = ({ ppdbs, query }) => {
                 </Label>
               </Button>
             </TableHead>
-            <TableHead>NISN</TableHead>
-            <TableHead>Nama calon pesdik</TableHead>
-            <TableHead>Jenjang</TableHead>
-            <TableHead>Asal sekolah</TableHead>
-            <TableHead>Tanggal pendaftaran</TableHead>
-            <TableHead>Status</TableHead>
+            <TableHead>Name</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {ppdbs
-            .filter((ppdb) => JSON.stringify(ppdb).toLowerCase().includes(cari.toLowerCase()))
-            .map((ppdb) => (
-              <TableRow key={ppdb.id}>
+          {media
+            .filter((media) => JSON.stringify(media).toLowerCase().includes(cari.toLowerCase()))
+            .map((media) => (
+              <TableRow key={media.id}>
                 <TableCell>
                   <Button variant={'ghost'} size={'icon'} asChild>
                     <Label>
                       <Checkbox
-                        checked={ids.includes(ppdb.id)}
+                        checked={ids.includes(media.id)}
                         onCheckedChange={(checked) => {
                           if (checked) {
-                            setIds([...ids, ppdb.id]);
+                            setIds([...ids, media.id]);
                           } else {
-                            setIds(ids.filter((id) => id !== ppdb.id));
+                            setIds(ids.filter((id) => id !== media.id));
                           }
                         }}
                       />
                     </Label>
                   </Button>
                 </TableCell>
-                <TableCell>{ppdb.nisn}</TableCell>
-                <TableCell>{ppdb.name}</TableCell>
-                <TableCell>{ppdb.grade?.name}</TableCell>
-                <TableCell>{ppdb.prevschool?.name}</TableCell>
-                <TableCell>{dayjs(ppdb.created_at).format('DD MMMM YYYY HH:mm:ss')}</TableCell>
-                <TableCell>
-                  <StudentStatusBadge status={ppdb.status} />
-                </TableCell>
+                <TableCell>{media.name}</TableCell>
                 <TableCell>
                   {permissions?.canShow && (
                     <Button variant={'ghost'} size={'icon'}>
-                      <Link href={route('ppdb.show', ppdb.id)}>
+                      <Link href={route('media.show', media.id)}>
                         <Folder />
                       </Link>
                     </Button>
                   )}
                   {permissions?.canUpdate && (
-                    <PpdbFormSheet purpose="edit" ppdb={ppdb}>
+                    <MediaFormSheet purpose="edit" media={media}>
                       <Button variant={'ghost'} size={'icon'}>
                         <Edit />
                       </Button>
-                    </PpdbFormSheet>
+                    </MediaFormSheet>
                   )}
                   {permissions?.canDelete && (
-                    <PpdbDeleteDialog ppdb={ppdb}>
+                    <MediaDeleteDialog media={media}>
                       <Button variant={'ghost'} size={'icon'}>
                         <Trash2 />
                       </Button>
-                    </PpdbDeleteDialog>
+                    </MediaDeleteDialog>
                   )}
                 </TableCell>
               </TableRow>
@@ -163,4 +148,4 @@ const PpdbList: FC<Props> = ({ ppdbs, query }) => {
   );
 };
 
-export default PpdbList;
+export default MediaList;

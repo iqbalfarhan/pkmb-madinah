@@ -6,6 +6,7 @@ use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Http\Requests\BulkUpdateStudentRequest;
 use App\Http\Requests\BulkDeleteStudentRequest;
+use App\Http\Requests\UploadStudentMediaRequest;
 use App\Models\AcademicYear;
 use App\Models\Classroom;
 use App\Models\Family;
@@ -28,6 +29,7 @@ class StudentController extends Controller
             'students' => $data->aktif()->get(),
             'query' => $request->input(),
             'users' => User::get(),
+            'statusLists' => Student::$statusLists,
             'permissions' => [
                 'canAdd' => $this->user->can('create student'),
                 'canUpdate' => $this->user->can('update student'),
@@ -60,7 +62,7 @@ class StudentController extends Controller
     public function show(Student $student)
     {
         return Inertia::render('student/show', [
-            'student' => $student->load(['user', 'grade', 'classroom', 'family']),
+            'student' => $student->load(['user', 'grade', 'classroom', 'family', 'prevschool', 'media']),
             'sallaryLists' => Family::$sallaryLists,
             'permissions' => [
                 'canUpdate' => $this->user->can('update student'),
@@ -88,8 +90,13 @@ class StudentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Student $student)
+    public function destroy(Request $request, Student $student)
     {
+        $data = $request->validate([
+            'status' => 'required|in:'.implode(',', Student::$statusLists)
+        ]);
+        $student->update($data);
+        
         $student->delete();
     }
 
@@ -188,5 +195,20 @@ class StudentController extends Controller
         return Inertia::render('student/nilai', [
             'student' => $student
         ]);
+    }
+
+    public function bill(Student $student)
+    {
+        return Inertia::render('student/bill', [
+            'student' => $student
+        ]);
+    }
+
+    public function uploadMedia(UploadStudentMediaRequest $request, Student $student)
+    {
+        $data = $request->validated();
+        $collection = $data['collection_name'];
+        
+        $student->addMedia($data['file'])->toMediaCollection($collection);
     }
 }

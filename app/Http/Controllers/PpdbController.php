@@ -17,11 +17,12 @@ class PpdbController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Student::query()->with(['grade'])->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = Student::query()->with(['grade', 'prevschool'])->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('ppdb/index', [
             'ppdbs' => $data->ppdb()->get(),
             'query' => $request->input(),
+            'statusLists' => Student::$statusLists,
             'permissions' => [
                 'canAdd' => $this->user->can('create ppdb'),
                 'canUpdate' => $this->user->can('update ppdb'),
@@ -59,7 +60,10 @@ class PpdbController extends Controller
     public function show(Student $ppdb)
     {
         return Inertia::render('ppdb/show', [
-            'ppdb' => $ppdb,
+            'ppdb' => $ppdb->load(['grade', 'family', 'media', 'prevschool']),
+            'permissions' => [
+                'canApprove' => $this->user->can('update ppdb'),
+            ]
         ]);
     }
 
@@ -72,7 +76,13 @@ class PpdbController extends Controller
             'grades' => Grade::get(),
             'student' => $ppdb,
             'family' => $ppdb->family,
-            'salaryLists' => Family::$sallaryLists
+            'media' => $ppdb->media,
+            'prevschool' => $ppdb->prevschool,
+            'salaryLists' => Family::$sallaryLists,
+            "permissions" => [
+                'canUpdate' => $ppdb->status == 'draft',
+                'canDelete' => $ppdb->status == 'draft',
+            ]
         ]);
     }
 

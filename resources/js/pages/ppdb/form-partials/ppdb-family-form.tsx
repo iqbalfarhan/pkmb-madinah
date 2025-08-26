@@ -6,13 +6,19 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { em } from '@/lib/utils';
+import { SharedData } from '@/types';
 import { Family } from '@/types/family';
 import { Student } from '@/types/student';
 import { useForm, usePage } from '@inertiajs/react';
 import { toast } from 'sonner';
 
 const PpdbFamilyForm = () => {
-  const { family, salaryLists = [], student } = usePage<{ family?: Family; salaryLists: string[]; student: Student }>().props;
+  const {
+    family,
+    salaryLists = [],
+    student,
+    permissions,
+  } = usePage<SharedData & { family?: Family; salaryLists: string[]; student: Student }>().props;
 
   const { data, setData, put, post } = useForm({
     student_id: family?.student_id ?? student.id,
@@ -116,11 +122,13 @@ const PpdbFamilyForm = () => {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent>
-            <SubmitButton onClick={handleSubmit} />
-          </CardContent>
-        </Card>
+        {permissions?.canUpdate && (
+          <Card>
+            <CardContent>
+              <SubmitButton onClick={handleSubmit} />
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );

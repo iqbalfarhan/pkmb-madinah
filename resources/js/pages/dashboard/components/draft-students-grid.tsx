@@ -1,5 +1,5 @@
 import HeadingSmall from '@/components/heading-small';
-import StudentItemCard from '@/pages/student/components/student-item-card';
+import PpdbItemCard from '@/pages/ppdb/components/ppdb-item-card';
 import { Student } from '@/types/student';
 import { usePage } from '@inertiajs/react';
 
@@ -15,7 +15,7 @@ const DraftStudentsGrid = () => {
       <HeadingSmall title="Lanjut pendaftaran siswa" description="lanjutkan mengisi keterangan peserta didik baru" />
       <div className="grid grid-cols-4 gap-6">
         {students.map((student) => (
-          <StudentItemCard student={student} key={student.id} href={route('ppdb.edit', student.id)} />
+          <PpdbItemCard ppdb={student} key={student.id} href={route(student.status == 'draft' ? 'ppdb.edit' : 'ppdb.show', student.id)} />
         ))}
       </div>
     </div>

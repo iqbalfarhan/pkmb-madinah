@@ -1,7 +1,8 @@
-import { User } from '.';
+import { Media, User } from '.';
 import { Classroom } from './classroom';
 import { Family } from './family';
 import { Grade } from './grade';
+import { Prevschool } from './prevschool';
 
 export type Student = {
   id: number;
@@ -25,6 +26,8 @@ export type Student = {
   umur: number;
   avatar: string;
   family?: Family;
+  prevschool?: Prevschool;
+  media?: Media[];
   created_at: string;
   updated_at?: string;
 };

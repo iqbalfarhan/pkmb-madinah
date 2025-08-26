@@ -14,7 +14,6 @@ class UpdatePrevschoolRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'student_id' => 'required|numeric',
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
         ];

@@ -6,12 +6,13 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { em } from '@/lib/utils';
+import { SharedData } from '@/types';
 import { Student } from '@/types/student';
 import { useForm, usePage } from '@inertiajs/react';
 import { toast } from 'sonner';
 
 const PpdbContactForm = () => {
-  const { student } = usePage<{ student: Student }>().props;
+  const { student, permissions } = usePage<SharedData & { student: Student }>().props;
 
   const { data, setData, put } = useForm({
     phone: student.phone ?? '',
@@ -48,10 +49,14 @@ const PpdbContactForm = () => {
                 </FormControl>
               </div>
             </CardContent>
-            <Separator />
-            <CardFooter>
-              <SubmitButton onClick={handleSubmit} />
-            </CardFooter>
+            {permissions?.canUpdate && (
+              <>
+                <Separator />
+                <CardFooter>
+                  <SubmitButton onClick={handleSubmit} />
+                </CardFooter>
+              </>
+            )}
           </Card>
         </div>
       </div>

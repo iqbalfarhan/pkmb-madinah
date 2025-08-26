@@ -9,32 +9,26 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { em } from '@/lib/utils';
-import { Student } from '@/types/student';
-import { router, usePage } from '@inertiajs/react';
+import { Media } from '@/types';
+import { router } from '@inertiajs/react';
 import { Trash2 } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
 
 type Props = PropsWithChildren & {
-  student: Student;
+  mediaIds: Media['id'][];
 };
 
-const StudentDeleteDialog: FC<Props> = ({ children, student }) => {
+const MediaBulkDeleteDialog: FC<Props> = ({ children, mediaIds }) => {
   const [open, setOpen] = useState(false);
-  const [status, setStatus] = useState('');
-
-  const { statusLists = [] } = usePage<{ statusLists: string[] }>().props;
 
   const handleDelete = () => {
-    router.delete(route('student.destroy', student.id), {
-      data: {
-        status,
-      },
+    router.delete(route('media.bulk.destroy'), {
+      data: { media_ids: mediaIds },
       preserveScroll: true,
       onSuccess: () => {
-        toast.success('Student deleted successfully');
+        toast.success('Media deleted successfully');
         setOpen(false);
       },
       onError: (e) => toast.error(em(e)),
@@ -46,21 +40,11 @@ const StudentDeleteDialog: FC<Props> = ({ children, student }) => {
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Arsipkan siswa?</AlertDialogTitle>
-          <AlertDialogDescription>Pilih status siswa sebagai alasan mengapa siswa diarsipkan.</AlertDialogDescription>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete selected media and remove your data from our servers.
+          </AlertDialogDescription>
         </AlertDialogHeader>
-        <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger>
-            <SelectValue placeholder="Pilih status siswa" />
-          </SelectTrigger>
-          <SelectContent>
-            {statusLists.map((s) => (
-              <SelectItem key={s} value={s}>
-                {s}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={handleDelete}>
@@ -73,4 +57,4 @@ const StudentDeleteDialog: FC<Props> = ({ children, student }) => {
   );
 };
 
-export default StudentDeleteDialog;
+export default MediaBulkDeleteDialog;

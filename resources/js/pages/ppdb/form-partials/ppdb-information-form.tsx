@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { em } from '@/lib/utils';
+import { SharedData } from '@/types';
 import { Grade } from '@/types/grade';
 import { Student } from '@/types/student';
 import { useForm, usePage } from '@inertiajs/react';
@@ -14,7 +15,7 @@ import dayjs from 'dayjs';
 import { toast } from 'sonner';
 
 const PpdbInformationForm = () => {
-  const { grades, student } = usePage<{ grades: Grade[]; student: Student }>().props;
+  const { grades, student, permissions } = usePage<SharedData & { grades: Grade[]; student: Student }>().props;
 
   const { data, setData, put, processing } = useForm({
     grade_id: student?.grade_id ?? '',
@@ -93,10 +94,14 @@ const PpdbInformationForm = () => {
               </FormControl>
             </div>
           </CardContent>
-          <Separator />
-          <CardFooter>
-            <SubmitButton loading={processing} onClick={handleSubmit} />
-          </CardFooter>
+          {permissions?.canUpdate && (
+            <>
+              <Separator />
+              <CardFooter>
+                <SubmitButton loading={processing} onClick={handleSubmit} />
+              </CardFooter>
+            </>
+          )}
         </Card>
       </div>
     </div>

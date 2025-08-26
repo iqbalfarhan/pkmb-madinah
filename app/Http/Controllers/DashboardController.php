@@ -17,7 +17,7 @@ class DashboardController extends Controller
     {
         return Inertia::render('dashboard/index', [
             'permissions' => [],
-            'students' => Student::whereUserId(auth()->id())->draft()->get()
+            'students' => Student::whereUserId(auth()->id())->whereIn('status', ['draft', 'ppdb'])->with('grade', 'user')->get()
         ]);
     }
 

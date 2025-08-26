@@ -1,47 +1,44 @@
 import FormControl from '@/components/form-control';
 import SubmitButton from '@/components/submit-button';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { capitalizeWords, em } from '@/lib/utils';
-import { FormPurpose } from '@/types';
-import { Student } from '@/types/student';
-import { useForm, usePage } from '@inertiajs/react';
+import { FormPurpose, Media } from '@/types';
+import { useForm } from '@inertiajs/react';
 import { X } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
 
 type Props = PropsWithChildren & {
-  ppdb?: Student;
+  media?: Media;
   purpose: FormPurpose;
 };
 
-const PpdbFormSheet: FC<Props> = ({ children, ppdb, purpose }) => {
+const MediaFormSheet: FC<Props> = ({ children, media, purpose }) => {
   const [open, setOpen] = useState(false);
 
-  const { statusLists } = usePage<{ statusLists: string[] }>().props;
-
   const { data, setData, put, post, reset, processing } = useForm({
-    status: ppdb?.status ?? '',
+    name: media?.name ?? '',
   });
 
   const handleSubmit = () => {
     if (purpose === 'create' || purpose === 'duplicate') {
-      post(route('ppdb.store'), {
+      post(route('media.store'), {
         preserveScroll: true,
         onSuccess: () => {
-          toast.success('Ppdb created successfully');
+          toast.success('Media created successfully');
           reset();
           setOpen(false);
         },
         onError: (e) => toast.error(em(e)),
       });
     } else {
-      put(route('ppdb.update', ppdb?.id), {
+      put(route('media.update', media?.id), {
         preserveScroll: true,
         onSuccess: () => {
-          toast.success('Ppdb updated successfully');
+          toast.success('Media updated successfully');
           setOpen(false);
         },
         onError: (e) => toast.error(em(e)),
@@ -54,8 +51,8 @@ const PpdbFormSheet: FC<Props> = ({ children, ppdb, purpose }) => {
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>{capitalizeWords(purpose)} data ppdb</SheetTitle>
-          <SheetDescription>Form untuk {purpose} data ppdb</SheetDescription>
+          <SheetTitle>{capitalizeWords(purpose)} data media</SheetTitle>
+          <SheetDescription>Form untuk {purpose} data media</SheetDescription>
         </SheetHeader>
         <ScrollArea className="flex-1 overflow-y-auto">
           <form
@@ -65,24 +62,13 @@ const PpdbFormSheet: FC<Props> = ({ children, ppdb, purpose }) => {
               handleSubmit();
             }}
           >
-            <FormControl label="Nama ppdb">
-              <Select value={data.status} onValueChange={(value) => setData('status', value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih status" />
-                </SelectTrigger>
-                <SelectContent>
-                  {statusLists.map((status) => (
-                    <SelectItem key={status} value={status}>
-                      {status}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            <FormControl label="Nama media">
+              <Input type="text" placeholder="Name" value={data.name} onChange={(e) => setData('name', e.target.value)} />
             </FormControl>
           </form>
         </ScrollArea>
         <SheetFooter>
-          <SubmitButton onClick={handleSubmit} label={`${capitalizeWords(purpose)} ppdb`} loading={processing} disabled={processing} />
+          <SubmitButton onClick={handleSubmit} label={`${capitalizeWords(purpose)} media`} loading={processing} disabled={processing} />
           <SheetClose asChild>
             <Button variant={'outline'}>
               <X /> Batalin
@@ -94,4 +80,4 @@ const PpdbFormSheet: FC<Props> = ({ children, ppdb, purpose }) => {
   );
 };
 
-export default PpdbFormSheet;
+export default MediaFormSheet;

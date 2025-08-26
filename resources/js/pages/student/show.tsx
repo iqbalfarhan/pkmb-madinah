@@ -180,6 +180,9 @@ const ShowStudent: FC<Props> = ({ student }) => {
             description="Ekskul dan kegiatan yang diikuti siswa."
           />
         </div>
+        <div>
+          <StudentLinkCard title="Asal sekolah" description={`${student.prevschool?.name ?? ''} ${student.prevschool?.address ?? ''}`} />
+        </div>
       </div>
     </AppLayout>
   );

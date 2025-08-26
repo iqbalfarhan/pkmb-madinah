@@ -44,6 +44,7 @@ class MediaController extends Controller
      */
     public function destroy(Media $medium)
     {
+        dd($medium);
         $medium->delete();
     }
 }
