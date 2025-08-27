@@ -25,6 +25,13 @@ class DatabaseSeeder extends Seeder
             PaymentTypeSeeder::class,
             ClassroomSeeder::class,
             LessonSeeder::class,
+            MaterialSeeder::class,
+            StudentSeeder::class,
+            FamilySeeder::class,
+            ReportSeeder::class,
+            PrevschoolSeeder::class,
+            AbsentSeeder::class,
+            BillSeeder::class,
         ]);
     }
 }

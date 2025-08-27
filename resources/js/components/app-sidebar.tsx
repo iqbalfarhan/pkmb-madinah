@@ -76,9 +76,9 @@ export function AppSidebar() {
             ...mainNavItems,
             {
               title: 'Tagihan pembayaran',
-              href: route('student.index'),
+              href: route('bills'),
               icon: Wallet,
-              available: menus.payment,
+              available: menus.studentBill,
             },
           ]}
           label="Dashboard"
@@ -215,6 +215,12 @@ export function AppSidebar() {
               href: route('absent.index'),
               icon: XSquare,
               available: menus.absent,
+            },
+            {
+              title: 'Tagihan siswa',
+              href: route('bill.index'),
+              icon: Wallet,
+              available: menus.bill,
             },
           ]}
           label="Students data"

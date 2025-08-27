@@ -8,6 +8,7 @@ use App\Http\Requests\BulkUpdateStudentRequest;
 use App\Http\Requests\BulkDeleteStudentRequest;
 use App\Http\Requests\UploadStudentMediaRequest;
 use App\Models\AcademicYear;
+use App\Models\Bill;
 use App\Models\Classroom;
 use App\Models\Family;
 use App\Models\Report;
@@ -197,10 +198,21 @@ class StudentController extends Controller
         ]);
     }
 
-    public function bill(Student $student)
+    public function bill(Request $request, Student $student)
     {
-        return Inertia::render('student/bill', [
-            'student' => $student
+        $data = Bill::query()
+            ->with(['student', 'payment_type'])
+            ->whereStudentId($student->id);
+
+        return Inertia::render('bill/index', [
+            'bills' => $data->get(),
+            'query' => $request->input(),
+            'permissions' => [
+                'canAdd' => $this->user->can('create bill'),
+                'canUpdate' => $this->user->can('update bill'),
+                'canDelete' => $this->user->can('delete bill'),
+                'canShow' => $this->user->can('show bill'),
+            ]
         ]);
     }
 

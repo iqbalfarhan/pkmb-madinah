@@ -68,6 +68,8 @@ class HandleInertiaRequests extends Middleware
                 "student" => $user?->can('menu student'),
                 "report" => $user?->can('menu report'),
                 "absent" => $user?->can('menu absent'),
+                "bill" => $user?->can('menu bill'),
+                "studentBill" => $user?->can('student bill'),
             ],
             "myclassrooms" => $user?->teacher->classrooms ?? [],
             "mylessons" => $user?->teacher->lessons ?? [],

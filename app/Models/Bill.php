@@ -48,4 +48,14 @@ class Bill extends Model
             }
         });
     }
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
+
+    public function payment_type()
+    {
+        return $this->belongsTo(PaymentType::class);
+    }
 }

@@ -14,6 +14,7 @@ class BillSeeder extends Seeder
 
         $permissions = [
             "menu bill",
+            "student bill",
             "index bill",
             "show bill",
             "create bill",

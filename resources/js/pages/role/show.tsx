@@ -1,6 +1,6 @@
 import HeadingSmall from '@/components/heading-small';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
@@ -83,16 +83,40 @@ const ShowRole: FC<Props> = ({ role, permissions }) => {
       <div className="grid grid-cols-4 gap-6">
         {Object.entries(groupPermissions).map(([group, permissions]) => (
           <Card key={group}>
-            <CardHeader>
-              <CardTitle>{group.charAt(0).toUpperCase() + group.slice(1)}</CardTitle>
-              <CardDescription>{permissions.length} permissions</CardDescription>
-            </CardHeader>
+            <div className="flex justify-between">
+              <CardHeader>
+                <CardTitle>{group.charAt(0).toUpperCase() + group.slice(1)}</CardTitle>
+                <CardDescription>{permissions.length} permissions</CardDescription>
+              </CardHeader>
+              <CardFooter>
+                <Button variant={'ghost'} size={'icon'} asChild>
+                  <Label>
+                    <Checkbox
+                      checked={permissions.every((p) => data.permissions.includes(p.name))}
+                      onCheckedChange={(checked) => {
+                        const permissionNames = permissions.map((p) => p.name);
+                        if (checked) {
+                          // Add all permissions from this group that aren't already included
+                          setData('permissions', [...new Set([...data.permissions, ...permissionNames])]);
+                        } else {
+                          // Remove all permissions from this group
+                          setData(
+                            'permissions',
+                            data.permissions.filter((p) => !permissionNames.includes(p)),
+                          );
+                        }
+                      }}
+                    />
+                  </Label>
+                </Button>
+              </CardFooter>
+            </div>
             <CardContent>
               <div className="grid">
                 {permissions.map((permission) => (
                   <Label key={permission.id} className="flex h-8 items-center gap-2">
                     <Checkbox
-                      defaultChecked={data.permissions.includes(permission.name)}
+                      checked={data.permissions.includes(permission.name)}
                       onCheckedChange={(c) =>
                         setData('permissions', c ? [...data.permissions, permission.name] : data.permissions.filter((p) => p !== permission.name))
                       }

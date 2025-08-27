@@ -5,16 +5,18 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
+import { formatRupiah } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Bill } from '@/types/bill';
 import { Link, usePage } from '@inertiajs/react';
 import { Edit, Filter, Folder, Plus, Trash2 } from 'lucide-react';
 import { FC, useState } from 'react';
+import BillBulkDeleteDialog from './components/bill-bulk-delete-dialog';
+import BillBulkEditSheet from './components/bill-bulk-edit-sheet';
 import BillDeleteDialog from './components/bill-delete-dialog';
 import BillFilterSheet from './components/bill-filter-sheet';
 import BillFormSheet from './components/bill-form-sheet';
-import BillBulkEditSheet from './components/bill-bulk-edit-sheet';
-import BillBulkDeleteDialog from './components/bill-bulk-delete-dialog';
+import BillStatusBadge from './components/bill-status-badge';
 
 type Props = {
   bills: Bill[];
@@ -41,7 +43,6 @@ const BillList: FC<Props> = ({ bills, query }) => {
               </Button>
             </BillFormSheet>
           )}
-          
         </>
       }
     >
@@ -93,7 +94,11 @@ const BillList: FC<Props> = ({ bills, query }) => {
                 </Label>
               </Button>
             </TableHead>
-            <TableHead>Name</TableHead>
+            <TableHead>Student name</TableHead>
+            <TableHead>Payment type</TableHead>
+            <TableHead>Payment cycle</TableHead>
+            <TableHead>Total amount</TableHead>
+            <TableHead>Status</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -118,7 +123,13 @@ const BillList: FC<Props> = ({ bills, query }) => {
                     </Label>
                   </Button>
                 </TableCell>
-                <TableCell>{ bill.name }</TableCell>
+                <TableCell>{bill.student.name}</TableCell>
+                <TableCell>{bill.payment_type.name}</TableCell>
+                <TableCell>{bill.payment_type.billing_cycle}</TableCell>
+                <TableCell>{formatRupiah(bill.total_amount)}</TableCell>
+                <TableCell>
+                  <BillStatusBadge status={bill.status} />
+                </TableCell>
                 <TableCell>
                   {permissions?.canShow && (
                     <Button variant={'ghost'} size={'icon'}>

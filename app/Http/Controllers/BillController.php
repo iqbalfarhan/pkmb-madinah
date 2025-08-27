@@ -17,7 +17,9 @@ class BillController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Bill::query()->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = Bill::query()
+            ->with(['student', 'payment_type'])
+            ->when($request->student_id, fn($q, $v) => $q->where('student_id', $v));
 
         return Inertia::render('bill/index', [
             'bills' => $data->get(),
