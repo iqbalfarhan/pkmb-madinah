@@ -7,7 +7,7 @@ import { SharedData } from '@/types';
 import { Absent } from '@/types/absent';
 import { Student } from '@/types/student';
 import { usePage } from '@inertiajs/react';
-import { Building, Calendar, Download, Edit, Palette, Settings, Trash2, Upload } from 'lucide-react';
+import { Building, Calendar, Download, Edit, KeyRound, Palette, Settings, Trash2, Upload } from 'lucide-react';
 import { FC } from 'react';
 import AbsentPieChart from '../absent/components/absent-pie-chart';
 import FamilyCardContent from '../family/components/family-card-content';
@@ -87,12 +87,15 @@ const ShowStudent: FC<Props> = ({ student }) => {
           title="Nilai siswa"
           description="Rekap nilai siswa untuk semester dan kelas ini."
         />
-        <StudentLinkCard
-          title="Asal sekolah"
-          description={`${student.prevschool?.name ?? ''} ${student.prevschool?.address ?? ''}`}
-          show={!!student.prevschool}
-          icon={Building}
-        />
+        {student.classroom && (
+          <StudentLinkCard
+            href={route('classroom.show', student.classroom_id)}
+            title={`${student.classroom.name}`}
+            description={`${student.classroom.name}. walikelas : ${student.classroom.teacher?.name}`}
+            icon={KeyRound}
+          />
+        )}
+
         <StudentLinkCard
           href={route('student.extracurricular', student.id)}
           title="Ekstrakulikuler"
@@ -164,6 +167,12 @@ const ShowStudent: FC<Props> = ({ student }) => {
             </Table>
           </CardContent>
         </Card>
+        <StudentLinkCard
+          title="Asal sekolah"
+          description={`${student.prevschool?.name ?? ''} ${student.prevschool?.address ?? ''}`}
+          show={!!student.prevschool}
+          icon={Building}
+        />
       </div>
     </AppLayout>
   );

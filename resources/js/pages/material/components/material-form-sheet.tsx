@@ -74,11 +74,11 @@ const MaterialFormSheet: FC<Props> = ({ children, material, purpose, lessonId })
             <FormControl label="Judul material">
               <Input type="text" placeholder="Name" value={data.title} onChange={(e) => setData('title', e.target.value)} />
             </FormControl>
-            <FormControl label="Judul material">
-              <Textarea placeholder="Name" value={data.description} onChange={(e) => setData('description', e.target.value)} />
+            <FormControl label="Deskripsi">
+              <Textarea placeholder="Deskripsi" value={data.description} onChange={(e) => setData('description', e.target.value)} />
             </FormControl>
             <FormControl label="URL google slide">
-              <Input type="url" placeholder="Name" value={data.url} onChange={(e) => setData('url', e.target.value)} />
+              <Input type="url" placeholder="url" value={data.url} onChange={(e) => setData('url', e.target.value)} />
             </FormControl>
           </form>
         </ScrollArea>

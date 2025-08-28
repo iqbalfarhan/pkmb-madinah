@@ -1,5 +1,6 @@
 import { LucideIcon } from 'lucide-react';
 import type { Config } from 'ziggy-js';
+import { Academicyear } from './academicyear';
 
 export interface Auth {
   user: User;
@@ -30,6 +31,7 @@ export interface SharedData {
   auth: Auth;
   ziggy: Config & { location: string };
   sidebarOpen: boolean;
+  activeAcademicYear: Academicyear;
   permissions?: Record<string, boolean>;
   [key: string]: unknown;
 }

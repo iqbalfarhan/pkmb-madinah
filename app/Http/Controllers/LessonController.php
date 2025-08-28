@@ -8,6 +8,8 @@ use App\Http\Requests\BulkUpdateLessonRequest;
 use App\Http\Requests\BulkDeleteLessonRequest;
 use App\Models\Classroom;
 use App\Models\Lesson;
+use App\Models\Score;
+use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
@@ -55,8 +57,21 @@ class LessonController extends Controller
      */
     public function show(Lesson $lesson)
     {
+        $students = $lesson->classroom->students;
+        $scores = Score::where('lesson_id', $lesson->id)->whereIn('student_id', $students->pluck('id'))->get();
+
         return Inertia::render('lesson/show', [
-            'lesson' => $lesson->load('materials', 'classroom', 'subject', 'teacher')
+            'lesson' => $lesson->load('materials', 'classroom', 'subject', 'teacher'),
+            'assignments' => $lesson->assignments,
+            'lessons' => [$lesson],
+            'students' => $students,
+            'scores' => $scores,
+            'permissions' => [
+                'canAdd' => $this->user->can('create assignment'),
+                'canUpdate' => $this->user->can('update assignment'),
+                'canDelete' => $this->user->can('delete assignment'),
+                'canShow' => $this->user->can('show assignment'),
+            ]
         ]);
     }
 

@@ -1,11 +1,9 @@
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Edit, Trash2, Folder } from 'lucide-react';
-import { FC } from 'react';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import { Report } from '@/types/report';
-import { Link } from '@inertiajs/react';
-import ReportFormSheet from './report-form-sheet';
-import ReportDeleteDialog from './report-delete-dialog';
+import { router } from '@inertiajs/react';
+import { FC } from 'react';
 
 type Props = {
   report: Report;
@@ -13,32 +11,25 @@ type Props = {
 
 const ReportItemCard: FC<Props> = ({ report }) => {
   return (
-    <Card className="flex flex-col justify-between">
+    <Card
+      className="flex flex-col justify-between"
+      onClick={() => {
+        router.visit(route('report.show', report.id));
+      }}
+    >
       <CardHeader>
-        <CardTitle>{ report.name }</CardTitle>
+        <CardTitle>E-Rapor {report.report_type}</CardTitle>
+        <CardDescription>{report.academic_year.label}</CardDescription>
       </CardHeader>
-      <CardContent>
-        <p className="text-sm text-muted-foreground">
-          ID: { report.id }
-        </p>
+      <Separator />
+      <CardContent className="flex justify-between">
+        <div className="flex items-center gap-2">
+          <Avatar className="size-5">
+            <AvatarImage src={report.student.avatar} />
+          </Avatar>
+          <span className="text-sm text-muted-foreground">{report.student.name}</span>
+        </div>
       </CardContent>
-      <CardFooter className="flex gap-2">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href={route('report.show', report.id)}>
-            <Folder />
-          </Link>
-        </Button>
-        <ReportFormSheet purpose="edit" report={ report }>
-          <Button variant="ghost" size="icon">
-            <Edit />
-          </Button>
-        </ReportFormSheet>
-        <ReportDeleteDialog report={ report }>
-          <Button variant="ghost" size="icon">
-            <Trash2 />
-          </Button>
-        </ReportDeleteDialog>
-      </CardFooter>
     </Card>
   );
 };

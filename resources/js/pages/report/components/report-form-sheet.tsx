@@ -5,7 +5,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { capitalizeWords, em } from '@/lib/utils';
-import { FormPurpose } from '@/types';
+import { FormPurpose, SharedData } from '@/types';
 import { Academicyear } from '@/types/academicyear';
 import { Classroom } from '@/types/classroom';
 import { Report } from '@/types/report';
@@ -29,13 +29,14 @@ const ReportFormSheet: FC<Props> = ({ children, report, purpose }) => {
     classrooms = [],
     reportTypes = [],
     activeAcademicYear,
-  } = usePage<{
-    students: Student[];
-    academicYears: Academicyear[];
-    classrooms: Classroom[];
-    reportTypes: string[];
-    activeAcademicYear: Academicyear | null;
-  }>().props;
+  } = usePage<
+    SharedData & {
+      students: Student[];
+      academicYears: Academicyear[];
+      classrooms: Classroom[];
+      reportTypes: string[];
+    }
+  >().props;
 
   const { data, setData, put, post, reset, processing } = useForm({
     student_id: report?.student_id ?? '',
@@ -98,7 +99,7 @@ const ReportFormSheet: FC<Props> = ({ children, report, purpose }) => {
               </Select>
             </FormControl>
             <FormControl label="Tahun ajaran">
-              <Select value={data.academic_year_id.toString()} onValueChange={(e) => setData('academic_year_id', e)}>
+              <Select value={data.academic_year_id.toString()} onValueChange={(e) => setData('academic_year_id', Number(e))}>
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih tahun ajaran" />
                 </SelectTrigger>

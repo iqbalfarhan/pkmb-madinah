@@ -14,9 +14,9 @@ class UpdateAssignmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'rate' => 'required|numeric',
+            'name' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'rate' => 'nullable|numeric|max:100',
         ];
     }
 }

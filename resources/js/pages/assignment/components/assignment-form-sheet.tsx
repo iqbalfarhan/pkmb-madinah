@@ -1,5 +1,6 @@
 import FormControl from '@/components/form-control';
 import SubmitButton from '@/components/submit-button';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -11,7 +12,7 @@ import { FormPurpose } from '@/types';
 import { Assignment } from '@/types/assignment';
 import { Lesson } from '@/types/lesson';
 import { useForm, usePage } from '@inertiajs/react';
-import { X } from 'lucide-react';
+import { AlertCircle, X } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -97,6 +98,13 @@ const AssignmentFormSheet: FC<Props> = ({ children, assignment, purpose }) => {
           </form>
         </ScrollArea>
         <SheetFooter>
+          <Alert>
+            <AlertCircle />
+            <AlertTitle>Bobot tugas</AlertTitle>
+            <AlertDescription>
+              Bobot tugas akan ditotalkan. Nilai yang diberikan ke siswa akan kalikan dengan bobot tugas sehingga dapat mencapai nilai 100%
+            </AlertDescription>
+          </Alert>
           <SubmitButton onClick={handleSubmit} label={`${capitalizeWords(purpose)} assignment`} loading={processing} disabled={processing} />
           <SheetClose asChild>
             <Button variant={'outline'}>

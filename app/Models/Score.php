@@ -29,6 +29,10 @@ class Score extends Model
         'updated_at',
     ];
 
+    public $appends = [
+        'rated_score'
+    ];
+
     public function lesson()
     {
         return $this->belongsTo(Lesson::class);
@@ -42,6 +46,11 @@ class Score extends Model
     public function assignment()
     {
         return $this->belongsTo(Assignment::class);
+    }
+
+    public function getRatedScoreAttribute()
+    {
+        return $this->score != 0 ? ($this->score * $this->assignment->rate) / 100 : 0;
     }
 
     /*

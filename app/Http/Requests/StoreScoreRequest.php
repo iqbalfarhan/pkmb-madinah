@@ -18,7 +18,7 @@ class StoreScoreRequest extends FormRequest
             'lesson_id' => 'required|exists:lessons,id',
             'assignment_id' => 'required|exists:assignments,id',
             'score' => 'required|numeric',
-            'remark' => 'required|string|max:255',
+            'remark' => 'nullable|string|max:255',
         ];
     }
 }

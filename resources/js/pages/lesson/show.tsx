@@ -21,10 +21,10 @@ const ShowLesson: FC<Props> = ({ lesson }) => {
           <CardDescription>{lesson.description}</CardDescription>
         </CardHeader>
       </Card>
-      <Tabs value={active} onValueChange={setActive}>
+      <Tabs value={active} onValueChange={setActive} className="space-y-6">
         <TabsList>
           <TabsTrigger value="material">Materi belajar</TabsTrigger>
-          <TabsTrigger value="tugas">Daftar tugas</TabsTrigger>
+          <TabsTrigger value="tugas">Daftar penilaian</TabsTrigger>
           <TabsTrigger value="nilai">Nilai siswa</TabsTrigger>
         </TabsList>
 

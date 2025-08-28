@@ -1,9 +1,11 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import BackButton from '@/components/back-button';
 import AppLayout from '@/layouts/app-layout';
 import { Report } from '@/types/report';
-import { ChevronLeft } from 'lucide-react';
 import { FC } from 'react';
+import ReportNilai from './variants/report-nilai';
+import ReportPerkambangan from './variants/report-perkembangan';
+import ReportTahfidz from './variants/report-tahfidz';
+import ReportTahsin from './variants/report-tahsin';
 
 type Props = {
   report: Report;
@@ -12,27 +14,18 @@ type Props = {
 const ShowReport: FC<Props> = ({ report }) => {
   return (
     <AppLayout
-      title="Detail Report"
-      description="Detail report"
+      title={`E-Rapor ${report.report_type}`}
+      description={`Detail report tahun ajaran ${report.academic_year.label}`}
       actions={
         <>
-          <Button onClick={() => window.history.back()} variant={'secondary'}>
-            <ChevronLeft />
-            Kembali
-          </Button>
-          <Button>Simpan</Button>
+          <BackButton />
         </>
       }
     >
-      <Card>
-        <CardHeader>
-          <CardTitle>{report.student.name}</CardTitle>
-          <CardDescription>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, quo impedit cupiditate voluptas culpa magnam itaque distinctio at ullam,
-            beatae perferendis doloremque facilis mollitia, quod corporis. Autem voluptatum ipsum placeat.
-          </CardDescription>
-        </CardHeader>
-      </Card>
+      {report.report_type == 'perkembangan' && <ReportPerkambangan report={report} />}
+      {report.report_type == 'nilai' && <ReportNilai />}
+      {report.report_type == 'tahsin' && <ReportTahsin report={report} />}
+      {report.report_type == 'tahfidz' && <ReportTahfidz />}
     </AppLayout>
   );
 };

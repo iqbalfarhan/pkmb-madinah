@@ -11,6 +11,7 @@ use App\Models\AcademicYear;
 use App\Models\Classroom;
 use App\Models\Grade;
 use App\Models\Lesson;
+use App\Models\Report;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher;
@@ -152,7 +153,17 @@ class ClassroomController extends Controller
         return Inertia::render('classroom/tabs/classroom-rapors-tab', [
             'classroom' => $classroom,
             'rapors' => Student::whereClassroomId($classroom->id)->aktif(),
-            'tabname' => 'rapors'
+            'tabname' => 'rapors',
+            'reportTypes' => Report::$reportTypes,
+            'students' => $classroom->students,
+            'academicYears' => [$classroom->academic_year],
+            'classrooms' => [$classroom],
+            'reports' => Report::with(['student', 'academic_year'])->whereClassroomId($classroom->id)->get(),
+            'permissions' => [
+                'canAdd' => $this->user->can('create report'),
+                'canUpdate' => $this->user->can('update report'),
+                'canDelete' => $this->user->can('delete report'),
+            ]
         ]);
     }
 
