@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Assignment;
 use App\Models\Lesson;
 use App\Models\Score;
 use App\Models\Student;
@@ -16,6 +17,7 @@ class ScoreFactory extends Factory
         return [
             'student_id' => Student::pluck('id')->random(),
             'lesson_id' => Lesson::pluck('id')->random(),
+            'assignment_id' => Assignment::pluck('id')->random(),
             'score' => fake()->randomFloat(2, 0, 100),
             'remark' => fake()->sentence(),
         ];

@@ -10,47 +10,44 @@ import { capitalizeWords, em } from '@/lib/utils';
 import { FormPurpose } from '@/types';
 import { Assignment } from '@/types/assignment';
 import { Lesson } from '@/types/lesson';
-import { Score } from '@/types/score';
-import { Student } from '@/types/student';
 import { useForm, usePage } from '@inertiajs/react';
 import { X } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
 
 type Props = PropsWithChildren & {
-  score?: Score;
+  assignment?: Assignment;
   purpose: FormPurpose;
 };
 
-const ScoreFormSheet: FC<Props> = ({ children, score, purpose }) => {
+const AssignmentFormSheet: FC<Props> = ({ children, assignment, purpose }) => {
   const [open, setOpen] = useState(false);
 
-  const { students = [], lessons = [], assignments = [] } = usePage<{ students: Student[]; lessons: Lesson[]; assignments: Assignment[] }>().props;
+  const { lessons = [] } = usePage<{ lessons: Lesson[] }>().props;
 
   const { data, setData, put, post, reset, processing } = useForm({
-    student_id: score?.student_id ?? '',
-    lesson_id: score?.lesson_id ?? '',
-    assignment_id: score?.assignment_id ?? '',
-    score: score?.score ?? '',
-    remark: score?.remark ?? '',
+    lesson_id: assignment?.lesson_id ?? '',
+    name: assignment?.name ?? '',
+    description: assignment?.description ?? '',
+    rate: assignment?.rate ?? '',
   });
 
   const handleSubmit = () => {
     if (purpose === 'create' || purpose === 'duplicate') {
-      post(route('score.store'), {
+      post(route('assignment.store'), {
         preserveScroll: true,
         onSuccess: () => {
-          toast.success('Score created successfully');
+          toast.success('Assignment created successfully');
           reset();
           setOpen(false);
         },
         onError: (e) => toast.error(em(e)),
       });
     } else {
-      put(route('score.update', score?.id), {
+      put(route('assignment.update', assignment?.id), {
         preserveScroll: true,
         onSuccess: () => {
-          toast.success('Score updated successfully');
+          toast.success('Assignment updated successfully');
           setOpen(false);
         },
         onError: (e) => toast.error(em(e)),
@@ -63,8 +60,8 @@ const ScoreFormSheet: FC<Props> = ({ children, score, purpose }) => {
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>{capitalizeWords(purpose)} data score</SheetTitle>
-          <SheetDescription>Form untuk {purpose} data score</SheetDescription>
+          <SheetTitle>{capitalizeWords(purpose)} data assignment</SheetTitle>
+          <SheetDescription>Form untuk {purpose} data assignment</SheetDescription>
         </SheetHeader>
         <ScrollArea className="flex-1 overflow-y-auto">
           <form
@@ -74,20 +71,6 @@ const ScoreFormSheet: FC<Props> = ({ children, score, purpose }) => {
               handleSubmit();
             }}
           >
-            <FormControl label="Nama siswa">
-              <Select value={data.student_id.toString()} onValueChange={(value) => setData('student_id', value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih siswa" />
-                </SelectTrigger>
-                <SelectContent>
-                  {students.map((student) => (
-                    <SelectItem key={student.id} value={student.id.toString()}>
-                      {student.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </FormControl>
             <FormControl label="Pelajaran">
               <Select value={data.lesson_id.toString()} onValueChange={(value) => setData('lesson_id', value)}>
                 <SelectTrigger>
@@ -102,30 +85,19 @@ const ScoreFormSheet: FC<Props> = ({ children, score, purpose }) => {
                 </SelectContent>
               </Select>
             </FormControl>
-            <FormControl label="Assignment">
-              <Select value={data.assignment_id.toString()} onValueChange={(value) => setData('assignment_id', value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih assignment" />
-                </SelectTrigger>
-                <SelectContent>
-                  {assignments.map((assignment) => (
-                    <SelectItem key={assignment.id} value={assignment.id.toString()}>
-                      {assignment.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            <FormControl label="Nama assignment">
+              <Input type="text" placeholder="Name" value={data.name} onChange={(e) => setData('name', e.target.value)} />
             </FormControl>
-            <FormControl label="Nama score">
-              <Input type="number" step={0.01} placeholder="Nilai" value={data.score} onChange={(e) => setData('score', e.target.value)} />
+            <FormControl label="Deskripsi">
+              <Textarea placeholder="Description" value={data.description} onChange={(e) => setData('description', e.target.value)} />
             </FormControl>
-            <FormControl label="Keterangan">
-              <Textarea placeholder="Keterangan" value={data.remark} onChange={(e) => setData('remark', e.target.value)} />
+            <FormControl label="Rate">
+              <Input type="number" step={0.01} placeholder="Rate" value={data.rate} onChange={(e) => setData('rate', e.target.value)} />
             </FormControl>
           </form>
         </ScrollArea>
         <SheetFooter>
-          <SubmitButton onClick={handleSubmit} label={`${capitalizeWords(purpose)} score`} loading={processing} disabled={processing} />
+          <SubmitButton onClick={handleSubmit} label={`${capitalizeWords(purpose)} assignment`} loading={processing} disabled={processing} />
           <SheetClose asChild>
             <Button variant={'outline'}>
               <X /> Batalin
@@ -137,4 +109,4 @@ const ScoreFormSheet: FC<Props> = ({ children, score, purpose }) => {
   );
 };
 
-export default ScoreFormSheet;
+export default AssignmentFormSheet;

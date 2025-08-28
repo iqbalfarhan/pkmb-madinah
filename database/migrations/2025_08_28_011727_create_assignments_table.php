@@ -8,19 +8,18 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('scores', function (Blueprint $table) {
+        Schema::create('assignments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained('students')->cascadeOnDelete();
             $table->foreignId('lesson_id')->constrained('lessons')->cascadeOnDelete();
-            $table->foreignId('assignment_id')->constrained('assignments')->cascadeOnDelete();
-            $table->decimal('score', 5, 2)->default(0);
-            $table->string('remark')->nullable();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->integer('rate')->default(0);
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('scores');
+        Schema::dropIfExists('assignments');
     }
 };

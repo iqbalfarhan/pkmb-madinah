@@ -147,6 +147,12 @@ export function AppSidebar() {
               icon: BookOpen,
               available: menus.material,
             },
+            {
+              title: 'Assignments lists',
+              href: route('assignment.index'),
+              icon: BookOpen,
+              available: menus.assignment,
+            },
           ]}
           label="Kelas & pelajaran"
         />

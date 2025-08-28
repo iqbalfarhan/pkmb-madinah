@@ -6,20 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Score extends Model
+class Assignment extends Model
 {
     use HasFactory;
     
 
-    //protected $table = 'scores';
+    //protected $table = 'assignments';
 
     /*
     protected $fillable = [
-        'student_id',
         'lesson_id',
-        'assignment_id',
-        'score',
-        'remark'
+        'name',
+        'description',
+        'rate'
     ];
     */
 
@@ -34,14 +33,9 @@ class Score extends Model
         return $this->belongsTo(Lesson::class);
     }
 
-    public function student()
+    public function scores()
     {
-        return $this->belongsTo(Student::class);
-    }
-
-    public function assignment()
-    {
-        return $this->belongsTo(Assignment::class);
+        return $this->hasMany(Score::class);
     }
 
     /*

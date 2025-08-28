@@ -21,6 +21,8 @@ use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\PrevschoolController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\ScoreController;
+use App\Http\Controllers\AssignmentController;
+
 
 
 
@@ -98,6 +100,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('bill/bulk', [BillController::class, 'bulkUpdate'])->name('bill.bulk.update');
     Route::delete('bill/bulk', [BillController::class, 'bulkDelete'])->name('bill.bulk.destroy');
     Route::apiResource('bill', BillController::class);
+
+    Route::put('assignment/bulk', [AssignmentController::class, 'bulkUpdate'])->name('assignment.bulk.update');
+    Route::delete('assignment/bulk', [AssignmentController::class, 'bulkDelete'])->name('assignment.bulk.destroy');
+    Route::apiResource('assignment', AssignmentController::class);
+
     Route::put('score/bulk', [ScoreController::class, 'bulkUpdate'])->name('score.bulk.update');
     Route::delete('score/bulk', [ScoreController::class, 'bulkDelete'])->name('score.bulk.destroy');
     Route::apiResource('score', ScoreController::class);

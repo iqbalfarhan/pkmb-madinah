@@ -6,6 +6,7 @@ use App\Http\Requests\StoreScoreRequest;
 use App\Http\Requests\UpdateScoreRequest;
 use App\Http\Requests\BulkUpdateScoreRequest;
 use App\Http\Requests\BulkDeleteScoreRequest;
+use App\Models\Assignment;
 use App\Models\Lesson;
 use App\Models\Score;
 use App\Models\Student;
@@ -20,7 +21,7 @@ class ScoreController extends Controller
     public function index(Request $request)
     {
         $data = Score::query()
-            ->with(['student', 'lesson'])
+            ->with(['student', 'lesson', 'assignment'])
             ->when($request->name, function($q, $v) {
                 $q->where('name', $v);
             });
@@ -30,6 +31,7 @@ class ScoreController extends Controller
             'query' => $request->input(),
             'students' => Student::get(),
             'lessons' => Lesson::get(),
+            'assignments' => Assignment::get(),
             'permissions' => [
                 'canAdd' => $this->user->can('create score'),
                 'canUpdate' => $this->user->can('update score'),

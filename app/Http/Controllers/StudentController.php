@@ -9,6 +9,7 @@ use App\Http\Requests\BulkDeleteStudentRequest;
 use App\Http\Requests\UploadStudentMediaRequest;
 use App\Models\Absent;
 use App\Models\AcademicYear;
+use App\Models\Assignment;
 use App\Models\Bill;
 use App\Models\Classroom;
 use App\Models\Family;
@@ -224,7 +225,7 @@ class StudentController extends Controller
     public function nilai(Request $request, Student $student)
     {
         $data = Score::query()
-            ->with(['student', 'lesson'])
+            ->with(['student', 'lesson', 'assignment'])
             ->whereStudentId($student->id)
             ->when($request->name, function($q, $v) {
                 $q->where('name', $v);
@@ -235,6 +236,7 @@ class StudentController extends Controller
             'query' => $request->input(),
             'students' => [$student],
             'lessons' => Lesson::get(),
+            'assignments' => Assignment::get(),
             'permissions' => [
                 'canAdd' => false,
                 'canUpdate' => $this->user->can('update score'),
