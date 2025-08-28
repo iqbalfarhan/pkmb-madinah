@@ -18,6 +18,7 @@ import {
   LayoutGrid,
   Newspaper,
   Palette,
+  Pointer,
   RemoveFormatting,
   Settings,
   UserCircle,
@@ -168,6 +169,12 @@ export function AppSidebar() {
               href: route('absent.index'),
               icon: XSquare,
               available: menus.absent,
+            },
+            {
+              title: 'Student Score',
+              href: route('score.index'),
+              icon: Pointer,
+              available: menus.score,
             },
             {
               title: 'Tagihan siswa',

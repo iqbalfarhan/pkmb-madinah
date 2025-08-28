@@ -20,6 +20,8 @@ use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\PrevschoolController;
 use App\Http\Controllers\BillController;
+use App\Http\Controllers\ScoreController;
+
 
 
 
@@ -96,6 +98,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('bill/bulk', [BillController::class, 'bulkUpdate'])->name('bill.bulk.update');
     Route::delete('bill/bulk', [BillController::class, 'bulkDelete'])->name('bill.bulk.destroy');
     Route::apiResource('bill', BillController::class);
+    Route::put('score/bulk', [ScoreController::class, 'bulkUpdate'])->name('score.bulk.update');
+    Route::delete('score/bulk', [ScoreController::class, 'bulkDelete'])->name('score.bulk.destroy');
+    Route::apiResource('score', ScoreController::class);
 });
 
 require __DIR__.'/classroom.php';

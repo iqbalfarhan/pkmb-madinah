@@ -12,8 +12,10 @@ use App\Models\AcademicYear;
 use App\Models\Bill;
 use App\Models\Classroom;
 use App\Models\Family;
+use App\Models\Lesson;
 use App\Models\PaymentType;
 use App\Models\Report;
+use App\Models\Score;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -219,10 +221,26 @@ class StudentController extends Controller
         ]);
     }
 
-    public function nilai(Student $student)
+    public function nilai(Request $request, Student $student)
     {
-        return Inertia::render('student/nilai', [
-            'student' => $student
+        $data = Score::query()
+            ->with(['student', 'lesson'])
+            ->whereStudentId($student->id)
+            ->when($request->name, function($q, $v) {
+                $q->where('name', $v);
+            });
+
+        return Inertia::render('score/index', [
+            'scores' => $data->get(),
+            'query' => $request->input(),
+            'students' => [$student],
+            'lessons' => Lesson::get(),
+            'permissions' => [
+                'canAdd' => false,
+                'canUpdate' => $this->user->can('update score'),
+                'canDelete' => $this->user->can('delete score'),
+                'canShow' => $this->user->can('show score'),
+            ]
         ]);
     }
 
