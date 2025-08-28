@@ -19,10 +19,7 @@ const ClassroomLayout: FC<Props> = ({ children }) => {
       <Card>
         <CardHeader>
           <CardTitle>{classroom.name}</CardTitle>
-          <CardDescription>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, quo impedit cupiditate voluptas culpa magnam itaque distinctio at ullam,
-            beatae perferendis doloremque facilis mollitia, quod corporis. Autem voluptatum ipsum placeat.
-          </CardDescription>
+          <CardDescription>Walikelas: {classroom.teacher?.name}</CardDescription>
         </CardHeader>
       </Card>
       <Tabs defaultValue={tabname} onValueChange={(v) => handleNavigate(v)}>

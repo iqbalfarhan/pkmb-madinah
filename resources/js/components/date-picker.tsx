@@ -17,7 +17,7 @@ const DatePicker: FC<Props> = ({ value, onValueChange }) => {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button variant="outline" className="w-full justify-between font-normal">
-          {value ? dateDFY(value) : 'Select value'}
+          {value ? dateDFY(value) : 'Select date'}
           <CalendarIcon />
         </Button>
       </PopoverTrigger>

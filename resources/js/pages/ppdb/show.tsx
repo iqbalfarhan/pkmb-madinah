@@ -7,7 +7,7 @@ import AppLayout from '@/layouts/app-layout';
 import { dateDFY, numberPad } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Student } from '@/types/student';
-import { usePage } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import { Check, Download } from 'lucide-react';
 import { FC } from 'react';
 import FamilyCardContent from '../family/components/family-card-content';
@@ -19,6 +19,22 @@ type Props = {
 
 const ShowPpdb: FC<Props> = ({ ppdb }) => {
   const { permissions } = usePage<SharedData>().props;
+
+  const handleApprove = () => {
+    router.put(
+      route('ppdb.update', ppdb.id),
+      {
+        status: 'aktif',
+      },
+      {
+        preserveScroll: true,
+        onSuccess: () => {
+          router.visit(route('student.bill', ppdb.id));
+        },
+      },
+    );
+  };
+
   return (
     <AppLayout
       title="Detail Ppdb"
@@ -146,7 +162,7 @@ const ShowPpdb: FC<Props> = ({ ppdb }) => {
       </Card>
       {permissions?.canApprove && (
         <div>
-          <Button>
+          <Button onClick={handleApprove}>
             <Check />
             Terima pendaftaran dan buat tagihan
           </Button>

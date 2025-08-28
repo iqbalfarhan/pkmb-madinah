@@ -24,6 +24,7 @@ class BulkUpdatestudentRequest extends FormRequest
         return [
             'student_ids' => 'required|array',
             'student_ids.*' => 'exists:students,id',
+            'classroom_id' => 'nullable|exists:classrooms,id',
         ];
     }
 }

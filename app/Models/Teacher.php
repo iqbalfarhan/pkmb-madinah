@@ -34,6 +34,10 @@ class Teacher extends Model
         'gender' => 'boolean',
     ];
 
+    public $appends = [
+        'avatar'
+    ];
+
     /*
     public function registerMediaConversions(?Media $media = null): void
     {
@@ -56,5 +60,10 @@ class Teacher extends Model
     public function lessons()
     {
         return $this->hasMany(Lesson::class);
+    }
+
+    public function getAvatarAttribute()
+    {
+        return "https://api.dicebear.com/9.x/dylan/png?seed={$this->id}";
     }
 }

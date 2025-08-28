@@ -7,14 +7,17 @@ use App\Http\Requests\UpdateStudentRequest;
 use App\Http\Requests\BulkUpdateStudentRequest;
 use App\Http\Requests\BulkDeleteStudentRequest;
 use App\Http\Requests\UploadStudentMediaRequest;
+use App\Models\Absent;
 use App\Models\AcademicYear;
 use App\Models\Bill;
 use App\Models\Classroom;
 use App\Models\Family;
+use App\Models\PaymentType;
 use App\Models\Report;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Inertia\Inertia;
 
 class StudentController extends Controller
@@ -30,6 +33,7 @@ class StudentController extends Controller
             'students' => $data->aktif()->get(),
             'query' => $request->input(),
             'users' => User::get(),
+            'classrooms' => Classroom::get(),
             'statusLists' => Student::$statusLists,
             'permissions' => [
                 'canAdd' => $this->user->can('create student'),
@@ -63,7 +67,7 @@ class StudentController extends Controller
     public function show(Student $student)
     {
         return Inertia::render('student/show', [
-            'student' => $student->load(['user', 'grade', 'classroom', 'family', 'prevschool', 'media']),
+            'student' => $student->load(['user', 'grade', 'classroom', 'family', 'prevschool', 'media', 'absents']),
             'sallaryLists' => Family::$sallaryLists,
             'permissions' => [
                 'canUpdate' => $this->user->can('update student'),
@@ -107,7 +111,10 @@ class StudentController extends Controller
     public function bulkUpdate(BulkUpdateStudentRequest $request)
     {
         $data = $request->validated();
-        Student::whereIn('id', $data['student_ids'])->update($data);
+        $ids = $data['student_ids'];
+
+        $updates = Arr::except($data, ['student_ids']);
+        Student::whereIn('id', $ids)->update($updates);
     }
 
     /**
@@ -177,10 +184,31 @@ class StudentController extends Controller
         ]);
     }
 
-    public function absent(Student $student)
+    public function absent(Request $request, Student $student)
     {
-        return Inertia::render('student/absent', [
-            'student' => $student
+        $data = Absent::query()
+            ->with(['student', 'academic_year'])
+            ->whereStudentId($student->id)
+            ->when($request->academic_year_id, function($q, $v) {
+                $q->where('academic_year_id', $v);
+            })
+            ->when($request->reason, function($q, $v) {
+                $q->where('reason', $v);
+            });
+
+        return Inertia::render('absent/index', [
+            'absents' => $data->get(),
+            'query' => $request->input(),
+            'reasonLists' => Absent::$reasonLists,
+            'students' => [$student],
+            'academic_years' => AcademicYear::get(),
+            'permissions' => [
+                'canFilter' => false,
+                'canAdd' => $this->user->can('create absent'),
+                'canUpdate' => $this->user->can('update absent'),
+                'canDelete' => $this->user->can('delete absent'),
+                'canShow' => $this->user->can('show absent'),
+            ]
         ]);
     }
 
@@ -206,7 +234,10 @@ class StudentController extends Controller
 
         return Inertia::render('bill/index', [
             'bills' => $data->get(),
+            'student' => $student,
+            'students' => [$student],
             'query' => $request->input(),
+            'paymentTypes' => PaymentType::get(),
             'permissions' => [
                 'canAdd' => $this->user->can('create bill'),
                 'canUpdate' => $this->user->can('update bill'),

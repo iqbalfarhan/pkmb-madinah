@@ -1,9 +1,12 @@
+import FormControl from '@/components/form-control';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { em } from '@/lib/utils';
+import { Classroom } from '@/types/classroom';
 import { Student } from '@/types/student';
-import { useForm } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
 import { FC, PropsWithChildren } from 'react';
 import { toast } from 'sonner';
@@ -13,8 +16,11 @@ type Props = PropsWithChildren & {
 };
 
 const StudentBulkEditSheet: FC<Props> = ({ children, studentIds }) => {
-  const { data, put } = useForm({
+  const { classrooms } = usePage<{ classrooms: Classroom[] }>().props;
+
+  const { data, setData, put } = useForm({
     student_ids: studentIds,
+    classroom_id: '',
   });
 
   const handleSubmit = () => {
@@ -43,7 +49,20 @@ const StudentBulkEditSheet: FC<Props> = ({ children, studentIds }) => {
               handleSubmit();
             }}
           >
-            d
+            <FormControl>
+              <Select value={data.classroom_id} onValueChange={(value) => setData('classroom_id', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Pilih kelas" />
+                </SelectTrigger>
+                <SelectContent>
+                  {classrooms.map((cr) => (
+                    <SelectItem key={cr.id} value={cr.id.toString()}>
+                      {cr.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormControl>
           </form>
         </ScrollArea>
         <SheetFooter>

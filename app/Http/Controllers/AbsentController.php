@@ -52,6 +52,8 @@ class AbsentController extends Controller
     public function store(StoreAbsentRequest $request)
     {
         $data = $request->validated();
+        $data['academic_year_id'] = AcademicYear::active()->id;
+        
         Absent::create($data);
     }
 

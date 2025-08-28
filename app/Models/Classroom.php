@@ -28,6 +28,10 @@ class Classroom extends Model
         'updated_at',
     ];
 
+    public $appends = [
+        'description'
+    ];
+
     public function academic_year()
     {
         return $this->belongsTo(AcademicYear::class);
@@ -35,7 +39,7 @@ class Classroom extends Model
 
     public function teacher()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Teacher::class);
     }
 
     public function grade()
@@ -46,6 +50,20 @@ class Classroom extends Model
     public function students()
     {
         return $this->hasMany(Student::class);
+    }
+
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class);
+    }
+
+    public function getDescriptionAttribute()
+    {
+        return implode(", ", [
+            "Kelas untuk {$this->grade->name}",
+            "Tahun ajaran {$this->academic_year->label}",
+            "Walikelas {$this->teacher->name}"
+        ]);
     }
 
     /*

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
+use App\Models\PaymentType;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -46,6 +47,8 @@ class DashboardController extends Controller
         return Inertia::render('bill/index', [
             'bills' => $data->get(),
             'query' => $request->input(),
+            'students' => Student::whereIn('id', $student_ids)->get(),
+            'paymentTypes' => PaymentType::get(),
             'permissions' => [
                 'canAdd' => $this->user->can('create bill'),
                 'canUpdate' => $this->user->can('update bill'),

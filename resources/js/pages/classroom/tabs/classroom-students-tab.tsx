@@ -1,3 +1,5 @@
+import HeadingSmall from '@/components/heading-small';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import StudentDeleteDialog from '@/pages/student/components/student-delete-dialog';
@@ -18,11 +20,14 @@ const ClassroomStudentsTab: FC<Props> = ({ students }) => {
 
   return (
     <ClassroomLayout>
+      <HeadingSmall title="Daftar Siswa" description="Daftar siswa yang terdaftar di kelas ini" />
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>NISN</TableHead>
             <TableHead>Name</TableHead>
+            <TableHead>Nomor telepon</TableHead>
+            <TableHead>Ketidakhadiran</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -30,7 +35,16 @@ const ClassroomStudentsTab: FC<Props> = ({ students }) => {
           {students.map((student) => (
             <TableRow key={student.id}>
               <TableCell>{student.nisn}</TableCell>
-              <TableCell>{student.name}</TableCell>
+              <TableCell>
+                <div className="flex items-center gap-2">
+                  <Avatar className="size-6">
+                    <AvatarImage src={student.avatar} />
+                  </Avatar>
+                  <span>{student.name}</span>
+                </div>
+              </TableCell>
+              <TableCell>{student.phone}</TableCell>
+              <TableCell>{student.absents?.length}</TableCell>
               <TableCell>
                 {permissions?.canShow && (
                   <Button variant={'ghost'} size={'icon'}>

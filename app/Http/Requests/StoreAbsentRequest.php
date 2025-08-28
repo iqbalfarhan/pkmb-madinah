@@ -18,12 +18,11 @@ class StoreAbsentRequest extends FormRequest
         return [
             'date' => 'required|date',
             'student_id' => 'required|exists:students,id',
-            'academic_year_id' => 'required|exists:academic_years,id',
             'reason' => [
                 'required',
                 Rule::in(Absent::$reasonLists)
             ],
-            'description' => 'nullable|string|max:255',
+            'description' => 'required|string|max:255',
         ];
     }
 }

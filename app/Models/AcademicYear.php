@@ -53,7 +53,7 @@ class AcademicYear extends Model
 
     public function getLabelAttribute()
     {
-        return $this->year . ' - ' . $this->semester;
+        return $this->year . ' - Semester ' . $this->semester;
     }
 
     /*

@@ -38,7 +38,7 @@ class Lesson extends Model
     }
 
     public function teacher(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Teacher::class);
     }
 
     public function getNameAttribute()

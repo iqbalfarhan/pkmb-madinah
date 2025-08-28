@@ -1,3 +1,4 @@
+import DatePicker from '@/components/date-picker';
 import FormControl from '@/components/form-control';
 import SubmitButton from '@/components/submit-button';
 import { Button } from '@/components/ui/button';
@@ -10,6 +11,7 @@ import { FormPurpose } from '@/types';
 import { Absent } from '@/types/absent';
 import { Student } from '@/types/student';
 import { useForm, usePage } from '@inertiajs/react';
+import dayjs from 'dayjs';
 import { X } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
@@ -30,6 +32,7 @@ const AbsentFormSheet: FC<Props> = ({ children, absent, purpose }) => {
   const { data, setData, put, post, reset, processing } = useForm({
     student_id: absent?.student_id ?? '',
     reason: absent?.reason ?? '',
+    date: absent?.date ?? undefined,
     description: absent?.description ?? '',
   });
 
@@ -72,19 +75,27 @@ const AbsentFormSheet: FC<Props> = ({ children, absent, purpose }) => {
               handleSubmit();
             }}
           >
-            <FormControl label="Nama siswa">
-              <Select value={data.student_id.toString()} onValueChange={(value) => setData('student_id', value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select student" />
-                </SelectTrigger>
-                <SelectContent>
-                  {students.map((student) => (
-                    <SelectItem key={student.id} value={student.id.toString()}>
-                      {student.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            {purpose === 'create' && (
+              <FormControl label="Nama siswa">
+                <Select value={data.student_id.toString()} onValueChange={(value) => setData('student_id', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select student" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {students.map((student) => (
+                      <SelectItem key={student.id} value={student.id.toString()}>
+                        {student.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            )}
+            <FormControl label="Tanggal">
+              <DatePicker
+                value={data.date ? dayjs(data.date).toDate() : undefined}
+                onValueChange={(date) => setData('date', dayjs(date).format('YYYY-MM-DD'))}
+              />
             </FormControl>
             <FormControl label="Alasan ketidakhadiran">
               <Select value={data.reason} onValueChange={(value) => setData('reason', value)}>

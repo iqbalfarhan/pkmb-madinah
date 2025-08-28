@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { dateDFY } from '@/lib/utils';
+import { dateDFY, strLimit } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Absent } from '@/types/absent';
 import { Link, usePage } from '@inertiajs/react';
@@ -47,15 +47,17 @@ const AbsentList: FC<Props> = ({ absents, query }) => {
     >
       <div className="flex gap-2">
         <Input placeholder="Search absents..." value={cari} onChange={(e) => setCari(e.target.value)} />
-        <AbsentFilterSheet query={query}>
-          <Button>
-            <Filter />
-            Filter data
-            {Object.values(query).filter((val) => val && val !== '').length > 0 && (
-              <Badge variant="secondary">{Object.values(query).filter((val) => val && val !== '').length}</Badge>
-            )}
-          </Button>
-        </AbsentFilterSheet>
+        {permissions?.canFilter && (
+          <AbsentFilterSheet query={query}>
+            <Button>
+              <Filter />
+              Filter data
+              {Object.values(query).filter((val) => val && val !== '').length > 0 && (
+                <Badge variant="secondary">{Object.values(query).filter((val) => val && val !== '').length}</Badge>
+              )}
+            </Button>
+          </AbsentFilterSheet>
+        )}
         {ids.length > 0 && (
           <>
             <Button variant={'ghost'} disabled>
@@ -126,7 +128,7 @@ const AbsentList: FC<Props> = ({ absents, query }) => {
                 <TableCell>{dateDFY(absent.date)}</TableCell>
                 <TableCell>{absent.student.name}</TableCell>
                 <TableCell>{absent.reason}</TableCell>
-                <TableCell>{absent.description}</TableCell>
+                <TableCell>{strLimit(absent.description)}</TableCell>
                 <TableCell>
                   {permissions?.canShow && (
                     <Button variant={'ghost'} size={'icon'}>

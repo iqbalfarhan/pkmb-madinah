@@ -152,6 +152,35 @@ export function AppSidebar() {
         <NavMain
           items={[
             {
+              title: 'Student lists',
+              href: route('student.index'),
+              icon: Users,
+              available: menus.student,
+            },
+            {
+              title: 'Student Report',
+              href: route('report.index'),
+              icon: FileBadge,
+              available: menus.report,
+            },
+            {
+              title: 'Student Absent',
+              href: route('absent.index'),
+              icon: XSquare,
+              available: menus.absent,
+            },
+            {
+              title: 'Tagihan siswa',
+              href: route('bill.index'),
+              icon: Wallet,
+              available: menus.bill,
+            },
+          ]}
+          label="Students data"
+        />
+        <NavMain
+          items={[
+            {
               title: 'Academic Year',
               href: route('academicyear.index'),
               icon: CalendarCheck,
@@ -196,35 +225,7 @@ export function AppSidebar() {
           ]}
           label="Master data"
         />
-        <NavMain
-          items={[
-            {
-              title: 'Student lists',
-              href: route('student.index'),
-              icon: Users,
-              available: menus.student,
-            },
-            {
-              title: 'Student Report',
-              href: route('report.index'),
-              icon: FileBadge,
-              available: menus.report,
-            },
-            {
-              title: 'Student Absent',
-              href: route('absent.index'),
-              icon: XSquare,
-              available: menus.absent,
-            },
-            {
-              title: 'Tagihan siswa',
-              href: route('bill.index'),
-              icon: Wallet,
-              available: menus.bill,
-            },
-          ]}
-          label="Students data"
-        />
+
         <NavMain
           items={[
             {

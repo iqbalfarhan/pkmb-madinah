@@ -13,11 +13,11 @@ const LessonItemCard: FC<Props> = ({ lesson }) => {
     <Link href={route('lesson.show', lesson.id)}>
       <Card className="flex flex-col justify-between">
         <CardHeader>
-          <CardTitle>{lesson.subject.name}</CardTitle>
+          <CardTitle className="line-clamp-1">{lesson.subject.name}</CardTitle>
           <CardDescription>Pengajar: {lesson.teacher.name}</CardDescription>
         </CardHeader>
         <CardFooter className="flex flex-wrap gap-1">
-          <Badge variant={'secondary'}>2 materi</Badge>
+          {lesson.materials && <Badge variant={'secondary'}>{lesson.materials?.length} materi</Badge>}
           <Badge variant={'secondary'}>2 tugas</Badge>
         </CardFooter>
       </Card>

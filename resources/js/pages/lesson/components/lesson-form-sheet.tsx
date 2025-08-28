@@ -74,20 +74,6 @@ const LessonFormSheet: FC<Props> = ({ children, lesson, purpose }) => {
               handleSubmit();
             }}
           >
-            <FormControl label="Teacher">
-              <Select value={data.teacher_id.toString()} onValueChange={(e) => setData('teacher_id', e)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih guru" />
-                </SelectTrigger>
-                <SelectContent>
-                  {teachers.map((teacher) => (
-                    <SelectItem key={teacher.id} value={teacher.id.toString()}>
-                      {teacher.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </FormControl>
             <FormControl label="Mata pelajaran">
               <Select value={data.subject_id.toString()} onValueChange={(e) => setData('subject_id', e)}>
                 <SelectTrigger>
@@ -97,6 +83,20 @@ const LessonFormSheet: FC<Props> = ({ children, lesson, purpose }) => {
                   {subjects.map((subject) => (
                     <SelectItem key={subject.id} value={subject.id.toString()}>
                       {subject.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormControl>
+            <FormControl label="Teacher">
+              <Select value={data.teacher_id.toString()} onValueChange={(e) => setData('teacher_id', e)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Pilih guru" />
+                </SelectTrigger>
+                <SelectContent>
+                  {teachers.map((teacher) => (
+                    <SelectItem key={teacher.id} value={teacher.id.toString()}>
+                      {teacher.name}
                     </SelectItem>
                   ))}
                 </SelectContent>

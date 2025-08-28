@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateBillRequest;
 use App\Http\Requests\BulkUpdateBillRequest;
 use App\Http\Requests\BulkDeleteBillRequest;
 use App\Models\Bill;
+use App\Models\PaymentType;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -24,6 +26,8 @@ class BillController extends Controller
         return Inertia::render('bill/index', [
             'bills' => $data->get(),
             'query' => $request->input(),
+            'students' => Student::get(),
+            'paymentTypes' => PaymentType::get(),
             'permissions' => [
                 'canAdd' => $this->user->can('create bill'),
                 'canUpdate' => $this->user->can('update bill'),

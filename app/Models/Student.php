@@ -89,6 +89,11 @@ class Student extends Model implements HasMedia
         return $this->belongsTo(Classroom::class);
     }
 
+    public function absents()
+    {
+        return $this->hasMany(Absent::class);
+    }
+
     public function getKelahiranAttribute()
     {
         return $this->pob . ', ' . Carbon::parse($this->dob)->format('d F Y');

@@ -6,11 +6,13 @@ use App\Http\Requests\StoreClassroomRequest;
 use App\Http\Requests\UpdateClassroomRequest;
 use App\Http\Requests\BulkUpdateClassroomRequest;
 use App\Http\Requests\BulkDeleteClassroomRequest;
+use App\Models\Absent;
 use App\Models\AcademicYear;
 use App\Models\Classroom;
 use App\Models\Grade;
 use App\Models\Lesson;
 use App\Models\Student;
+use App\Models\Subject;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -45,6 +47,7 @@ class ClassroomController extends Controller
     {
         $data = $request->validated();
         $data['academic_year_id'] = AcademicYear::active()->id;
+        
         Classroom::create($data);
     }
 
@@ -54,8 +57,11 @@ class ClassroomController extends Controller
     public function show(Classroom $classroom)
     {
         return Inertia::render('classroom/show', [
-            'classroom' => $classroom->load('grade', 'students'),
-            'tabname' => 'show'
+            'classroom' => $classroom->load('grade', 'students', 'students.absents', 'teacher.user', 'lessons', 'academic_year'),
+            'tabname' => 'show',
+            'permissions' => [
+                'canUpdate' => $this->user->can('update classroom'),
+            ]
         ]);
     }
 
@@ -98,7 +104,7 @@ class ClassroomController extends Controller
     {
         return Inertia::render('classroom/tabs/classroom-students-tab', [
             'classroom' => $classroom,
-            'students' => Student::whereClassroomId($classroom->id)->aktif()->get(),
+            'students' => Student::whereClassroomId($classroom->id)->with(['absents'])->aktif()->get(),
             'tabname' => 'students',
             'permissions' => [
                 'canAdd' => $this->user->can('create student'),
@@ -114,7 +120,13 @@ class ClassroomController extends Controller
         return Inertia::render('classroom/tabs/classroom-lessons-tab', [
             'classroom' => $classroom,
             'lessons' => Lesson::whereClassroomId($classroom->id)->get(),
-            'tabname' => 'lessons'
+            'teachers' => Teacher::get(),
+            'subjects' => Subject::get(),
+            'classrooms' => [$classroom],
+            'tabname' => 'lessons',
+            'permissions' => [
+                'canAddLesson' => $this->user->can('create lesson'),
+            ]
         ]);
     }
 
@@ -122,8 +134,16 @@ class ClassroomController extends Controller
     {
         return Inertia::render('classroom/tabs/classroom-absents-tab', [
             'classroom' => $classroom,
-            'absents' => Student::whereClassroomId($classroom->id)->aktif(),
-            'tabname' => 'absents'
+            'students' => Student::whereClassroomId($classroom->id)->aktif()->get(),
+            'absents' => Absent::with(['academic_year', 'student'])->whereHas('student', fn($query) => $query->where('classroom_id', $classroom->id))->get(),
+            'tabname' => 'absents',
+            'reasonLists' => Absent::$reasonLists,
+            'permissions' => [
+                'canAdd' => $this->user->can('create absent'),
+                'canUpdate' => $this->user->can('update absent'),
+                'canDelete' => $this->user->can('delete absent'),
+                'canShow' => $this->user->can('show absent'),
+            ]
         ]);
     }
 
