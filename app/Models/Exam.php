@@ -44,6 +44,11 @@ class Exam extends Model
         return $this->belongsTo(Classroom::class);
     }
 
+    public function examscores()
+    {
+        return $this->hasMany(Examscore::class);
+    }
+
     /*
     public function registerMediaConversions(?Media $media = null): void
     {
