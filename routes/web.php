@@ -27,6 +27,8 @@ use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ExamController;
+
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
 Route::get('/berita', [WelcomeController::class, 'berita'])->name('berita');
@@ -119,6 +121,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('payment/bulk', [PaymentController::class, 'bulkUpdate'])->name('payment.bulk.update');
     Route::delete('payment/bulk', [PaymentController::class, 'bulkDelete'])->name('payment.bulk.destroy');
     Route::apiResource('payment', PaymentController::class);
+    Route::put('exam/bulk', [ExamController::class, 'bulkUpdate'])->name('exam.bulk.update');
+    Route::delete('exam/bulk', [ExamController::class, 'bulkDelete'])->name('exam.bulk.destroy');
+    Route::apiResource('exam', ExamController::class);
 });
 
 require __DIR__.'/classroom.php';

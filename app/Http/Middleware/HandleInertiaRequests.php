@@ -75,6 +75,7 @@ class HandleInertiaRequests extends Middleware
                 "score" => $user?->can('menu score'),
                 "activity" => $user?->can('menu activity'),
                 "setting" => $user?->can('menu setting'),
+                "exam" => $user?->can('menu exam'),
             ],
             "myclassrooms" => $user?->teacher->classrooms ?? [],
             "mylessons" => $user?->teacher->lessons ?? [],

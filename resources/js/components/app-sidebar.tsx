@@ -7,6 +7,7 @@ import { Lesson } from '@/types/lesson';
 import { Student } from '@/types/student';
 import { Link, usePage } from '@inertiajs/react';
 import {
+  Badge,
   Book,
   BookOpen,
   CalendarCheck,
@@ -153,6 +154,12 @@ export function AppSidebar() {
               href: route('assignment.index'),
               icon: Pencil,
               available: menus.assignment,
+            },
+            {
+              title: 'Examp lists',
+              href: route('exam.index'),
+              icon: Badge,
+              available: menus.exam,
             },
           ]}
           label="Kelas & pelajaran"
