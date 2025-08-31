@@ -34,7 +34,9 @@ const ClassroomStudentsTab: FC<Props> = ({ students }) => {
         <TableBody>
           {students.map((student) => (
             <TableRow key={student.id}>
-              <TableCell>{student.nisn}</TableCell>
+              <TableCell>
+                <Button variant={'ghost'}>{student.nisn}</Button>
+              </TableCell>
               <TableCell>
                 <div className="flex items-center gap-2">
                   <Avatar className="size-6">

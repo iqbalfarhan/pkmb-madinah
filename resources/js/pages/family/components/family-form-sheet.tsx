@@ -89,7 +89,7 @@ const FamilyFormSheet: FC<Props> = ({ children, family, purpose, student }) => {
               <Textarea placeholder="Alamat" value={data.father_address} onChange={(e) => setData('father_address', e.target.value)} />
             </FormControl>
             <FormControl label="Nomor telepon ayah">
-              <Input type="text" placeholder="Nomor telepon" value={data.father_phone} onChange={(e) => setData('father_phone', e.target.value)} />
+              <Input type="tel" placeholder="Nomor telepon" value={data.father_phone} onChange={(e) => setData('father_phone', e.target.value)} />
             </FormControl>
             <FormControl label="Pendapatan ayah">
               <Select value={data.father_sallary} onValueChange={(e) => setData('father_sallary', e)}>
@@ -121,7 +121,7 @@ const FamilyFormSheet: FC<Props> = ({ children, family, purpose, student }) => {
               <Textarea placeholder="Alamat" value={data.mother_address} onChange={(e) => setData('mother_address', e.target.value)} />
             </FormControl>
             <FormControl label="Nomor telepon ibu">
-              <Input type="text" placeholder="Nomor telepon" value={data.mother_phone} onChange={(e) => setData('mother_phone', e.target.value)} />
+              <Input type="tel" placeholder="Nomor telepon" value={data.mother_phone} onChange={(e) => setData('mother_phone', e.target.value)} />
             </FormControl>
             <FormControl label="Pendapatan ibu">
               <Select value={data.mother_sallary} onValueChange={(e) => setData('mother_sallary', e)}>

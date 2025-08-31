@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateTeacherRequest;
 use App\Http\Requests\BulkUpdateTeacherRequest;
 use App\Http\Requests\BulkDeleteTeacherRequest;
 use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -37,7 +38,14 @@ class TeacherController extends Controller
     public function store(StoreTeacherRequest $request)
     {
         $data = $request->validated();
-        Teacher::create($data);
+        $teacher = Teacher::create($data);
+        $user = User::create([
+            "name" => $teacher->name,
+            "email"=> $teacher->email,
+            "password"=> $data->password,
+        ]);
+
+        $user->assignRole('guru');
     }
 
     /**
@@ -57,6 +65,11 @@ class TeacherController extends Controller
     {
         $data = $request->validated();
         $teacher->update($data);
+
+        $teacher->user->update([
+            'name'=> $teacher->name,
+            'email'=> $teacher->email
+        ]);
     }
 
     /**

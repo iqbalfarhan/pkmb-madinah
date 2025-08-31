@@ -21,7 +21,7 @@ class Student extends Model implements HasMedia
 
     //protected $table = 'students';
 
-    /*
+    
     protected $fillable = [
         'nisn',
         'nis',
@@ -37,7 +37,6 @@ class Student extends Model implements HasMedia
         'dob',
         'user_id'
     ];
-    */
 
     protected $guarded = [
         'id',
@@ -94,6 +93,16 @@ class Student extends Model implements HasMedia
         return $this->hasMany(Absent::class);
     }
 
+    public function scores()
+    {
+        return $this->hasMany(Score::class);
+    }
+
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
+    }
+
     public function getKelahiranAttribute()
     {
         return $this->pob . ', ' . Carbon::parse($this->dob)->format('d F Y');
@@ -101,7 +110,8 @@ class Student extends Model implements HasMedia
 
     public function getUmurAttribute()
     {
-        return date_diff(date_create($this->dob), date_create('now'))->y . ' tahun';
+        $diff = date_diff(date_create($this->dob), date_create('now'));
+        return $diff->y . ' tahun ' . $diff->m . ' bulan';
     }
 
     public function family()

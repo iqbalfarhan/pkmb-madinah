@@ -1,9 +1,11 @@
 import FormControl from '@/components/form-control';
+import MoneyInput from '@/components/money-input';
 import SubmitButton from '@/components/submit-button';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Textarea } from '@/components/ui/textarea';
 import { capitalizeWords, em } from '@/lib/utils';
 import { FormPurpose } from '@/types';
 import { Bill } from '@/types/bill';
@@ -27,6 +29,8 @@ const BillFormSheet: FC<Props> = ({ children, bill, purpose }) => {
   const { data, setData, put, post, reset, processing } = useForm({
     student_id: bill?.student_id ?? student?.id ?? '',
     payment_type_id: bill?.payment_type_id ?? '',
+    total_amount: bill?.total_amount ?? '',
+    description: bill?.description ?? '',
   });
 
   const handleSubmit = () => {
@@ -83,7 +87,17 @@ const BillFormSheet: FC<Props> = ({ children, bill, purpose }) => {
               </Select>
             </FormControl>
             <FormControl label="Tipe Pembayaran">
-              <Select value={data.payment_type_id.toString()} onValueChange={(e) => setData('payment_type_id', e)}>
+              <Select
+                value={data.payment_type_id.toString()}
+                onValueChange={(value: string) => {
+                  const id = Number(value);
+                  const pt = paymentTypes.find((pt) => pt.id === id);
+
+                  setData('payment_type_id', id);
+                  setData('total_amount', pt?.default_amount ?? 0);
+                  setData('description', `Tagihan untuk pembayaran ${pt?.name}`);
+                }}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih Tipe Pembayaran" />
                 </SelectTrigger>
@@ -95,6 +109,12 @@ const BillFormSheet: FC<Props> = ({ children, bill, purpose }) => {
                   ))}
                 </SelectContent>
               </Select>
+            </FormControl>
+            <FormControl label="Nominal tagihan">
+              <MoneyInput value={Number(data.total_amount)} onValueChange={(e) => setData('total_amount', Number(e))} />
+            </FormControl>
+            <FormControl label="Deskripsi">
+              <Textarea value={data.description} onChange={(e) => setData('description', e.target.value)} />
             </FormControl>
           </form>
         </ScrollArea>

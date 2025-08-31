@@ -1,5 +1,6 @@
 import { Media, User } from '.';
 import { Absent } from './absent';
+import { Activity } from './activity';
 import { Classroom } from './classroom';
 import { Family } from './family';
 import { Grade } from './grade';
@@ -29,6 +30,7 @@ export type Student = {
   family?: Family;
   prevschool?: Prevschool;
   absents?: Absent[];
+  activities?: Activity[];
   media?: Media[];
   created_at: string;
   updated_at?: string;

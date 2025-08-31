@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreignId('payment_type_id')->nullable()->constrained('payment_types')->nullOnDelete();
             $table->date('paid_date')->nullable();
             $table->string('description')->nullable();
-            $table->decimal('total_amount')->default(0);
+            $table->integer('total_amount')->default(0);
             $table->enum('status', ['unpaid','partial','paid'])->default('unpaid');
             $table->boolean('verified')->default(false);
             $table->timestamps();

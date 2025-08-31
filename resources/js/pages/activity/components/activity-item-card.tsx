@@ -1,0 +1,46 @@
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Edit, Trash2, Folder } from 'lucide-react';
+import { FC } from 'react';
+import { Activity } from '@/types/activity';
+import { Link } from '@inertiajs/react';
+import ActivityFormSheet from './activity-form-sheet';
+import ActivityDeleteDialog from './activity-delete-dialog';
+
+type Props = {
+  activity: Activity;
+};
+
+const ActivityItemCard: FC<Props> = ({ activity }) => {
+  return (
+    <Card className="flex flex-col justify-between">
+      <CardHeader>
+        <CardTitle>{ activity.name }</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm text-muted-foreground">
+          ID: { activity.id }
+        </p>
+      </CardContent>
+      <CardFooter className="flex gap-2">
+        <Button variant="ghost" size="icon" asChild>
+          <Link href={route('activity.show', activity.id)}>
+            <Folder />
+          </Link>
+        </Button>
+        <ActivityFormSheet purpose="edit" activity={ activity }>
+          <Button variant="ghost" size="icon">
+            <Edit />
+          </Button>
+        </ActivityFormSheet>
+        <ActivityDeleteDialog activity={ activity }>
+          <Button variant="ghost" size="icon">
+            <Trash2 />
+          </Button>
+        </ActivityDeleteDialog>
+      </CardFooter>
+    </Card>
+  );
+};
+
+export default ActivityItemCard;

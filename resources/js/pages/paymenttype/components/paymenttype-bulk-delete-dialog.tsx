@@ -25,7 +25,7 @@ const PaymenttypeBulkDeleteDialog: FC<Props> = ({ children, paymenttypeIds }) =>
 
   const handleDelete = () => {
     router.delete(route('paymenttype.bulk.destroy'), {
-      data: { paymenttype_ids: paymenttypeIds },
+      data: { payment_type_ids: paymenttypeIds },
       preserveScroll: true,
       onSuccess: () => {
         toast.success('Paymenttype deleted successfully');

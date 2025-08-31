@@ -8,6 +8,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('classroom/{classroom}/lessons', [ClassroomController::class, 'lessons'])->name('classroom.lessons');
     Route::get('classroom/{classroom}/absents', [ClassroomController::class, 'absents'])->name('classroom.absents');
     Route::get('classroom/{classroom}/rapors', [ClassroomController::class, 'rapors'])->name('classroom.rapors');
+    Route::get('classroom/{classroom}/extracurricular', [ClassroomController::class, 'extracurricular'])->name('classroom.extracurricular');
 
     Route::put('classroom/bulk', [ClassroomController::class, 'bulkUpdate'])->name('classroom.bulk.update');
     Route::delete('classroom/bulk', [ClassroomController::class, 'bulkDelete'])->name('classroom.bulk.destroy');

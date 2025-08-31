@@ -12,7 +12,7 @@ type Props = {
 
 const StudentItemCard: FC<Props> = ({ student, href }) => {
   return (
-    <Link href={href ? href : route('students.show', student.id)}>
+    <Link href={href ? href : route('student.show', student.id)}>
       <Card className="flex flex-col justify-between">
         <CardHeader>
           <CardTitle>{student.name}</CardTitle>

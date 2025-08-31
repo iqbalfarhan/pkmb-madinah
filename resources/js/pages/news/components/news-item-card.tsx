@@ -1,42 +1,28 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { News } from '@/types/news';
-import { Link } from '@inertiajs/react';
-import { Edit, Folder, Trash2 } from 'lucide-react';
+import { router } from '@inertiajs/react';
 import { FC } from 'react';
-import NewsDeleteDialog from './news-delete-dialog';
-import NewsFormSheet from './news-form-sheet';
 
 type Props = {
   news: News;
+  href?: string;
 };
 
-const NewsItemCard: FC<Props> = ({ news }) => {
+const NewsItemCard: FC<Props> = ({ news, href }) => {
   return (
-    <Card className="flex flex-col justify-between">
+    <Card className="flex flex-col justify-between" onClick={() => router.visit(href ?? route('baca', news.slug))}>
+      <CardContent>
+        <Avatar className="aspect-square size-full rounded-lg">
+          <AvatarImage src={news.thumbnail} className="object-cover" />
+        </Avatar>
+      </CardContent>
       <CardHeader>
-        <CardTitle>{news.title}</CardTitle>
+        <CardTitle className="leading-6">{news.title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-muted-foreground">ID: {news.id}</p>
+        <CardDescription>{news.description}</CardDescription>
       </CardContent>
-      <CardFooter className="flex gap-2">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href={route('news.show', news.id)}>
-            <Folder />
-          </Link>
-        </Button>
-        <NewsFormSheet purpose="edit" news={news}>
-          <Button variant="ghost" size="icon">
-            <Edit />
-          </Button>
-        </NewsFormSheet>
-        <NewsDeleteDialog news={news}>
-          <Button variant="ghost" size="icon">
-            <Trash2 />
-          </Button>
-        </NewsDeleteDialog>
-      </CardFooter>
     </Card>
   );
 };

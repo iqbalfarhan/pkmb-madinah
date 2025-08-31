@@ -1,11 +1,10 @@
 import BackButton from '@/components/back-button';
+import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
-import { Report } from '@/types/report';
+import { Report, ReportPerkembanganData } from '@/types/report';
+import { FileJson } from 'lucide-react';
 import { FC } from 'react';
-import ReportNilai from './variants/report-nilai';
-import ReportPerkambangan from './variants/report-perkembangan';
-import ReportTahfidz from './variants/report-tahfidz';
-import ReportTahsin from './variants/report-tahsin';
+import ReportPerkembanganReader from './reader/report-perkembangan';
 
 type Props = {
   report: Report;
@@ -19,13 +18,18 @@ const ShowReport: FC<Props> = ({ report }) => {
       actions={
         <>
           <BackButton />
+          <Button asChild>
+            <a href={route('report.raw', report.id)}>
+              <FileJson />
+              Raw data
+            </a>
+          </Button>
         </>
       }
     >
-      {report.report_type == 'perkembangan' && <ReportPerkambangan report={report} />}
-      {report.report_type == 'nilai' && <ReportNilai />}
-      {report.report_type == 'tahsin' && <ReportTahsin report={report} />}
-      {report.report_type == 'tahfidz' && <ReportTahfidz />}
+      <div className="mx-auto w-full max-w-4xl space-y-10">
+        {report.report_type === 'perkembangan' && <ReportPerkembanganReader data={report.data as ReportPerkembanganData} />}
+      </div>
     </AppLayout>
   );
 };

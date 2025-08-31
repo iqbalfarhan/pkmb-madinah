@@ -44,6 +44,44 @@ class ReportController extends Controller
     public function store(StoreReportRequest $request)
     {
         $data = $request->validated();
+
+        $student = Student::find($data['student_id']);
+        $academicYear = AcademicYear::find($data['academic_year_id']);
+        $classroom = Classroom::find($data['classroom_id']);
+
+        $mockup = config('report-mockup')[$data["report_type"]];
+        $mockup['tahunajaran'] = $academicYear->year;
+        $mockup['semester'] = $academicYear->semester;
+        $mockup['nama'] = $student->name;
+        $mockup['kelas'] = $classroom->name;
+        $mockup['walikelas'] = $classroom->teacher->name ?? "";
+        $mockup['usia'] = $student->umur;
+        $mockup['nisn'] = $student->nisn;
+
+        if ($data["report_type"] == "perkembangan") {
+            $mockup["ketidakhadiran"]["sakit"] = $student->absents->where('reason', 'sakit')->count() ?? 0;
+            $mockup["ketidakhadiran"]["izin"] = $student->absents->where('reason', 'izin')->count() ?? 0;
+            $mockup["ketidakhadiran"]["tanpa keterangan"] = $student->absents->where('reason', 'tanpa keterangan')->count() ?? 0;
+
+            $mockup['ekskul'] = $student->activities->load(['extracurricular'])->map(function($ekskul){
+                return [
+                    "nama" => $ekskul->extracurricular->name,
+                    "kegiatan" => $ekskul->description
+                ];
+            });
+        }
+        elseif ($data["report_type"] == "nilai") {
+            $mockup["naik_kelas"] = $academicYear->semester === "ganjil" ? false : true;
+            $mockup["ke_kelas"] = "";
+            $mockup["keputusan"] = "";
+            $mockup["tanggal"] = now();
+
+            $mockup["penilaian"] = $student->scores->load('lesson');
+        }
+
+        $data['data'] = $mockup;
+
+
         Report::create($data);
     }
 
@@ -53,8 +91,24 @@ class ReportController extends Controller
     public function show(Report $report)
     {
         return Inertia::render('report/show', [
-            'report' => $report->load('student', 'classroom', 'academic_year')
+            'report' => $report->load('student', 'classroom', 'academic_year'),
+            'student' => $report->student->load('activities', 'activities.extracurricular', 'absents'),
+            'classroom' => $report->classroom,
         ]);
+    }
+
+    public function edit(Report $report)
+    {
+        return Inertia::render('report/edit', [
+            'report' => $report->load('student', 'classroom', 'academic_year'),
+            'student' => $report->student->load('activities', 'activities.extracurricular', 'absents'),
+            'classroom' => $report->classroom,
+        ]);
+    }
+
+    public function raw(Report $report)
+    {
+        return response()->json($report,200);
     }
 
     /**

@@ -34,6 +34,10 @@ class Bill extends Model
         'paid'
     ];
 
+    public $appends = [
+        'total_paid'
+    ];
+
     protected static function boot()
     {
         parent::boot();
@@ -57,5 +61,26 @@ class Bill extends Model
     public function payment_type()
     {
         return $this->belongsTo(PaymentType::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function getTotalPaidAttribute()
+    {
+        return $this->payments ? $this->payments->where('verified', true)->sum('amount') : 0;
+    }
+
+    public function refreshStatus()
+    {
+        $status = match (true) {
+            $this->total_paid == 0 => 'unpaid',
+            $this->total_paid >= $this->total_amount => 'paid',
+            default => 'partial',
+        };
+
+        $this->update(['status' => $status]);
     }
 }

@@ -17,6 +17,7 @@ class UpdatePaymentTypeRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'default_amount' => 'required|numeric',
             'billing_cycle' => [
                 'nullable',
                 Rule::in(PaymentType::$defaultCycle)

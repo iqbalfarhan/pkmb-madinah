@@ -1,12 +1,13 @@
-import AppLayout from '@/layouts/app-layout';
+import DDump from '@/components/d-dump';
+import { ReportTahfidzData } from '@/types/report';
+import { FC } from 'react';
 
-const ReportTahfidz = () => {
-  return (
-    <AppLayout>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam cumque impedit nulla odit. Quos quod optio blanditiis ducimus doloremque
-      dolorum animi? Accusamus, laudantium esse natus architecto ipsa magni sed numquam.
-    </AppLayout>
-  );
+type Props = {
+  data: ReportTahfidzData;
+};
+
+const ReportTahfidz: FC<Props> = ({ data }) => {
+  return <DDump content={data} />;
 };
 
 export default ReportTahfidz;

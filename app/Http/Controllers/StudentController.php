@@ -9,9 +9,11 @@ use App\Http\Requests\BulkDeleteStudentRequest;
 use App\Http\Requests\UploadStudentMediaRequest;
 use App\Models\Absent;
 use App\Models\AcademicYear;
+use App\Models\Activity;
 use App\Models\Assignment;
 use App\Models\Bill;
 use App\Models\Classroom;
+use App\Models\Extracurricular;
 use App\Models\Family;
 use App\Models\Lesson;
 use App\Models\PaymentType;
@@ -21,6 +23,7 @@ use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class StudentController extends Controller
@@ -72,6 +75,7 @@ class StudentController extends Controller
         return Inertia::render('student/show', [
             'student' => $student->load(['user', 'grade', 'classroom', 'family', 'prevschool', 'media', 'absents']),
             'sallaryLists' => Family::$sallaryLists,
+            'classrooms' => Classroom::get(),
             'permissions' => [
                 'canUpdate' => $this->user->can('update student'),
             ]
@@ -117,7 +121,7 @@ class StudentController extends Controller
         $ids = $data['student_ids'];
 
         $updates = Arr::except($data, ['student_ids']);
-        Student::whereIn('id', $ids)->update($updates);
+        DB::table('students')->whereIn('id', $ids)->update($updates);
     }
 
     /**
@@ -175,10 +179,10 @@ class StudentController extends Controller
             'query' => $request->input(),
             'academicYears' => AcademicYear::get(),
             'classrooms' => Classroom::get(),
-            'students' => Student::get(),
+            'students' => [$student],
             'reportTypes' => Report::$reportTypes,
             'permissions' => [
-                'canAdd' => false,
+                'canAdd' => $this->user->can('create report'),
                 'canUpdate' => $this->user->can('update report'),
                 'canDelete' => $this->user->can('delete report'),
                 'canShow' => $this->user->can('show report'),
@@ -215,10 +219,27 @@ class StudentController extends Controller
         ]);
     }
 
-    public function extracurricular(Student $student)
+    public function extracurricular(Request $request, Student $student)
     {
-        return Inertia::render('student/extracurricular', [
-            'student' => $student
+        $data = Activity::query()
+            ->with(['academic_year', 'student', 'extracurricular'])
+            ->whereStudentId($student->id)
+            ->when($request->name, function($q, $v)  {
+                $q->where('name', $v);
+            });
+
+        return Inertia::render('activity/index', [
+            'activities' => $data->get(),
+            'query' => $request->input(),
+            'students' => [$student],
+            'extracurriculars' => Extracurricular::get(),
+            'academicYears' => [AcademicYear::active()->first()],
+            'permissions' => [
+                'canAdd' => $this->user->can('create activity'),
+                'canUpdate' => $this->user->can('update activity'),
+                'canDelete' => $this->user->can('delete activity'),
+                'canShow' => $this->user->can('show activity'),
+            ]
         ]);
     }
 

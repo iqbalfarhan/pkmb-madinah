@@ -49,7 +49,7 @@ const StudentBulkEditSheet: FC<Props> = ({ children, studentIds }) => {
               handleSubmit();
             }}
           >
-            <FormControl>
+            <FormControl label="Pindah kelas">
               <Select value={data.classroom_id} onValueChange={(value) => setData('classroom_id', value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih kelas" />

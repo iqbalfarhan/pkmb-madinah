@@ -10,14 +10,14 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { em } from '@/lib/utils';
-import { Ppdb } from '@/types/ppdb';
+import { Student } from '@/types/student';
 import { router } from '@inertiajs/react';
 import { Trash2 } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
 
 type Props = PropsWithChildren & {
-  ppdb: Ppdb;
+  ppdb: Student;
 };
 
 const PpdbDeleteDialog: FC<Props> = ({ children, ppdb }) => {

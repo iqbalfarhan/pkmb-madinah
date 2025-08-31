@@ -1,4 +1,5 @@
 import BackButton from '@/components/back-button';
+import DDump from '@/components/d-dump';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { Assignment } from '@/types/assignment';
@@ -22,12 +23,11 @@ const ShowAssignment: FC<Props> = ({ assignment }) => {
       <Card>
         <CardHeader>
           <CardTitle>{assignment.name}</CardTitle>
-          <CardDescription>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, quo impedit cupiditate voluptas culpa magnam itaque distinctio at ullam,
-            beatae perferendis doloremque facilis mollitia, quod corporis. Autem voluptatum ipsum placeat.
-          </CardDescription>
+          <CardDescription>{assignment.description}</CardDescription>
         </CardHeader>
       </Card>
+
+      <DDump content={assignment.scores} />
     </AppLayout>
   );
 };

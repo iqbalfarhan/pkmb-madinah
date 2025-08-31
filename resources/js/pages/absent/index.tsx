@@ -126,7 +126,7 @@ const AbsentList: FC<Props> = ({ absents, query }) => {
                 </TableCell>
                 <TableCell>{absent.academic_year.label}</TableCell>
                 <TableCell>{dateDFY(absent.date)}</TableCell>
-                <TableCell>{absent.student.name}</TableCell>
+                <TableCell>{absent.student?.name}</TableCell>
                 <TableCell>{absent.reason}</TableCell>
                 <TableCell>{strLimit(absent.description)}</TableCell>
                 <TableCell>

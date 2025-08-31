@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\PpdbMiddleware;
 use App\Http\Requests\StorePpdbRequest;
 use App\Http\Requests\UpdatePpdbRequest;
 use App\Models\Family;
 use App\Models\Grade;
+use App\Models\Setting;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -23,6 +25,7 @@ class PpdbController extends Controller
             'ppdbs' => $data->ppdb()->get(),
             'query' => $request->input(),
             'statusLists' => Student::$statusLists,
+            'ppdbSetting' => Setting::where('key','PPDB_OPEN')->first(),
             'permissions' => [
                 'canAdd' => $this->user->can('create ppdb'),
                 'canUpdate' => $this->user->can('update ppdb'),

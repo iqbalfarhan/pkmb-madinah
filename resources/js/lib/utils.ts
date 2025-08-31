@@ -22,6 +22,10 @@ export function dateDFY(date: string | Date) {
   return dayjs(date).format('DD MMMM YYYY');
 }
 
+export function dateDFYHIS(date: string | Date) {
+  return dayjs(date).format('DD MMMM YYYY HH:mm:ss');
+}
+
 export function handlePasteScreenshot(callback: (file: File) => void) {
   const onPaste = (e: ClipboardEvent) => {
     const items = e.clipboardData?.items;
@@ -150,4 +154,78 @@ export function implodeAddress(
   if (kodepos) parts.push(`${kodepos}`);
 
   return parts.join(', ');
+}
+
+export function numberToWords(num: number): string {
+  if (num === 0) return 'Nol';
+
+  const units = ['', 'Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan'];
+
+  const belasan = [
+    'Sepuluh',
+    'Sebelas',
+    'Dua Belas',
+    'Tiga Belas',
+    'Empat Belas',
+    'Lima Belas',
+    'Enam Belas',
+    'Tujuh Belas',
+    'Delapan Belas',
+    'Sembilan Belas',
+  ];
+
+  const puluhan = [
+    '',
+    'Sepuluh',
+    'Dua Puluh',
+    'Tiga Puluh',
+    'Empat Puluh',
+    'Lima Puluh',
+    'Enam Puluh',
+    'Tujuh Puluh',
+    'Delapan Puluh',
+    'Sembilan Puluh',
+  ];
+
+  const ribuan = ['', 'Ribu', 'Juta', 'Miliar', 'Triliun'];
+
+  function toWords(n: number): string {
+    let str = '';
+
+    if (n < 10) {
+      str = units[n];
+    } else if (n < 20) {
+      str = belasan[n - 10];
+    } else if (n < 100) {
+      str = puluhan[Math.floor(n / 10)] + (n % 10 !== 0 ? ' ' + units[n % 10] : '');
+    } else if (n < 200) {
+      str = 'Seratus' + (n % 100 !== 0 ? ' ' + toWords(n % 100) : '');
+    } else if (n < 1000) {
+      str = units[Math.floor(n / 100)] + ' Ratus' + (n % 100 !== 0 ? ' ' + toWords(n % 100) : '');
+    } else {
+      let i = 0;
+      let words = '';
+      while (n > 0) {
+        const chunk = n % 1000;
+        if (chunk !== 0) {
+          let chunkWords = toWords(chunk) + ' ' + ribuan[i];
+          if (chunk === 1 && i === 1) {
+            chunkWords = 'Seribu'; // khusus 1000
+          }
+          words = chunkWords + (words ? ' ' + words : '');
+        }
+        n = Math.floor(n / 1000);
+        i++;
+      }
+      str = words;
+    }
+
+    return str.trim();
+  }
+
+  return toWords(num);
+}
+
+export function hariNumberDescription(num: number): string {
+  return `${num} (${numberToWords(num)}) Hari`;
 }

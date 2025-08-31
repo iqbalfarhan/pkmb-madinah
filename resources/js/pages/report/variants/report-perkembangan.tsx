@@ -1,17 +1,276 @@
-import DDump from '@/components/d-dump';
-import { Report } from '@/types/report';
-import { FC } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Separator } from '@/components/ui/separator';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Textarea } from '@/components/ui/textarea';
+import { capitalizeWords, em, hariNumberDescription } from '@/lib/utils';
+import { PointMark, Report, ReportPerkembanganData } from '@/types/report';
+import { Student } from '@/types/student';
+import { useForm, usePage } from '@inertiajs/react';
+import { Check } from 'lucide-react';
+import { FC, useCallback, useEffect } from 'react';
+import { toast } from 'sonner';
+import { useDebouncedCallback } from 'use-debounce';
+import ReportStudentCard from '../components/report-student-card';
 
 type Props = {
-  report: Report;
+  data: ReportPerkembanganData | null;
 };
 
-const ReportPerkambangan: FC<Props> = ({ report }) => {
+const ReportPerkambangan: FC<Props> = ({ data }) => {
+  const { student, report } = usePage<{ student: Student; report: Report }>().props;
+
+  const {
+    data: formData,
+    setData,
+    put,
+  } = useForm({
+    data: data as ReportPerkembanganData,
+  });
+
+  const handleDescriptionChange = useDebouncedCallback((nilaiIndex: number, pointIndex: number, value: string) => {
+    const updated = { ...formData };
+    updated.data.curricular_domain[nilaiIndex].points[pointIndex].description = value;
+    setData(updated);
+  }, 300);
+
+  const handleUpdate = useCallback(() => {
+    put(route('report.update', report.id), {
+      preserveScroll: true,
+      onSuccess: () => {
+        toast.success('Rapor berhasil disimpan');
+      },
+      onError: (e) => toast.error(em(e)),
+    });
+  }, [put, report.id]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault(); // Biar gak nge-save halaman
+        handleUpdate();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Cleanup pas komponen unmount
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleUpdate]);
+
   return (
-    <div>
-      <h1>Laporan perkambangan siswa tahun ajaran 2025 semester genap</h1>
-      <DDump content={report} />
-    </div>
+    <>
+      <h1 className="text-center text-3xl font-semibold uppercase">
+        LAPORAN PERKEMBANGAN SISWA PKBM AL-MADINAH SEMESTER ganjil TAHUN AJARAN 2024/2025
+      </h1>
+      <ReportStudentCard
+        student_name={formData.data.nama}
+        student_age={formData.data.usia}
+        student_nisn={formData.data.nisn}
+        classroom_name={formData.data.kelas}
+      />
+      <Button onClick={handleUpdate} className="fixed right-6 bottom-6">
+        <Check />
+        Simpan
+      </Button>
+
+      <h2 className="text-center text-xl font-bold">CURRICULAR DOMAIN</h2>
+      {formData.data.curricular_domain.map((nilai, nilaiIndex) => (
+        <Card key={nilaiIndex}>
+          <CardHeader>
+            <CardTitle>{nilai.name}</CardTitle>
+            <CardDescription>{nilai.goal}</CardDescription>
+          </CardHeader>
+          <Separator />
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableCell className="text-center">Fokus Perkembangan</TableCell>
+                  <TableCell className="w-xl text-center">Perkembangan anak</TableCell>
+                  <TableCell className="w-[50px] text-center">A</TableCell>
+                  <TableCell className="w-[50px] text-center">B</TableCell>
+                  <TableCell className="w-[50px] text-center">C</TableCell>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {nilai.points.map((item, pointIndex) => (
+                  <TableRow key={pointIndex}>
+                    <TableCell>
+                      <div className="text-wrap">{item.name}</div>
+                    </TableCell>
+                    <TableCell>
+                      <Textarea
+                        placeholder="Tulis deskripsi disini..."
+                        className="min-h-20"
+                        defaultValue={item.description}
+                        onChange={(e) => handleDescriptionChange(nilaiIndex, pointIndex, e.target.value)}
+                      />
+                    </TableCell>
+                    {['A', 'B', 'C'].map((mark) => (
+                      <TableCell key={mark}>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => {
+                            const updatedData = { ...formData };
+                            updatedData.data.curricular_domain[nilaiIndex].points[pointIndex].mark = mark as PointMark;
+                            setData(updatedData);
+                          }}
+                        >
+                          <Checkbox checked={item.mark === mark} />
+                        </Button>
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      ))}
+
+      <h2 className="text-center text-xl font-bold">18 SIKAP</h2>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>4 dari 18 Sikap yang dibangun di Sekolah Al – Madinah.</CardTitle>
+          <CardDescription>
+            <li>I (membutuhkan motivasi)</li>
+            <li>II (menunjukkan perbaikan)</li>
+            <li>III (memiliki kompetensi)</li>
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>No.</TableHead>
+                <TableHead className="w-full">Sikap yang dikembangkan</TableHead>
+                <TableHead className="text-center">I</TableHead>
+                <TableHead className="text-center">II</TableHead>
+                <TableHead className="text-center">III</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {Object.entries(formData.data.sikap).map(([item, value], index) => (
+                <TableRow>
+                  <TableCell>{index + 1}.</TableCell>
+                  <TableCell>{item}</TableCell>
+                  <TableCell>
+                    <Button variant={'ghost'} size={'icon'}>
+                      <Checkbox checked={value === 1} onCheckedChange={(c) => setData(`data.sikap.${item}`, c ? 1 : null)} />
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Button variant={'ghost'} size={'icon'}>
+                      <Checkbox checked={value === 2} onCheckedChange={(c) => setData(`data.sikap.${item}`, c ? 2 : null)} />
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Button variant={'ghost'} size={'icon'}>
+                      <Checkbox checked={value === 3} onCheckedChange={(c) => setData(`data.sikap.${item}`, c ? 3 : null)} />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+
+      <h2 className="text-center text-xl font-bold">EKSTRAKULIKULER</h2>
+      <Card>
+        <CardHeader>
+          <CardTitle>Ekstrakulikuler</CardTitle>
+          <CardDescription>Ekstarkulukuler dan kegiatan yang diikuti siswa</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>No.</TableHead>
+                <TableHead>Jenis Ekstrakurikuler</TableHead>
+                <TableHead>Kegiatan yang pernah Diikuti</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {student.activities?.map((item, index) => (
+                <TableRow>
+                  <TableCell>{index + 1}.</TableCell>
+                  <TableCell>{item.extracurricular.name}</TableCell>
+                  <TableCell>{item.description}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+
+      <h2 className="text-center text-xl font-bold">KETIDAKHADIRAN</h2>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Ketidakhadiran</CardTitle>
+          <CardDescription>Ketidakhadiran siswa tahun ajaran ini</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableBody>
+              {['sakit', 'izin', 'tanpa keterangan'].map((item, index) => (
+                <TableRow>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{capitalizeWords(item)}</TableCell>
+                  <TableCell>{hariNumberDescription(formData.data.ketidakhadiran[item])}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+
+      <h2 className="text-center text-xl font-bold">KOMENTAR</h2>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Komentar guru</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Textarea
+            placeholder="Tulis komentar guru disini"
+            value={formData.data.komentar_guru}
+            onChange={(e) => setData('data.komentar_guru', e.target.value)}
+          />
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Komentar anak</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Textarea
+            placeholder="Tulis komentar siswa disini"
+            value={formData.data.komentar_siswa}
+            onChange={(e) => setData('data.komentar_siswa', e.target.value)}
+          />
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Komentar orangtua/wali</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Textarea
+            placeholder="Tulis komentar wali disini"
+            value={formData.data.komentar_wali}
+            onChange={(e) => setData('data.komentar_wali', e.target.value)}
+          />
+        </CardContent>
+      </Card>
+    </>
   );
 };
 

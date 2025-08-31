@@ -126,7 +126,7 @@ const NewsList: FC<Props> = ({ news, query }) => {
                 <TableCell>
                   {permissions?.canShow && (
                     <Button variant={'ghost'} size={'icon'}>
-                      <Link href={route('news.show', news.id)}>
+                      <Link href={route('news.edit', news.id)}>
                         <Folder />
                       </Link>
                     </Button>

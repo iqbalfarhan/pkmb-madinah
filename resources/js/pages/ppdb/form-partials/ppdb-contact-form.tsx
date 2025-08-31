@@ -42,7 +42,7 @@ const PpdbContactForm = () => {
                   <Input placeholder="Masukkan nomor telepon" value={data.phone} onChange={(e) => setData('phone', e.target.value)} />
                 </FormControl>
                 <FormControl label="Alamat email">
-                  <Input placeholder="Masukkan alamat email" value={data.email} onChange={(e) => setData('email', e.target.value)} />
+                  <Input type="email" placeholder="Masukkan alamat email" value={data.email} onChange={(e) => setData('email', e.target.value)} />
                 </FormControl>
                 <FormControl label="Alamat tempat tinggal" className="col-span-full">
                   <AddressSelectorDialog value={data.address} onValueChange={(value) => setData('address', value)} />

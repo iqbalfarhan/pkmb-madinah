@@ -29,6 +29,7 @@ const ClassroomLayout: FC<Props> = ({ children }) => {
           <TabsTrigger value="lessons">Lessons</TabsTrigger>
           <TabsTrigger value="absents">Absents</TabsTrigger>
           <TabsTrigger value="rapors">E-reports</TabsTrigger>
+          <TabsTrigger value="extracurricular">Extracurricular</TabsTrigger>
         </TabsList>
       </Tabs>
       {children}

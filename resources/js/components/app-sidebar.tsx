@@ -18,6 +18,7 @@ import {
   LayoutGrid,
   Newspaper,
   Palette,
+  Pencil,
   Pointer,
   RemoveFormatting,
   Settings,
@@ -150,7 +151,7 @@ export function AppSidebar() {
             {
               title: 'Assignments lists',
               href: route('assignment.index'),
-              icon: BookOpen,
+              icon: Pencil,
               available: menus.assignment,
             },
           ]}
@@ -187,6 +188,12 @@ export function AppSidebar() {
               href: route('bill.index'),
               icon: Wallet,
               available: menus.bill,
+            },
+            {
+              title: 'Students Activity',
+              href: route('activity.index'),
+              icon: Palette,
+              available: menus.activity,
             },
           ]}
           label="Students data"
@@ -241,6 +248,12 @@ export function AppSidebar() {
 
         <NavMain
           items={[
+            {
+              title: 'Pengaturan sekolah',
+              href: route('setting.index'),
+              icon: Settings,
+              available: menus.setting,
+            },
             {
               title: 'User management',
               href: route('user.index'),

@@ -4,11 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 
-class Score extends Model
+class Score extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
     
 
     //protected $table = 'scores';
@@ -40,7 +45,7 @@ class Score extends Model
 
     public function student()
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(Student::class)->withTrashed(true);
     }
 
     public function assignment()
@@ -53,12 +58,10 @@ class Score extends Model
         return $this->score != 0 ? ($this->score * $this->assignment->rate) / 100 : 0;
     }
 
-    /*
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('preview')
             ->fit(Fit::Contain, 300, 300)
             ->nonQueued();
     }
-    */
 }

@@ -65,7 +65,7 @@ const PpdbFormSheet: FC<Props> = ({ children, ppdb, purpose }) => {
               handleSubmit();
             }}
           >
-            <FormControl label="Nama ppdb">
+            <FormControl label="Pilih status siswa">
               <Select value={data.status} onValueChange={(value) => setData('status', value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih status" />

@@ -6,6 +6,8 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PpdbController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Middleware\PpdbMiddleware;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\AcademicYearController;
@@ -22,15 +24,14 @@ use App\Http\Controllers\PrevschoolController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\PaymentController;
 
-
-
-
-
-
-Route::get('/', function () {
-    return Inertia::render('welcome');
-})->name('home');
+Route::get('/', [WelcomeController::class, 'index'])->name('home');
+Route::get('/berita', [WelcomeController::class, 'berita'])->name('berita');
+Route::get('/baca/{slug}', [WelcomeController::class, 'baca'])->name('baca');
+Route::get('/alur', [WelcomeController::class, 'alur'])->name('alur');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -68,9 +69,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('subject/bulk', [SubjectController::class, 'bulkDelete'])->name('subject.bulk.destroy');
     Route::apiResource('subject', SubjectController::class);
 
+    Route::post('news/{news}/uploadMedia', [NewsController::class, 'uploadMedia'])->name('news.upload-media');
     Route::put('news/bulk', [NewsController::class, 'bulkUpdate'])->name('news.bulk.update');
     Route::delete('news/bulk', [NewsController::class, 'bulkDelete'])->name('news.bulk.destroy');
-    Route::apiResource('news', NewsController::class);
+    Route::resource('news', NewsController::class);
 
     Route::put('extracurricular/bulk', [ExtracurricularController::class, 'bulkUpdate'])->name('extracurricular.bulk.update');
     Route::delete('extracurricular/bulk', [ExtracurricularController::class, 'bulkDelete'])->name('extracurricular.bulk.destroy');
@@ -88,7 +90,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('material/bulk', [MaterialController::class, 'bulkDelete'])->name('material.bulk.destroy');
     Route::apiResource('material', MaterialController::class);
 
-    Route::resource('ppdb', PpdbController::class);
+    Route::middleware(PpdbMiddleware::class)->resource('ppdb', PpdbController::class);
 
     Route::put('family/bulk', [FamilyController::class, 'bulkUpdate'])->name('family.bulk.update');
     Route::delete('family/bulk', [FamilyController::class, 'bulkDelete'])->name('family.bulk.destroy');
@@ -108,6 +110,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('score/bulk', [ScoreController::class, 'bulkUpdate'])->name('score.bulk.update');
     Route::delete('score/bulk', [ScoreController::class, 'bulkDelete'])->name('score.bulk.destroy');
     Route::apiResource('score', ScoreController::class);
+    Route::put('activity/bulk', [ActivityController::class, 'bulkUpdate'])->name('activity.bulk.update');
+    Route::delete('activity/bulk', [ActivityController::class, 'bulkDelete'])->name('activity.bulk.destroy');
+    Route::apiResource('activity', ActivityController::class);
+    Route::put('setting/bulk', [SettingController::class, 'bulkUpdate'])->name('setting.bulk.update');
+    Route::delete('setting/bulk', [SettingController::class, 'bulkDelete'])->name('setting.bulk.destroy');
+    Route::apiResource('setting', SettingController::class);
+    Route::put('payment/bulk', [PaymentController::class, 'bulkUpdate'])->name('payment.bulk.update');
+    Route::delete('payment/bulk', [PaymentController::class, 'bulkDelete'])->name('payment.bulk.destroy');
+    Route::apiResource('payment', PaymentController::class);
 });
 
 require __DIR__.'/classroom.php';

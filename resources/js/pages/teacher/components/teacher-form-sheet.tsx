@@ -3,8 +3,9 @@ import SubmitButton from '@/components/submit-button';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { em, capitalizeWords } from '@/lib/utils';
+import { capitalizeWords, em } from '@/lib/utils';
 import { FormPurpose } from '@/types';
 import { Teacher } from '@/types/teacher';
 import { useForm } from '@inertiajs/react';
@@ -22,6 +23,10 @@ const TeacherFormSheet: FC<Props> = ({ children, teacher, purpose }) => {
 
   const { data, setData, put, post, reset, processing } = useForm({
     name: teacher?.name ?? '',
+    email: teacher?.email ?? '',
+    gender: teacher?.gender ?? '',
+    phone: teacher?.phone ?? '',
+    password: purpose === 'create' ? 'password' : undefined,
   });
 
   const handleSubmit = () => {
@@ -66,6 +71,28 @@ const TeacherFormSheet: FC<Props> = ({ children, teacher, purpose }) => {
             <FormControl label="Nama teacher">
               <Input type="text" placeholder="Name" value={data.name} onChange={(e) => setData('name', e.target.value)} />
             </FormControl>
+            <FormControl label="Email">
+              <Input type="email" placeholder="Email address" value={data.email} onChange={(e) => setData('email', e.target.value)} />
+            </FormControl>
+            <FormControl label="Jenis kelamin" required>
+              <Select value={data.gender ? '1' : '0'} onValueChange={(value) => setData('gender', value == '1' ? true : false)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Pilih jenis kelamin" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">Laki-laki</SelectItem>
+                  <SelectItem value="0">Perempuan</SelectItem>
+                </SelectContent>
+              </Select>
+            </FormControl>
+            <FormControl label="Nomor telepon">
+              <Input type="tel" placeholder="Phone" value={data.phone} onChange={(e) => setData('phone', e.target.value)} />
+            </FormControl>
+            {purpose === 'create' && (
+              <FormControl label="Password">
+                <Input type="password" placeholder="Password login" value={data.password} onChange={(e) => setData('password', e.target.value)} />
+              </FormControl>
+            )}
           </form>
         </ScrollArea>
         <SheetFooter>

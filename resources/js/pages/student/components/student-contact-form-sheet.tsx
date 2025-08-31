@@ -53,13 +53,13 @@ const StudentContactFormSheet: FC<Props> = ({ children, student }) => {
             }}
           >
             <FormControl label="Nomor telepon">
-              <Input type="text" placeholder="Name" value={data.phone} onChange={(e) => setData('phone', e.target.value)} />
+              <Input type="text" placeholder="phone number" value={data.phone} onChange={(e) => setData('phone', e.target.value)} />
             </FormControl>
             <FormControl label="Alamat email">
-              <Input type="text" placeholder="NISN" value={data.email} onChange={(e) => setData('email', e.target.value)} />
+              <Input type="text" placeholder="email address" value={data.email} onChange={(e) => setData('email', e.target.value)} />
             </FormControl>
             <FormControl label="Alamat">
-              <Textarea placeholder="NIS" value={data.address} onChange={(e) => setData('address', e.target.value)} />
+              <Textarea placeholder="Alamat tempat tinggal" value={data.address} onChange={(e) => setData('address', e.target.value)} />
             </FormControl>
           </form>
         </ScrollArea>

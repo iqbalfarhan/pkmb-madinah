@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
+use App\Models\Payment;
 use App\Models\PaymentType;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -17,9 +18,17 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $students = Student::whereUserId(auth()->id());
+        $bills = Bill::whereIn('student_id', $students->pluck('id'))->get();
+
         return Inertia::render('dashboard/index', [
-            'permissions' => [],
-            'students' => Student::whereUserId(auth()->id())->whereIn('status', ['draft', 'ppdb'])->with('grade', 'user')->get()
+            'students' => $students->whereIn('status', ['draft', 'ppdb'])->with('grade', 'user')->get(),
+            'bills' => $bills,
+            'unverifiedPaymentsCount' => Payment::where('verified', false)->count(),
+            'permissions' => [
+                'canOpenStudentBill' => $this->user->can('student bill'),
+                'canOpenPayment' => $this->user->can('index payment') && Payment::where('verified', false)->exists()
+            ],
         ]);
     }
 
@@ -38,16 +47,15 @@ class DashboardController extends Controller
 
     public function bills(Request $request)
     {
-        $student_ids = auth()->user()->students->pluck('id')->toArray();
+        $students = Student::where('user_id', auth()->id())->get();
         $data = Bill::query()
-            ->with(['student', 'payment_type'])
-            ->whereIn('student_id', $student_ids)
-            ->when($request->student_id, fn($q, $v) => $q->where('student_id', $v));
+            ->whereIn('student_id', $students->pluck('id')->toArray())
+            ->with(['student', 'payment_type']);
 
         return Inertia::render('bill/index', [
             'bills' => $data->get(),
             'query' => $request->input(),
-            'students' => Student::whereIn('id', $student_ids)->get(),
+            'students' => $students,
             'paymentTypes' => PaymentType::get(),
             'permissions' => [
                 'canAdd' => $this->user->can('create bill'),

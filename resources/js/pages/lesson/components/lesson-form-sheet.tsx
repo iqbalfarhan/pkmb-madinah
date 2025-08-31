@@ -102,7 +102,7 @@ const LessonFormSheet: FC<Props> = ({ children, lesson, purpose }) => {
                 </SelectContent>
               </Select>
             </FormControl>
-            <FormControl label="Teacher">
+            <FormControl label="Kelas">
               <Select value={data.classroom_id.toString()} onValueChange={(e) => setData('classroom_id', e)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih guru" />

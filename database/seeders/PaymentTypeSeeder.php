@@ -10,7 +10,40 @@ class PaymentTypeSeeder extends Seeder
 {
     public function run(): void
     {
-        PaymentType::factory()->count(10)->create();
+        $paymentTypes = [
+            [
+                "name" => "Spp bulanan",
+                "default_amount" => 500000,
+                "billing_cycle" => "bulanan",
+            ],
+            [
+                "name" => "Uang pendaftaran",
+                "default_amount" => 1000000,
+                "billing_cycle" => "sekali",
+            ],
+            [
+                "name" => "Uang masuk",
+                "default_amount" => 1000000,
+                "billing_cycle" => "sekali",
+            ],
+            [
+                "name" => "Seragam",
+                "default_amount" => 2000000,
+                "billing_cycle" => "sekali",
+            ],
+            [
+                "name" => "Daftar ulang",
+                "default_amount" => 100000,
+                "billing_cycle" => "tahunan",
+            ],
+            [
+                "name" => "Uang kegiatan per semester.",
+                "default_amount" => 1000000,
+                "billing_cycle" => "semester",
+            ],
+        ];
+
+        PaymentType::insert($paymentTypes);
 
         $permissions = [
             "menu paymentType",

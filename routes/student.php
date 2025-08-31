@@ -21,9 +21,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 	Route::resource('student', StudentController::class);
 
+	Route::get('report/{report}/raw', [ReportController::class, 'raw'])->name('report.raw');
 	Route::put('report/bulk', [ReportController::class, 'bulkUpdate'])->name('report.bulk.update');
 	Route::delete('report/bulk', [ReportController::class, 'bulkDelete'])->name('report.bulk.destroy');
-	Route::apiResource('report', ReportController::class);
+	Route::resource('report', ReportController::class);
 	
 	Route::put('absent/bulk', [AbsentController::class, 'bulkUpdate'])->name('absent.bulk.update');
 	Route::delete('absent/bulk', [AbsentController::class, 'bulkDelete'])->name('absent.bulk.destroy');

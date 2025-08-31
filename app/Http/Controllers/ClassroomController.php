@@ -8,7 +8,9 @@ use App\Http\Requests\BulkUpdateClassroomRequest;
 use App\Http\Requests\BulkDeleteClassroomRequest;
 use App\Models\Absent;
 use App\Models\AcademicYear;
+use App\Models\Activity;
 use App\Models\Classroom;
+use App\Models\Extracurricular;
 use App\Models\Grade;
 use App\Models\Lesson;
 use App\Models\Report;
@@ -163,6 +165,33 @@ class ClassroomController extends Controller
                 'canAdd' => $this->user->can('create report'),
                 'canUpdate' => $this->user->can('update report'),
                 'canDelete' => $this->user->can('delete report'),
+            ]
+        ]);
+    }
+
+    public function extracurricular(Request $request, Classroom $classroom)
+    {
+        $student_ids = $classroom->students->pluck('id')->toArray();
+        $data = Activity::query()
+            ->with(['academic_year', 'student', 'extracurricular'])
+            ->whereIn('student_id', $student_ids)
+            ->when($request->name, function($q, $v)  {
+                $q->where('name', $v);
+            });
+
+        return Inertia::render('classroom/tabs/classroom-extracurricular-tab', [
+            'activities' => $data->get(),
+            'query' => $request->input(),
+            'tabname' => 'extracurricular',
+            'classroom' => $classroom,
+            'students' => $classroom->students,
+            'extracurriculars' => Extracurricular::get(),
+            'academicYears' => [AcademicYear::active()->first()],
+            'permissions' => [
+                'canAdd' => $this->user->can('create activity'),
+                'canUpdate' => $this->user->can('update activity'),
+                'canDelete' => $this->user->can('delete activity'),
+                'canShow' => $this->user->can('show activity'),
             ]
         ]);
     }

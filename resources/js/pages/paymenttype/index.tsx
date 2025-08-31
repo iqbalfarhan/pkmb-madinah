@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
+import { formatRupiah } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Paymenttype } from '@/types/paymenttype';
 import { Link, usePage } from '@inertiajs/react';
@@ -93,6 +94,7 @@ const PaymenttypeList: FC<Props> = ({ paymenttypes, query }) => {
               </Button>
             </TableHead>
             <TableHead>Nama jenis pembayaran</TableHead>
+            <TableHead>Default amount</TableHead>
             <TableHead>Waktu pembayaran</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
@@ -119,6 +121,7 @@ const PaymenttypeList: FC<Props> = ({ paymenttypes, query }) => {
                   </Button>
                 </TableCell>
                 <TableCell>{paymenttype.name}</TableCell>
+                <TableCell>{formatRupiah(paymenttype.default_amount)}</TableCell>
                 <TableCell>{paymenttype.billing_cycle}</TableCell>
                 <TableCell>
                   {permissions?.canShow && (

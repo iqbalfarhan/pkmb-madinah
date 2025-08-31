@@ -51,8 +51,15 @@ class BillController extends Controller
      */
     public function show(Bill $bill)
     {
+        $bill->refreshStatus();
+        
         return Inertia::render('bill/show', [
-            'bill' => $bill
+            'bill' => $bill->load('student', 'payment_type', 'payments', 'payments.media'),
+            'permissions' => [
+                "canAdd" => $this->user->can("create payment"),
+                "canUpdate" => $this->user->can("update payment"),
+                "canDelete" => $this->user->can("delete payment"),
+            ]
         ]);
     }
 

@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('payment_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->integer('default_amount')->default(0);
             $table->enum('billing_cycle', ['sekali', 'bulanan', 'semester', 'tahunan']);
             $table->timestamps();
         });

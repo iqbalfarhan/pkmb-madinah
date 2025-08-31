@@ -8,7 +8,7 @@ import AppLayout from '@/layouts/app-layout';
 import { SharedData } from '@/types';
 import { Report } from '@/types/report';
 import { Link, usePage } from '@inertiajs/react';
-import { Edit, Filter, Folder, Plus, Trash2 } from 'lucide-react';
+import { Edit, FileJson, Filter, Folder, Plus, Trash2 } from 'lucide-react';
 import { FC, useState } from 'react';
 import ReportBulkDeleteDialog from './components/report-bulk-delete-dialog';
 import ReportBulkEditSheet from './components/report-bulk-edit-sheet';
@@ -128,18 +128,25 @@ const ReportList: FC<Props> = ({ reports, query }) => {
                 <TableCell>{report.academic_year.label}</TableCell>
                 <TableCell>
                   {permissions?.canShow && (
-                    <Button variant={'ghost'} size={'icon'}>
-                      <Link href={route('report.show', report.id)}>
-                        <Folder />
-                      </Link>
-                    </Button>
+                    <>
+                      <Button variant={'ghost'} size={'icon'}>
+                        <Link href={route('report.show', report.id)}>
+                          <Folder />
+                        </Link>
+                      </Button>
+                      <Button variant={'ghost'} size={'icon'}>
+                        <a href={route('report.raw', report.id)}>
+                          <FileJson />
+                        </a>
+                      </Button>
+                    </>
                   )}
                   {permissions?.canUpdate && (
-                    <ReportFormSheet purpose="edit" report={report}>
-                      <Button variant={'ghost'} size={'icon'}>
+                    <Button variant={'ghost'} size={'icon'}>
+                      <Link href={route('report.edit', report.id)}>
                         <Edit />
-                      </Button>
-                    </ReportFormSheet>
+                      </Link>
+                    </Button>
                   )}
                   {permissions?.canDelete && (
                     <ReportDeleteDialog report={report}>

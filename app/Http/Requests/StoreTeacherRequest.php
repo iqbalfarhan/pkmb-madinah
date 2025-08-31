@@ -18,6 +18,7 @@ class StoreTeacherRequest extends FormRequest
             'email' => 'required|string|max:255',
             'gender' => 'required|boolean',
             'phone' => 'required|string|max:255',
+            'password' => 'required|string|max:255',
         ];
     }
 }

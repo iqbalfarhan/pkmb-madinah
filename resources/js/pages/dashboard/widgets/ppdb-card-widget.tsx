@@ -1,9 +1,16 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Link } from '@inertiajs/react';
+import { SharedData } from '@/types';
+import { Link, usePage } from '@inertiajs/react';
 import { ChevronRight } from 'lucide-react';
 
 const PpdbCardWidget = () => {
+  const { settings } = usePage<SharedData>().props;
+
+  if (settings?.PPDB_OPEN !== 'true') {
+    return null;
+  }
+
   return (
     <Card className="dark">
       <CardHeader>

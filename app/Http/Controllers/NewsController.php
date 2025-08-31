@@ -6,6 +6,7 @@ use App\Http\Requests\StoreNewsRequest;
 use App\Http\Requests\UpdateNewsRequest;
 use App\Http\Requests\BulkUpdateNewsRequest;
 use App\Http\Requests\BulkDeleteNewsRequest;
+use App\Http\Requests\UploadNewsMediaRequest;
 use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -50,7 +51,17 @@ class NewsController extends Controller
     public function show(News $news)
     {
         return Inertia::render('news/show', [
-            'news' => $news->load('user')
+            'news' => $news->load(['user', 'media'])
+        ]);
+    }
+
+    /**
+     * Edit the specified resource.
+     */
+    public function edit(News $news)
+    {
+        return Inertia::render('news/edit', [
+            'news' => $news->load(['user', 'media'])
         ]);
     }
 
@@ -89,6 +100,12 @@ class NewsController extends Controller
     {
         $data = $request->validated();
         News::whereIn('id', $data['news_ids'])->delete();
+    }
+
+    public function uploadMedia(UploadNewsMediaRequest $request, News $news)
+    {
+        $data = $request->validated();
+        $news->addMedia($data['file'])->toMediaCollection();
     }
 
     

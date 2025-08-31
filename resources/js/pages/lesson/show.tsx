@@ -6,6 +6,7 @@ import { FC, useState } from 'react';
 import LessonMaterialsTab from './tabs/lesson-materials-tab';
 import LessonNilaiTab from './tabs/lesson-nilai-tab';
 import LessonTugasTab from './tabs/lesson-tugas-tab';
+import LessonUjianTab from './tabs/lesson-ujian-tab';
 
 type Props = {
   lesson: Lesson;
@@ -24,8 +25,9 @@ const ShowLesson: FC<Props> = ({ lesson }) => {
       <Tabs value={active} onValueChange={setActive} className="space-y-6">
         <TabsList>
           <TabsTrigger value="material">Materi belajar</TabsTrigger>
-          <TabsTrigger value="tugas">Daftar penilaian</TabsTrigger>
-          <TabsTrigger value="nilai">Nilai siswa</TabsTrigger>
+          <TabsTrigger value="tugas">Daftar tugas</TabsTrigger>
+          <TabsTrigger value="nilai">Nilai tugas</TabsTrigger>
+          <TabsTrigger value="ujian">Nilai ujian</TabsTrigger>
         </TabsList>
 
         <TabsContent value="material">
@@ -36,6 +38,9 @@ const ShowLesson: FC<Props> = ({ lesson }) => {
         </TabsContent>
         <TabsContent value="nilai">
           <LessonNilaiTab />
+        </TabsContent>
+        <TabsContent value="ujian">
+          <LessonUjianTab />
         </TabsContent>
       </Tabs>
     </AppLayout>

@@ -32,6 +32,9 @@ class DatabaseSeeder extends Seeder
             PrevschoolSeeder::class,
             AbsentSeeder::class,
             BillSeeder::class,
+            PaymentSeeder::class,
+            SettingSeeder::class,
+            AssignmentSeeder::class,
         ]);
     }
 }

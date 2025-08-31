@@ -8,8 +8,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { capitalizeWords, em } from '@/lib/utils';
 import { FormPurpose } from '@/types';
+import { Classroom } from '@/types/classroom';
 import { Student } from '@/types/student';
-import { useForm } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import dayjs from 'dayjs';
 import { X } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
@@ -23,6 +24,8 @@ type Props = PropsWithChildren & {
 const StudentFormSheet: FC<Props> = ({ children, student, purpose }) => {
   const [open, setOpen] = useState(false);
 
+  const { classrooms = [] } = usePage<{ classrooms: Classroom[] }>().props;
+
   const { data, setData, put, post, reset, processing } = useForm({
     nisn: student?.nisn ?? '',
     nis: student?.nis ?? '',
@@ -31,6 +34,7 @@ const StudentFormSheet: FC<Props> = ({ children, student, purpose }) => {
     gender: student?.gender ? '1' : '0',
     pob: student?.pob ?? '',
     dob: student?.dob ?? '',
+    classroom_id: student?.classroom_id ?? '',
   });
 
   const handleSubmit = () => {
@@ -100,6 +104,18 @@ const StudentFormSheet: FC<Props> = ({ children, student, purpose }) => {
                 value={data.dob ? dayjs(data.dob).toDate() : undefined}
                 onValueChange={(e) => setData('dob', dayjs(e).format('YYYY-MM-DD'))}
               />
+            </FormControl>
+            <FormControl label="Kelas siswa">
+              <Select value={data.classroom_id.toString()} onValueChange={(e) => setData('classroom_id', e)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Pilih user" />
+                </SelectTrigger>
+                <SelectContent>
+                  {classrooms.map((classroom) => (
+                    <SelectItem value={classroom.id.toString()}>{classroom.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </FormControl>
           </form>
         </ScrollArea>

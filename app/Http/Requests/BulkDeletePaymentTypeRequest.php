@@ -22,8 +22,8 @@ class BulkDeletePaymentTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'paymentType_ids' => 'required|array',
-            'paymentType_ids.*' => 'exists:payment_types,id',
+            'payment_type_ids' => 'required|array',
+            'payment_type_ids.*' => 'exists:payment_types,id',
         ];
     }
 }

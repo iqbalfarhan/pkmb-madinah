@@ -47,7 +47,8 @@ class PaymentTypeController extends Controller
     public function show(PaymentType $paymenttype)
     {
         return Inertia::render('paymenttype/show', [
-            'paymentType' => $paymenttype
+            'paymenttype' => $paymenttype,
+            'defaultCycles' => PaymentType::$defaultCycle,
         ]);
     }
 
@@ -83,7 +84,7 @@ class PaymentTypeController extends Controller
     public function bulkDelete(BulkDeletePaymentTypeRequest $request)
     {
         $data = $request->validated();
-        PaymentType::whereIn('id', $data['paymentType_ids'])->delete();
+        PaymentType::whereIn('id', $data['payment_type_ids'])->delete();
     }
 
     

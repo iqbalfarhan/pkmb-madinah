@@ -50,7 +50,7 @@ class AssignmentController extends Controller
     public function show(Assignment $assignment)
     {
         return Inertia::render('assignment/show', [
-            'assignment' => $assignment->load('scores')
+            'assignment' => $assignment->load(['scores', 'scores.media'])
         ]);
     }
 

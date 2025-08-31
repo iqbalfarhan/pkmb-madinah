@@ -1,4 +1,5 @@
 import FormControl from '@/components/form-control';
+import MoneyInput from '@/components/money-input';
 import SubmitButton from '@/components/submit-button';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -25,6 +26,7 @@ const PaymenttypeFormSheet: FC<Props> = ({ children, paymenttype, purpose }) => 
 
   const { data, setData, put, post, reset, processing } = useForm({
     name: paymenttype?.name ?? '',
+    default_amount: paymenttype?.default_amount ?? '',
     billing_cycle: paymenttype?.billing_cycle ?? '',
   });
 
@@ -69,6 +71,9 @@ const PaymenttypeFormSheet: FC<Props> = ({ children, paymenttype, purpose }) => 
           >
             <FormControl label="Nama paymenttype">
               <Input type="text" placeholder="Name" value={data.name} onChange={(e) => setData('name', e.target.value)} />
+            </FormControl>
+            <FormControl label="Default amount">
+              <MoneyInput value={Number(data.default_amount)} onValueChange={(e) => setData('default_amount', e ?? '')} />
             </FormControl>
             <FormControl label="Jenis pembayaran">
               <Select value={data.billing_cycle} onValueChange={(e) => setData('billing_cycle', e)}>

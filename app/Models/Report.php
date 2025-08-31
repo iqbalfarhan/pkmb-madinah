@@ -29,6 +29,10 @@ class Report extends Model
         'updated_at',
     ];
 
+    public $casts = [
+        'data' => 'array'
+    ];
+
     public static $reportTypes = [
         'nilai',
         'perkembangan',

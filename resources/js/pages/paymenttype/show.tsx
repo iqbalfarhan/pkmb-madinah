@@ -1,7 +1,14 @@
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import BackButton from '@/components/back-button';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
+import { formatRupiah } from '@/lib/utils';
 import { Paymenttype } from '@/types/paymenttype';
+import { Edit } from 'lucide-react';
 import { FC } from 'react';
+import PaymenttypeFormSheet from './components/paymenttype-form-sheet';
 
 type Props = {
   paymenttype: Paymenttype;
@@ -9,15 +16,32 @@ type Props = {
 
 const ShowPaymenttype: FC<Props> = ({ paymenttype }) => {
   return (
-    <AppLayout title="Detail Paymenttype" description="Detail paymenttype">
+    <AppLayout
+      title="Detail Paymenttype"
+      description="Detail paymenttype"
+      actions={
+        <>
+          <BackButton />
+          <PaymenttypeFormSheet purpose="edit" paymenttype={paymenttype}>
+            <Button>
+              <Edit /> Edit jenis pembayaran
+            </Button>
+          </PaymenttypeFormSheet>
+        </>
+      }
+    >
       <Card>
         <CardHeader>
-          <CardTitle>{ paymenttype.name }</CardTitle>
-          <CardDescription>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, quo impedit cupiditate voluptas culpa magnam itaque distinctio at ullam,
-            beatae perferendis doloremque facilis mollitia, quod corporis. Autem voluptatum ipsum placeat.
-          </CardDescription>
+          <CardTitle>{paymenttype.name}</CardTitle>
+          <CardDescription>Default amount: {formatRupiah(paymenttype.default_amount)}</CardDescription>
         </CardHeader>
+        <Separator />
+        <CardFooter>
+          <Button variant={'outline'}>
+            Waktu pembayaran
+            <Badge>{paymenttype.billing_cycle}</Badge>
+          </Button>
+        </CardFooter>
       </Card>
     </AppLayout>
   );

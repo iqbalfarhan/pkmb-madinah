@@ -124,7 +124,7 @@ const ScoreList: FC<Props> = ({ scores, query }) => {
                 <TableCell>{score.student.name}</TableCell>
                 <TableCell>{score.lesson.name}</TableCell>
                 <TableCell>{score.score}</TableCell>
-                <TableCell>{strLimit(score.remark)}</TableCell>
+                <TableCell>{strLimit(score.remark ?? '')}</TableCell>
                 <TableCell>
                   {permissions?.canShow && (
                     <Button variant={'ghost'} size={'icon'}>

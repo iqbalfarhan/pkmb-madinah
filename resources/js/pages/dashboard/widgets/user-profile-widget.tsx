@@ -18,7 +18,7 @@ const UserProfileWidget = () => {
           </Avatar>
         </CardHeader>
         <CardHeader className="flex-1 pl-0">
-          <CardTitle>{user.name}</CardTitle>
+          <CardTitle className="line-clamp-1">{user.name}</CardTitle>
           <CardDescription>{roles.join(', ')}</CardDescription>
         </CardHeader>
         <CardFooter>
