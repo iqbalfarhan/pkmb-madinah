@@ -18,11 +18,12 @@ import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
 
 type Props = PropsWithChildren & {
+  lessonId: Lesson['id'];
   exam?: Exam;
   purpose: FormPurpose;
 };
 
-const ExamFormSheet: FC<Props> = ({ children, exam, purpose }) => {
+const ExamFormSheet: FC<Props> = ({ children, lessonId, exam, purpose }) => {
   const [open, setOpen] = useState(false);
 
   const {
@@ -38,7 +39,7 @@ const ExamFormSheet: FC<Props> = ({ children, exam, purpose }) => {
   const { data, setData, put, post, reset, processing } = useForm({
     name: exam?.name ?? '',
     description: exam?.description ?? '',
-    lesson_id: exam?.lesson_id ?? '',
+    lesson_id: exam?.lesson_id ?? lessonId ?? '',
     classroom_id: exam?.classroom_id ?? '',
     academic_year_id: exam?.academic_year_id ?? '',
   });
@@ -111,7 +112,7 @@ const ExamFormSheet: FC<Props> = ({ children, exam, purpose }) => {
               </Select>
             </FormControl>
             <FormControl label="Pelajaran">
-              <Select value={data.lesson_id.toString()} onValueChange={(value) => setData('lesson_id', value)}>
+              <Select value={data.lesson_id.toString()} onValueChange={(value) => setData('lesson_id', Number(value))}>
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih pelajaran" />
                 </SelectTrigger>

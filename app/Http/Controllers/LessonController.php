@@ -6,6 +6,7 @@ use App\Http\Requests\StoreLessonRequest;
 use App\Http\Requests\UpdateLessonRequest;
 use App\Http\Requests\BulkUpdateLessonRequest;
 use App\Http\Requests\BulkDeleteLessonRequest;
+use App\Models\AcademicYear;
 use App\Models\Classroom;
 use App\Models\Lesson;
 use App\Models\Score;
@@ -66,6 +67,9 @@ class LessonController extends Controller
             'lessons' => [$lesson],
             'students' => $students,
             'scores' => $scores,
+            'exams' => $lesson->exams,
+            'classrooms' => [$lesson->classroom],
+            'academicYears' => [AcademicYear::active()],
             'permissions' => [
                 'canAdd' => $this->user->can('create assignment'),
                 'canUpdate' => $this->user->can('update assignment'),

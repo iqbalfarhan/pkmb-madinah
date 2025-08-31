@@ -112,15 +112,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('score/bulk', [ScoreController::class, 'bulkUpdate'])->name('score.bulk.update');
     Route::delete('score/bulk', [ScoreController::class, 'bulkDelete'])->name('score.bulk.destroy');
     Route::apiResource('score', ScoreController::class);
+    
     Route::put('activity/bulk', [ActivityController::class, 'bulkUpdate'])->name('activity.bulk.update');
     Route::delete('activity/bulk', [ActivityController::class, 'bulkDelete'])->name('activity.bulk.destroy');
     Route::apiResource('activity', ActivityController::class);
+
     Route::put('setting/bulk', [SettingController::class, 'bulkUpdate'])->name('setting.bulk.update');
     Route::delete('setting/bulk', [SettingController::class, 'bulkDelete'])->name('setting.bulk.destroy');
     Route::apiResource('setting', SettingController::class);
+
     Route::put('payment/bulk', [PaymentController::class, 'bulkUpdate'])->name('payment.bulk.update');
     Route::delete('payment/bulk', [PaymentController::class, 'bulkDelete'])->name('payment.bulk.destroy');
     Route::apiResource('payment', PaymentController::class);
+
     Route::put('exam/bulk', [ExamController::class, 'bulkUpdate'])->name('exam.bulk.update');
     Route::delete('exam/bulk', [ExamController::class, 'bulkDelete'])->name('exam.bulk.destroy');
     Route::apiResource('exam', ExamController::class);

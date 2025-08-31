@@ -67,6 +67,10 @@ class Lesson extends Model
         return $this->hasMany(Assignment::class);
     }
 
+    public function exams(){
+        return $this->hasMany(Exam::class);
+    }
+
     /*
     public function registerMediaConversions(?Media $media = null): void
     {
