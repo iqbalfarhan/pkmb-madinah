@@ -177,7 +177,8 @@ class StudentController extends Controller
         return Inertia::render('report/index', [
             'reports' => $data->get(),
             'query' => $request->input(),
-            'academicYears' => AcademicYear::get(),
+            // 'academicYears' => AcademicYear::get(),
+            'academicYears' => [AcademicYear::active()],
             'classrooms' => Classroom::get(),
             'students' => [$student],
             'reportTypes' => Report::$reportTypes,

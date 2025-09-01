@@ -19,6 +19,7 @@ class StoreExamRequest extends FormRequest
             'description' => 'required|string',
             'academic_year_id' => 'required|exists:academic_years,id',
             'classroom_id' => 'required|exists:classrooms,id',
+            'rate' => 'nullable|numeric',
         ];
     }
 }

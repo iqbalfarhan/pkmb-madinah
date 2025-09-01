@@ -28,6 +28,16 @@ class Examscore extends Model
         'updated_at',
     ];
 
+    public function exam()
+    {
+        return $this->belongsTo(Exam::class);
+    }
+
+    public function getRatedScoreAttribute()
+    {
+        return $this->score != 0 ? ($this->score * $this->exam->rate) / 100 : 0;
+    }
+
     /*
     public function registerMediaConversions(?Media $media = null): void
     {

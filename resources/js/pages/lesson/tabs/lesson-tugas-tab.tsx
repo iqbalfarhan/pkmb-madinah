@@ -12,6 +12,9 @@ import { Edit, Folder, Plus, Trash2 } from 'lucide-react';
 
 const LessonTugasTab = () => {
   const { assignments, permissions } = usePage<SharedData & { assignments: Assignment[] }>().props;
+  const totalRate = assignments.reduce((acc, curr) => acc + curr.rate, 0);
+  const isRateFix = totalRate === 100;
+
   return (
     <div className="space-y-6">
       <HeadingSmall
@@ -35,7 +38,7 @@ const LessonTugasTab = () => {
           <TableRow>
             <TableHead>Assignment</TableHead>
             <TableHead>Deskripsi</TableHead>
-            <TableHead>Bobot</TableHead>
+            <TableHead className="text-center">Bobot %</TableHead>
             <TableHead>Created at</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
@@ -45,7 +48,7 @@ const LessonTugasTab = () => {
             <TableRow key={assignment.id}>
               <TableCell>{assignment.name}</TableCell>
               <TableCell>{strLimit(assignment.description)}</TableCell>
-              <TableCell>
+              <TableCell className="text-center">
                 <AssignmentRateFormPopover assignment={assignment} />
               </TableCell>
               <TableCell>{dateDFY(assignment.created_at)}</TableCell>
@@ -74,6 +77,16 @@ const LessonTugasTab = () => {
               </TableCell>
             </TableRow>
           ))}
+          <TableRow>
+            <TableCell className="text-right" colSpan={2}>
+              Total bobot :
+            </TableCell>
+            <TableCell className={isRateFix ? 'bg-success/10 text-center text-success' : 'bg-destructive/10 text-center text-destructive'}>
+              {totalRate}%
+            </TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </div>

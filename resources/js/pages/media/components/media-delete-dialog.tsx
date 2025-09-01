@@ -25,7 +25,7 @@ const MediaDeleteDialog: FC<Props> = ({ children, media }) => {
   const [open, setOpen] = useState(false);
 
   const handleDelete = () => {
-    router.delete(route('media.destroy', media.id), {
+    router.delete(route('document.destroy', media.id), {
       preserveScroll: true,
       onSuccess: () => {
         toast.success('Media deleted successfully');

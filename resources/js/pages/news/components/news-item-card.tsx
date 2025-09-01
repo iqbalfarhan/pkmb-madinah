@@ -13,7 +13,7 @@ const NewsItemCard: FC<Props> = ({ news, href }) => {
   return (
     <Card className="flex flex-col justify-between" onClick={() => router.visit(href ?? route('baca', news.slug))}>
       <CardContent>
-        <Avatar className="aspect-square size-full rounded-lg">
+        <Avatar className="aspect-video size-full rounded-lg">
           <AvatarImage src={news.thumbnail} className="object-cover" />
         </Avatar>
       </CardContent>

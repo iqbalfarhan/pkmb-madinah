@@ -59,6 +59,7 @@ class BillController extends Controller
                 "canAdd" => $this->user->can("create payment"),
                 "canUpdate" => $this->user->can("update payment"),
                 "canDelete" => $this->user->can("delete payment"),
+                "canApprove" => $this->user->can("approve payment"),
             ]
         ]);
     }

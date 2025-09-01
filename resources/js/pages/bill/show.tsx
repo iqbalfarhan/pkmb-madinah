@@ -1,4 +1,5 @@
 import HeadingSmall from '@/components/heading-small';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -60,104 +61,106 @@ const ShowBill: FC<Props> = ({ bill }) => {
         </CardFooter>
       </Card>
 
-      <HeadingSmall
-        title="Riwayat pembayaran"
-        description="Daftar list pembayaran untuk tagihan ini"
-        actions={
-          <>
-            {permissions?.canAdd && bill.status !== 'paid' && (
-              <PaymentFormSheet purpose="create" billId={bill.id}>
-                <Button>
-                  <Plus />
-                  Create new payment
-                </Button>
-              </PaymentFormSheet>
-            )}
-          </>
-        }
-      />
-
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableCell>Kode transaksi</TableCell>
-            <TableCell>Nominal bayar</TableCell>
-            <TableCell>Tanggal input</TableCell>
-            <TableCell>Bukti bayar</TableCell>
-            <TableCell>Status verifikasi</TableCell>
-            <TableCell>Actions</TableCell>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {bill.payments.map((pay) => (
-            <TableRow>
-              <TableCell>{pay.code}</TableCell>
-              <TableCell>{formatRupiah(pay.amount)}</TableCell>
-              <TableCell>{dateDFYHIS(pay.created_at)}</TableCell>
-              <TableCell>
-                {(pay.media ?? []).length > 0 && (
-                  <PaymentEvidenceDialog media={pay.media}>
-                    <Button size={'sm'} variant={'secondary'}>
-                      <Image />
-                      Lihat bukti bayar
-                    </Button>
-                  </PaymentEvidenceDialog>
-                )}
-              </TableCell>
-              <TableCell>
-                {permissions?.canUpdate ? (
-                  <Button
-                    variant={pay.verified ? 'success' : 'ghost'}
-                    size={'sm'}
-                    onClick={() => {
-                      const checked = !pay.verified;
-                      router.put(
-                        route('payment.update', pay.id),
-                        { verified: checked },
-                        {
-                          preserveScroll: true,
-                          onSuccess: () => toast.success(`Berhasil ${checked ? 'melakukan' : 'membatalkan'} verifikasi`),
-                        },
-                      );
-                    }}
-                  >
-                    {pay.verified == true ? <CheckSquare /> : <Square />}
-                    Verifikasi
+      <div className="space-y-6">
+        <HeadingSmall
+          title="Riwayat pembayaran"
+          description="Daftar list pembayaran untuk tagihan ini"
+          actions={
+            <>
+              {permissions?.canAdd && bill.status !== 'paid' && (
+                <PaymentFormSheet purpose="create" billId={bill.id}>
+                  <Button>
+                    <Plus />
+                    Create new payment
                   </Button>
-                ) : (
-                  <div>{pay.verified ? 'Terverifikasi' : 'Belum diverifikasi'}</div>
-                )}
-              </TableCell>
-              <TableCell>
-                {permissions?.canUpdate && (
-                  <PaymentFormSheet purpose="edit" payment={pay} billId={bill.id}>
-                    <Button variant={'ghost'} size={'icon'} disabled={pay.verified}>
-                      <Edit />
-                    </Button>
-                  </PaymentFormSheet>
-                )}
-                {permissions?.canDelete && (
-                  <PaymentDeleteDialog payment={pay}>
-                    <Button variant={'ghost'} size={'icon'} disabled={pay.verified}>
-                      <Trash2 />
-                    </Button>
-                  </PaymentDeleteDialog>
-                )}
-              </TableCell>
+                </PaymentFormSheet>
+              )}
+            </>
+          }
+        />
+
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableCell>Kode transaksi</TableCell>
+              <TableCell>Nominal bayar</TableCell>
+              <TableCell>Tanggal input</TableCell>
+              <TableCell>Bukti bayar</TableCell>
+              <TableCell>Status verifikasi</TableCell>
+              <TableCell>Actions</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TableCell />
-            <TableCell>{formatRupiah(bill.total_paid)}</TableCell>
-            <TableCell />
-            <TableCell />
-            <TableCell />
-            <TableCell />
-          </TableRow>
-        </TableFooter>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {bill.payments.map((pay) => (
+              <TableRow>
+                <TableCell>{pay.code}</TableCell>
+                <TableCell>{formatRupiah(pay.amount)}</TableCell>
+                <TableCell>{dateDFYHIS(pay.created_at)}</TableCell>
+                <TableCell>
+                  {(pay.media ?? []).length > 0 && (
+                    <PaymentEvidenceDialog media={pay.media}>
+                      <Button size={'sm'} variant={'secondary'}>
+                        <Image />
+                        Lihat bukti bayar
+                      </Button>
+                    </PaymentEvidenceDialog>
+                  )}
+                </TableCell>
+                <TableCell>
+                  {permissions?.canApprove ? (
+                    <Button
+                      variant={pay.verified ? 'success' : 'ghost'}
+                      size={'sm'}
+                      onClick={() => {
+                        const checked = !pay.verified;
+                        router.put(
+                          route('payment.update', pay.id),
+                          { verified: checked },
+                          {
+                            preserveScroll: true,
+                            onSuccess: () => toast.success(`Berhasil ${checked ? 'melakukan' : 'membatalkan'} verifikasi`),
+                          },
+                        );
+                      }}
+                    >
+                      {pay.verified == true ? <CheckSquare /> : <Square />}
+                      Verifikasi
+                    </Button>
+                  ) : (
+                    <>{pay.verified ? <Badge variant={'success'}>Terverifikasi</Badge> : <Badge variant={'warning'}>Belum diverifikasi</Badge>}</>
+                  )}
+                </TableCell>
+                <TableCell>
+                  {permissions?.canUpdate && (
+                    <PaymentFormSheet purpose="edit" payment={pay} billId={bill.id}>
+                      <Button variant={'ghost'} size={'icon'} disabled={pay.verified}>
+                        <Edit />
+                      </Button>
+                    </PaymentFormSheet>
+                  )}
+                  {permissions?.canDelete && (
+                    <PaymentDeleteDialog payment={pay}>
+                      <Button variant={'ghost'} size={'icon'} disabled={pay.verified}>
+                        <Trash2 />
+                      </Button>
+                    </PaymentDeleteDialog>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell />
+              <TableCell>{formatRupiah(bill.total_paid)}</TableCell>
+              <TableCell />
+              <TableCell />
+              <TableCell />
+              <TableCell />
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </div>
     </AppLayout>
   );
 };

@@ -19,6 +19,7 @@ class PaymentSeeder extends Seeder
             "create payment",
             "update payment",
             "delete payment",
+            "approve payment",
             //"archived payment",
             //"restore payment",
             //"force delete payment",

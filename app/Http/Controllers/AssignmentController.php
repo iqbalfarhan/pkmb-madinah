@@ -50,7 +50,13 @@ class AssignmentController extends Controller
     public function show(Assignment $assignment)
     {
         return Inertia::render('assignment/show', [
-            'assignment' => $assignment->load(['scores', 'scores.media'])
+            'assignment' => $assignment->load(['scores', 'scores.media', 'scores.student']),
+            'permissions' => [
+                'canAdd' => $this->user->can('create score'),
+                'canUpdate' => $this->user->can('update score'),
+                'canDelete' => $this->user->can('delete score'),
+                'canShow' => $this->user->can('show score'),
+            ]
         ]);
     }
 

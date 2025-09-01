@@ -2,6 +2,8 @@ import HeadingSmall from '@/components/heading-small';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { cn } from '@/lib/utils';
+import AssignmentFormSheet from '@/pages/assignment/components/assignment-form-sheet';
 import ScoreFormPopup from '@/pages/score/components/score-form-popover';
 import { SharedData } from '@/types';
 import { Assignment } from '@/types/assignment';
@@ -18,6 +20,9 @@ const LessonNilaiTab = () => {
     assignments = [],
   } = usePage<SharedData & { lesson: Lesson; students: Student[]; scores: Score[]; assignments: Assignment[] }>().props;
 
+  const totalRate = assignments.reduce((acc, curr) => acc + curr.rate, 0);
+  const isRateFix = totalRate === 100;
+
   return (
     <div className="space-y-6">
       <HeadingSmall title="Daftar Nilai" description="Daftar nilai siswa untuk setiap tugas" />
@@ -27,10 +32,21 @@ const LessonNilaiTab = () => {
             <TableHead className="border-r-2 border-border">Nama siswa</TableHead>
             {assignments.map((assignment) => (
               <TableHead className="text-center" key={assignment.id}>
-                {assignment.rate}
+                <AssignmentFormSheet purpose="edit" assignment={assignment}>
+                  <Button size={'icon'} variant={'ghost'}>
+                    {assignment.rate}%
+                  </Button>
+                </AssignmentFormSheet>
               </TableHead>
             ))}
-            <TableHead className="border-l-2 border-border text-center">Total</TableHead>
+            <TableHead
+              className={cn(
+                'border-l-2 border-border text-center',
+                isRateFix ? 'bg-success/10 text-center text-success' : 'bg-destructive/10 text-center text-destructive',
+              )}
+            >
+              Total
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

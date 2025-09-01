@@ -53,7 +53,7 @@ class News extends Model implements HasMedia
     public function getThumbnailAttribute()
     {
         $thumbnail = $this->getFirstMediaUrl();
-        return $thumbnail != "" ? $thumbnail : asset("nocontent.jpeg");
+        return $thumbnail != "" ? $thumbnail : asset("nocontent.jpg");
     }
 
     public function getDescriptionAttribute(): string

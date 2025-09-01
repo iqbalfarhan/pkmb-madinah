@@ -21,11 +21,11 @@ class PpdbMiddleware
         $setting = Setting::where("key", "PPDB_OPEN")->first();
         $active = $setting ? $setting->value === "true" : false;
 
-        if ($active || $user->can("ppdb setting")) {
+        if ($active || $user?->can("ppdb setting")) {
             return $next($request);        
         }
 
-        abort(404, "Sesi ppdb belum dibuka");
+        abort(403, "Sesi ppdb belum dibuka");
 
     }
 }

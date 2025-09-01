@@ -210,11 +210,12 @@ return [
 		"kelas" => "",
 		"usia" => "",
 		"nisn" => "",
-		"naik_kelas" => true,
-  	"ke_kelas" => "",
-  	"keputusan" => "",
-  	"tanggal" => "",
-  	"walikelas" => '',
+		"naik_kelas" => null,
+		"ke_kelas" => "",
+		"keputusan" => "Berdasarkan pencapaian kompetensi pada semester 1 dan 2, peserta didik dinyatakan :",
+		"tanggal" => "",
+		"walikelas" => '',
+		"rapor_kenaikan_kelas" => false,
 		"nilai" => []
 	]
 ];

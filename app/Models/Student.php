@@ -44,7 +44,14 @@ class Student extends Model implements HasMedia
         'updated_at',
     ];
 
-    public static $statusLists = ['draft', 'ppdb', 'aktif', 'dikeluarkan', 'lulus', 'pindah'];
+    public static $statusLists = [
+        'draft',
+        'ppdb',
+        'aktif',
+        'dikeluarkan',
+        'lulus',
+        'pindah'
+    ];
 
     public $appends = ['kelahiran', 'umur', 'avatar'];
     public $casts = [

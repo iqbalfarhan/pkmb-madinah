@@ -227,5 +227,6 @@ export function numberToWords(num: number): string {
 }
 
 export function hariNumberDescription(num: number): string {
+  if (num == 0) return '-';
   return `${num} (${numberToWords(num)}) Hari`;
 }

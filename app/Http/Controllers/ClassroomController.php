@@ -27,7 +27,7 @@ class ClassroomController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Classroom::query()->with(['academic_year', 'teacher', 'grade'])->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = Classroom::query()->with(['academic_year', 'teacher', 'grade', 'students'])->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('classroom/index', [
             'classrooms' => $data->get(),
@@ -122,7 +122,7 @@ class ClassroomController extends Controller
     {
         return Inertia::render('classroom/tabs/classroom-lessons-tab', [
             'classroom' => $classroom,
-            'lessons' => Lesson::whereClassroomId($classroom->id)->get(),
+            'lessons' => Lesson::whereClassroomId($classroom->id)->with('assignments', 'materials')->get(),
             'teachers' => Teacher::get(),
             'subjects' => Subject::get(),
             'classrooms' => [$classroom],
@@ -150,7 +150,7 @@ class ClassroomController extends Controller
         ]);
     }
 
-    public function rapors(Classroom $classroom)
+    public function rapors(Request $request, Classroom $classroom)
     {
         return Inertia::render('classroom/tabs/classroom-rapors-tab', [
             'classroom' => $classroom,
@@ -165,7 +165,8 @@ class ClassroomController extends Controller
                 'canAdd' => $this->user->can('create report'),
                 'canUpdate' => $this->user->can('update report'),
                 'canDelete' => $this->user->can('delete report'),
-            ]
+            ],
+            'query' => $request->input()
         ]);
     }
 

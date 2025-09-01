@@ -17,7 +17,7 @@ class StoreExamscoreRequest extends FormRequest
             'student_id' => 'required|exists:students,id',
             'exam_id' => 'required|exists:exams,id',
             'score' => 'required|numeric',
-            'remark' => 'required|string|max:255',
+            'remark' => 'nullable|string|max:255',
         ];
     }
 }

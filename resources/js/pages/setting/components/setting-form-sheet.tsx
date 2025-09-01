@@ -79,7 +79,7 @@ const SettingFormSheet: FC<Props> = ({ children, setting, purpose }) => {
             <AlertTitle>Informasi</AlertTitle>
             <AlertDescription>{setting?.hint}</AlertDescription>
           </Alert>
-          <SubmitButton onClick={handleSubmit} label={`${capitalizeWords(purpose)} setting`} loading={processing} disabled={processing} />
+          <SubmitButton onClick={handleSubmit} label="Simpan pengaturan" loading={processing} disabled={processing} />
           <SheetClose asChild>
             <Button variant={'outline'}>
               <X /> Batalin

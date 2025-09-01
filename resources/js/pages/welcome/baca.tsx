@@ -18,7 +18,7 @@ const Baca: FC<Props> = ({ news }) => {
             <CarouselContent>
               {news.media.map((m) => (
                 <CarouselItem key={m.id}>
-                  <img src={m.original_url} className="rounded-lg" />
+                  <img src={m.original_url} className="h-full w-full rounded-lg object-cover" />
                 </CarouselItem>
               ))}
             </CarouselContent>

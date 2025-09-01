@@ -1,4 +1,3 @@
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -11,24 +10,34 @@ import { Setting } from '@/types/setting';
 import { Student } from '@/types/student';
 import { Link, usePage } from '@inertiajs/react';
 import dayjs from 'dayjs';
-import { CheckCheck, Edit, Filter, Folder, Plus, Trash2, Wallet } from 'lucide-react';
+import { BookCheck, CheckCheck, Edit, Folder, PencilRuler, Plus, Settings, Trash2, Wallet } from 'lucide-react';
 import { FC, useState } from 'react';
 import StudentStatusBadge from '../student/components/student-status-badge';
 import PpdbAcceptRegistrationSheet from './components/ppdb-accept-registration-sheet';
 import PpdbBulkDeleteDialog from './components/ppdb-bulk-delete-dialog';
 import PpdbBulkEditSheet from './components/ppdb-bulk-edit-sheet';
 import PpdbDeleteDialog from './components/ppdb-delete-dialog';
-import PpdbFilterSheet from './components/ppdb-filter-sheet';
 import PpdbFormSheet from './components/ppdb-form-sheet';
 import PpdbSettingSheet from './components/ppdb-setting-sheet';
 
 type Props = {
   ppdbs: Student[];
   ppdbSetting: Setting;
+  counts?: {
+    draft: number;
+    ppdb: number;
+  };
   query: { [key: string]: string };
 };
 
-const PpdbList: FC<Props> = ({ ppdbs, query, ppdbSetting }) => {
+const PpdbList: FC<Props> = ({
+  ppdbs,
+  ppdbSetting,
+  counts = {
+    draft: 0,
+    ppdb: 0,
+  },
+}) => {
   const [ids, setIds] = useState<number[]>([]);
   const [cari, setCari] = useState('');
 
@@ -48,37 +57,50 @@ const PpdbList: FC<Props> = ({ ppdbs, query, ppdbSetting }) => {
               </Link>
             </Button>
           )}
-          <PpdbSettingSheet purpose="edit" setting={ppdbSetting}>
-            <Button>Pengaturan PPDB</Button>
-          </PpdbSettingSheet>
         </>
       }
     >
-      <div className="grid grid-cols-3 gap-6">
-        <Card className="text-success">
-          <CardHeader>
-            <CardTitle>Saat ini status ppdb dibuka</CardTitle>
-            <CardDescription>Klik untuk mengubah status ppdb</CardDescription>
+      <div className="grid-responsive grid gap-4">
+        <PpdbSettingSheet purpose="edit" setting={ppdbSetting}>
+          <Card className={ppdbSetting.value === 'true' ? 'border border-success bg-success/10 text-success shadow-2xl shadow-success' : ''}>
+            <CardHeader className="flex flex-row space-y-5 space-x-4">
+              <div className="size-5">
+                <Settings />
+              </div>
+              <div className="space-y-1.5">
+                <CardTitle className="line-clamp-1">Pengaturan PPDB</CardTitle>
+                <CardDescription className="line-clamp-2">
+                  Saat ini status ppdb {ppdbSetting.value == 'true' ? 'dibuka' : 'ditutup'}. klik untuk membuka pengaturan
+                </CardDescription>
+              </div>
+            </CardHeader>
+          </Card>
+        </PpdbSettingSheet>
+        <Card>
+          <CardHeader className="flex flex-row space-y-5 space-x-4">
+            <div className="size-5">
+              <PencilRuler />
+            </div>
+            <div className="space-y-1.5">
+              <CardTitle className="line-clamp-1">Proses pendfataran</CardTitle>
+              <CardDescription className="line-clamp-2">{counts.draft} siswa dalam proses pengisian data siswa baru.</CardDescription>
+            </div>
           </CardHeader>
         </Card>
         <Card>
-          <CardHeader>
-            <CardTitle>cd</CardTitle>
-            <CardDescription>dd</CardDescription>
+          <CardHeader className="flex flex-row space-y-5 space-x-4">
+            <div className="size-5">
+              <BookCheck />
+            </div>
+            <div className="space-y-1.5">
+              <CardTitle className="line-clamp-1">Siap diverifikasi</CardTitle>
+              <CardDescription className="line-clamp-2">{counts.ppdb} siswa sedang menunggu verifikasi dari pihak sekolah.</CardDescription>
+            </div>
           </CardHeader>
         </Card>
       </div>
       <div className="flex gap-2">
         <Input placeholder="Search ppdbs..." value={cari} onChange={(e) => setCari(e.target.value)} />
-        <PpdbFilterSheet query={query}>
-          <Button>
-            <Filter />
-            Filter data
-            {Object.values(query).filter((val) => val && val !== '').length > 0 && (
-              <Badge variant="secondary">{Object.values(query).filter((val) => val && val !== '').length}</Badge>
-            )}
-          </Button>
-        </PpdbFilterSheet>
         {ids.length > 0 && (
           <>
             <Button variant={'ghost'} disabled>

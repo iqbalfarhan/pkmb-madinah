@@ -34,7 +34,7 @@ const ClassroomLessonsTab: FC<Props> = ({ lessons }) => {
           </>
         }
       />
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid-responsive grid gap-4">
         {lessons.map((lesson) => (
           <LessonItemCard lesson={lesson} key={lesson.id} />
         ))}

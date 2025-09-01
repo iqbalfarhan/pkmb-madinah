@@ -51,7 +51,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::apiResource('role', RoleController::class);
     Route::apiResource('permission', PermissionController::class);
-    Route::apiResource('media', MediaController::class);
+    Route::apiResource('document', MediaController::class);
 
     Route::put('academicyear/bulk', [AcademicYearController::class, 'bulkUpdate'])->name('academicyear.bulk.update');
     Route::delete('academicyear/bulk', [AcademicYearController::class, 'bulkDelete'])->name('academicyear.bulk.destroy');
@@ -90,6 +90,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('lesson/bulk', [LessonController::class, 'bulkDelete'])->name('lesson.bulk.destroy');
     Route::apiResource('lesson', LessonController::class);
 
+    Route::post('material/{material}/uploadMedia', [MaterialController::class, 'uploadMedia'])->name('material.upload-media');
     Route::put('material/bulk', [MaterialController::class, 'bulkUpdate'])->name('material.bulk.update');
     Route::delete('material/bulk', [MaterialController::class, 'bulkDelete'])->name('material.bulk.destroy');
     Route::apiResource('material', MaterialController::class);

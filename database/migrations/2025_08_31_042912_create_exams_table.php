@@ -15,6 +15,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->foreignId('academic_year_id')->constrained('academic_years')->cascadeOnDelete();
             $table->foreignId('classroom_id')->constrained('classrooms')->cascadeOnDelete();
+            $table->integer('rate')->default(100);
             $table->timestamps();
         });
     }

@@ -26,13 +26,13 @@ export default function Login({ status, canResetPassword }: LoginProps) {
   };
 
   return (
-    <AuthLayout title="Log in to your account" description="Enter your email and password below to log in">
+    <AuthLayout title="Masuk ke akun anda" description="Gunakan alamat email dan password anda yang sudah terdaftar.">
       <Head title="Log in" />
 
       <form className="flex flex-col gap-6" onSubmit={submit}>
         <>
           <div className="grid gap-6">
-            <FormControl label="Email">
+            <FormControl label="Alamat email">
               <Input type="email" value={data.email} required placeholder="email@example.com" onChange={(e) => setData('email', e.target.value)} />
             </FormControl>
             <FormControl
@@ -41,7 +41,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                 <>
                   {canResetPassword && (
                     <TextLink href={route('password.request')} className="ml-auto text-sm" tabIndex={5}>
-                      Forgot password?
+                      Lupa password
                     </TextLink>
                   )}
                 </>
@@ -52,7 +52,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
 
             <div className="flex items-center space-x-3">
               <Checkbox id="remember" name="remember" tabIndex={3} />
-              <Label htmlFor="remember">Remember me</Label>
+              <Label htmlFor="remember">Ingat saya</Label>
             </div>
 
             <Button type="submit" className="mt-4 w-full" tabIndex={4} disabled={processing}>
@@ -62,9 +62,9 @@ export default function Login({ status, canResetPassword }: LoginProps) {
           </div>
 
           <div className="text-center text-sm text-muted-foreground">
-            Don't have an account?{' '}
+            Belum punya akun?{' '}
             <TextLink href={route('register')} tabIndex={5}>
-              Sign up
+              Daftar akun orangtua
             </TextLink>
           </div>
         </>

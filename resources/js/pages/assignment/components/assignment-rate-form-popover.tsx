@@ -34,7 +34,7 @@ const AssignmentRateFormPopover: FC<Props> = ({ children, assignment }) => {
       ) : (
         <PopoverTrigger>
           <Button variant={'ghost'} size={'icon'}>
-            {data.rate}
+            {data.rate}%
           </Button>
         </PopoverTrigger>
       )}

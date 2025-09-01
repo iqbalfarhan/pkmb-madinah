@@ -10,8 +10,8 @@ export type Score = {
   student: Student;
   lesson: Lesson;
   assignment: Assignment;
-  media: Media;
+  media: Media[];
   rated_score: number;
-  created_at?: string;
+  created_at: string;
   updated_at?: string;
 };

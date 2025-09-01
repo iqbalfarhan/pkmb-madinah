@@ -1,7 +1,6 @@
-import PpdbCardWidget from '../dashboard/widgets/ppdb-card-widget';
-import SectionContainer from './layout/section-container';
 import WelcomeLayout from './layout/welcome-layout';
 import AlurSection from './partials/alur-section';
+import PpdbSection from './partials/ppdb-section';
 import SyaratSection from './partials/syarat-section';
 
 const Alur = () => {
@@ -9,9 +8,7 @@ const Alur = () => {
     <WelcomeLayout>
       <AlurSection />
       <SyaratSection />
-      <SectionContainer>
-        <PpdbCardWidget />
-      </SectionContainer>
+      <PpdbSection />
     </WelcomeLayout>
   );
 };

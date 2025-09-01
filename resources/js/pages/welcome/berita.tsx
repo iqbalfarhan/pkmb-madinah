@@ -12,7 +12,7 @@ const Berita: FC<Props> = ({ news }) => {
   return (
     <WelcomeLayout>
       <SectionContainer title="Berita kegiatan terbaru" description="Kegiatan sekolah">
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid gap-6 md:grid-cols-3">
           {news.map((berita) => (
             <NewsItemCard news={berita} key={berita.id} />
           ))}

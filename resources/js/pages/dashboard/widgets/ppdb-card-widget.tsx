@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import { SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import { ChevronRight } from 'lucide-react';
@@ -12,18 +13,17 @@ const PpdbCardWidget = () => {
   }
 
   return (
-    <Card className="dark">
+    <Card>
       <CardHeader>
-        <CardTitle>Sesi pendaftaran siswa baru telah dibuka</CardTitle>
-        <CardDescription>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam amet vel sed quia maiores commodi, quasi veritatis labore quae perferendis
-          perspiciatis rem repellat a cum doloremque voluptatibus. Ab, illum obcaecati?
-        </CardDescription>
+        <CardTitle className="!leading-lg">Sesi pendaftaran siswa baru telah dibuka</CardTitle>
+        <CardDescription>Hai parents, saat ini sesi pendaftaran sedang dibuka, ayo mendaftak sekarang juga.</CardDescription>
       </CardHeader>
+
+      <Separator />
       <CardFooter>
         <Button asChild>
           <Link href={route('ppdb.create')}>
-            Lihat selengkapnya <ChevronRight />
+            Mulai mendaftar <ChevronRight />
           </Link>
         </Button>
       </CardFooter>

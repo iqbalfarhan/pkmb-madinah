@@ -23,7 +23,7 @@ class StudentFactory extends Factory
             'status' => $status,
             'address' => fake()->address(),
             'grade_id' => Grade::pluck('id')->random(),
-            'classroom_id' => Classroom::pluck('id')->random(),
+            'classroom_id' => $status === "aktif" ? Classroom::pluck('id')->random() : null,
             'phone' => fake()->e164PhoneNumber(),
             'email' => fake()->email(),
             'pob' => fake()->city(),

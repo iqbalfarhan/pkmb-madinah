@@ -6,6 +6,7 @@ use App\Http\Requests\StoreMaterialRequest;
 use App\Http\Requests\UpdateMaterialRequest;
 use App\Http\Requests\BulkUpdateMaterialRequest;
 use App\Http\Requests\BulkDeleteMaterialRequest;
+use App\Http\Requests\UploadMaterialMediaRequest;
 use App\Models\Lesson;
 use App\Models\Material;
 use Illuminate\Http\Request;
@@ -48,7 +49,10 @@ class MaterialController extends Controller
     public function show(Material $material)
     {
         return Inertia::render('material/show', [
-            'material' => $material
+            'material' => $material->load('media'),
+            "permissions" => [
+                "canUpload" => $this->user->can("upload material"),
+            ]
         ]);
     }
 
@@ -85,6 +89,14 @@ class MaterialController extends Controller
     {
         $data = $request->validated();
         Material::whereIn('id', $data['material_ids'])->delete();
+    }
+
+    public function uploadMedia(UploadMaterialMediaRequest $request, Material $material)
+    {
+        $data = $request->validated();
+        $collection = "material";
+        
+        $material->addMedia($data['file'])->toMediaCollection($collection);
     }
 
     

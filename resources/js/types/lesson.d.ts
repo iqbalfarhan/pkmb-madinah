@@ -1,3 +1,4 @@
+import { Assignment } from './assignment';
 import { Classroom } from './classroom';
 import { Material } from './material';
 import { Subject } from './subject';
@@ -14,6 +15,7 @@ export type Lesson = {
   subject: Subject;
   teacher: Teacher;
   materials: Material[];
+  assignments: Assignment[];
   created_at?: string;
   updated_at?: string;
 };

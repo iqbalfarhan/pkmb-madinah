@@ -13,10 +13,11 @@ class SuperadminMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
+
     public function handle(Request $request, Closure $next): Response
     {
         if (!auth()->user()->hasRole('superadmin')) {
-            return redirect()->route('dashboard');
+            abort(404);
         }
 
         return $next($request);

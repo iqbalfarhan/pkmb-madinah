@@ -1,10 +1,12 @@
+import HeadingSmall from '@/components/heading-small';
 import { Button } from '@/components/ui/button';
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { Material } from '@/types/material';
-import { Edit } from 'lucide-react';
+import { Download, Edit } from 'lucide-react';
 import { FC } from 'react';
 import MaterialFormSheet from './components/material-form-sheet';
+import MaterialUploadForm from './components/material-upload-form';
 
 type Props = {
   material: Material;
@@ -29,12 +31,40 @@ const ShowMaterial: FC<Props> = ({ material }) => {
       <Card>
         <CardHeader>
           <CardTitle>{material.title}</CardTitle>
-          <CardDescription>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, quo impedit cupiditate voluptas culpa magnam itaque distinctio at ullam,
-            beatae perferendis doloremque facilis mollitia, quod corporis. Autem voluptatum ipsum placeat.
-          </CardDescription>
+          <CardDescription>{material.description}</CardDescription>
         </CardHeader>
       </Card>
+
+      <div className="grid space-y-4">
+        <HeadingSmall
+          title="Materi belajar yanag diupload"
+          description="Pengguna dapat melihat dan mendownlkoad materi belajar yang diupload oleh guru"
+          actions={
+            <>
+              <MaterialUploadForm material={material}>
+                <Button>Upload material</Button>
+              </MaterialUploadForm>
+            </>
+          }
+        />
+        <div className="grid-responsive grid gap-4">
+          {material.media.map((m) => (
+            <Card className="aspect-square">
+              <CardContent className="flex flex-1 items-center justify-center">
+                <Button variant={'secondary'} asChild>
+                  <a href={m.file_name}>
+                    <Download />
+                    Download
+                  </a>
+                </Button>
+              </CardContent>
+              <CardFooter>
+                <CardDescription>{m.name}</CardDescription>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      </div>
     </AppLayout>
   );
 };

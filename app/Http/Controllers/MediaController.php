@@ -26,15 +26,15 @@ class MediaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Media $document)
     {
-        //
+        return $document;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Media $document)
     {
         //
     }
@@ -42,9 +42,8 @@ class MediaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Media $medium)
+    public function destroy(Media $document)
     {
-        dd($medium);
-        $medium->delete();
+        $document->delete();
     }
 }

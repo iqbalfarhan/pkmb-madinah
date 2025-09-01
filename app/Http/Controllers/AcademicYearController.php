@@ -7,7 +7,9 @@ use App\Http\Requests\UpdateAcademicYearRequest;
 use App\Http\Requests\BulkUpdateAcademicYearRequest;
 use App\Http\Requests\BulkDeleteAcademicYearRequest;
 use App\Models\AcademicYear;
+use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class AcademicYearController extends Controller
@@ -37,7 +39,22 @@ class AcademicYearController extends Controller
     public function store(StoreAcademicYearRequest $request)
     {
         $data = $request->validated();
-        AcademicYear::create($data);
+
+        DB::transaction(function () use ($request, $data) {
+
+            $newClassroom = $data['new_classroom'];
+            $detachStudents = $data['detach_students'];
+
+            if ($newClassroom) {
+                # code...
+            }
+
+            if ($detachStudents) {
+                Student::update(['classroom_id' => null]);
+            }
+    
+            AcademicYear::create($data);
+        });
     }
 
     /**

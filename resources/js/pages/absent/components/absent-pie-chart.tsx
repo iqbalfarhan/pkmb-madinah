@@ -49,7 +49,7 @@ const AbsentPieChart: FC<Props> = ({ absents = [], href, className }) => {
         </CardHeader>
         {absents.length > 0 && (
           <CardContent className="flex-1 pb-0">
-            <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[250px]">
+            <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[200px]">
               <PieChart>
                 <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
                 <Pie data={chartData} dataKey="count" nameKey="reason" />

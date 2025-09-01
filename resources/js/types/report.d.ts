@@ -68,10 +68,17 @@ export type PenilaianTahfidz = {
 // batas rapor tahfidz
 
 export type ReportNilaiData = {
-  naik_kelas: boolean;
+  tahunajaran: string;
+  semester: string;
+  nama: string;
+  kelas: string;
+  usia: string;
+  nisn: string;
+  rapor_kenaikan_kelas: boolean;
+  naik_kelas: boolean | null;
   ke_kelas: string;
   keputusan: string;
-  penilaian: {
+  nilai: {
     name: string;
     type: string; // inti | muatan lokal
     nilai_tugas: number;

@@ -1,3 +1,4 @@
+import { Media } from '.';
 import { Lesson } from './lesson';
 
 export type Material = {
@@ -7,6 +8,7 @@ export type Material = {
   title: string;
   description: string;
   url: string;
+  media: Media[];
   created_at?: string;
   updated_at?: string;
 };

@@ -19,6 +19,7 @@ class MaterialSeeder extends Seeder
             "create material",
             "update material",
             "delete material",
+            "upload material",
             //"archived material",
             //"restore material",
             //"force delete material",

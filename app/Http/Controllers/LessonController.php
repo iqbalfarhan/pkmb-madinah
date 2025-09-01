@@ -8,6 +8,7 @@ use App\Http\Requests\BulkUpdateLessonRequest;
 use App\Http\Requests\BulkDeleteLessonRequest;
 use App\Models\AcademicYear;
 use App\Models\Classroom;
+use App\Models\Examscore;
 use App\Models\Lesson;
 use App\Models\Score;
 use App\Models\Student;
@@ -56,7 +57,7 @@ class LessonController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Lesson $lesson)
+    public function show(Request $request, Lesson $lesson)
     {
         $students = $lesson->classroom->students;
         $scores = Score::where('lesson_id', $lesson->id)->whereIn('student_id', $students->pluck('id'))->get();
@@ -68,6 +69,7 @@ class LessonController extends Controller
             'students' => $students,
             'scores' => $scores,
             'exams' => $lesson->exams,
+            'examscores' => Examscore::whereIn('exam_id', $lesson->exams->pluck('id'))->get(),
             'classrooms' => [$lesson->classroom],
             'academicYears' => [AcademicYear::active()],
             'permissions' => [
@@ -75,7 +77,8 @@ class LessonController extends Controller
                 'canUpdate' => $this->user->can('update assignment'),
                 'canDelete' => $this->user->can('delete assignment'),
                 'canShow' => $this->user->can('show assignment'),
-            ]
+            ],
+            "query" => $request->input()
         ]);
     }
 

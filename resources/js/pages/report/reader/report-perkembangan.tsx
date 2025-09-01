@@ -1,10 +1,14 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import SubmitButton from '@/components/submit-button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { capitalizeWords, hariNumberDescription } from '@/lib/utils';
-import { ReportPerkembanganData } from '@/types/report';
+import { Textarea } from '@/components/ui/textarea';
+import { capitalizeWords, em, hariNumberDescription } from '@/lib/utils';
+import { Report, ReportPerkembanganData } from '@/types/report';
+import { useForm, usePage } from '@inertiajs/react';
 import { FC } from 'react';
+import { toast } from 'sonner';
 import ReportStudentCard from '../components/report-student-card';
 
 type Props = {
@@ -12,6 +16,24 @@ type Props = {
 };
 
 const ReportPerkembanganReader: FC<Props> = ({ data }) => {
+  const { report } = usePage<{ report: Report }>().props;
+
+  const {
+    data: formData,
+    setData,
+    put,
+    processing,
+  } = useForm({
+    data: report.data as ReportPerkembanganData,
+  });
+
+  const handlePostComment = () => {
+    put(route('report.update', report.id), {
+      preserveScroll: true,
+      onSuccess: () => toast.success('Berhasil menyimpan'),
+      onError: (e) => toast.error(em(e)),
+    });
+  };
   return (
     <>
       <h1 className="text-center text-3xl font-semibold uppercase">
@@ -76,10 +98,10 @@ const ReportPerkembanganReader: FC<Props> = ({ data }) => {
             <TableHeader>
               <TableRow>
                 <TableHead>No.</TableHead>
-                <TableHead className="w-full">Sikap yang dikembangkan</TableHead>
-                <TableHead className="text-center">I</TableHead>
-                <TableHead className="text-center">II</TableHead>
-                <TableHead className="text-center">III</TableHead>
+                <TableHead>Sikap yang dikembangkan</TableHead>
+                <TableHead className="w-[50px] text-center">I</TableHead>
+                <TableHead className="w-[50px] text-center">II</TableHead>
+                <TableHead className="w-[50px] text-center">III</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -87,13 +109,13 @@ const ReportPerkembanganReader: FC<Props> = ({ data }) => {
                 <TableRow>
                   <TableCell>{index + 1}.</TableCell>
                   <TableCell>{item}</TableCell>
-                  <TableCell>
+                  <TableCell className="text-center">
                     <Checkbox checked={value === 1} />
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="text-center">
                     <Checkbox checked={value === 2} />
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="text-center">
                     <Checkbox checked={value === 3} />
                   </TableCell>
                 </TableRow>
@@ -140,6 +162,13 @@ const ReportPerkembanganReader: FC<Props> = ({ data }) => {
         </CardHeader>
         <CardContent>
           <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>No</TableHead>
+                <TableHead>Keterangan</TableHead>
+                <TableHead>Jumlah (hari)</TableHead>
+              </TableRow>
+            </TableHeader>
             <TableBody>
               {['sakit', 'izin', 'tanpa keterangan'].map((item, index) => (
                 <TableRow>
@@ -158,35 +187,43 @@ const ReportPerkembanganReader: FC<Props> = ({ data }) => {
       <Card>
         <CardHeader>
           <CardTitle>Komentar guru</CardTitle>
+          <CardDescription>{data.walikelas}</CardDescription>
         </CardHeader>
         <CardContent>
           <p>{data.komentar_guru}</p>
         </CardContent>
       </Card>
-      {/* <Card>
-        <CardHeader>
-          <CardTitle>Komentar anak</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Textarea
-            placeholder="Tulis komentar siswa disini"
-            value={data.komentar_siswa}
-            onChange={(e) => setData('data.komentar_siswa', e.target.value)}
-          />
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Komentar orangtua/wali</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Textarea
-            placeholder="Tulis komentar wali disini"
-            value={data.komentar_wali}
-            onChange={(e) => setData('data.komentar_wali', e.target.value)}
-          />
-        </CardContent>
-      </Card> */}
+      <div className="grid gap-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>Komentar anak</CardTitle>
+            <CardDescription>{data.nama}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Textarea
+              placeholder="Tulis komentar siswa disini"
+              value={formData.data.komentar_siswa}
+              onChange={(e) => setData('data.komentar_siswa', e.target.value)}
+            />
+          </CardContent>
+          <Separator />
+          <CardHeader>
+            <CardTitle>Komentar orangtua/wali</CardTitle>
+            <CardDescription>Orangtua {data.nama}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Textarea
+              placeholder="Tulis komentar wali disini"
+              value={formData.data.komentar_wali}
+              onChange={(e) => setData('data.komentar_wali', e.target.value)}
+            />
+          </CardContent>
+          <Separator />
+          <CardFooter>
+            <SubmitButton loading={processing} label="Simpan komentar" onClick={handlePostComment} />
+          </CardFooter>
+        </Card>
+      </div>
     </>
   );
 };

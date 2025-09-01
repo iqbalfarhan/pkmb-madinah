@@ -1,5 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import { Lesson } from '@/types/lesson';
 import { Link } from '@inertiajs/react';
 import { FC } from 'react';
@@ -16,9 +17,10 @@ const LessonItemCard: FC<Props> = ({ lesson }) => {
           <CardTitle className="line-clamp-1">{lesson.subject.name}</CardTitle>
           <CardDescription>Pengajar: {lesson.teacher.name}</CardDescription>
         </CardHeader>
+        <Separator />
         <CardFooter className="flex flex-wrap gap-1">
           {lesson.materials && <Badge variant={'secondary'}>{lesson.materials?.length} materi</Badge>}
-          <Badge variant={'secondary'}>2 tugas</Badge>
+          {lesson.assignments && <Badge variant={'secondary'}>{lesson.assignments?.length} tugas</Badge>}
         </CardFooter>
       </Card>
     </Link>

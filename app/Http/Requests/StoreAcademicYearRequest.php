@@ -15,8 +15,10 @@ class StoreAcademicYearRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'year' => ['required', new AcademicYearFormatRule],
+            'year' => ['required', new AcademicYearFormatRule, 'unique:academic_years,year'],
             'semester' => 'required|string|max:255',
+            'new_classroom' => 'nullable|boolean',
+            'detach_students' => 'nullable|boolean',
             'active' => 'nullable|boolean',
         ];
     }

@@ -8,7 +8,10 @@ use App\Http\Requests\BulkUpdateReportRequest;
 use App\Http\Requests\BulkDeleteReportRequest;
 use App\Models\AcademicYear;
 use App\Models\Classroom;
+use App\Models\Examscore;
+use App\Models\Grade;
 use App\Models\Report;
+use App\Models\Score;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -20,7 +23,10 @@ class ReportController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Report::query()->with(['academic_year', 'classroom', 'student'])->when($request->report_type, fn($q, $v) => $q->where('report_type', $v));
+        $data = Report::query()
+            ->with(['academic_year', 'classroom', 'student'])
+            ->when($request->report_type, fn($q, $v) => $q->where('report_type', $v))
+            ->when($request->student_id, fn($q, $v) => $q->where('student_id', $v));
 
         return Inertia::render('report/index', [
             'reports' => $data->get(),
@@ -47,7 +53,8 @@ class ReportController extends Controller
 
         $student = Student::find($data['student_id']);
         $academicYear = AcademicYear::find($data['academic_year_id']);
-        $classroom = Classroom::find($data['classroom_id']);
+        // $classroom = Classroom::find($data['classroom_id']);
+        $classroom = $student->classroom;
 
         $mockup = config('report-mockup')[$data["report_type"]];
         $mockup['tahunajaran'] = $academicYear->year;
@@ -71,16 +78,35 @@ class ReportController extends Controller
             });
         }
         elseif ($data["report_type"] == "nilai") {
-            $mockup["naik_kelas"] = $academicYear->semester === "ganjil" ? false : true;
+            $mockup["rapor_kenaikan_kelas"] = $academicYear->semester === "ganjil" ? false : true;
+            $mockup["naik_kelas"] = null;
             $mockup["ke_kelas"] = "";
-            $mockup["keputusan"] = "";
             $mockup["tanggal"] = now();
 
-            $mockup["penilaian"] = $student->scores->load('lesson');
+            $mockup["nilai"] = $classroom->lessons->map(function($lesson) use($student){
+                $lesson = $lesson->load('exams.examscores', 'assignments.scores');
+                $subject = $lesson->subject;
+
+                // $score = $lesson->assignments->scores?->where('student_id', $student->id)->sum('rated_score') ?? 0;
+                // $examscore = $lesson->exam->examscores?->where('student_id', $student->id)->sum('score') ?? 0;
+
+                $score = Score::whereStudentId($student->id)->whereLessonId($lesson->id)->get()->sum('rated_score') ?? 0;
+                $examscore = Examscore::whereStudentId($student->id)->whereLessonId($lesson->id)->get()->sum('rated_score') ?? 0;
+
+                // $score = 0;
+                // $examscore = 0;
+
+                return [
+                    "name" => $subject->name,
+                    "type" => $subject->group,
+                    "nilai_tugas" => $score,
+                    "evaluasi" => $examscore,
+                    "rata_rata" => ($score + $examscore)/2,
+                ];
+            });
         }
 
         $data['data'] = $mockup;
-
 
         Report::create($data);
     }
@@ -94,6 +120,7 @@ class ReportController extends Controller
             'report' => $report->load('student', 'classroom', 'academic_year'),
             'student' => $report->student->load('activities', 'activities.extracurricular', 'absents'),
             'classroom' => $report->classroom,
+            'grades' => Grade::get()
         ]);
     }
 
@@ -103,6 +130,7 @@ class ReportController extends Controller
             'report' => $report->load('student', 'classroom', 'academic_year'),
             'student' => $report->student->load('activities', 'activities.extracurricular', 'absents'),
             'classroom' => $report->classroom,
+            'grades' => Grade::get()
         ]);
     }
 

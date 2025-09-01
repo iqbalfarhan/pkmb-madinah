@@ -24,7 +24,7 @@ const UserProfileWidget = () => {
         <CardFooter>
           <Button variant={'outline'}>
             <Settings />
-            Edit Profile
+            <span className="hidden md:block">Edit Profile</span>
           </Button>
         </CardFooter>
       </div>

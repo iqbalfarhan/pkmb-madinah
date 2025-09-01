@@ -237,36 +237,13 @@ const ReportPerkambangan: FC<Props> = ({ data }) => {
       <Card>
         <CardHeader>
           <CardTitle>Komentar guru</CardTitle>
+          <CardDescription>{formData.data.walikelas}</CardDescription>
         </CardHeader>
         <CardContent>
           <Textarea
             placeholder="Tulis komentar guru disini"
             value={formData.data.komentar_guru}
             onChange={(e) => setData('data.komentar_guru', e.target.value)}
-          />
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Komentar anak</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Textarea
-            placeholder="Tulis komentar siswa disini"
-            value={formData.data.komentar_siswa}
-            onChange={(e) => setData('data.komentar_siswa', e.target.value)}
-          />
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Komentar orangtua/wali</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Textarea
-            placeholder="Tulis komentar wali disini"
-            value={formData.data.komentar_wali}
-            onChange={(e) => setData('data.komentar_wali', e.target.value)}
           />
         </CardContent>
       </Card>

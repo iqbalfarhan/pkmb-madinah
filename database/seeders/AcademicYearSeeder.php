@@ -22,12 +22,6 @@ class AcademicYearSeeder extends Seeder
                 'semester' => 'Genap',
                 'active' => false,
             ]);
-
-            AcademicYear::create([
-                'year' => $year,
-                'semester' => 'Ganjil',
-                'active' => false,
-            ]);
         }
 
         AcademicYear::latest()->first()->setActive();

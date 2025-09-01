@@ -5,24 +5,26 @@ import { Button } from './ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 
 type Props = {
-  width?: 'fit' | 'full';
+  size?: 'default' | 'icon';
 };
 
-const ThemeToggler: FC<Props> = ({ width = 'fit' }) => {
+const ThemeToggler: FC<Props> = ({ size = 'default' }) => {
   const { appearance, updateAppearance } = useAppearance();
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className={`w-${width}`} asChild>
-        <Button variant={'outline'}>
+      <DropdownMenuTrigger asChild>
+        <Button variant={'outline'} size={size}>
           {appearance === 'light' && <Sun />}
           {appearance === 'dark' && <Moon />}
           {appearance === 'system' && <Monitor />}
-          <span className="hidden md:block">
-            {appearance === 'light' && 'Terang'}
-            {appearance === 'dark' && 'Gelap'}
-            {appearance === 'system' && 'Sistem'}
-          </span>
+          {size === 'default' && (
+            <span className="hidden md:block">
+              {appearance === 'light' && 'Terang'}
+              {appearance === 'dark' && 'Gelap'}
+              {appearance === 'system' && 'Sistem'}
+            </span>
+          )}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

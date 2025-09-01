@@ -1,7 +1,9 @@
 import FormControl from '@/components/form-control';
 import SubmitButton from '@/components/submit-button';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
@@ -9,6 +11,7 @@ import { capitalizeWords, em } from '@/lib/utils';
 import { FormPurpose } from '@/types';
 import { Academicyear } from '@/types/academicyear';
 import { useForm } from '@inertiajs/react';
+import { CheckedState } from '@radix-ui/react-checkbox';
 import { X } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
@@ -23,7 +26,10 @@ const AcademicyearFormSheet: FC<Props> = ({ children, academicyear, purpose }) =
 
   const { data, setData, put, post, reset, processing } = useForm({
     year: academicyear?.year ?? '',
-    semester: academicyear?.semester ?? 'genap',
+    semester: academicyear?.semester ?? 'ganjil',
+    new_classroom: true as CheckedState,
+    detach_students: true as CheckedState,
+    active: true as CheckedState,
   });
 
   const handleSubmit = () => {
@@ -78,6 +84,22 @@ const AcademicyearFormSheet: FC<Props> = ({ children, academicyear, purpose }) =
                   <SelectItem value="ganjil">Ganjil</SelectItem>
                 </SelectContent>
               </Select>
+            </FormControl>
+            <FormControl label="Pengaturan kelas">
+              <div className="grid">
+                <Label className="flex h-8 items-center gap-2">
+                  <Checkbox checked={data.new_classroom} onCheckedChange={(c) => setData('new_classroom', c)} />
+                  <span>Buat kelas baru (duplicate dari sebelumnya)</span>
+                </Label>
+                <Label className="flex h-8 items-center gap-2">
+                  <Checkbox checked={data.detach_students} onCheckedChange={(c) => setData('detach_students', c)} />
+                  <span>Lepaskan semua siswa dari kelasnya</span>
+                </Label>
+                <Label className="flex h-8 items-center gap-2">
+                  <Checkbox checked={data.active} onCheckedChange={(c) => setData('active', c)} />
+                  <span>Jadikan tahun ajaran sebagai aktif</span>
+                </Label>
+              </div>
             </FormControl>
           </form>
         </ScrollArea>

@@ -95,7 +95,7 @@ const EditNews: FC<Props> = ({ news }) => {
                   <>
                     {news.media.map((m) => (
                       <Avatar className="size-full rounded-lg" onClick={() => copyMarkdownImage(m.name, m.original_url)}>
-                        <AvatarImage src={m.preview_url} />{' '}
+                        <AvatarImage src={m.preview_url} className="object-cover" />
                       </Avatar>
                     ))}
                   </>

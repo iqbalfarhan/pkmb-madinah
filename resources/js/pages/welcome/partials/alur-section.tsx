@@ -1,4 +1,5 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Card, CardContent } from '@/components/ui/card';
 import SectionContainer from '../layout/section-container';
 
 export const dataAlurPendaftaran: {
@@ -44,23 +45,27 @@ export const dataAlurPendaftaran: {
 const AlurSection = () => {
   return (
     <SectionContainer title="Alur pendaftaran" description="Bagaimana cara pendaftaran siswa baru di sini">
-      <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
-        {dataAlurPendaftaran.map((alur) => (
-          <AccordionItem value={`item-${alur.index}`} key={alur.index}>
-            <AccordionTrigger>
-              <div className="flex flex-col gap-4 md:flex-row md:items-end">
-                <h1 className="text-3xl font-bold">{alur.index}.</h1>
-                <h3 className="text-base font-semibold">{alur.title}</h3>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className="flex flex-col text-lg text-muted-foreground">
-              {alur.description.map((desc, index) => (
-                <p key={index}>{desc}</p>
-              ))}
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
+      <Card>
+        <CardContent>
+          <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
+            {dataAlurPendaftaran.map((alur) => (
+              <AccordionItem value={`item-${alur.index}`} key={alur.index}>
+                <AccordionTrigger>
+                  <div className="flex flex-col gap-4 md:flex-row md:items-end">
+                    <h1 className="text-3xl font-bold">{alur.index}.</h1>
+                    <h3 className="text-base font-semibold">{alur.title}</h3>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="flex flex-col space-y-2 text-lg text-muted-foreground">
+                  {alur.description.map((desc, index) => (
+                    <p key={index}>{desc}</p>
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </CardContent>
+      </Card>
     </SectionContainer>
   );
 };

@@ -1,5 +1,4 @@
 import FormControl from '@/components/form-control';
-import HeadingSmall from '@/components/heading-small';
 import SubmitButton from '@/components/submit-button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -11,6 +10,7 @@ import { Prevschool } from '@/types/prevschool';
 import { Student } from '@/types/student';
 import { useForm, usePage } from '@inertiajs/react';
 import { toast } from 'sonner';
+import PpdbFormWrapper from '../layouts/ppdb-form-wrapper';
 
 const PpdbSchoolForm = () => {
   const { prevschool, student, permissions } = usePage<SharedData & { prevschool?: Prevschool; student: Student }>().props;
@@ -38,38 +38,33 @@ const PpdbSchoolForm = () => {
   };
 
   return (
-    <div className="flex gap-6">
-      <div className="w-1/3">
-        <HeadingSmall title="Sekolah sebelumnya" description="Informasi tentang sekolah sebelumnya. Dapat dikosongkan bila tidak ada." />
-      </div>
-      <div className="w-2/3 space-y-6">
-        <Card>
-          <CardContent>
-            <div className="grid gap-6">
-              <FormControl label="Nama sekolah">
-                <Input placeholder="Nama sekolah sebelumnya" value={data.name} onChange={(e) => setData('name', e.target.value)} />
-              </FormControl>
-              <FormControl label="Alamat sekolah">
-                <Textarea
-                  placeholder="Alamat sekolah sebelumnya"
-                  className="h-24"
-                  value={data.address}
-                  onChange={(e) => setData('address', e.target.value)}
-                />
-              </FormControl>
-            </div>
-          </CardContent>
-          {permissions?.canUpdate && (
-            <>
-              <Separator />
-              <CardFooter>
-                <SubmitButton onClick={handleSubmit} loading={processing} />
-              </CardFooter>
-            </>
-          )}
-        </Card>
-      </div>
-    </div>
+    <PpdbFormWrapper title="Sekolah sebelumnya" description="Informasi tentang sekolah sebelumnya. Dapat dikosongkan bila tidak ada.">
+      <Card>
+        <CardContent>
+          <div className="grid gap-6">
+            <FormControl label="Nama sekolah">
+              <Input placeholder="Nama sekolah sebelumnya" value={data.name} onChange={(e) => setData('name', e.target.value)} />
+            </FormControl>
+            <FormControl label="Alamat sekolah">
+              <Textarea
+                placeholder="Alamat sekolah sebelumnya"
+                className="h-24"
+                value={data.address}
+                onChange={(e) => setData('address', e.target.value)}
+              />
+            </FormControl>
+          </div>
+        </CardContent>
+        {permissions?.canUpdate && (
+          <>
+            <Separator />
+            <CardFooter>
+              <SubmitButton label="Simpan data sekolah sebelumnya" onClick={handleSubmit} loading={processing} />
+            </CardFooter>
+          </>
+        )}
+      </Card>
+    </PpdbFormWrapper>
   );
 };
 

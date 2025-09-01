@@ -1,7 +1,9 @@
+import AppLogoIcon from '@/components/app-logo-icon';
 import ThemeToggler from '@/components/theme-toggler';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { SidebarTrigger } from '@/components/ui/sidebar';
+
 import { NavItem, SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import { Home, LogIn, Newspaper, UserPlus2 } from 'lucide-react';
@@ -38,7 +40,8 @@ const WelcomeNavbar = () => {
     <Card>
       <CardContent>
         <div className="flex items-center justify-between">
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center gap-2">
+            <AppLogoIcon className="size-8 fill-primary" />
             <h1 className="text-lg font-semibold">{settings?.SCHOOL_NAME}</h1>
           </CardHeader>
           <CardFooter className="hidden md:flex">
@@ -50,9 +53,6 @@ const WelcomeNavbar = () => {
                 </Link>
               </Button>
             ))}
-            <Button disabled variant={'ghost'}>
-              |
-            </Button>
             {authLinks.map(({ title, href, icon: Icon }, index) => (
               <Button variant={'ghost'} asChild key={index}>
                 <Link href={href}>
@@ -61,32 +61,9 @@ const WelcomeNavbar = () => {
                 </Link>
               </Button>
             ))}
+            <ThemeToggler />
+            <SidebarTrigger variant={'ghost'} size={'icon'} />
           </CardFooter>
-          <div className="flex md:hidden">
-            <DropdownMenu>
-              <DropdownMenuTrigger>df</DropdownMenuTrigger>
-              <DropdownMenuContent>
-                {links.map(({ href, title, icon: Icon }) => (
-                  <DropdownMenuItem asChild>
-                    <Link href={href}>
-                      {Icon && <Icon />}
-                      {title}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-                <DropdownMenuSeparator />
-                {authLinks.map(({ href, title, icon: Icon }) => (
-                  <DropdownMenuItem asChild>
-                    <Link href={href}>
-                      {Icon && <Icon />}
-                      {title}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-          <ThemeToggler />
         </div>
       </CardContent>
     </Card>

@@ -3,6 +3,9 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { SharedData } from '@/types';
+import { Academicyear } from '@/types/academicyear';
+import { Student } from '@/types/student';
 import { router, useForm, usePage } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
@@ -14,14 +17,21 @@ type Props = PropsWithChildren & {
 
 const ReportFilterSheet: FC<Props> = ({ children }) => {
   const [open, setOpen] = useState(false);
-  const { reportTypes } = usePage<{ reportTypes: string[] }>().props;
+  const {
+    reportTypes,
+    students = [],
+    academicYears,
+    activeAcademicYear,
+  } = usePage<SharedData & { reportTypes: string[]; students: Student[]; academicYears: Academicyear[] }>().props;
 
   const { data, setData, get } = useForm({
     report_type: '',
+    student_id: '',
+    academic_year_id: activeAcademicYear.id ?? '',
   });
 
   const applyFilter = () => {
-    get('', {
+    get(route('report.index'), {
       preserveScroll: true,
       preserveState: true,
       replace: true,
@@ -34,10 +44,14 @@ const ReportFilterSheet: FC<Props> = ({ children }) => {
 
   const resetFilter = () => {
     setData('report_type', '');
+    setData('student_id', '');
+    setData('academic_year_id', activeAcademicYear.id);
     router.get(
-      '',
+      route('report.index'),
       {
         report_type: '',
+        student_id: '',
+        academic_year_id: '',
       },
       {
         preserveScroll: true,
@@ -64,7 +78,35 @@ const ReportFilterSheet: FC<Props> = ({ children }) => {
               applyFilter();
             }}
           >
-            <FormControl label="Nama Report">
+            <FormControl label="Pilih tahun akademik">
+              <Select value={data.academic_year_id.toString()} onValueChange={(e) => setData('academic_year_id', Number(e))}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Pilih siswa" />
+                </SelectTrigger>
+                <SelectContent>
+                  {academicYears.map((s) => (
+                    <SelectItem key={s.id} value={s.id.toString()}>
+                      {s.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormControl>
+            <FormControl label="Pilih siswa">
+              <Select value={data.student_id.toString()} onValueChange={(e) => setData('student_id', e)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Pilih siswa" />
+                </SelectTrigger>
+                <SelectContent>
+                  {students.map((s) => (
+                    <SelectItem key={s.id} value={s.id.toString()}>
+                      {s.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormControl>
+            <FormControl label="Jenis Report">
               <Select value={data.report_type} onValueChange={(value) => setData('report_type', value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select report type" />

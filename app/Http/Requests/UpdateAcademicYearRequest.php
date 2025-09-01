@@ -14,9 +14,9 @@ class UpdateAcademicYearRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'year' => 'required|string|max:255',
-            'semester' => 'required|string|max:255',
-            'active' => 'required|boolean',
+            'year' => 'nullable|string|max:255',
+            'semester' => 'nullable|string|max:255',
+            'active' => 'nullable|boolean',
         ];
     }
 }

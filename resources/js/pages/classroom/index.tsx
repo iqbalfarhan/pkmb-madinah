@@ -96,6 +96,7 @@ const ClassroomList: FC<Props> = ({ classrooms, query }) => {
             <TableHead>Grade</TableHead>
             <TableHead>Academic year</TableHead>
             <TableHead>Teacher</TableHead>
+            <TableHead>Students</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -124,6 +125,7 @@ const ClassroomList: FC<Props> = ({ classrooms, query }) => {
                 <TableCell>{classroom.grade.name}</TableCell>
                 <TableCell>{classroom.academic_year.label}</TableCell>
                 <TableCell>{classroom.teacher?.name}</TableCell>
+                <TableCell>{classroom.students?.length}</TableCell>
                 <TableCell>
                   {permissions?.canShow && (
                     <Button variant={'ghost'} size={'icon'}>

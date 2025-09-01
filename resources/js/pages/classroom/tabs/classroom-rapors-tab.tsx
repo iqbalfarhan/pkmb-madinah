@@ -5,6 +5,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ReportFormSheet from '@/pages/report/components/report-form-sheet';
 import ReportItemCard from '@/pages/report/components/report-item-card';
 import { Report } from '@/types/report';
+import { router } from '@inertiajs/react';
 import { Plus } from 'lucide-react';
 import { FC, useState } from 'react';
 import ClassroomLayout from '../layout/classroom-layout';
@@ -12,10 +13,11 @@ import ClassroomLayout from '../layout/classroom-layout';
 type Props = {
   reports: Report[];
   reportTypes: string[];
+  query: Record<string, string>;
 };
 
-const ClassroomRarporsTab: FC<Props> = ({ reports, reportTypes }) => {
-  const [tab, setTab] = useState('all');
+const ClassroomRarporsTab: FC<Props> = ({ reports, reportTypes, query }) => {
+  const [tab] = useState(query.tab ?? 'all');
   const [cari, setCari] = useState('');
 
   return (
@@ -37,7 +39,7 @@ const ClassroomRarporsTab: FC<Props> = ({ reports, reportTypes }) => {
 
       <div className="flex gap-2">
         <Input placeholder="Cari dengan nama siswa" value={cari} onChange={(e) => setCari(e.target.value)} />
-        <Tabs value={tab} onValueChange={setTab}>
+        <Tabs value={tab} onValueChange={(v) => router.get('', { tab: v })}>
           <TabsList>
             <TabsTrigger value="all">Semua</TabsTrigger>
             {reportTypes.map((type) => (
@@ -47,7 +49,7 @@ const ClassroomRarporsTab: FC<Props> = ({ reports, reportTypes }) => {
         </Tabs>
       </div>
 
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid-responsive grid gap-4">
         {reports
           .filter((r) => (tab === 'all' ? true : r.report_type === tab))
           .filter((report) => JSON.stringify(report).toLowerCase().includes(cari.toLowerCase()))

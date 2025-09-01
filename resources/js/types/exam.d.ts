@@ -7,6 +7,7 @@ export type Exam = {
   lesson_id: number;
   lesson: Lesson;
   name: string;
+  rate: number;
   description: string;
   academic_year_id: number;
   academic_year: Academicyear;

@@ -19,13 +19,19 @@ class PpdbController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Student::query()->with(['grade', 'prevschool'])->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = Student::query()
+            ->with(['grade', 'prevschool']);
+            //->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('ppdb/index', [
             'ppdbs' => $data->ppdb()->get(),
             'query' => $request->input(),
             'statusLists' => Student::$statusLists,
             'ppdbSetting' => Setting::where('key','PPDB_OPEN')->first(),
+            "counts" => [
+                "draft" => Student::draft()->count(),
+                "ppdb" => Student::ppdb()->count(),
+            ],
             'permissions' => [
                 'canAdd' => $this->user->can('create ppdb'),
                 'canUpdate' => $this->user->can('update ppdb'),
@@ -62,6 +68,10 @@ class PpdbController extends Controller
      */
     public function show(Student $ppdb)
     {
+        if ($ppdb->status === "draft") {
+            return redirect()->route('ppdb.edit', $ppdb);
+        }
+
         return Inertia::render('ppdb/show', [
             'ppdb' => $ppdb->load(['grade', 'family', 'media', 'prevschool']),
             'permissions' => [
@@ -73,8 +83,12 @@ class PpdbController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function edit(Student $ppdb)
+    public function edit(Request $request, Student $ppdb)
     {
+        if ($ppdb->status !== "draft") {
+            return redirect()->route('ppdb.show', $ppdb);
+        }
+
         return Inertia::render('ppdb/edit', [
             'grades' => Grade::get(),
             'student' => $ppdb,
@@ -85,7 +99,8 @@ class PpdbController extends Controller
             "permissions" => [
                 'canUpdate' => $ppdb->status == 'draft',
                 'canDelete' => $ppdb->status == 'draft',
-            ]
+            ],
+            "query" => $request->input()
         ]);
     }
 

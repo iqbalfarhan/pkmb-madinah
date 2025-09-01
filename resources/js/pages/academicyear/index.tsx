@@ -4,12 +4,15 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AppLayout from '@/layouts/app-layout';
+import { em } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Academicyear } from '@/types/academicyear';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import { CheckCheck, Edit, Filter, Folder, Plus, Trash2 } from 'lucide-react';
 import { FC, useState } from 'react';
+import { toast } from 'sonner';
 import AcademicyearBulkDeleteDialog from './components/academicyear-bulk-delete-dialog';
 import AcademicyearBulkEditSheet from './components/academicyear-bulk-edit-sheet';
 import AcademicyearDeleteDialog from './components/academicyear-delete-dialog';
@@ -121,7 +124,28 @@ const AcademicyearList: FC<Props> = ({ academicyears, query }) => {
                   </Button>
                 </TableCell>
                 <TableCell>{academicyear.year}</TableCell>
-                <TableCell>{academicyear.semester}</TableCell>
+                <TableCell>
+                  <Tabs
+                    value={academicyear.semester}
+                    onValueChange={(value) =>
+                      router.put(
+                        route('academicyear.update', academicyear.id),
+                        {
+                          semester: value,
+                        },
+                        {
+                          onSuccess: () => toast.success('updated'),
+                          onError: (e) => toast.error(em(e)),
+                        },
+                      )
+                    }
+                  >
+                    <TabsList>
+                      <TabsTrigger value="ganjil">Ganjil</TabsTrigger>
+                      <TabsTrigger value="genap">Genap</TabsTrigger>
+                    </TabsList>
+                  </Tabs>
+                </TableCell>
                 <TableCell>{academicyear.active && <Badge>Active</Badge>}</TableCell>
                 <TableCell>
                   {permissions?.canUpdate && (

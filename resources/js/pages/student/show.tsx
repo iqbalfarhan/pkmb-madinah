@@ -2,13 +2,12 @@ import HeadingSmall from '@/components/heading-small';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { SharedData } from '@/types';
 import { Absent } from '@/types/absent';
 import { Student } from '@/types/student';
 import { usePage } from '@inertiajs/react';
-import { Building, Calendar, Download, Edit, Key, KeyRound, Palette, Settings, Trash2, Upload, Wallet } from 'lucide-react';
+import { Building, Calendar, Edit, Key, KeyRound, Palette, Settings, Upload, Wallet } from 'lucide-react';
 import { FC } from 'react';
 import AbsentPieChart from '../absent/components/absent-pie-chart';
 import FamilyCardContent from '../family/components/family-card-content';
@@ -17,6 +16,7 @@ import PpdbUploadMediaSheet from '../ppdb/components/ppdb-upload-media-sheet';
 import StudentContactFormSheet from './components/student-contact-form-sheet';
 import StudentFormSheet from './components/student-form-sheet';
 import StudentLinkCard from './components/student-link-card';
+import StudentMediaTable from './components/student-media-table';
 
 type Props = {
   student: Student;
@@ -140,33 +140,7 @@ const ShowStudent: FC<Props> = ({ student }) => {
             )}
           </div>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Dokumen</TableHead>
-                  <TableHead>Nama file</TableHead>
-                  <TableHead>Action</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {student.media?.map((doc) => (
-                  <TableRow>
-                    <TableCell>{doc.collection_name}</TableCell>
-                    <TableCell>{doc.file_name}</TableCell>
-                    <TableCell>
-                      <Button variant={'ghost'} size={'icon'}>
-                        <Download />
-                      </Button>
-                      {permissions?.canUpdate && (
-                        <Button variant={'ghost'} size={'icon'}>
-                          <Trash2 />
-                        </Button>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <StudentMediaTable media={student.media ?? []} />
           </CardContent>
         </Card>
 
