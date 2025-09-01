@@ -50,24 +50,5 @@ class SubjectSeeder extends Seeder
         ];
 
         Subject::insert($datas);
-
-        $permissions = [
-            "menu subject",
-            "index subject",
-            "show subject",
-            "create subject",
-            "update subject",
-            "delete subject",
-            //"archived subject",
-            //"restore subject",
-            //"force delete subject",
-        ];
-
-        foreach ($permissions as $permit) {
-            Permission::updateOrCreate([
-                'group' => "subject",
-                'name' => $permit,
-            ]);
-        }
     }
 }

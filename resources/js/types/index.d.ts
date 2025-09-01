@@ -24,6 +24,7 @@ export interface NavItem {
   icon?: LucideIcon | null;
   isActive?: boolean;
   available?: boolean;
+  items?: NavItem[];
 }
 
 export interface SharedData {

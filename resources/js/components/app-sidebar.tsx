@@ -1,7 +1,7 @@
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
+import { SharedData, type NavItem } from '@/types';
 import { Classroom } from '@/types/classroom';
 import { Lesson } from '@/types/lesson';
 import { Student } from '@/types/student';
@@ -17,6 +17,7 @@ import {
   Folder,
   KeySquare,
   LayoutGrid,
+  List,
   Newspaper,
   Palette,
   Pencil,
@@ -24,7 +25,6 @@ import {
   RemoveFormatting,
   Settings,
   UserCircle,
-  UserPlus,
   Users,
   UsersRound,
   Wallet,
@@ -38,27 +38,25 @@ const mainNavItems: NavItem[] = [
     href: route('dashboard'),
     icon: LayoutGrid,
   },
-  {
-    title: 'Buku panduan',
-    href: route('documentation'),
-    icon: BookOpen,
-  },
 ];
 
 // const footerNavItems: NavItem[] = [];
 
 export function AppSidebar() {
   const {
+    auth: { roles },
     menus,
     myclassrooms = [],
     mylessons = [],
     mystudents = [],
-  } = usePage<{
-    menus: Record<string, boolean>;
-    myclassrooms: Classroom[];
-    mylessons: Lesson[];
-    mystudents: Student[];
-  }>().props;
+  } = usePage<
+    SharedData & {
+      menus: Record<string, boolean>;
+      myclassrooms: Classroom[];
+      mylessons: Lesson[];
+      mystudents: Student[];
+    }
+  >().props;
 
   return (
     <Sidebar collapsible="icon" variant="floating">
@@ -78,6 +76,12 @@ export function AppSidebar() {
           items={[
             ...mainNavItems,
             {
+              title: 'Buku panduan',
+              href: route('documentation'),
+              icon: BookOpen,
+              available: menus.documentation,
+            },
+            {
               title: 'Tagihan pembayaran',
               href: route('bills'),
               icon: Wallet,
@@ -88,27 +92,11 @@ export function AppSidebar() {
         />
         <NavMain
           items={[
-            {
-              title: 'Pendaftaran siswa baru',
-              href: route('ppdb.create'),
-              icon: UserPlus,
-              available: menus.student,
-            },
-            {
-              title: 'Pengaturan PPDB',
-              href: route('ppdb.index'),
-              icon: Settings,
-              available: menus.student,
-            },
-          ]}
-          label="Pendaftaran siswa baru"
-        />
-        <NavMain
-          items={[
             ...mystudents.map((s) => ({
               title: s.name,
               href: route('student.show', s.id),
               icon: UserCircle,
+              available: roles.includes('orangtua'),
             })),
           ]}
           label="Menu orangtua"
@@ -118,6 +106,7 @@ export function AppSidebar() {
             title: c.name,
             href: route('classroom.show', c.id),
             icon: Folder,
+            available: roles.includes('walikelas'),
           }))}
           label="Menu walikelas"
         />
@@ -126,128 +115,152 @@ export function AppSidebar() {
             title: l.name,
             href: route('lesson.show', l.id),
             icon: Newspaper,
+            available: roles.includes('guru'),
           }))}
           label="Menu guru mapel"
         />
         <NavMain
           items={[
             {
-              title: 'Classroom lists',
-              href: route('classroom.index'),
-              icon: KeySquare,
-              available: menus.classroom,
+              title: 'Pengaturan PPDB',
+              href: route('ppdb.index'),
+              icon: Settings,
+              available: menus.ppdb,
             },
             {
-              title: 'Classroom sessions',
-              href: route('lesson.index'),
-              icon: RemoveFormatting,
-              available: menus.lesson,
-            },
-            {
-              title: 'Lesson materials',
-              href: route('material.index'),
-              icon: BookOpen,
-              available: menus.material,
-            },
-            {
-              title: 'Assignments lists',
-              href: route('assignment.index'),
-              icon: Pencil,
-              available: menus.assignment,
-            },
-            {
-              title: 'Examp lists',
-              href: route('exam.index'),
-              icon: Badge,
-              available: menus.exam,
-            },
-          ]}
-          label="Kelas & pelajaran"
-        />
-        <NavMain
-          items={[
-            {
-              title: 'Student lists',
-              href: route('student.index'),
-              icon: Users,
-              available: menus.student,
-            },
-            {
-              title: 'Student Report',
-              href: route('report.index'),
-              icon: FileBadge,
-              available: menus.report,
-            },
-            {
-              title: 'Student Absent',
-              href: route('absent.index'),
-              icon: XSquare,
-              available: menus.absent,
-            },
-            {
-              title: 'Student Score',
-              href: route('score.index'),
-              icon: Pointer,
-              available: menus.score,
-            },
-            {
-              title: 'Tagihan siswa',
-              href: route('bill.index'),
-              icon: Wallet,
-              available: menus.bill,
-            },
-            {
-              title: 'Students Activity',
-              href: route('activity.index'),
-              icon: Palette,
-              available: menus.activity,
-            },
-          ]}
-          label="Students data"
-        />
-        <NavMain
-          items={[
-            {
-              title: 'Academic Year',
+              title: 'Daftar tahun ajaran',
               href: route('academicyear.index'),
               icon: CalendarCheck,
               available: menus.academicyear,
             },
+
             {
-              title: 'Grade lists',
-              href: route('grade.index'),
-              icon: ChevronsUpDown,
-              available: menus.grade,
-            },
-            {
-              title: 'Teachers lists',
+              title: 'Daftar guru',
               href: route('teacher.index'),
               icon: UsersRound,
               available: menus.grade,
             },
+
             {
-              title: 'Subject lists',
-              href: route('subject.index'),
-              icon: Book,
-              available: menus.subject,
-            },
-            {
-              title: 'Schools news',
+              title: 'Daftar berita sekolah',
               href: route('news.index'),
               icon: Newspaper,
               available: menus.news,
             },
+
             {
-              title: 'Extracurricular lists',
-              href: route('extracurricular.index'),
-              icon: Palette,
-              available: menus.extracurricular,
+              title: 'List master data',
+              href: '',
+              icon: List,
+              available: menus.grade,
+              items: [
+                {
+                  title: 'Tingkat kelas',
+                  href: route('grade.index'),
+                  icon: ChevronsUpDown,
+                  available: menus.grade,
+                },
+                {
+                  title: 'List mata pelajaran',
+                  href: route('subject.index'),
+                  icon: Book,
+                  available: menus.subject,
+                },
+                {
+                  title: 'Daftar ekstrakurikuler',
+                  href: route('extracurricular.index'),
+                  icon: Palette,
+                  available: menus.extracurricular,
+                },
+                {
+                  title: 'Jenis pembayaran',
+                  href: route('paymenttype.index'),
+                  icon: Wallet,
+                  available: menus.paymenttype,
+                },
+              ],
             },
             {
-              title: 'Payment lists',
-              href: route('paymenttype.index'),
-              icon: Wallet,
-              available: menus.paymenttype,
+              title: 'Kelas & pelajaran',
+              href: route('classroom.index'),
+              icon: KeySquare,
+              available: menus.classroom,
+              items: [
+                {
+                  title: 'Pengaturan kelas',
+                  href: route('classroom.index'),
+                  icon: KeySquare,
+                  available: menus.classroom,
+                },
+                {
+                  title: 'Pelajaran kelas',
+                  href: route('lesson.index'),
+                  icon: RemoveFormatting,
+                  available: menus.lesson,
+                },
+                {
+                  title: 'Materi pelajaran',
+                  href: route('material.index'),
+                  icon: BookOpen,
+                  available: menus.material,
+                },
+                {
+                  title: 'Tugas pelajaran',
+                  href: route('assignment.index'),
+                  icon: Pencil,
+                  available: menus.assignment,
+                },
+                {
+                  title: 'Ujian pelajaran',
+                  href: route('exam.index'),
+                  icon: Badge,
+                  available: menus.exam,
+                },
+              ],
+            },
+            {
+              title: 'Pengaturan siswa',
+              href: route('student.index'),
+              icon: Users,
+              available: menus.student,
+              items: [
+                {
+                  title: 'Daftar siswa aktif',
+                  href: route('student.index'),
+                  icon: Users,
+                  available: menus.student,
+                },
+                {
+                  title: 'E-rapor siswa',
+                  href: route('report.index'),
+                  icon: FileBadge,
+                  available: menus.report,
+                },
+                {
+                  title: 'Ketidakhadiran',
+                  href: route('absent.index'),
+                  icon: XSquare,
+                  available: menus.absent,
+                },
+                {
+                  title: 'Nilai tugas siswa',
+                  href: route('score.index'),
+                  icon: Pointer,
+                  available: menus.score,
+                },
+                {
+                  title: 'Tagihan pembayaran',
+                  href: route('bill.index'),
+                  icon: Wallet,
+                  available: menus.bill,
+                },
+                {
+                  title: 'Kegiatan ekskul',
+                  href: route('activity.index'),
+                  icon: Palette,
+                  available: menus.activity,
+                },
+              ],
             },
           ]}
           label="Master data"
@@ -262,13 +275,13 @@ export function AppSidebar() {
               available: menus.setting,
             },
             {
-              title: 'User management',
+              title: 'Daftar pengguna',
               href: route('user.index'),
               icon: Users,
               available: menus.user,
             },
             {
-              title: 'Role & permission',
+              title: 'Daftar role & permission',
               href: route('role.index'),
               icon: KeySquare,
               available: menus.role,

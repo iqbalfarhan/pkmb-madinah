@@ -11,8 +11,14 @@ class TeacherSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory(3)->create()->each(function (User $user) {
-            $user->assignRole('guru');
+        // buat akun guru
+
+        User::factory()->create([
+            'name' => 'Guru matapelajaran',
+            'email' => 'guru@gmail.com',
+            'password' => 'password',
+        ])->each(function($user){
+            $user->syncRoles(['guru']);
             Teacher::factory()->create([
                 'user_id' => $user->id,
                 'name' => $user->name,
@@ -20,23 +26,19 @@ class TeacherSeeder extends Seeder
             ]);
         });
 
-        $permissions = [
-            "menu teacher",
-            "index teacher",
-            "show teacher",
-            "create teacher",
-            "update teacher",
-            "delete teacher",
-            "archived teacher",
-            "restore teacher",
-            "force delete teacher",
-        ];
+        // buat akun walikelas
 
-        foreach ($permissions as $permit) {
-            Permission::updateOrCreate([
-                'group' => "teacher",
-                'name' => $permit,
+        User::factory()->create([
+            'name' => 'Walikelas',
+            'email' => 'walikelas@gmail.com',
+            'password' => 'password',
+        ])->each(function($user){
+            $user->syncRoles(['walikelas']);
+            Teacher::factory()->create([
+                'user_id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
             ]);
-        }
+        });
     }
 }

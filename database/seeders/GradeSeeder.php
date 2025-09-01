@@ -13,48 +13,30 @@ class GradeSeeder extends Seeder
         $grades = [
             [
                 "group" => "SD",
-                "name" => "SD 1",
+                "name" => "1 SD",
             ],
             [
                 "group" => "SD",
-                "name" => "SD 2",
+                "name" => "2 SD",
             ],
             [
                 "group" => "SD",
-                "name" => "SD 3",
+                "name" => "3 SD",
             ],
             [
                 "group" => "SD",
-                "name" => "SD 4",
+                "name" => "4 SD",
             ],
             [
                 "group" => "SD",
-                "name" => "SD 5",
+                "name" => "5 SD",
             ],
             [
                 "group" => "SD",
-                "name" => "SD 6",
+                "name" => "6 SD",
             ],
         ];
+        
         Grade::insert($grades);
-
-        $permissions = [
-            "menu grade",
-            "index grade",
-            "show grade",
-            "create grade",
-            "update grade",
-            "delete grade",
-            //"archived grade",
-            //"restore grade",
-            //"force delete grade",
-        ];
-
-        foreach ($permissions as $permit) {
-            Permission::updateOrCreate([
-                'group' => "grade",
-                'name' => $permit,
-            ]);
-        }
     }
 }

@@ -10,24 +10,17 @@ class ExtracurricularSeeder extends Seeder
 {
     public function run(): void
     {
-        Extracurricular::factory()->count(10)->create();
-
-        $permissions = [
-            "menu extracurricular",
-            "index extracurricular",
-            "show extracurricular",
-            "create extracurricular",
-            "update extracurricular",
-            "delete extracurricular",
-            //"archived extracurricular",
-            //"restore extracurricular",
-            //"force delete extracurricular",
+        $extracurriculars = [
+            "Pramuka",
+            "Pencak Silat",
+            "Futsal",
+            "Seni Tari",
+            "Drum Band",
         ];
 
-        foreach ($permissions as $permit) {
-            Permission::updateOrCreate([
-                'group' => "extracurricular",
-                'name' => $permit,
+        foreach ($extracurriculars as $extracurricular) {
+            Extracurricular::create([
+                'name' => $extracurricular,
             ]);
         }
     }

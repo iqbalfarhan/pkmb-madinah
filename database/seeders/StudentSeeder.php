@@ -20,24 +20,5 @@ class StudentSeeder extends Seeder
                 'student_id' => $student->id,
             ]);
         });
-
-        $permissions = [
-            "menu student",
-            "index student",
-            "show student",
-            "create student",
-            "update student",
-            "delete student",
-            "archived student",
-            "restore student",
-            "force delete student",
-        ];
-
-        foreach ($permissions as $permit) {
-            Permission::updateOrCreate([
-                'group' => "student",
-                'name' => $permit,
-            ]);
-        }
     }
 }

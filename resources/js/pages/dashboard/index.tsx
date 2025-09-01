@@ -22,7 +22,7 @@ export default function Dashboard() {
   } = usePage<SharedData>().props;
   return (
     <AppLayout title="Dashboard" description={`Selamat datang, kamu masuk sebagai ${roles.join(', ')}`} breadcrumbs={breadcrumbs}>
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2">
         <UserProfileWidget />
         <DateTimeWidget />
         {permissions?.canOpenStudentBill && <BillWidget />}

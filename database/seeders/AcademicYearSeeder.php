@@ -25,24 +25,5 @@ class AcademicYearSeeder extends Seeder
         }
 
         AcademicYear::latest()->first()->setActive();
-
-        $permissions = [
-            "menu academicyear",
-            "index academicyear",
-            "show academicyear",
-            "create academicyear",
-            "update academicyear",
-            "delete academicyear",
-            //"archived academicyear",
-            //"restore academicyear",
-            //"force delete academicyear",
-        ];
-
-        foreach ($permissions as $permit) {
-            Permission::updateOrCreate([
-                'group' => "academicyear",
-                'name' => $permit,
-            ]);
-        }
     }
 }

@@ -54,28 +54,40 @@ class HandleInertiaRequests extends Middleware
             ],
             'menus' => [
                 "adminer" => $user?->can('open adminer'),
-                "user" => $user?->can('menu user'),
-                "role" => $user?->can('menu role'),
+                "documentation" => $user?->can('documentation'),
+                "studentBill" => $user?->can('student bill'),
+
+                // Pengaturan
+                "ppdb" => $user?->can('menu ppdb'),
                 "academicyear" => $user?->can('menu academicyear'),
-                "grade" => $user?->can('menu grade'),
                 "teacher" => $user?->can('menu teacher'),
-                "subject" => $user?->can('menu subject'),
                 "news" => $user?->can('menu news'),
+                "setting" => $user?->can('menu setting'),
+
+                // list master data
+                "grade" => $user?->can('menu grade'),
+                "subject" => $user?->can('menu subject'),
                 "extracurricular" => $user?->can('menu extracurricular'),
                 "paymenttype" => $user?->can('menu paymenttype'),
+
+                // list pengaturan kelas
                 "classroom" => $user?->can('menu classroom'),
                 "lesson" => $user?->can('menu lesson'),
                 "material" => $user?->can('menu material'),
+                "assignment" => $user?->can('menu assignment'),
+                "exam" => $user?->can('menu exam'),
+
+                // list pengaturan siswa
                 "student" => $user?->can('menu student'),
                 "report" => $user?->can('menu report'),
                 "absent" => $user?->can('menu absent'),
-                "bill" => $user?->can('menu bill'),
-                "studentBill" => $user?->can('student bill'),
-                "assignment" => $user?->can('menu assignment'),
                 "score" => $user?->can('menu score'),
+                "bill" => $user?->can('menu bill'),
                 "activity" => $user?->can('menu activity'),
-                "setting" => $user?->can('menu setting'),
-                "exam" => $user?->can('menu exam'),
+
+                // Authentication
+                "user" => $user?->can('menu user'),
+                "role" => $user?->can('menu role'),
             ],
             "myclassrooms" => $user?->teacher->classrooms ?? [],
             "mylessons" => $user?->teacher->lessons ?? [],

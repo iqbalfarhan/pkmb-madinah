@@ -24,12 +24,12 @@ const ClassroomLayout: FC<Props> = ({ children }) => {
       </Card>
       <Tabs defaultValue={tabname} onValueChange={(v) => handleNavigate(v)}>
         <TabsList>
-          <TabsTrigger value="show">Preview</TabsTrigger>
-          <TabsTrigger value="students">Students</TabsTrigger>
-          <TabsTrigger value="lessons">Lessons</TabsTrigger>
+          <TabsTrigger value="show">Overview</TabsTrigger>
+          <TabsTrigger value="students">Siswa</TabsTrigger>
+          <TabsTrigger value="lessons">Pelajaran</TabsTrigger>
           <TabsTrigger value="absents">Absents</TabsTrigger>
-          <TabsTrigger value="rapors">E-reports</TabsTrigger>
-          <TabsTrigger value="extracurricular">Extracurricular</TabsTrigger>
+          <TabsTrigger value="rapors">E-repor</TabsTrigger>
+          <TabsTrigger value="extracurricular">Ekskul</TabsTrigger>
         </TabsList>
       </Tabs>
       {children}

@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Family;
+use App\Models\Prevschool;
+use App\Models\Student;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
 
 class UserSeeder extends Seeder
 {
@@ -14,37 +15,47 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $superadmin = User::create([
-            'name' => 'Super administrator',
+        // buat akun superadmin
+
+        $superadmin = User::updateOrCreate([
             'email' => 'superadmin@gmail.com',
+        ], [
+            'name' => 'Super administrator',
             'password' => 'password',
         ]);
         $superadmin->assignRole('superadmin');
 
-        $admin = User::create([
-            'name' => 'Administrator',
+        // buat akun admin
+
+        $admin = User::updateOrCreate([
             'email' => 'admin@gmail.com',
+        ], [
+            'name' => 'Administrator',
             'password' => 'password',
         ]);
         $admin->assignRole('admin');
 
-        $permissions = [
-            "menu user",
-            "index user",
-            "show user",
-            "create user",
-            "update user",
-            "delete user",
-            "archived user",
-            "restore user",
-            "force delete user",
-        ];
+        // buat akun orangtua
 
-        foreach ($permissions as $permit) {
-            Permission::updateOrCreate([
-                'group' => "user",
-                'name' => $permit,
+        $orangtua = User::updateOrCreate([
+            'email' => 'orangtua@gmail.com',
+        ], [
+            'name' => 'Orang tua wali',
+            'password' => 'password',
+        ]);
+
+        $orangtua->syncRoles(['orangtua']);
+
+        Student::factory()->count(2)->create([
+            'user_id' => $orangtua->id,
+            'classroom_id' => null
+        ])->each(function($student){
+            Family::factory()->create([
+                'student_id' => $student->id,
             ]);
-        }
+            Prevschool::factory()->create([
+                'student_id' => $student->id,
+            ]);
+        });
     }
 }

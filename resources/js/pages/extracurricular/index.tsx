@@ -92,8 +92,8 @@ const ExtracurricularList: FC<Props> = ({ extracurriculars, query }) => {
                 </Label>
               </Button>
             </TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Teacher</TableHead>
+            <TableHead>Nama Ekskul</TableHead>
+            <TableHead>Guru Pembina</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>

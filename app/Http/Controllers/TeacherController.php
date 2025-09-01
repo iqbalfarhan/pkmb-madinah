@@ -38,14 +38,16 @@ class TeacherController extends Controller
     public function store(StoreTeacherRequest $request)
     {
         $data = $request->validated();
-        $teacher = Teacher::create($data);
         $user = User::create([
-            "name" => $teacher->name,
-            "email"=> $teacher->email,
-            "password"=> $data->password,
+            "name" => $data['name'],
+            "email" => $data['email'],
+            "password" => $data['password'],
         ]);
-
         $user->assignRole('guru');
+
+        $data['user_id'] = $user->id;
+        $data = Teacher::create($data);
+
     }
 
     /**
@@ -54,7 +56,8 @@ class TeacherController extends Controller
     public function show(Teacher $teacher)
     {
         return Inertia::render('teacher/show', [
-            'teacher' => $teacher
+            'teacher' => $teacher->load('user', 'classrooms', 'lessons'),
+            'roles' => $teacher->user->getRoleNames()
         ]);
     }
 

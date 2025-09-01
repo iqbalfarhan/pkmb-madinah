@@ -44,24 +44,5 @@ class PaymentTypeSeeder extends Seeder
         ];
 
         PaymentType::insert($paymentTypes);
-
-        $permissions = [
-            "menu paymentType",
-            "index paymentType",
-            "show paymentType",
-            "create paymentType",
-            "update paymentType",
-            "delete paymentType",
-            //"archived paymentType",
-            //"restore paymentType",
-            //"force delete paymentType",
-        ];
-
-        foreach ($permissions as $permit) {
-            Permission::updateOrCreate([
-                'group' => "paymentType",
-                'name' => $permit,
-            ]);
-        }
     }
 }

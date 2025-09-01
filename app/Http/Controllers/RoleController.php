@@ -16,6 +16,8 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
+        $this->pass("index role");
+
         $data = Role::query()->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('role/index', [
@@ -31,6 +33,8 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
+        $this->pass("create role");
+
         $data = $request->validated();
         Role::create($data);
     }
@@ -40,6 +44,8 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
+        $this->pass("show role");
+
         return Inertia::render('role/show', [
             'role' => $role->load('permissions'),
             'permissions' => Permission::get()
@@ -51,6 +57,8 @@ class RoleController extends Controller
      */
     public function update(UpdateRoleRequest $request, Role $role)
     {
+        $this->pass("update role");
+
         $data = $request->validated();
         $role->update($data);
 
@@ -64,6 +72,8 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
+        $this->pass("delete role");
+        
         $role->delete();
     }
 }

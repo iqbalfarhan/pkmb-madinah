@@ -15,15 +15,16 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             PermissionSeeder::class,
-            UserSeeder::class,
             AcademicYearSeeder::class,
             GradeSeeder::class,
             TeacherSeeder::class,
+            ClassroomSeeder::class,
+            UserSeeder::class,
+            
             SubjectSeeder::class,
             NewsSeeder::class,
             ExtracurricularSeeder::class,
             PaymentTypeSeeder::class,
-            ClassroomSeeder::class,
             LessonSeeder::class,
             MaterialSeeder::class,
             StudentSeeder::class,

@@ -37,9 +37,7 @@ const ShowStudent: FC<Props> = ({ student }) => {
             </CardHeader>
             <CardHeader className="flex-1 pl-0">
               <CardTitle>{student.name}</CardTitle>
-              <CardDescription>
-                Tingkat {student.grade?.name} - Kelas {student.classroom?.name}
-              </CardDescription>
+              <CardDescription>{student.umur}</CardDescription>
             </CardHeader>
             {permissions?.canUpdate && (
               <CardFooter>

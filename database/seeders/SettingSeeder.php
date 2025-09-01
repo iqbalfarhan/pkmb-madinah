@@ -14,7 +14,7 @@ class SettingSeeder extends Seeder
             [
                 "key" => "SCHOOL_NAME",
                 "hint" => "Nama sekolah. ini akan ditampilkan diprofile sekolah",
-                "value" => fake()->streetName()
+                "value" => "PKBM Al-Madinah"
             ],
             [
                 "key" => "SCHOOL_ADDRESS",
@@ -34,7 +34,7 @@ class SettingSeeder extends Seeder
             [
                 "key" => "SCHOOL_WEBSITE",
                 "hint" => "Website sekolah. ini akan ditampilkan diprofile sekolah",
-                "value" => fake()->url()
+                "value" => "https://" . fake()->domainName()
             ],
             [
                 "key" => "PPDB_OPEN",
@@ -44,18 +44,5 @@ class SettingSeeder extends Seeder
         ];
 
         Setting::insert($settings);
-
-        $permissions = [
-            "menu setting",
-            "index setting",
-            "update setting",
-        ];
-
-        foreach ($permissions as $permit) {
-            Permission::updateOrCreate([
-                'group' => "setting",
-                'name' => $permit,
-            ]);
-        }
     }
 }
