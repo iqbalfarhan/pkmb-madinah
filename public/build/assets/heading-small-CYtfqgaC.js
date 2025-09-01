@@ -1,1 +1,0 @@
-import{j as e}from"./app-CzQVzdmc.js";function r({title:t,description:s,actions:a}){return e.jsxs("div",{className:"flex justify-between",children:[e.jsxs("header",{children:[e.jsx("h3",{className:"mb-0.5 text-base font-medium",children:t}),s&&e.jsx("p",{className:"text-sm text-muted-foreground",children:s})]}),a]})}export{r as H};
