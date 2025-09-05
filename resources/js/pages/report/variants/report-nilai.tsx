@@ -15,6 +15,7 @@ import { useForm, usePage } from '@inertiajs/react';
 import { Check, RefreshCcw } from 'lucide-react';
 import { FC, useCallback } from 'react';
 import { toast } from 'sonner';
+import ReportHeader from '../components/report-header';
 import ReportStudentCard from '../components/report-student-card';
 
 type Props = {
@@ -46,9 +47,7 @@ const ReportNilai: FC<Props> = ({ data }) => {
 
   return (
     <>
-      <h1 className="text-center text-3xl font-semibold uppercase">
-        LAPORAN PERKEMBANGAN SISWA PKBM AL-MADINAH SEMESTER ganjil TAHUN AJARAN 2024/2025
-      </h1>
+      <ReportHeader />
       <ReportStudentCard
         student_name={formData.data.nama}
         student_age={formData.data.usia}

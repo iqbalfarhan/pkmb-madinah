@@ -1,4 +1,3 @@
-import DDump from '@/components/d-dump';
 import FormControl from '@/components/form-control';
 import SubmitButton from '@/components/submit-button';
 import { Button } from '@/components/ui/button';
@@ -99,7 +98,6 @@ const ReportTahfidzFormSheet: FC<Props> = ({ children, data, onSubmit, purpose }
               <Textarea value={formData.keterangan} onChange={(e) => setData('keterangan', e.target.value)} />
             </FormControl>
           </form>
-          <DDump content={formData} />
         </ScrollArea>
         <SheetFooter>
           <SubmitButton onClick={handleSubmit} label={`${capitalizeWords(purpose)} report`} loading={processing} disabled={processing} />

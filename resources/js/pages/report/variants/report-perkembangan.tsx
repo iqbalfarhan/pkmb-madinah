@@ -12,6 +12,7 @@ import { Check } from 'lucide-react';
 import { FC, useCallback, useEffect } from 'react';
 import { toast } from 'sonner';
 import { useDebouncedCallback } from 'use-debounce';
+import ReportHeader from '../components/report-header';
 import ReportStudentCard from '../components/report-student-card';
 
 type Props = {
@@ -63,9 +64,7 @@ const ReportPerkambangan: FC<Props> = ({ data }) => {
 
   return (
     <>
-      <h1 className="text-center text-3xl font-semibold uppercase">
-        LAPORAN PERKEMBANGAN SISWA PKBM AL-MADINAH SEMESTER ganjil TAHUN AJARAN 2024/2025
-      </h1>
+      <ReportHeader />
       <ReportStudentCard
         student_name={formData.data.nama}
         student_age={formData.data.usia}

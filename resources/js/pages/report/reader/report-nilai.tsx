@@ -6,6 +6,7 @@ import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, Table
 import { groupBy } from '@/lib/utils';
 import { ReportNilaiData } from '@/types/report';
 import { FC } from 'react';
+import ReportHeader from '../components/report-header';
 import ReportStudentCard from '../components/report-student-card';
 
 type Props = {
@@ -16,11 +17,8 @@ const ReportNilaiReader: FC<Props> = ({ data }) => {
   const groupMapel = groupBy(data.nilai, 'type');
   return (
     <>
-      <h1 className="text-center text-3xl font-semibold uppercase">
-        LAPORAN PERKEMBANGAN SISWA PKBM AL-MADINAH SEMESTER ganjil TAHUN AJARAN 2024/2025
-      </h1>
+      <ReportHeader />
       <ReportStudentCard student_name={data.nama} student_age={data.usia} student_nisn={data.nisn} classroom_name={data.kelas} />
-
       <Card>
         <CardHeader>
           <CardTitle>Hasil rekap nilai siswa.</CardTitle>
@@ -98,7 +96,6 @@ const ReportNilaiReader: FC<Props> = ({ data }) => {
           </Table>
         </CardContent>
       </Card>
-
       {data.rapor_kenaikan_kelas && (
         <Card>
           <CardHeader>

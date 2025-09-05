@@ -39,9 +39,9 @@ const ReportFormSheet: FC<Props> = ({ children, report, purpose }) => {
   >().props;
 
   const { data, setData, put, post, reset, processing } = useForm({
-    student_id: report?.student_id ?? '',
+    student_id: report?.student_id ?? students[0].id ?? '',
     academic_year_id: report?.academic_year_id ?? activeAcademicYear?.id.toString() ?? academicYears[0].id ?? 0,
-    classroom_id: report?.classroom_id ?? '',
+    classroom_id: report?.classroom_id ?? classrooms[0].id ?? '',
     report_type: report?.report_type ?? '',
   });
 
@@ -84,57 +84,63 @@ const ReportFormSheet: FC<Props> = ({ children, report, purpose }) => {
               handleSubmit();
             }}
           >
-            <FormControl label="Pilih siswa">
-              <Select value={data.student_id.toString()} onValueChange={(e) => setData('student_id', e)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih siswa" />
-                </SelectTrigger>
-                <SelectContent>
-                  {students.map((s) => (
-                    <SelectItem key={s.id} value={s.id.toString()}>
-                      {s.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </FormControl>
-            <FormControl label="Tahun ajaran">
-              <Select value={data.academic_year_id.toString()} onValueChange={(e) => setData('academic_year_id', Number(e))}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih tahun ajaran" />
-                </SelectTrigger>
-                <SelectContent>
-                  {academicYears.map((ay) => (
-                    <SelectItem key={ay.id} value={ay.id.toString()}>
-                      {ay.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </FormControl>
-            <FormControl label="Kelas">
-              <Select value={data.classroom_id.toString()} onValueChange={(e) => setData('classroom_id', e)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih kelas" />
-                </SelectTrigger>
-                <SelectContent>
-                  {classrooms.map((c) => (
-                    <SelectItem key={c.id} value={c.id.toString()}>
-                      {c.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </FormControl>
-            <FormControl label="Tipe laporan">
+            {students.length > 1 && (
+              <FormControl label="Pilih siswa">
+                <Select value={data.student_id.toString()} onValueChange={(e) => setData('student_id', Number(e))}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih siswa" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {students.map((s) => (
+                      <SelectItem key={s.id} value={s.id.toString()}>
+                        {s.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            )}
+            {academicYears.length > 1 && (
+              <FormControl label="Tahun ajaran">
+                <Select value={data.academic_year_id.toString()} onValueChange={(e) => setData('academic_year_id', Number(e))}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih tahun ajaran" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {academicYears.map((ay) => (
+                      <SelectItem key={ay.id} value={ay.id.toString()}>
+                        {ay.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            )}
+            {classrooms.length > 1 && (
+              <FormControl label="Kelas">
+                <Select value={data.classroom_id.toString()} onValueChange={(e) => setData('classroom_id', Number(e))}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih kelas" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {classrooms.map((c) => (
+                      <SelectItem key={c.id} value={c.id.toString()}>
+                        {c.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            )}
+            <FormControl label="Jenis rapor">
               <Select value={data.report_type} onValueChange={(e) => setData('report_type', e)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Pilih tipe laporan" />
+                  <SelectValue placeholder="Pilih jenis rapor" />
                 </SelectTrigger>
                 <SelectContent>
                   {reportTypes.map((rt) => (
                     <SelectItem key={rt} value={rt}>
-                      {rt}
+                      E-rapor {rt}
                     </SelectItem>
                   ))}
                 </SelectContent>

@@ -75,7 +75,7 @@ class StudentController extends Controller
         return Inertia::render('student/show', [
             'student' => $student->load(['user', 'grade', 'classroom', 'family', 'prevschool', 'media', 'absents']),
             'sallaryLists' => Family::$sallaryLists,
-            'classrooms' => Classroom::get(),
+            'classrooms' => [$student->classroom],
             'permissions' => [
                 'canUpdate' => $this->user->can('update student'),
             ]
@@ -179,7 +179,7 @@ class StudentController extends Controller
             'query' => $request->input(),
             // 'academicYears' => AcademicYear::get(),
             'academicYears' => [AcademicYear::active()],
-            'classrooms' => Classroom::get(),
+            'classrooms' => [$student->classroom],
             'students' => [$student],
             'reportTypes' => Report::$reportTypes,
             'permissions' => [

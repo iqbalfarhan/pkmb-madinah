@@ -9,6 +9,7 @@ import { Report, ReportPerkembanganData } from '@/types/report';
 import { useForm, usePage } from '@inertiajs/react';
 import { FC } from 'react';
 import { toast } from 'sonner';
+import ReportHeader from '../components/report-header';
 import ReportStudentCard from '../components/report-student-card';
 
 type Props = {
@@ -36,9 +37,7 @@ const ReportPerkembanganReader: FC<Props> = ({ data }) => {
   };
   return (
     <>
-      <h1 className="text-center text-3xl font-semibold uppercase">
-        LAPORAN PERKEMBANGAN SISWA PKBM AL-MADINAH SEMESTER ganjil TAHUN AJARAN 2024/2025
-      </h1>
+      <ReportHeader />
       <ReportStudentCard student_name={data.nama} student_age={data.usia} student_nisn={data.nisn} classroom_name={data.kelas} />
 
       <h2 className="text-center text-xl font-bold">CURRICULAR DOMAIN</h2>

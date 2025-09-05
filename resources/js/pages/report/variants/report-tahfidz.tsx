@@ -10,6 +10,7 @@ import { useForm, usePage } from '@inertiajs/react';
 import { Check, Edit, Plus, Trash2 } from 'lucide-react';
 import { FC, useCallback } from 'react';
 import { toast } from 'sonner';
+import ReportHeader from '../components/report-header';
 import ReportStudentCard from '../components/report-student-card';
 import ReportTahfidzFormSheet from '../components/report-tahfidz-form-sheet';
 
@@ -67,16 +68,7 @@ const ReportTahfidz: FC<Props> = ({ data }) => {
 
   return (
     <>
-      <img src="/rapor-tahfidz.png" />
-      <h1 className="text-center text-3xl font-semibold uppercase">
-        LAPORAN PERKEMBANGAN HAFALAN AL-QURAN
-        <br />
-        PKBM AL - MADINAH
-        <br />
-        SEMESTER {data.semester}
-        <br />
-        TAHUN AJARAN {data.tahunajaran}
-      </h1>
+      <ReportHeader />
       <Button onClick={handleUpdate} className="fixed right-6 bottom-6">
         <Check />
         Simpan
@@ -144,7 +136,7 @@ const ReportTahfidz: FC<Props> = ({ data }) => {
       <Card>
         <CardHeader>
           <CardTitle>Catatan</CardTitle>
-          <CardDescription>Catatan dari pembina tahfidz</CardDescription>
+          <CardDescription>Catatan dari pembina tahfidz {data.pembimbing}</CardDescription>
         </CardHeader>
         <Separator />
         <CardContent>

@@ -4,6 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { groupBy } from '@/lib/utils';
 import { ReportTahfidzData } from '@/types/report';
 import { FC } from 'react';
+import ReportHeader from '../components/report-header';
 import ReportStudentCard from '../components/report-student-card';
 
 type Props = {
@@ -15,15 +16,8 @@ const ReportTahfidzReader: FC<Props> = ({ data }) => {
 
   return (
     <>
-      <h1 className="text-center text-3xl font-semibold uppercase">
-        LAPORAN PERKEMBANGAN HAFALAN AL-QURAN
-        <br />
-        PKBM AL - MADINAH
-        <br />
-        SEMESTER {data.semester}
-        <br />
-        TAHUN AJARAN {data.tahunajaran}
-      </h1>
+      <ReportHeader />
+
       <ReportStudentCard student_name={data.nama} student_age={data.usia} student_nisn={data.nisn} classroom_name={data.kelas} />
       <Card>
         <CardHeader>
@@ -71,7 +65,7 @@ const ReportTahfidzReader: FC<Props> = ({ data }) => {
       <Card>
         <CardHeader>
           <CardTitle>Catatan</CardTitle>
-          <CardDescription>Catatan dari pembina tahfidz</CardDescription>
+          <CardDescription>Catatan dari pembina tahfidz {data.pembimbing}</CardDescription>
         </CardHeader>
         <Separator />
         <CardContent>{data.catatan}</CardContent>

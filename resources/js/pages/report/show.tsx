@@ -2,7 +2,8 @@ import BackButton from '@/components/back-button';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { Report, ReportNilaiData, ReportPerkembanganData, ReportTahfidzData } from '@/types/report';
-import { FileJson } from 'lucide-react';
+import { Link } from '@inertiajs/react';
+import { Edit, FileJson } from 'lucide-react';
 import { FC } from 'react';
 import ReportNilaiReader from './reader/report-nilai';
 import ReportPerkembanganReader from './reader/report-perkembangan';
@@ -25,6 +26,12 @@ const ShowReport: FC<Props> = ({ report }) => {
               <FileJson />
               Raw data
             </a>
+          </Button>
+          <Button asChild>
+            <Link href={route('report.edit', report.id)}>
+              <Edit />
+              Edit rapor
+            </Link>
           </Button>
         </>
       }
