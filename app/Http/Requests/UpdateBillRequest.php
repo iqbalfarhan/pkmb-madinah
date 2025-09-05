@@ -18,10 +18,10 @@ class UpdateBillRequest extends FormRequest
         return [
             'payment_type_id' => 'required|exists:payment_types,id',
             'paid_date' => 'nullable|date',
-            'description' => 'required|string|max:255',
+            'description' => 'nullable|string|max:255',
             'total_amount' => 'nullable|numeric',
-            'status' => ['required', Rule::in(Bill::$statusLists)],
-            'verified' => 'required|boolean',
+            'status' => ['nullable', Rule::in(Bill::$statusLists)],
+            'verified' => 'nullable|boolean',
         ];
     }
 }

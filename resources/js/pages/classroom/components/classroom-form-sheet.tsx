@@ -6,10 +6,9 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { capitalizeWords, em } from '@/lib/utils';
-import { FormPurpose } from '@/types';
+import { FormPurpose, User } from '@/types';
 import { Classroom } from '@/types/classroom';
 import { Grade } from '@/types/grade';
-import { Teacher } from '@/types/teacher';
 import { useForm, usePage } from '@inertiajs/react';
 import { X } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
@@ -23,14 +22,14 @@ type Props = PropsWithChildren & {
 const ClassroomFormSheet: FC<Props> = ({ children, classroom, purpose }) => {
   const [open, setOpen] = useState(false);
 
-  const { teachers, grades } = usePage<{
-    teachers: Teacher[];
+  const { users, grades } = usePage<{
+    users: User[];
     grades: Grade[];
   }>().props;
 
   const { data, setData, put, post, reset, processing } = useForm({
     name: classroom?.name ?? '',
-    teacher_id: classroom?.teacher_id ?? '',
+    user_id: classroom?.user_id ?? '',
     grade_id: classroom?.grade_id ?? '',
   });
 
@@ -77,14 +76,14 @@ const ClassroomFormSheet: FC<Props> = ({ children, classroom, purpose }) => {
               <Input type="text" placeholder="Name" value={data.name} onChange={(e) => setData('name', e.target.value)} />
             </FormControl>
             <FormControl label="Walikelas">
-              <Select value={data.teacher_id.toString()} onValueChange={(e) => setData('teacher_id', e)}>
+              <Select value={data.user_id.toString()} onValueChange={(e) => setData('user_id', e)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Walikelas" />
                 </SelectTrigger>
                 <SelectContent>
-                  {teachers.map((teacher) => (
-                    <SelectItem key={teacher.id} value={teacher.id.toString()}>
-                      {teacher.name}
+                  {users.map((user) => (
+                    <SelectItem key={user.id} value={user.id.toString()}>
+                      {user.name}
                     </SelectItem>
                   ))}
                 </SelectContent>

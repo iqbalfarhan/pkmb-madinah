@@ -5,7 +5,7 @@ namespace Database\Factories;
 use App\Models\Classroom;
 use App\Models\Lesson;
 use App\Models\Subject;
-use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class LessonFactory extends Factory
@@ -17,7 +17,7 @@ class LessonFactory extends Factory
         return [
             'classroom_id' => Classroom::pluck('id')->random(),
             'subject_id' => Subject::pluck('id')->random(),
-            'teacher_id' => Teacher::pluck('id')->random(),
+            'user_id' => User::role(['guru', 'walikelas'])->pluck('id')->random(),
         ];
     }
 }

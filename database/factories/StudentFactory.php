@@ -29,7 +29,7 @@ class StudentFactory extends Factory
             'pob' => fake()->city(),
             'dob' => fake()->date('Y-m-d', 'now'),
             'deleted_at' => in_array($status, ['lulus', 'pindah', 'dikeluarkan']) ? now() : null,
-            'user_id' => User::pluck('id')->random(),
+            'user_id' => User::role('orangtua')->pluck('id')->random(),
         ];
     }
 }

@@ -53,16 +53,24 @@ export type ReportPerkembanganData = {
 // batas rapor perkembangan
 
 export type ReportTahfidzData = {
+  tahunajaran: string;
+  semester: string;
+  nama: string;
+  kelas: string;
+  usia: string;
+  nisn: string;
   catatan: string;
-  penilaian: PenilaianTahfidz[];
+  nilai: PenilaianTahfidz[];
   tanggal: string;
   pembimbing: string;
+  koordinator: string;
 };
 
 export type PenilaianTahfidz = {
+  juz: string;
   surah: string;
+  pencapaian: string;
   keterangan: string;
-  ayat: number;
 };
 
 // batas rapor tahfidz

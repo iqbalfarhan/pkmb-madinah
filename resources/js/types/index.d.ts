@@ -1,6 +1,8 @@
 import { LucideIcon } from 'lucide-react';
 import type { Config } from 'ziggy-js';
 import { Academicyear } from './academicyear';
+import { Classroom } from './classroom';
+import { Lesson } from './lesson';
 import { Student } from './student';
 
 export interface Auth {
@@ -42,13 +44,17 @@ export interface SharedData {
 export interface User {
   id: number;
   name: string;
+  phone: string;
+  gender: boolean;
   email: string;
   avatar?: string;
-  roles?: string[];
+  role_lists?: string[];
   email_verified_at: string | null;
   created_at: string;
   updated_at: string;
   students?: Student[];
+  classrooms?: Classroom[];
+  lessons?: Lesson[];
   [key: string]: unknown; // This allows for additional properties...
 }
 
@@ -68,4 +74,12 @@ export type Media = {
   updated_at: string;
   original_url: string;
   preview_url: string;
+};
+
+export type Surah = {
+  id: number;
+  surah: string;
+  ayat: number;
+  jenis: string;
+  juz: number;
 };

@@ -15,7 +15,7 @@ class StoreClassroomRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'teacher_id' => 'required|exists:teachers,id',
+            'user_id' => 'required|exists:users,id',
             'grade_id' => 'required|exists:grades,id',
         ];
     }

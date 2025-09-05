@@ -18,11 +18,11 @@ const ClassroomLessonsWidget: FC<Props> = ({ lessons }) => {
         <div className="flex flex-wrap gap-2">
           {Array.from(
             new Map(
-              lessons?.flatMap((l) => l.teacher).map((t) => [t.id, t]), // key = id
+              lessons?.flatMap((l) => l.user).map((t) => [t.id, t]), // key = id
             ).values(),
-          ).map((teacher) => (
-            <Avatar key={teacher.id}>
-              <AvatarImage src={teacher.avatar || undefined} />
+          ).map((user) => (
+            <Avatar key={user.id}>
+              <AvatarImage src={user.avatar || undefined} />
             </Avatar>
           ))}
         </div>

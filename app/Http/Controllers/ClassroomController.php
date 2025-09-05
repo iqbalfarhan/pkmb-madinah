@@ -16,7 +16,7 @@ use App\Models\Lesson;
 use App\Models\Report;
 use App\Models\Student;
 use App\Models\Subject;
-use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -27,12 +27,12 @@ class ClassroomController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Classroom::query()->with(['academic_year', 'teacher', 'grade', 'students'])->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = Classroom::query()->with(['academic_year', 'user', 'grade', 'students'])->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('classroom/index', [
             'classrooms' => $data->get(),
             'query' => $request->input(),
-            'teachers' => Teacher::get(),
+            'users' => User::get(),
             'grades' => Grade::get(),
             'permissions' => [
                 'canAdd' => $this->user->can('create classroom'),
@@ -60,7 +60,7 @@ class ClassroomController extends Controller
     public function show(Classroom $classroom)
     {
         return Inertia::render('classroom/show', [
-            'classroom' => $classroom->load('grade', 'students', 'students.absents', 'teacher.user', 'lessons', 'academic_year'),
+            'classroom' => $classroom->load('grade', 'students', 'students.absents', 'user', 'lessons', 'academic_year'),
             'tabname' => 'show',
             'permissions' => [
                 'canUpdate' => $this->user->can('update classroom'),
@@ -123,7 +123,7 @@ class ClassroomController extends Controller
         return Inertia::render('classroom/tabs/classroom-lessons-tab', [
             'classroom' => $classroom,
             'lessons' => Lesson::whereClassroomId($classroom->id)->with('assignments', 'materials')->get(),
-            'teachers' => Teacher::get(),
+            'users' => User::get(),
             'subjects' => Subject::get(),
             'classrooms' => [$classroom],
             'tabname' => 'lessons',

@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Extracurricular;
-use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ExtracurricularFactory extends Factory
@@ -14,7 +14,7 @@ class ExtracurricularFactory extends Factory
     {
         return [
             'name' => fake()->sentence(2),
-            'teacher_id' => fake()->randomElement([null, Teacher::pluck('id')->random()]),
+            'user_id' => fake()->randomElement([null, User::pluck('id')->random()]),
         ];
     }
 }

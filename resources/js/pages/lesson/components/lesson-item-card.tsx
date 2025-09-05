@@ -14,7 +14,7 @@ const LessonItemCard: FC<Props> = ({ lesson }) => {
       <Card className="flex flex-col justify-between">
         <CardHeader>
           <CardTitle className="line-clamp-1">{lesson.subject.name}</CardTitle>
-          <CardDescription>Pengajar: {lesson.teacher.name}</CardDescription>
+          <CardDescription>Pengajar: {lesson.user.name}</CardDescription>
         </CardHeader>
         <CardFooter className="flex flex-wrap gap-1">
           {lesson.classroom && <CardDescription>Kelas: {lesson.classroom.name}</CardDescription>}

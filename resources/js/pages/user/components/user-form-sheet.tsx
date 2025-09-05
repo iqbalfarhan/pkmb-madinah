@@ -5,6 +5,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { capitalizeWords, em } from '@/lib/utils';
 import { FormPurpose, User } from '@/types';
@@ -27,8 +28,10 @@ const UserFormSheet: FC<Props> = ({ children, user, purpose }) => {
     name: user?.name ?? '',
     email: user?.email ?? '',
     password: user ? undefined : '',
+    gender: user?.gender ?? true,
+    phone: user?.phone ?? '',
     password_confirmation: user ? undefined : '',
-    roles: user?.roles ?? [],
+    roles: user?.role_lists ?? [],
   });
 
   const handleSubmit = () => {
@@ -74,6 +77,20 @@ const UserFormSheet: FC<Props> = ({ children, user, purpose }) => {
             </FormControl>
             <FormControl label="Email address">
               <Input type="email" placeholder="username@domain.com" value={data.email} onChange={(e) => setData('email', e.target.value)} />
+            </FormControl>
+            <FormControl label="Nomor telepon">
+              <Input type="tel" placeholder="Nomor telepon" value={data.phone} onChange={(e) => setData('phone', e.target.value)} />
+            </FormControl>
+            <FormControl label="Jenis kelamin">
+              <Select value={data.gender ? '1' : '0'} onValueChange={(value) => setData('gender', value === '1' ? true : false)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Jenis kelamin" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">Laki-laki</SelectItem>
+                  <SelectItem value="0">Perempuan</SelectItem>
+                </SelectContent>
+              </Select>
             </FormControl>
             {purpose == 'create' && (
               <>

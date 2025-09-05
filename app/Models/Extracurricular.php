@@ -16,7 +16,7 @@ class Extracurricular extends Model
     /*
     protected $fillable = [
         'name',
-        'teacher_id'
+        'user_id'
     ];
     */
 
@@ -26,9 +26,9 @@ class Extracurricular extends Model
         'updated_at',
     ];
 
-    public function teacher()
+    public function user()
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsTo(User::class);
     }
 
     /*

@@ -17,7 +17,7 @@ class Classroom extends Model
     protected $fillable = [
         'name',
         'academic_year_id',
-        'teacher_id',
+        'user_id',
         'grade_id'
     ];
     */
@@ -37,9 +37,9 @@ class Classroom extends Model
         return $this->belongsTo(AcademicYear::class);
     }
 
-    public function teacher()
+    public function user()
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsTo(User::class);
     }
 
     public function grade()
@@ -62,7 +62,7 @@ class Classroom extends Model
         return implode(", ", [
             "Kelas untuk {$this->grade->name}",
             "Tahun ajaran {$this->academic_year->label}",
-            "Walikelas {$this->teacher->name}"
+            "Walikelas {$this->user->name}"
         ]);
     }
 

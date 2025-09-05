@@ -95,11 +95,11 @@ const AbsentList: FC<Props> = ({ absents, query }) => {
                 </Label>
               </Button>
             </TableHead>
-            <TableHead>Academic year</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead>Student name</TableHead>
-            <TableHead>Reason</TableHead>
-            <TableHead>Description</TableHead>
+            {/* <TableHead>Academic year</TableHead> */}
+            <TableHead>Tanggal</TableHead>
+            <TableHead>Nama siswa</TableHead>
+            <TableHead>Alasan</TableHead>
+            <TableHead>Deskripsi</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -124,7 +124,7 @@ const AbsentList: FC<Props> = ({ absents, query }) => {
                     </Label>
                   </Button>
                 </TableCell>
-                <TableCell>{absent.academic_year.label}</TableCell>
+                {/* <TableCell>{absent.academic_year.label}</TableCell> */}
                 <TableCell>{dateDFY(absent.date)}</TableCell>
                 <TableCell>{absent.student?.name}</TableCell>
                 <TableCell>{absent.reason}</TableCell>

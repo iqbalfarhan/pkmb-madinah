@@ -12,6 +12,7 @@ use App\Models\Examscore;
 use App\Models\Grade;
 use App\Models\Report;
 use App\Models\Score;
+use App\Models\Setting;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -51,6 +52,7 @@ class ReportController extends Controller
     {
         $data = $request->validated();
 
+        $settings = Setting::pluck('value', 'key');
         $student = Student::find($data['student_id']);
         $academicYear = AcademicYear::find($data['academic_year_id']);
         // $classroom = Classroom::find($data['classroom_id']);
@@ -61,7 +63,7 @@ class ReportController extends Controller
         $mockup['semester'] = $academicYear->semester;
         $mockup['nama'] = $student->name;
         $mockup['kelas'] = $classroom->name;
-        $mockup['walikelas'] = $classroom->teacher->name ?? "";
+        $mockup['walikelas'] = $classroom->user->name ?? "";
         $mockup['usia'] = $student->umur;
         $mockup['nisn'] = $student->nisn;
 
@@ -87,14 +89,8 @@ class ReportController extends Controller
                 $lesson = $lesson->load('exams.examscores', 'assignments.scores');
                 $subject = $lesson->subject;
 
-                // $score = $lesson->assignments->scores?->where('student_id', $student->id)->sum('rated_score') ?? 0;
-                // $examscore = $lesson->exam->examscores?->where('student_id', $student->id)->sum('score') ?? 0;
-
                 $score = Score::whereStudentId($student->id)->whereLessonId($lesson->id)->get()->sum('rated_score') ?? 0;
                 $examscore = Examscore::whereStudentId($student->id)->whereLessonId($lesson->id)->get()->sum('rated_score') ?? 0;
-
-                // $score = 0;
-                // $examscore = 0;
 
                 return [
                     "name" => $subject->name,
@@ -104,6 +100,15 @@ class ReportController extends Controller
                     "rata_rata" => ($score + $examscore)/2,
                 ];
             });
+        }
+        elseif ($data["report_type"] == "tahfidz") {
+            $mockup["tanggal"] = $settings['SCHOOL_CITY'] .", ". now()->format('d F Y');
+            $mockup["pembimbing"] = $settings['PEMBIMBING_TAHFIDZ'];
+            $mockup["koordinator"] = $settings['KOORDINATOR_Al-MUYASSAR'];
+            $mockup["catatan"] = "Semoga ananda {$student->name} tetap rajin muroja'ah di rumah agar hafalan Surah Al Qur'an-nya tetap terjaga";
+        }
+        elseif ($data["report_type"] == "tahsin") {
+
         }
 
         $data['data'] = $mockup;

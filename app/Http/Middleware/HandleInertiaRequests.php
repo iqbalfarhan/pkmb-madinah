@@ -42,7 +42,7 @@ class HandleInertiaRequests extends Middleware
         [$message, $author] = str(Inspiring::quotes()->random())->explode('-');
         $user = $request->user();
 
-        // dd($user?->teacher->lessons);
+        // dd($user?->user->lessons);
 
         return [
             ...parent::share($request),
@@ -60,7 +60,6 @@ class HandleInertiaRequests extends Middleware
                 // Pengaturan
                 "ppdb" => $user?->can('menu ppdb'),
                 "academicyear" => $user?->can('menu academicyear'),
-                "teacher" => $user?->can('menu teacher'),
                 "news" => $user?->can('menu news'),
                 "setting" => $user?->can('menu setting'),
 
@@ -89,11 +88,12 @@ class HandleInertiaRequests extends Middleware
                 "user" => $user?->can('menu user'),
                 "role" => $user?->can('menu role'),
             ],
-            "myclassrooms" => $user?->teacher->classrooms ?? [],
-            "mylessons" => $user?->teacher->lessons ?? [],
+            "myclassrooms" => $user?->classrooms ?? [],
+            "mylessons" => $user?->lessons ?? [],
             "mystudents" => $user?->students ?? [],
             'activeAcademicYear' => AcademicYear::active() ?? null,
             'settings' => Setting::pluck('value', 'key'),
+            
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

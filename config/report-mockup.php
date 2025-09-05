@@ -8,6 +8,7 @@ return [
 		"kelas" => "",
 		"usia" => "",
 		"nisn" => "",
+		"walikelas" => '',
 		"curricular_domain" => [
 			[
 				"name" => 'ESTETIK',
@@ -201,7 +202,6 @@ return [
 		"komentar_guru" => '',
 		"komentar_wali" => '',
 		"komentar_siswa" => '',
-		"walikelas" => '',
 	],
 	"nilai" => [
 		"tahunajaran" => "",
@@ -210,12 +210,43 @@ return [
 		"kelas" => "",
 		"usia" => "",
 		"nisn" => "",
+		"walikelas" => '',
 		"naik_kelas" => null,
 		"ke_kelas" => "",
 		"keputusan" => "Berdasarkan pencapaian kompetensi pada semester 1 dan 2, peserta didik dinyatakan :",
 		"tanggal" => "",
-		"walikelas" => '',
 		"rapor_kenaikan_kelas" => false,
+		"nilai" => []
+	],
+	"tahfidz" => [
+		"tahunajaran" => "",
+		"semester" => "",
+		"nama" => "",
+		"kelas" => "",
+		"usia" => "",
+		"nisn" => "",
+		"walikelas" => '',
+		"tangggal" => "",
+		"nilai" => [
+			[
+				"juz" => "",
+				"surah" => "",
+				"pencapaian" => "",
+				"keterangan" => "",
+			]
+		],
+		"catatan" => "Semoga ananda (nama anak) tetap rajin muroja'ah di rumah agar hafalan Surah Al Qur'an-nya tetap terjaga",
+		"pembimbing" => "",
+		"koordinator" => "",
+	],
+	"tahsin" => [
+		"tahunajaran" => "",
+		"semester" => "",
+		"nama" => "",
+		"kelas" => "",
+		"usia" => "",
+		"nisn" => "",
+		"walikelas" => '',
 		"nilai" => []
 	]
 ];

@@ -119,7 +119,7 @@ const ExtracurricularList: FC<Props> = ({ extracurriculars, query }) => {
                   </Button>
                 </TableCell>
                 <TableCell>{extracurricular.name}</TableCell>
-                <TableCell>{extracurricular.teacher?.name}</TableCell>
+                <TableCell>{extracurricular.user?.name}</TableCell>
                 <TableCell>
                   {permissions?.canShow && (
                     <Button variant={'ghost'} size={'icon'}>

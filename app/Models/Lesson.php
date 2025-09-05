@@ -17,7 +17,7 @@ class Lesson extends Model
     protected $fillable = [
         'classroom_id',
         'subject_id',
-        'teacher_id'
+        'user_id'
     ];
     */
 
@@ -37,8 +37,8 @@ class Lesson extends Model
         return $this->belongsTo(Subject::class);
     }
 
-    public function teacher(){
-        return $this->belongsTo(Teacher::class);
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 
     public function getNameAttribute()
@@ -55,7 +55,7 @@ class Lesson extends Model
             'untuk kelas',
             $this->classroom->name,
             'dibimbing oleh',
-            $this->teacher->name
+            $this->user->name
         ]);
     }
 

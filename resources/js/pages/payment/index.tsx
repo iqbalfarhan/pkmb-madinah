@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { dateDFYHIS, formatRupiah } from '@/lib/utils';
+import { dateDFYHIS, formatRupiah, strLimit } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Payment } from '@/types/payment';
 import { Link, router, usePage } from '@inertiajs/react';
@@ -112,7 +112,7 @@ const PaymentList: FC<Props> = ({ payments, query }) => {
                 <TableCell>
                   <div className="flex flex-col">
                     <div>{payment.bill.student.name}</div>
-                    <div className="text-muted-foreground">{payment.bill.description}</div>
+                    <div className="text-muted-foreground">{strLimit(payment.bill.description)}</div>
                   </div>
                 </TableCell>
                 <TableCell>{formatRupiah(payment.amount)}</TableCell>

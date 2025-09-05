@@ -30,7 +30,7 @@ const PaymenttypeList: FC<Props> = ({ paymenttypes, query }) => {
 
   return (
     <AppLayout
-      title="Paymenttypes"
+      title="Jenis pembayaran"
       description="Manage your paymenttypes"
       actions={
         <>

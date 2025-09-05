@@ -34,28 +34,5 @@ class UserSeeder extends Seeder
             'password' => 'password',
         ]);
         $admin->assignRole('admin');
-
-        // buat akun orangtua
-
-        $orangtua = User::updateOrCreate([
-            'email' => 'orangtua@gmail.com',
-        ], [
-            'name' => 'Orang tua wali',
-            'password' => 'password',
-        ]);
-
-        $orangtua->syncRoles(['orangtua']);
-
-        Student::factory()->count(2)->create([
-            'user_id' => $orangtua->id,
-            'classroom_id' => null
-        ])->each(function($student){
-            Family::factory()->create([
-                'student_id' => $student->id,
-            ]);
-            Prevschool::factory()->create([
-                'student_id' => $student->id,
-            ]);
-        });
     }
 }

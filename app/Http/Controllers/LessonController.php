@@ -13,7 +13,7 @@ use App\Models\Lesson;
 use App\Models\Score;
 use App\Models\Student;
 use App\Models\Subject;
-use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -27,13 +27,13 @@ class LessonController extends Controller
         $data = Lesson::query()->with([
             'classroom',
             'subject',
-            'teacher'
+            'user'
         ])->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('lesson/index', [
             'lessons' => $data->get(),
             'query' => $request->input(),
-            'teachers' => Teacher::get(),
+            'users' => User::get(),
             'subjects' => Subject::get(),
             'classrooms' => Classroom::get(),
             'permissions' => [
@@ -63,7 +63,7 @@ class LessonController extends Controller
         $scores = Score::where('lesson_id', $lesson->id)->whereIn('student_id', $students->pluck('id'))->get();
 
         return Inertia::render('lesson/show', [
-            'lesson' => $lesson->load('materials', 'classroom', 'subject', 'teacher'),
+            'lesson' => $lesson->load('materials', 'classroom', 'subject', 'user'),
             'assignments' => $lesson->assignments,
             'lessons' => [$lesson],
             'students' => $students,

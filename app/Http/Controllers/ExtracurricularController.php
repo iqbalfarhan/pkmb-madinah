@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateExtracurricularRequest;
 use App\Http\Requests\BulkUpdateExtracurricularRequest;
 use App\Http\Requests\BulkDeleteExtracurricularRequest;
 use App\Models\Extracurricular;
-use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -18,12 +18,12 @@ class ExtracurricularController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Extracurricular::query()->with('teacher')->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = Extracurricular::query()->with('user')->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('extracurricular/index', [
             'extracurriculars' => $data->get(),
             'query' => $request->input(),
-            'teachers' => Teacher::get(),
+            'users' => User::get(),
             'permissions' => [
                 'canAdd' => $this->user->can('create extracurricular'),
                 'canUpdate' => $this->user->can('update extracurricular'),

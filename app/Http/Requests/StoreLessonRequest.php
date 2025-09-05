@@ -14,9 +14,9 @@ class StoreLessonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'classroom_id' => 'required|numeric',
-            'subject_id' => 'required|numeric',
-            'teacher_id' => 'required|numeric',
+            'classroom_id' => 'required|exists:classrooms,id',
+            'subject_id' => 'required|exists:subjects,id',
+            'user_id' => 'required|exists:users,id',
         ];
     }
 }

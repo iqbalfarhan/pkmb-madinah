@@ -15,7 +15,7 @@ class UpdateClassroomRequest extends FormRequest
     {
         return [
             'name' => 'nullable|string|max:255',
-            'teacher_id' => 'nullable|exists:teachers,id',
+            'user_id' => 'nullable|exists:users,id',
             'grade_id' => 'nullable|exists:grades,id',
         ];
     }

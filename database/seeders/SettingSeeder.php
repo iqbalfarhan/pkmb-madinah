@@ -37,12 +37,34 @@ class SettingSeeder extends Seeder
                 "value" => "https://" . fake()->domainName()
             ],
             [
+                "key" => "SCHOOL_CITY",
+                "hint" => "Kota tempat sekolah berada",
+                "value" => "Balikpapan"
+            ],
+            [
                 "key" => "PPDB_OPEN",
                 "hint" => "Status sesi pendaftaran siswa baru. isi dengan 'true'|'false'.",
                 "value" => "false"
             ],
+            [
+                "key" => "KOORDINATOR_Al-MUYASSAR",
+                "hint" => "Nama Koordinator Al-Muyassar (untuk rapor tahfidz)",
+                "value" => "Semi Hidayati, A.Md, S.Pd"
+            ],
+            [
+                "key" => "PEMBIMBING_TAHFIDZ",
+                "hint" => "Nama pembimbing tahfidz (unruk rapor tahfidz)",
+                "value" => "Wafiqoh Rofa Amaliah"
+            ],
         ];
 
-        Setting::insert($settings);
+        foreach ($settings as $setting) {
+            Setting::updateOrCreate([
+                "key" => $setting["key"],
+            ],[
+                "hint" => $setting["hint"],
+                "value" => $setting["value"],
+            ]);
+        }
     }
 }

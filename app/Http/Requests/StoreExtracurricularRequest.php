@@ -15,7 +15,7 @@ class StoreExtracurricularRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'teacher_id' => 'nullable|exists:teachers,id',
+            'user_id' => 'nullable|exists:users,id',
         ];
     }
 }

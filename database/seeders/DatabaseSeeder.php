@@ -17,16 +17,24 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             AcademicYearSeeder::class,
             GradeSeeder::class,
-            TeacherSeeder::class,
-            ClassroomSeeder::class,
-            UserSeeder::class,
-            
-            SubjectSeeder::class,
-            NewsSeeder::class,
+            SettingSeeder::class,
             ExtracurricularSeeder::class,
             PaymentTypeSeeder::class,
+            SubjectSeeder::class,
+
+            UserSeeder::class,
+            NewsSeeder::class,
+            
+            WalikelasSeeder::class,
+            ClassroomSeeder::class,
+
+            GuruSeeder::class,
             LessonSeeder::class,
             MaterialSeeder::class,
+            AssignmentSeeder::class,
+            ExamSeeder::class,
+
+            OrangtuaSeeder::class,
             StudentSeeder::class,
             FamilySeeder::class,
             ReportSeeder::class,
@@ -34,8 +42,7 @@ class DatabaseSeeder extends Seeder
             AbsentSeeder::class,
             BillSeeder::class,
             PaymentSeeder::class,
-            SettingSeeder::class,
-            AssignmentSeeder::class,
+            
         ]);
     }
 }

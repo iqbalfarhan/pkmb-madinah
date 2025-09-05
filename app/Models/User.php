@@ -26,6 +26,8 @@ class User extends Authenticatable implements HasMedia
     protected $fillable = [
         'name',
         'email',
+        'phone',
+        'gender',
         'password',
     ];
 
@@ -39,7 +41,13 @@ class User extends Authenticatable implements HasMedia
         'remember_token',
     ];
 
-    public $appends = ['avatar'];
+    public $appends = [
+        'avatar',
+        "role_lists"
+    ];
+    public $casts = [
+        'gender' => 'boolean'
+    ];
 
     /**
      * Get the attributes that should be cast.
@@ -54,14 +62,10 @@ class User extends Authenticatable implements HasMedia
         ];
     }
 
-    public function teacher()
-    {
-        return $this->hasOne(Teacher::class);
-    }
-
     public function getAvatarAttribute()
     {
-        return "https://api.dicebear.com/9.x/dylan/png?seed={$this->email}";
+        $firstMedia = $this->getFirstMediaUrl();
+        return $firstMedia != "" ? $firstMedia : "https://api.dicebear.com/9.x/dylan/png?seed={$this->email}";
     }
 
     public function students()
@@ -69,10 +73,25 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Student::class)->aktif();
     }
 
+    public function classrooms()
+    {
+        return $this->hasMany(Classroom::class);
+    }
+
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class);
+    }
+
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('preview')
             ->fit(Fit::Contain, 300, 300)
             ->nonQueued();
+    }
+
+    public function getRoleListsAttribute()
+    {
+        return $this->getRoleNames(); // langsung return collection of role names
     }
 }

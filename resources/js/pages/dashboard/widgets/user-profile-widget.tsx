@@ -1,9 +1,7 @@
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { SharedData } from '@/types';
 import { usePage } from '@inertiajs/react';
-import { Settings } from 'lucide-react';
 
 const UserProfileWidget = () => {
   const {
@@ -21,12 +19,6 @@ const UserProfileWidget = () => {
           <CardTitle className="line-clamp-1">{user.name}</CardTitle>
           <CardDescription>{roles.join(', ')}</CardDescription>
         </CardHeader>
-        <CardFooter>
-          <Button variant={'outline'}>
-            <Settings />
-            <span className="hidden md:block">Edit Profile</span>
-          </Button>
-        </CardFooter>
       </div>
     </Card>
   );

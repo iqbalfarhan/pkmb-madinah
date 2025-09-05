@@ -23,11 +23,7 @@ class UserController extends Controller
         $data = User::query()->withoutRole('superadmin')->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('user/index', [
-            'users' => $data->get()->map(function ($user) {
-                return $user->only(['id', 'name', 'email']) + [
-                    'roles' => $user->getRoleNames(),
-                ];
-            }),
+            'users' => $data->get(),
             'query' => $request->input(),
             'roles' => Role::whereNot('name', 'superadmin')->pluck('name')
         ]);
@@ -53,9 +49,7 @@ class UserController extends Controller
         $this->pass("show user");
 
         return Inertia::render('user/show', [
-            'user' => $user->load('students')->toArray() + [
-                "roles" => $user->getRoleNames()
-            ]
+            'user' => $user->load('students', 'lessons', 'classrooms.students')
         ]);
     }
 

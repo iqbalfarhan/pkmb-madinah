@@ -94,6 +94,8 @@ const UserList: FC<Props> = ({ users, query }) => {
             </TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Email</TableHead>
+            <TableHead>Jenis kelamin</TableHead>
+            <TableHead>Nomor telepon</TableHead>
             <TableHead>Role names</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
@@ -121,7 +123,9 @@ const UserList: FC<Props> = ({ users, query }) => {
                 </TableCell>
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
-                <TableCell>{user.roles?.join(', ')}</TableCell>
+                <TableCell>{user.gender ? 'Laki-laki' : 'Perempuan'}</TableCell>
+                <TableCell>{user.phone}</TableCell>
+                <TableCell>{user.role_lists?.join(', ')}</TableCell>
                 <TableCell>
                   <Button variant={'ghost'} size={'icon'}>
                     <Link href={route('user.show', user.id)}>

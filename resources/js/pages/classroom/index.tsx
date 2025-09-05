@@ -95,7 +95,7 @@ const ClassroomList: FC<Props> = ({ classrooms, query }) => {
             <TableHead>Nama kelas</TableHead>
             <TableHead>Grade</TableHead>
             <TableHead>Academic year</TableHead>
-            <TableHead>Teacher</TableHead>
+            <TableHead>User</TableHead>
             <TableHead>Students</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
@@ -124,7 +124,7 @@ const ClassroomList: FC<Props> = ({ classrooms, query }) => {
                 <TableCell>{classroom.name}</TableCell>
                 <TableCell>{classroom.grade.name}</TableCell>
                 <TableCell>{classroom.academic_year.label}</TableCell>
-                <TableCell>{classroom.teacher?.name}</TableCell>
+                <TableCell>{classroom.user?.name}</TableCell>
                 <TableCell>{classroom.students?.length}</TableCell>
                 <TableCell>
                   {permissions?.canShow && (

@@ -26,7 +26,7 @@ import {
   Settings,
   UserCircle,
   Users,
-  UsersRound,
+  Users2,
   Wallet,
   XSquare,
 } from 'lucide-react';
@@ -135,13 +135,6 @@ export function AppSidebar() {
             },
 
             {
-              title: 'Daftar guru',
-              href: route('teacher.index'),
-              icon: UsersRound,
-              available: menus.grade,
-            },
-
-            {
               title: 'Daftar berita sekolah',
               href: route('news.index'),
               icon: Newspaper,
@@ -187,31 +180,31 @@ export function AppSidebar() {
               available: menus.classroom,
               items: [
                 {
-                  title: 'Pengaturan kelas',
+                  title: 'Kelas',
                   href: route('classroom.index'),
                   icon: KeySquare,
                   available: menus.classroom,
                 },
                 {
-                  title: 'Pelajaran kelas',
+                  title: 'Pelajaran',
                   href: route('lesson.index'),
                   icon: RemoveFormatting,
                   available: menus.lesson,
                 },
                 {
-                  title: 'Materi pelajaran',
+                  title: 'Materi belajar',
                   href: route('material.index'),
                   icon: BookOpen,
                   available: menus.material,
                 },
                 {
-                  title: 'Tugas pelajaran',
+                  title: 'Tugas',
                   href: route('assignment.index'),
                   icon: Pencil,
                   available: menus.assignment,
                 },
                 {
-                  title: 'Ujian pelajaran',
+                  title: 'Ujian',
                   href: route('exam.index'),
                   icon: Badge,
                   available: menus.exam,
@@ -262,6 +255,12 @@ export function AppSidebar() {
                 },
               ],
             },
+            {
+              title: 'Pengguna aplikasi',
+              href: route('user.index'),
+              icon: Users2,
+              available: menus.user,
+            },
           ]}
           label="Master data"
         />
@@ -273,12 +272,6 @@ export function AppSidebar() {
               href: route('setting.index'),
               icon: Settings,
               available: menus.setting,
-            },
-            {
-              title: 'Daftar pengguna',
-              href: route('user.index'),
-              icon: Users,
-              available: menus.user,
             },
             {
               title: 'Daftar role & permission',

@@ -120,7 +120,7 @@ const LessonList: FC<Props> = ({ lessons, query }) => {
                   </Button>
                 </TableCell>
                 <TableCell>{lesson.name}</TableCell>
-                <TableCell>{lesson.teacher.name}</TableCell>
+                <TableCell>{lesson.user.name}</TableCell>
                 <TableCell>{lesson.classroom.name}</TableCell>
                 <TableCell>
                   {permissions?.canShow && (
