@@ -16,6 +16,7 @@ use App\Models\Setting;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use PDF;
 
 class ReportController extends Controller
 {
@@ -56,7 +57,7 @@ class ReportController extends Controller
         $student = Student::find($data['student_id']);
         $academicYear = AcademicYear::find($data['academic_year_id']);
         // $classroom = Classroom::find($data['classroom_id']);
-        $classroom = $student->classroom;
+        $classroom = Classroom::find($data['classroom_id']);
 
         $mockup = config('report-mockup')[$data["report_type"]];
         $mockup['tahunajaran'] = $academicYear->year;
@@ -181,6 +182,11 @@ class ReportController extends Controller
     {
         $data = $request->validated();
         Report::whereIn('id', $data['report_ids'])->delete();
+    }
+
+    public function download(Report $report)
+    {
+        return PDF::loadView('pdf.invoice')->stream('document.pdf');
     }
 
     

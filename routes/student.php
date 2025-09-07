@@ -21,6 +21,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 	Route::resource('student', StudentController::class);
 
+	Route::get('report/{report}/download', [ReportController::class, 'download'])->name('report.download');
 	Route::get('report/{report}/raw', [ReportController::class, 'raw'])->name('report.raw');
 	Route::put('report/bulk', [ReportController::class, 'bulkUpdate'])->name('report.bulk.update');
 	Route::delete('report/bulk', [ReportController::class, 'bulkDelete'])->name('report.bulk.destroy');
