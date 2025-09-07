@@ -21,15 +21,19 @@ export default function Register() {
           <>
             <div className="grid gap-6">
               <FormControl label="Nama lengkap">
-                <Input id="name" type="text" required autoFocus tabIndex={1} autoComplete="name" name="name" placeholder="Full name" />
+                <Input type="text" required autoFocus tabIndex={1} autoComplete="name" name="name" placeholder="Full name" />
               </FormControl>
 
               <FormControl label="Alamat email">
-                <Input id="email" type="email" required tabIndex={2} autoComplete="email" name="email" placeholder="email@example.com" />
+                <Input type="email" required tabIndex={2} autoComplete="email" name="email" placeholder="email@example.com" />
+              </FormControl>
+
+              <FormControl label="Username">
+                <Input type="text" required tabIndex={3} autoComplete="username" name="username" placeholder="newuser1234" />
               </FormControl>
 
               <FormControl label="Password">
-                <Input id="password" type="password" required tabIndex={3} autoComplete="new-password" name="password" placeholder="Password" />
+                <Input type="password" required tabIndex={4} autoComplete="new-password" name="password" placeholder="Password" />
               </FormControl>
 
               <FormControl label="Konfirmasi password">

@@ -20,7 +20,13 @@ class UserController extends Controller
     {
         $this->pass("index user");
 
-        $data = User::query()->withoutRole('superadmin')->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = User::query()->withoutRole('superadmin')
+            ->when($request->role, function($q, $v) {
+                $q->role($v);
+            })
+            ->when($request->name, function($q, $v) {
+                $q->where('name', 'like', "%$v%");
+            });
 
         return Inertia::render('user/index', [
             'users' => $data->get(),

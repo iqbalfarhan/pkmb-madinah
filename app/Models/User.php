@@ -26,6 +26,7 @@ class User extends Authenticatable implements HasMedia
     protected $fillable = [
         'name',
         'email',
+        'username',
         'phone',
         'gender',
         'password',
@@ -75,12 +76,16 @@ class User extends Authenticatable implements HasMedia
 
     public function classrooms()
     {
-        return $this->hasMany(Classroom::class);
+        $active = AcademicYear::active();
+        return $this->hasMany(Classroom::class)->whereAcademicYearId($active->id);
     }
 
     public function lessons()
     {
-        return $this->hasMany(Lesson::class);
+        $active = AcademicYear::active();
+        return $this->hasMany(Lesson::class)->whereHas('classroom', function ($q) use ($active) {
+            $q->where('academic_year_id', $active->id);
+        });
     }
 
     public function registerMediaConversions(?Media $media = null): void

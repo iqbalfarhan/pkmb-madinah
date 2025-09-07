@@ -39,7 +39,7 @@ class StudentController extends Controller
             'students' => $data->aktif()->get(),
             'query' => $request->input(),
             'users' => User::get(),
-            'classrooms' => Classroom::get(),
+            'classrooms' => Classroom::active()->get(),
             'statusLists' => Student::$statusLists,
             'permissions' => [
                 'canAdd' => $this->user->can('create student'),
@@ -121,7 +121,11 @@ class StudentController extends Controller
         $ids = $data['student_ids'];
 
         $updates = Arr::except($data, ['student_ids']);
-        DB::table('students')->whereIn('id', $ids)->update($updates);
+
+        // dd($updates, $ids);
+        foreach ($ids as $id) {
+            Student::find($id)->update($updates);
+        }
     }
 
     /**

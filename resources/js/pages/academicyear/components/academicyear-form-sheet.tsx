@@ -1,5 +1,6 @@
 import FormControl from '@/components/form-control';
 import SubmitButton from '@/components/submit-button';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -12,7 +13,7 @@ import { FormPurpose } from '@/types';
 import { Academicyear } from '@/types/academicyear';
 import { useForm } from '@inertiajs/react';
 import { CheckedState } from '@radix-ui/react-checkbox';
-import { X } from 'lucide-react';
+import { Info, X } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -71,20 +72,22 @@ const AcademicyearFormSheet: FC<Props> = ({ children, academicyear, purpose }) =
               handleSubmit();
             }}
           >
-            <FormControl label="Tahun">
+            <FormControl label="Tahun" hint="format penulisan: 20xx/20xx">
               <Input type="text" placeholder="Name" value={data.year} onChange={(e) => setData('year', e.target.value)} />
             </FormControl>
-            <FormControl label="Semester">
-              <Select value={data.semester} onValueChange={(e) => setData('semester', e)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih semester" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="genap">Genap</SelectItem>
-                  <SelectItem value="ganjil">Ganjil</SelectItem>
-                </SelectContent>
-              </Select>
-            </FormControl>
+            {purpose === 'edit' && (
+              <FormControl label="Semester">
+                <Select value={data.semester} onValueChange={(e) => setData('semester', e)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih semester" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="ganjil">Ganjil</SelectItem>
+                    <SelectItem value="genap">Genap</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            )}
             <FormControl label="Pengaturan kelas">
               <div className="grid">
                 <Label className="flex h-8 items-center gap-2">
@@ -104,6 +107,16 @@ const AcademicyearFormSheet: FC<Props> = ({ children, academicyear, purpose }) =
           </form>
         </ScrollArea>
         <SheetFooter>
+          {purpose === 'create' && (
+            <Alert variant={'success'}>
+              <Info />
+              <AlertTitle>Harap diperhatikan</AlertTitle>
+              <AlertDescription>
+                Mengubah tahun ajaran harus dilakukan apabila semua kegiatan yang berhubungan dengan tahun ajaran berakhir, data yang tahun ajaran
+                yang sudah tidak berlaku tidak bisa diubah kembali
+              </AlertDescription>
+            </Alert>
+          )}
           <SubmitButton onClick={handleSubmit} label={`${capitalizeWords(purpose)} academicyear`} loading={processing} disabled={processing} />
           <SheetClose asChild>
             <Button variant={'outline'}>

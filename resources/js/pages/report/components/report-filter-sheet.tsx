@@ -1,3 +1,4 @@
+import DDump from '@/components/d-dump';
 import FormControl from '@/components/form-control';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -18,20 +19,20 @@ type Props = PropsWithChildren & {
 const ReportFilterSheet: FC<Props> = ({ children }) => {
   const [open, setOpen] = useState(false);
   const {
-    reportTypes,
+    reportTypes = [],
     students = [],
-    academicYears,
+    academicYears = [],
     activeAcademicYear,
   } = usePage<SharedData & { reportTypes: string[]; students: Student[]; academicYears: Academicyear[] }>().props;
 
   const { data, setData, get } = useForm({
     report_type: '',
-    student_id: '',
+    student_id: students.length === 1 ? students[0].id.toString() : '',
     academic_year_id: activeAcademicYear.id ?? '',
   });
 
   const applyFilter = () => {
-    get(route('report.index'), {
+    get(route(''), {
       preserveScroll: true,
       preserveState: true,
       replace: true,
@@ -44,10 +45,10 @@ const ReportFilterSheet: FC<Props> = ({ children }) => {
 
   const resetFilter = () => {
     setData('report_type', '');
-    setData('student_id', '');
+    setData('student_id', students.length === 1 ? students[0].id.toString() : '');
     setData('academic_year_id', activeAcademicYear.id);
     router.get(
-      route('report.index'),
+      route(''),
       {
         report_type: '',
         student_id: '',
@@ -70,6 +71,7 @@ const ReportFilterSheet: FC<Props> = ({ children }) => {
           <SheetDescription>Filter data report</SheetDescription>
         </SheetHeader>
         <ScrollArea className="flex-1 overflow-y-auto">
+          <DDump content={data} />
           <form
             method="get"
             className="space-y-6 px-4"
@@ -92,20 +94,22 @@ const ReportFilterSheet: FC<Props> = ({ children }) => {
                 </SelectContent>
               </Select>
             </FormControl>
-            <FormControl label="Pilih siswa">
-              <Select value={data.student_id.toString()} onValueChange={(e) => setData('student_id', e)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih siswa" />
-                </SelectTrigger>
-                <SelectContent>
-                  {students.map((s) => (
-                    <SelectItem key={s.id} value={s.id.toString()}>
-                      {s.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </FormControl>
+            {students.length > 1 && (
+              <FormControl label="Pilih siswa">
+                <Select value={data.student_id.toString()} onValueChange={(e) => setData('student_id', e)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih siswa" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {students.map((s) => (
+                      <SelectItem key={s.id} value={s.id.toString()}>
+                        {s.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            )}
             <FormControl label="Jenis Report">
               <Select value={data.report_type} onValueChange={(value) => setData('report_type', value)}>
                 <SelectTrigger>

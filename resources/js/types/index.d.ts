@@ -47,6 +47,7 @@ export interface User {
   phone: string;
   gender: boolean;
   email: string;
+  username: string;
   avatar?: string;
   role_lists?: string[];
   email_verified_at: string | null;

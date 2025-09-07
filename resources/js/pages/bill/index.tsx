@@ -9,7 +9,7 @@ import { formatRupiah } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Bill } from '@/types/bill';
 import { Link, usePage } from '@inertiajs/react';
-import { Edit, Filter, Folder, Plus, Trash2 } from 'lucide-react';
+import { Edit, Filter, Folder, Plus, PlusCircle, Trash2 } from 'lucide-react';
 import { FC, useState } from 'react';
 import BillBulkDeleteDialog from './components/bill-bulk-delete-dialog';
 import BillBulkEditSheet from './components/bill-bulk-edit-sheet';
@@ -36,12 +36,20 @@ const BillList: FC<Props> = ({ bills, query }) => {
       actions={
         <>
           {permissions?.canAdd && (
-            <BillFormSheet purpose="create">
-              <Button>
-                <Plus />
-                Create new bill
-              </Button>
-            </BillFormSheet>
+            <>
+              <BillFormSheet purpose="create">
+                <Button>
+                  <PlusCircle />
+                  Create bulk
+                </Button>
+              </BillFormSheet>
+              <BillFormSheet purpose="create">
+                <Button>
+                  <Plus />
+                  Create new bill
+                </Button>
+              </BillFormSheet>
+            </>
           )}
         </>
       }

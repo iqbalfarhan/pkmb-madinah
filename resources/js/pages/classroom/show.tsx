@@ -13,7 +13,7 @@ type Props = {
 const ShowClassroom: FC<Props> = ({ classroom }) => {
   return (
     <ClassroomLayout>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid-responsive grid gap-4">
         <AbsentPieChart absents={classroom.students?.flatMap((e) => e.absents) as Absent[]} />
         <div>
           <ClassroomStudentWidget students={classroom.students} />

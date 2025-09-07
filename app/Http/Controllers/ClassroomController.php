@@ -27,12 +27,17 @@ class ClassroomController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Classroom::query()->with(['academic_year', 'user', 'grade', 'students'])->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        $activeAcademicYear = AcademicYear::active();
+
+        $data = Classroom::query()
+            ->with(['academic_year', 'user', 'grade', 'students', 'lessons'])
+            ->whereAcademicYearId($activeAcademicYear->id)
+            ->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('classroom/index', [
             'classrooms' => $data->get(),
             'query' => $request->input(),
-            'users' => User::get(),
+            'users' => User::role('walikelas')->get(),
             'grades' => Grade::get(),
             'permissions' => [
                 'canAdd' => $this->user->can('create classroom'),
@@ -123,7 +128,7 @@ class ClassroomController extends Controller
         return Inertia::render('classroom/tabs/classroom-lessons-tab', [
             'classroom' => $classroom,
             'lessons' => Lesson::whereClassroomId($classroom->id)->with('assignments', 'materials')->get(),
-            'users' => User::get(),
+            'users' => User::role(['guru', 'walikelas'])->get(),
             'subjects' => Subject::get(),
             'classrooms' => [$classroom],
             'tabname' => 'lessons',

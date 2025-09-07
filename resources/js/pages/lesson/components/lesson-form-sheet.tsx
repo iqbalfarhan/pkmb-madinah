@@ -22,7 +22,11 @@ type Props = PropsWithChildren & {
 const LessonFormSheet: FC<Props> = ({ children, lesson, purpose }) => {
   const [open, setOpen] = useState(false);
 
-  const { users, subjects, classrooms } = usePage<{
+  const {
+    users = [],
+    subjects = [],
+    classrooms = [],
+  } = usePage<{
     users: User[];
     subjects: Subject[];
     classrooms: Classroom[];
@@ -31,7 +35,7 @@ const LessonFormSheet: FC<Props> = ({ children, lesson, purpose }) => {
   const { data, setData, put, post, reset, processing } = useForm({
     user_id: lesson?.user_id ?? '',
     subject_id: lesson?.subject_id ?? '',
-    classroom_id: lesson?.classroom_id ?? '',
+    classroom_id: lesson?.classroom_id ?? classrooms[0].id ?? '',
   });
 
   const handleSubmit = () => {
@@ -87,7 +91,7 @@ const LessonFormSheet: FC<Props> = ({ children, lesson, purpose }) => {
                 </SelectContent>
               </Select>
             </FormControl>
-            <FormControl label="User">
+            <FormControl label="Pengajar">
               <Select value={data.user_id.toString()} onValueChange={(e) => setData('user_id', e)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih guru" />
@@ -101,20 +105,22 @@ const LessonFormSheet: FC<Props> = ({ children, lesson, purpose }) => {
                 </SelectContent>
               </Select>
             </FormControl>
-            <FormControl label="Kelas">
-              <Select value={data.classroom_id.toString()} onValueChange={(e) => setData('classroom_id', e)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih guru" />
-                </SelectTrigger>
-                <SelectContent>
-                  {classrooms.map((classroom) => (
-                    <SelectItem key={classroom.id} value={classroom.id.toString()}>
-                      {classroom.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </FormControl>
+            {classrooms.length > 1 && (
+              <FormControl label="Kelas">
+                <Select value={data.classroom_id.toString()} onValueChange={(e) => setData('classroom_id', Number(e))}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih guru" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {classrooms.map((classroom) => (
+                      <SelectItem key={classroom.id} value={classroom.id.toString()}>
+                        {classroom.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            )}
           </form>
         </ScrollArea>
         <SheetFooter>

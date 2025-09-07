@@ -40,6 +40,13 @@ export const dataAlurPendaftaran: {
       'Jika seluruh persyaratan dinyatakan sesuai, siswa akan diterima dan status pendaftaran akan diperbarui pada sistem. Informasi hasil seleksi atau penerimaan dapat dilihat melalui akun yang telah didaftarkan.',
     ],
   },
+  {
+    index: 5,
+    title: 'Pembayaran biaya pendaftaran.',
+    description: [
+      'Orangtua membayaran biaya pendaftaran siswa. Informasi tagihan dapat dilihat pada menu tagihan siswa yang dapat diakses setelah orangtua login ke sistem',
+    ],
+  },
 ];
 
 const AlurSection = () => {

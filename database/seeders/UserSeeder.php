@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'email' => 'superadmin@gmail.com',
         ], [
             'name' => 'Super administrator',
+            'username' => "superadmin",
             'password' => 'password',
         ]);
         $superadmin->assignRole('superadmin');
@@ -31,6 +32,7 @@ class UserSeeder extends Seeder
             'email' => 'admin@gmail.com',
         ], [
             'name' => 'Administrator',
+            'username' => "admin",
             'password' => 'password',
         ]);
         $admin->assignRole('admin');

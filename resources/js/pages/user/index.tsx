@@ -1,3 +1,4 @@
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -94,7 +95,7 @@ const UserList: FC<Props> = ({ users, query }) => {
             </TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Email</TableHead>
-            <TableHead>Jenis kelamin</TableHead>
+            <TableHead>Username</TableHead>
             <TableHead>Nomor telepon</TableHead>
             <TableHead>Role names</TableHead>
             <TableHead>Actions</TableHead>
@@ -121,9 +122,16 @@ const UserList: FC<Props> = ({ users, query }) => {
                     </Label>
                   </Button>
                 </TableCell>
-                <TableCell>{user.name}</TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2">
+                    <Avatar className="size-8">
+                      <AvatarImage src={user.avatar} />
+                    </Avatar>
+                    <div>{user.name}</div>
+                  </div>
+                </TableCell>
                 <TableCell>{user.email}</TableCell>
-                <TableCell>{user.gender ? 'Laki-laki' : 'Perempuan'}</TableCell>
+                <TableCell>{user.username}</TableCell>
                 <TableCell>{user.phone}</TableCell>
                 <TableCell>{user.role_lists?.join(', ')}</TableCell>
                 <TableCell>

@@ -32,8 +32,8 @@ export default function Login({ status, canResetPassword }: LoginProps) {
       <form className="flex flex-col gap-6" onSubmit={submit}>
         <>
           <div className="grid gap-6">
-            <FormControl label="Alamat email">
-              <Input type="email" value={data.email} required placeholder="email@example.com" onChange={(e) => setData('email', e.target.value)} />
+            <FormControl label="Username atau email">
+              <Input type="text" value={data.email} required placeholder="email@example.com" onChange={(e) => setData('email', e.target.value)} />
             </FormControl>
             <FormControl
               label="Password"

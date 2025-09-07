@@ -11,7 +11,7 @@ const ClassroomStudentWidget: FC<Props> = ({ students }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Students</CardTitle>
+        <CardTitle>Anggota kelas</CardTitle>
         <CardDescription>{students?.length} students enrolled</CardDescription>
       </CardHeader>
       <CardFooter>

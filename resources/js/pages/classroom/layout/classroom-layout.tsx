@@ -22,8 +22,8 @@ const ClassroomLayout: FC<Props> = ({ children }) => {
           <CardDescription>Walikelas: {classroom.user?.name}</CardDescription>
         </CardHeader>
       </Card>
-      <Tabs defaultValue={tabname} onValueChange={(v) => handleNavigate(v)}>
-        <TabsList>
+      <Tabs defaultValue={tabname} onValueChange={(v) => handleNavigate(v)} className="h-fit">
+        <TabsList className="flex flex-wrap">
           <TabsTrigger value="show">Overview</TabsTrigger>
           <TabsTrigger value="students">Siswa</TabsTrigger>
           <TabsTrigger value="lessons">Pelajaran</TabsTrigger>

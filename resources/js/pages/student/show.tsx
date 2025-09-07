@@ -27,8 +27,8 @@ const ShowStudent: FC<Props> = ({ student }) => {
 
   return (
     <AppLayout title="Detail Student" description="Detail student">
-      <div className="grid grid-cols-4 gap-4">
-        <Card className="col-span-4">
+      <div className="grid-responsive grid gap-4">
+        <Card className="md:col-span-4">
           <div className="flex items-center justify-between">
             <CardHeader>
               <Avatar className="size-12">
@@ -58,7 +58,7 @@ const ShowStudent: FC<Props> = ({ student }) => {
           icon={Wallet}
         />
         <StudentLinkCard href={route('student.rapor', student.id)} title="E-rapor" description="Rapor perkembangan, nilai, doa dan hafalan." />
-        <AbsentPieChart absents={student.absents as Absent[]} href={route('student.absent', student.id)} className="row-span-2" />
+        <AbsentPieChart absents={student.absents as Absent[]} href={route('student.absent', student.id)} className="md:row-span-2" />
         <StudentLinkCard
           href={route('student.nilai', student.id)}
           title="Nilai siswa"
@@ -82,19 +82,19 @@ const ShowStudent: FC<Props> = ({ student }) => {
           icon={Palette}
         />
         <StudentLinkCard
-          href={route('user.show', student.user?.id)}
+          href={student.user && route('user.show', student.user?.id)}
           title="Akun login"
           description={`Akun login orangtua: ${student.user?.email}`}
           icon={Key}
         />
       </div>
 
-      <div className="grid grid-cols-4 gap-4">
-        <div className="col-span-full">
+      <div className="grid-responsive grid gap-4">
+        <div className="md:col-span-full">
           <HeadingSmall title="Informasi lainnya" description="informasi pendaftaran dan berkas siswa" />
         </div>
         <StudentLinkCard title={'Kelahiran'} description={`${student.kelahiran} - ${student.umur}`} icon={Calendar} />
-        <Card className="col-span-3 row-span-2">
+        <Card className="md:col-span-3 md:row-span-2">
           <div className="flex justify-between">
             <CardHeader>
               <CardTitle>Orangtua</CardTitle>
@@ -120,7 +120,7 @@ const ShowStudent: FC<Props> = ({ student }) => {
           }
           icon={Building}
         />
-        <Card className="col-span-3 row-span-3">
+        <Card className="md:col-span-3 md:row-span-3">
           <div className="flex justify-between">
             <CardHeader>
               <CardTitle>Dokumen pelengkap</CardTitle>
@@ -142,7 +142,7 @@ const ShowStudent: FC<Props> = ({ student }) => {
           </CardContent>
         </Card>
 
-        <Card className="row-span-2">
+        <Card className="md:row-span-2">
           <CardHeader>
             <CardTitle>Kontak siswa</CardTitle>
             <CardDescription>Kontak yand bisa dihubungi</CardDescription>

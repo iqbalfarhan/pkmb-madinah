@@ -27,7 +27,7 @@ const AssignmentFormSheet: FC<Props> = ({ children, assignment, purpose }) => {
   const { lessons = [] } = usePage<{ lessons: Lesson[] }>().props;
 
   const { data, setData, put, post, reset, processing } = useForm({
-    lesson_id: assignment?.lesson_id ?? '',
+    lesson_id: assignment?.lesson_id ?? lessons[0].id ?? '',
     name: assignment?.name ?? '',
     description: assignment?.description ?? '',
     rate: assignment?.rate ?? '',
@@ -72,27 +72,29 @@ const AssignmentFormSheet: FC<Props> = ({ children, assignment, purpose }) => {
               handleSubmit();
             }}
           >
-            <FormControl label="Pelajaran">
-              <Select value={data.lesson_id.toString()} onValueChange={(value) => setData('lesson_id', value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih pelajaran" />
-                </SelectTrigger>
-                <SelectContent>
-                  {lessons.map((lesson) => (
-                    <SelectItem key={lesson.id} value={lesson.id.toString()}>
-                      {lesson.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </FormControl>
-            <FormControl label="Nama assignment">
+            {lessons.length > 1 && (
+              <FormControl label="Pelajaran">
+                <Select value={data.lesson_id.toString()} onValueChange={(value) => setData('lesson_id', Number(value))}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih pelajaran" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {lessons.map((lesson) => (
+                      <SelectItem key={lesson.id} value={lesson.id.toString()}>
+                        {lesson.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            )}
+            <FormControl label="Judul tugas">
               <Input type="text" placeholder="Name" value={data.name} onChange={(e) => setData('name', e.target.value)} />
             </FormControl>
             <FormControl label="Deskripsi">
               <Textarea placeholder="Description" value={data.description} onChange={(e) => setData('description', e.target.value)} />
             </FormControl>
-            <FormControl label="Rate">
+            <FormControl label="Bobot nilai (dalam persen)">
               <Input type="number" step={0.01} placeholder="Rate" value={data.rate} onChange={(e) => setData('rate', e.target.value)} />
             </FormControl>
           </form>

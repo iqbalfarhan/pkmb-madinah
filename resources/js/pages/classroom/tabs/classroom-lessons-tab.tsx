@@ -27,7 +27,7 @@ const ClassroomLessonsTab: FC<Props> = ({ lessons }) => {
               <LessonFormSheet purpose={'create'}>
                 <Button>
                   <Plus />
-                  Create new lesson
+                  Buat sesi pelajaran
                 </Button>
               </LessonFormSheet>
             )}

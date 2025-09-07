@@ -27,6 +27,7 @@ const UserFormSheet: FC<Props> = ({ children, user, purpose }) => {
   const { data, setData, put, post, reset, processing } = useForm({
     name: user?.name ?? '',
     email: user?.email ?? '',
+    username: user?.username ?? '',
     password: user ? undefined : '',
     gender: user?.gender ?? true,
     phone: user?.phone ?? '',
@@ -77,6 +78,9 @@ const UserFormSheet: FC<Props> = ({ children, user, purpose }) => {
             </FormControl>
             <FormControl label="Email address">
               <Input type="email" placeholder="username@domain.com" value={data.email} onChange={(e) => setData('email', e.target.value)} />
+            </FormControl>
+            <FormControl label="Username">
+              <Input type="text" placeholder="username untuk login" value={data.username} onChange={(e) => setData('username', e.target.value)} />
             </FormControl>
             <FormControl label="Nomor telepon">
               <Input type="tel" placeholder="Nomor telepon" value={data.phone} onChange={(e) => setData('phone', e.target.value)} />

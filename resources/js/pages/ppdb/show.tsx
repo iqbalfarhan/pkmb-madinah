@@ -8,7 +8,7 @@ import { dateDFY, numberPad } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Student } from '@/types/student';
 import { router, usePage } from '@inertiajs/react';
-import { Check } from 'lucide-react';
+import { ArrowRight, Wallet } from 'lucide-react';
 import { FC } from 'react';
 import FamilyCardContent from '../family/components/family-card-content';
 import StudentMediaTable from '../student/components/student-media-table';
@@ -138,12 +138,23 @@ const ShowPpdb: FC<Props> = ({ ppdb }) => {
         </Card>
       </div>
       {permissions?.canApprove && (
-        <div>
-          <Button onClick={handleApprove}>
-            <Check />
-            Buat tagihan pembayaran
-          </Button>
-        </div>
+        <>
+          <Separator />
+          <Card>
+            <CardHeader>
+              <CardTitle>Buat tagihan</CardTitle>
+              <CardDescription>Buat tagihan untuk siswa baru</CardDescription>
+            </CardHeader>
+            <Separator />
+            <CardFooter>
+              <Button onClick={handleApprove}>
+                <Wallet />
+                Buat tagihan pembayaran
+                <ArrowRight />
+              </Button>
+            </CardFooter>
+          </Card>
+        </>
       )}
     </AppLayout>
   );

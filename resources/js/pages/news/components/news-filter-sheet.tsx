@@ -1,9 +1,10 @@
 import FormControl from '@/components/form-control';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { router, useForm } from '@inertiajs/react';
+import { User } from '@/types';
+import { router, useForm, usePage } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
@@ -14,9 +15,10 @@ type Props = PropsWithChildren & {
 
 const NewsFilterSheet: FC<Props> = ({ children }) => {
   const [open, setOpen] = useState(false);
+  const { users = [] } = usePage<{ users: User[] }>().props;
 
   const { data, setData, get } = useForm({
-    title: '',
+    user_id: '',
   });
 
   const applyFilter = () => {
@@ -32,11 +34,11 @@ const NewsFilterSheet: FC<Props> = ({ children }) => {
   };
 
   const resetFilter = () => {
-    setData('title', '');
+    setData('user_id', '');
     router.get(
       route('news.index'),
       {
-        title: '',
+        user_id: '',
       },
       {
         preserveScroll: true,
@@ -64,7 +66,16 @@ const NewsFilterSheet: FC<Props> = ({ children }) => {
             }}
           >
             <FormControl label="Nama News">
-              <Input type="text" placeholder="Name news" value={data.title} onChange={(e) => setData('title', e.target.value)} />
+              <Select value={data.user_id} onValueChange={(v) => setData('user_id', v)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="" />
+                </SelectTrigger>
+                <SelectContent>
+                  {users.map((user) => (
+                    <SelectItem value={user.id.toString()}>{user.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </FormControl>
           </form>
         </ScrollArea>

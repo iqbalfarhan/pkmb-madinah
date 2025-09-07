@@ -125,7 +125,11 @@ class ReportController extends Controller
             'report' => $report->load('student', 'classroom', 'academic_year'),
             'student' => $report->student->load('activities', 'activities.extracurricular', 'absents'),
             'classroom' => $report->classroom,
-            'grades' => Grade::get()
+            'grades' => Grade::get(),
+            'permissions' => [
+                'canUpdate' => $this->user->can('update report'),
+                'canAddParentComment' => $this->user->can('comment report'),
+            ]
         ]);
     }
 

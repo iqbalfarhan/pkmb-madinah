@@ -12,7 +12,6 @@ import {
   BookOpen,
   CalendarCheck,
   ChevronsUpDown,
-  Database,
   FileBadge,
   Folder,
   KeySquare,
@@ -142,6 +141,33 @@ export function AppSidebar() {
             },
 
             {
+              title: 'Tagihan & pembayaran',
+              href: route('bill.index'),
+              icon: Wallet,
+              available: menus.bill,
+              items: [
+                {
+                  title: 'Tagihan siswa',
+                  href: route('bill.index'),
+                  icon: Wallet,
+                  available: menus.bill,
+                },
+                {
+                  title: 'Validasi pembayaran',
+                  href: route('payment.index'),
+                  icon: Wallet,
+                  available: menus.payment,
+                },
+                {
+                  title: 'Jenis pembayaran',
+                  href: route('paymenttype.index'),
+                  icon: Wallet,
+                  available: menus.paymenttype,
+                },
+              ],
+            },
+
+            {
               title: 'List master data',
               href: '',
               icon: List,
@@ -164,12 +190,6 @@ export function AppSidebar() {
                   href: route('extracurricular.index'),
                   icon: Palette,
                   available: menus.extracurricular,
-                },
-                {
-                  title: 'Jenis pembayaran',
-                  href: route('paymenttype.index'),
-                  icon: Wallet,
-                  available: menus.paymenttype,
                 },
               ],
             },
@@ -242,24 +262,12 @@ export function AppSidebar() {
                   available: menus.score,
                 },
                 {
-                  title: 'Tagihan pembayaran',
-                  href: route('bill.index'),
-                  icon: Wallet,
-                  available: menus.bill,
-                },
-                {
                   title: 'Kegiatan ekskul',
                   href: route('activity.index'),
                   icon: Palette,
                   available: menus.activity,
                 },
               ],
-            },
-            {
-              title: 'Pengguna aplikasi',
-              href: route('user.index'),
-              icon: Users2,
-              available: menus.user,
             },
           ]}
           label="Master data"
@@ -268,22 +276,22 @@ export function AppSidebar() {
         <NavMain
           items={[
             {
+              title: 'Pengguna aplikasi',
+              href: route('user.index'),
+              icon: Users2,
+              available: menus.user,
+            },
+            {
               title: 'Pengaturan sekolah',
               href: route('setting.index'),
               icon: Settings,
               available: menus.setting,
             },
             {
-              title: 'Daftar role & permission',
+              title: 'Role & permission',
               href: route('role.index'),
               icon: KeySquare,
               available: menus.role,
-            },
-            {
-              title: 'Adminer database',
-              href: '/adminer',
-              icon: Database,
-              available: menus.adminer,
             },
           ]}
           label="Settings"

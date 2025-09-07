@@ -1,5 +1,6 @@
 import FormControl from '@/components/form-control';
 import SubmitButton from '@/components/submit-button';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -8,7 +9,7 @@ import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHe
 import { em } from '@/lib/utils';
 import { Student } from '@/types/student';
 import { useForm } from '@inertiajs/react';
-import { X } from 'lucide-react';
+import { Info, X } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -52,10 +53,10 @@ const PpdbUploadMediaSheet: FC<Props> = ({ student, children }) => {
               handleUploadMedia();
             }}
           >
-            <FormControl label="Pilih collection">
+            <FormControl label="Pilih jenis file">
               <Select value={data.collection_name} onValueChange={(val) => setData('collection_name', val)} required>
                 <SelectTrigger>
-                  <SelectValue placeholder="Pilih collection" />
+                  <SelectValue placeholder="Pilih jenis file" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="kartu keluarga">Kartu Keluarga</SelectItem>
@@ -77,6 +78,13 @@ const PpdbUploadMediaSheet: FC<Props> = ({ student, children }) => {
           </form>
         </ScrollArea>
         <SheetFooter>
+          <Alert>
+            <Info />
+            <AlertTitle>Ketentuan upload file</AlertTitle>
+            <AlertDescription>
+              File yang dapat diupload adalah file dengan ekstensi PDF dan file gambar (JPG, PNG, JPEG) dengan ukurang tidak lebih dari 2Mb.
+            </AlertDescription>
+          </Alert>
           <SubmitButton onClick={handleUploadMedia} label={'Upload media'} loading={processing} disabled={processing} />
           <SheetClose asChild>
             <Button variant={'outline'}>

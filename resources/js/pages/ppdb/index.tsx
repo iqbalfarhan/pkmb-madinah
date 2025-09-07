@@ -1,3 +1,4 @@
+import HeadingSmall from '@/components/heading-small';
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -99,6 +100,7 @@ const PpdbList: FC<Props> = ({
           </CardHeader>
         </Card>
       </div>
+      <HeadingSmall title="Siap diverfikasi" description="List calon siswa yang siap untuk diverifikasi" />
       <div className="flex gap-2">
         <Input placeholder="Search ppdbs..." value={cari} onChange={(e) => setCari(e.target.value)} />
         {ids.length > 0 && (

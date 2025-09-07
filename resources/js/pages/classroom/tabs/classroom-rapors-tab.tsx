@@ -4,8 +4,9 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ReportFormSheet from '@/pages/report/components/report-form-sheet';
 import ReportItemCard from '@/pages/report/components/report-item-card';
+import { SharedData } from '@/types';
 import { Report } from '@/types/report';
-import { router } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import { Plus } from 'lucide-react';
 import { FC, useState } from 'react';
 import ClassroomLayout from '../layout/classroom-layout';
@@ -20,6 +21,8 @@ const ClassroomRarporsTab: FC<Props> = ({ reports, reportTypes, query }) => {
   const [tab] = useState(query.tab ?? 'all');
   const [cari, setCari] = useState('');
 
+  const { permissions } = usePage<SharedData>().props;
+
   return (
     <ClassroomLayout>
       <HeadingSmall
@@ -27,12 +30,16 @@ const ClassroomRarporsTab: FC<Props> = ({ reports, reportTypes, query }) => {
         description="List rapor siswa kelas ini"
         actions={
           <>
-            <ReportFormSheet purpose="create">
-              <Button>
-                <Plus />
-                Create e-report
-              </Button>
-            </ReportFormSheet>
+            {permissions?.canAdd && (
+              <>
+                <ReportFormSheet purpose="create">
+                  <Button>
+                    <Plus />
+                    Create e-report
+                  </Button>
+                </ReportFormSheet>
+              </>
+            )}
           </>
         }
       />

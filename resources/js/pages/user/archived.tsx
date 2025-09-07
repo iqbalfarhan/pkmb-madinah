@@ -110,7 +110,7 @@ const ArchivedUserList: FC<Props> = ({ users }) => {
                 </TableCell>
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
-                <TableCell>{user.roles?.join(', ')}</TableCell>
+                <TableCell>{user.role_lists?.join(', ')}</TableCell>
                 <TableCell>
                   <Button variant={'ghost'} size={'icon'} onClick={() => handleRestore(user.id)}>
                     <Undo2 />

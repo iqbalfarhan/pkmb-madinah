@@ -1,28 +1,23 @@
 import HeadingSmall from '@/components/heading-small';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import ActivityBulkDeleteDialog from '@/pages/activity/components/activity-bulk-delete-dialog';
-import ActivityBulkEditSheet from '@/pages/activity/components/activity-bulk-edit-sheet';
 import ActivityDeleteDialog from '@/pages/activity/components/activity-delete-dialog';
-import ActivityFilterSheet from '@/pages/activity/components/activity-filter-sheet';
 import ActivityFormSheet from '@/pages/activity/components/activity-form-sheet';
 import { SharedData } from '@/types';
 import { Activity } from '@/types/activity';
 import { Link, usePage } from '@inertiajs/react';
-import { Edit, Filter, Folder, Plus, Trash2 } from 'lucide-react';
+import { Edit, Folder, Plus, Trash2 } from 'lucide-react';
 import { FC, useState } from 'react';
 import ClassroomLayout from '../layout/classroom-layout';
 
 type Props = {
   activities: Activity[];
-  query: { [key: string]: string };
 };
 
-const ActivityList: FC<Props> = ({ activities, query }) => {
+const ActivityList: FC<Props> = ({ activities }) => {
   const [ids, setIds] = useState<number[]>([]);
   const [cari, setCari] = useState('');
 
@@ -31,7 +26,7 @@ const ActivityList: FC<Props> = ({ activities, query }) => {
   return (
     <ClassroomLayout>
       <HeadingSmall
-        title="Activitys"
+        title="Kegiatan ekskul siswa"
         description="Manage your activities"
         actions={
           <>
@@ -43,38 +38,12 @@ const ActivityList: FC<Props> = ({ activities, query }) => {
                 </Button>
               </ActivityFormSheet>
             )}
+            <div>
+              <Input placeholder="Search activities..." value={cari} onChange={(e) => setCari(e.target.value)} />
+            </div>
           </>
         }
       />
-      <div className="flex gap-2">
-        <Input placeholder="Search activities..." value={cari} onChange={(e) => setCari(e.target.value)} />
-        <ActivityFilterSheet query={query}>
-          <Button>
-            <Filter />
-            Filter data
-            {Object.values(query).filter((val) => val && val !== '').length > 0 && (
-              <Badge variant="secondary">{Object.values(query).filter((val) => val && val !== '').length}</Badge>
-            )}
-          </Button>
-        </ActivityFilterSheet>
-        {ids.length > 0 && (
-          <>
-            <Button variant={'ghost'} disabled>
-              {ids.length} item selected
-            </Button>
-            <ActivityBulkEditSheet activityIds={ids}>
-              <Button>
-                <Edit /> Edit selected
-              </Button>
-            </ActivityBulkEditSheet>
-            <ActivityBulkDeleteDialog activityIds={ids}>
-              <Button variant={'destructive'}>
-                <Trash2 /> Delete selected
-              </Button>
-            </ActivityBulkDeleteDialog>
-          </>
-        )}
-      </div>
       <Table>
         <TableHeader>
           <TableRow>

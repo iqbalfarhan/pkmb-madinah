@@ -126,6 +126,7 @@ class PermissionSeeder extends Seeder
                 "create report" => ["admin", "walikelas"],
                 "update report" => ["admin", "walikelas"],
                 "delete report" => ["admin", "walikelas"],
+                "comment report" => ["orangtua"],
             ],
             "setting" => [
                 "menu setting" => ["admin"],

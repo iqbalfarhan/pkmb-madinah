@@ -15,9 +15,9 @@ const LessonItemCard: FC<Props> = ({ lesson }) => {
         <CardHeader>
           <CardTitle className="line-clamp-1">{lesson.subject.name}</CardTitle>
           <CardDescription>Pengajar: {lesson.user.name}</CardDescription>
+          {lesson.classroom && <CardDescription>Kelas: {lesson.classroom.name}</CardDescription>}
         </CardHeader>
         <CardFooter className="flex flex-wrap gap-1">
-          {lesson.classroom && <CardDescription>Kelas: {lesson.classroom.name}</CardDescription>}
           {lesson.materials && <Badge variant={'secondary'}>{lesson.materials?.length} materi</Badge>}
           {lesson.assignments && <Badge variant={'secondary'}>{lesson.assignments?.length} tugas</Badge>}
         </CardFooter>

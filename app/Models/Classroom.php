@@ -57,12 +57,18 @@ class Classroom extends Model
         return $this->hasMany(Lesson::class);
     }
 
+    public function scopeActive($query)
+    {
+        $activeAcademicYear = AcademicYear::active();
+        return $query->where('academic_year_id', $activeAcademicYear->id);
+    }
+
     public function getDescriptionAttribute()
     {
         return implode(", ", [
             "Kelas untuk {$this->grade->name}",
             "Tahun ajaran {$this->academic_year->label}",
-            "Walikelas {$this->user->name}"
+            "Walikelas {$this->user?->name}"
         ]);
     }
 

@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { dateDFY } from '@/lib/utils';
+import { dateDFY, strLimit } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { News } from '@/types/news';
 import { Link, usePage } from '@inertiajs/react';
@@ -30,8 +30,8 @@ const NewsList: FC<Props> = ({ news, query }) => {
 
   return (
     <AppLayout
-      title="Newss"
-      description="Manage your news"
+      title="Berita kegiatan"
+      description="List berita kegiatan sekolah"
       actions={
         <>
           {permissions?.canAdd && (
@@ -93,7 +93,7 @@ const NewsList: FC<Props> = ({ news, query }) => {
                 </Label>
               </Button>
             </TableHead>
-            <TableHead>Title</TableHead>
+            <TableHead>Judul berita</TableHead>
             <TableHead>Creator</TableHead>
             <TableHead>Created At</TableHead>
             <TableHead>Actions</TableHead>
@@ -120,7 +120,7 @@ const NewsList: FC<Props> = ({ news, query }) => {
                     </Label>
                   </Button>
                 </TableCell>
-                <TableCell>{news.title}</TableCell>
+                <TableCell>{strLimit(news.title)}</TableCell>
                 <TableCell>{news.user.name}</TableCell>
                 <TableCell>{dateDFY(news.created_at)}</TableCell>
                 <TableCell>

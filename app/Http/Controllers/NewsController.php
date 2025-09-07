@@ -8,6 +8,7 @@ use App\Http\Requests\BulkUpdateNewsRequest;
 use App\Http\Requests\BulkDeleteNewsRequest;
 use App\Http\Requests\UploadNewsMediaRequest;
 use App\Models\News;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -19,11 +20,16 @@ class NewsController extends Controller
      */
     public function index(Request $request)
     {
-        $data = News::query()->with('user')->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = News::query()
+            ->with('user')
+            ->when($request->user_id, function($q, $v)  {
+                $q->where('user_id', $v);
+            });
 
         return Inertia::render('news/index', [
             'news' => $data->get(),
             'query' => $request->input(),
+            'users' => User::role('admin')->get(),
             'permissions' => [
                 'canAdd' => $this->user->can('create news'),
                 'canUpdate' => $this->user->can('update news'),

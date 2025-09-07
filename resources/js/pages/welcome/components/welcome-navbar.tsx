@@ -3,6 +3,7 @@ import ThemeToggler from '@/components/theme-toggler';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 import { NavItem, SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
@@ -36,6 +37,7 @@ const authLinks: NavItem[] = [
 
 const WelcomeNavbar = () => {
   const { settings } = usePage<SharedData>().props;
+  const isMobile = useIsMobile();
   return (
     <Card>
       <CardContent>
@@ -62,7 +64,7 @@ const WelcomeNavbar = () => {
               </Button>
             ))}
             <ThemeToggler />
-            <SidebarTrigger variant={'ghost'} size={'icon'} />
+            {isMobile && <SidebarTrigger />}
           </CardFooter>
         </div>
       </CardContent>

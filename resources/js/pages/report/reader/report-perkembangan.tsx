@@ -5,6 +5,7 @@ import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
 import { capitalizeWords, em, hariNumberDescription } from '@/lib/utils';
+import { SharedData } from '@/types';
 import { Report, ReportPerkembanganData } from '@/types/report';
 import { useForm, usePage } from '@inertiajs/react';
 import { FC } from 'react';
@@ -17,7 +18,7 @@ type Props = {
 };
 
 const ReportPerkembanganReader: FC<Props> = ({ data }) => {
-  const { report } = usePage<{ report: Report }>().props;
+  const { report, permissions } = usePage<SharedData & { report: Report }>().props;
 
   const {
     data: formData,
@@ -185,44 +186,55 @@ const ReportPerkembanganReader: FC<Props> = ({ data }) => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Komentar guru</CardTitle>
+          <CardTitle>Komentar guru:</CardTitle>
           <CardDescription>{data.walikelas}</CardDescription>
+          <q>{data.komentar_guru}</q>
         </CardHeader>
-        <CardContent>
-          <p>{data.komentar_guru}</p>
-        </CardContent>
+        <Separator />
+        <CardHeader>
+          <CardTitle>Komentar siswa:</CardTitle>
+          <CardDescription>{data.nama}</CardDescription>
+          <q>{data.komentar_siswa}</q>
+        </CardHeader>
+        <CardHeader>
+          <CardTitle>Komentar orangtua/wali:</CardTitle>
+          <CardDescription>Orang tua atau wali dari {data.nama}</CardDescription>
+          <q>{data.komentar_wali}</q>
+        </CardHeader>
       </Card>
-      <div className="grid gap-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Komentar anak</CardTitle>
-            <CardDescription>{data.nama}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Textarea
-              placeholder="Tulis komentar siswa disini"
-              value={formData.data.komentar_siswa}
-              onChange={(e) => setData('data.komentar_siswa', e.target.value)}
-            />
-          </CardContent>
-          <Separator />
-          <CardHeader>
-            <CardTitle>Komentar orangtua/wali</CardTitle>
-            <CardDescription>Orangtua {data.nama}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Textarea
-              placeholder="Tulis komentar wali disini"
-              value={formData.data.komentar_wali}
-              onChange={(e) => setData('data.komentar_wali', e.target.value)}
-            />
-          </CardContent>
-          <Separator />
-          <CardFooter>
-            <SubmitButton loading={processing} label="Simpan komentar" onClick={handlePostComment} />
-          </CardFooter>
-        </Card>
-      </div>
+      {permissions?.canAddParentComment && (
+        <div className="grid gap-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>Komentar anak</CardTitle>
+              <CardDescription>{data.nama}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Textarea
+                placeholder="Tulis komentar siswa disini"
+                value={formData.data.komentar_siswa}
+                onChange={(e) => setData('data.komentar_siswa', e.target.value)}
+              />
+            </CardContent>
+            <Separator />
+            <CardHeader>
+              <CardTitle>Komentar orangtua/wali</CardTitle>
+              <CardDescription>Orangtua {data.nama}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Textarea
+                placeholder="Tulis komentar wali disini"
+                value={formData.data.komentar_wali}
+                onChange={(e) => setData('data.komentar_wali', e.target.value)}
+              />
+            </CardContent>
+            <Separator />
+            <CardFooter>
+              <SubmitButton loading={processing} label="Simpan komentar" onClick={handlePostComment} />
+            </CardFooter>
+          </Card>
+        </div>
+      )}
     </>
   );
 };

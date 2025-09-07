@@ -8,13 +8,13 @@ type Props = {
 
 export default function HeadingSmall({ title, description, actions }: Props) {
   return (
-    <div className="flex justify-between">
+    <div className="flex flex-col justify-between gap-4 sm:flex-row">
       <header>
         <h3 className="mb-0.5 text-base font-medium">{title}</h3>
         {description && <p className="text-sm text-muted-foreground">{description}</p>}
       </header>
 
-      {actions}
+      <div className="flex flex-col gap-2 sm:flex-row">{actions}</div>
     </div>
   );
 }

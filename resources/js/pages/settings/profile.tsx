@@ -3,11 +3,10 @@ import { Transition } from '@headlessui/react';
 import { Form, Link, usePage } from '@inertiajs/react';
 
 import DeleteUser from '@/components/delete-user';
+import FormControl from '@/components/form-control';
 import HeadingSmall from '@/components/heading-small';
-import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import SettingsLayout from '@/layouts/settings/layout';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -33,40 +32,19 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
           }}
           className="space-y-6"
         >
-          {({ processing, recentlySuccessful, errors }) => (
+          {({ processing, recentlySuccessful }) => (
             <>
-              <div className="grid gap-2">
-                <Label htmlFor="name">Name</Label>
+              <FormControl label="Nama lengkap">
+                <Input defaultValue={auth.user.name} name="name" required autoComplete="name" placeholder="Full name" />
+              </FormControl>
 
-                <Input
-                  id="name"
-                  className="mt-1 block w-full"
-                  defaultValue={auth.user.name}
-                  name="name"
-                  required
-                  autoComplete="name"
-                  placeholder="Full name"
-                />
+              <FormControl label="Username (login)">
+                <Input defaultValue={auth.user.username} name="username" required autoComplete="username" placeholder="Username untuk login" />
+              </FormControl>
 
-                <InputError className="mt-2" message={errors.name} />
-              </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email address</Label>
-
-                <Input
-                  id="email"
-                  type="email"
-                  className="mt-1 block w-full"
-                  defaultValue={auth.user.email}
-                  name="email"
-                  required
-                  autoComplete="username"
-                  placeholder="Email address"
-                />
-
-                <InputError className="mt-2" message={errors.email} />
-              </div>
+              <FormControl label="Email (login)">
+                <Input type="email" defaultValue={auth.user.email} name="email" required autoComplete="email" placeholder="Email untuk login" />
+              </FormControl>
 
               {mustVerifyEmail && auth.user.email_verified_at === null && (
                 <div>

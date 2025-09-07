@@ -33,6 +33,7 @@ const ScoreFormPopup: FC<Props> = ({ children, score, options }) => {
   const handleSubmit = () => {
     if (score) {
       put(route('score.update', score.id), {
+        preserveScroll: true,
         onSuccess: () => {
           toast.success('Score updated');
           setOpen(false);
@@ -41,6 +42,7 @@ const ScoreFormPopup: FC<Props> = ({ children, score, options }) => {
       });
     } else {
       post(route('score.store'), {
+        preserveScroll: true,
         onSuccess: () => {
           toast.success('Score created');
           setOpen(false);

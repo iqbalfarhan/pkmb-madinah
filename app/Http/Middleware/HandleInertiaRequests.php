@@ -57,6 +57,12 @@ class HandleInertiaRequests extends Middleware
                 "documentation" => $user?->can('documentation'),
                 "studentBill" => $user?->can('student bill'),
 
+                //Pembarayan
+                "paymenttype" => $user?->can('menu paymenttype'),
+                "bill" => $user?->can('menu bill'),
+                "payment" => $user?->can('menu payment'),
+
+
                 // Pengaturan
                 "ppdb" => $user?->can('menu ppdb'),
                 "academicyear" => $user?->can('menu academicyear'),
@@ -67,7 +73,6 @@ class HandleInertiaRequests extends Middleware
                 "grade" => $user?->can('menu grade'),
                 "subject" => $user?->can('menu subject'),
                 "extracurricular" => $user?->can('menu extracurricular'),
-                "paymenttype" => $user?->can('menu paymenttype'),
 
                 // list pengaturan kelas
                 "classroom" => $user?->can('menu classroom'),
@@ -81,7 +86,6 @@ class HandleInertiaRequests extends Middleware
                 "report" => $user?->can('menu report'),
                 "absent" => $user?->can('menu absent'),
                 "score" => $user?->can('menu score'),
-                "bill" => $user?->can('menu bill'),
                 "activity" => $user?->can('menu activity'),
 
                 // Authentication

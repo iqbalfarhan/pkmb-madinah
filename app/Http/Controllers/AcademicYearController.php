@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateAcademicYearRequest;
 use App\Http\Requests\BulkUpdateAcademicYearRequest;
 use App\Http\Requests\BulkDeleteAcademicYearRequest;
 use App\Models\AcademicYear;
+use App\Models\Classroom;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +20,11 @@ class AcademicYearController extends Controller
      */
     public function index(Request $request)
     {
-        $data = AcademicYear::query()->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = AcademicYear::query()
+            ->when($request->name, function($q, $v) {
+                $q->where('name', 'like', "%$v%");
+            })
+            ->orderBy('year', 'desc');
 
         return Inertia::render('academicyear/index', [
             'academicyears' => $data->get(),
@@ -45,15 +50,26 @@ class AcademicYearController extends Controller
             $newClassroom = $data['new_classroom'];
             $detachStudents = $data['detach_students'];
 
-            if ($newClassroom) {
-                # code...
-            }
-
             if ($detachStudents) {
-                Student::update(['classroom_id' => null]);
+                Student::query()->update(['classroom_id' => null]);
             }
     
-            AcademicYear::create($data);
+            $newAcadmicYear = AcademicYear::create($data);
+
+            if ($newClassroom) {
+                $academicYear = AcademicYear::active();
+                $classrooms = Classroom::whereAcademicYearId($academicYear->id)->get();
+
+                foreach ($classrooms as $classroom) {
+                    Classroom::create([
+                        'academic_year_id'=> $newAcadmicYear->id,
+                        'name' => $classroom->name,
+                        'grade_id' => $classroom->grade_id
+                    ]);
+                }
+            }
+
+            $newAcadmicYear->setActive();
         });
     }
 

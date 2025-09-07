@@ -23,7 +23,7 @@ class ExtracurricularController extends Controller
         return Inertia::render('extracurricular/index', [
             'extracurriculars' => $data->get(),
             'query' => $request->input(),
-            'users' => User::get(),
+            'users' => User::role(['guru'])->get(),
             'permissions' => [
                 'canAdd' => $this->user->can('create extracurricular'),
                 'canUpdate' => $this->user->can('update extracurricular'),

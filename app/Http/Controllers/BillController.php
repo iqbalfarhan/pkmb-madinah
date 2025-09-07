@@ -19,15 +19,20 @@ class BillController extends Controller
      */
     public function index(Request $request)
     {
+        $student_ids = $this->user->students->pluck("id")->toArray();
         $data = Bill::query()
             ->with(['student', 'payment_type'])
-            ->when($request->student_id, fn($q, $v) => $q->where('student_id', $v));
+            ->orderBy('id','desc')
+            ->whereIn('id', $student_ids)
+            ->when($request->student_id, fn($q, $v) => $q->where('student_id', $v))
+            ->when($request->status, fn($q, $v) => $q->where('status', $v));
 
         return Inertia::render('bill/index', [
             'bills' => $data->get(),
             'query' => $request->input(),
-            'students' => Student::get(),
+            'students' => $this->user->students,
             'paymentTypes' => PaymentType::get(),
+            'statusLists' => Bill::$statusLists,
             'permissions' => [
                 'canAdd' => $this->user->can('create bill'),
                 'canUpdate' => $this->user->can('update bill'),

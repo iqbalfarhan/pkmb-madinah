@@ -1,23 +1,29 @@
 import FormControl from '@/components/form-control';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { em } from '@/lib/utils';
-import { router, useForm } from '@inertiajs/react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Student } from '@/types/student';
+import { router, useForm, usePage } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
 
 type Props = PropsWithChildren & {
-  query: {[key: string]: string}
+  query: { [key: string]: string };
 };
 
-const BillFilterSheet: FC<Props> = ({ children }) => {
+const BillFilterSheet: FC<Props> = ({ children, query }) => {
   const [open, setOpen] = useState(false);
 
+  const { statusLists = [], students = [] } = usePage<{
+    statusLists: string[];
+    students: Student[];
+  }>().props;
+
   const { data, setData, get } = useForm({
-    name: '',
+    student_id: query.student_id ?? '',
+    status: query.status ?? '',
   });
 
   const applyFilter = () => {
@@ -33,11 +39,13 @@ const BillFilterSheet: FC<Props> = ({ children }) => {
   };
 
   const resetFilter = () => {
-    setData('name', '');
+    setData('student_id', '');
+    setData('status', '');
     router.get(
       route('bill.index'),
       {
-        name: '',
+        student_id: '',
+        status: '',
       },
       {
         preserveScroll: true,
@@ -64,8 +72,33 @@ const BillFilterSheet: FC<Props> = ({ children }) => {
               applyFilter();
             }}
           >
-            <FormControl label="Nama Bill">
-              <Input type="text" placeholder="Name bill" value={data.name} onChange={(e) => setData('name', e.target.value)} />
+            <FormControl label="Nama siswa">
+              <Select value={data.student_id} onValueChange={(value) => setData('student_id', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Staus pembayaran" />
+                </SelectTrigger>
+                <SelectContent>
+                  {students.map((student) => (
+                    <SelectItem key={student.id} value={student.id.toString()}>
+                      {student.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormControl>
+            <FormControl label="Status pembayaran">
+              <Select value={data.status} onValueChange={(value) => setData('status', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Staus pembayaran" />
+                </SelectTrigger>
+                <SelectContent>
+                  {statusLists.map((sl) => (
+                    <SelectItem key={sl} value={sl}>
+                      {sl}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </FormControl>
           </form>
         </ScrollArea>
