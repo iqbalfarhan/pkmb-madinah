@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BulkUpdatereportRequest extends FormRequest
+class BulkUpdateReportRequest extends FormRequest
 {
     /**
      * Determine if the report is authorized to make this request.

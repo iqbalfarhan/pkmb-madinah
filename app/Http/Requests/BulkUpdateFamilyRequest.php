@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BulkUpdatefamilyRequest extends FormRequest
+class BulkUpdateFamilyRequest extends FormRequest
 {
     /**
      * Determine if the family is authorized to make this request.

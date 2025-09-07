@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BulkUpdatenewsRequest extends FormRequest
+class BulkUpdateNewsRequest extends FormRequest
 {
     /**
      * Determine if the news is authorized to make this request.

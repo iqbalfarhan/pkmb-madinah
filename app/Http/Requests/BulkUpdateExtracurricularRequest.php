@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BulkUpdateextracurricularRequest extends FormRequest
+class BulkUpdateExtracurricularRequest extends FormRequest
 {
     /**
      * Determine if the extracurricular is authorized to make this request.

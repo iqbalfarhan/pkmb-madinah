@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BulkUpdateassignmentRequest extends FormRequest
+class BulkUpdateAssignmentRequest extends FormRequest
 {
     /**
      * Determine if the assignment is authorized to make this request.

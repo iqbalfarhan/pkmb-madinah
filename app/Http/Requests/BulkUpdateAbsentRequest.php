@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BulkUpdateabsentRequest extends FormRequest
+class BulkUpdateAbsentRequest extends FormRequest
 {
     /**
      * Determine if the absent is authorized to make this request.

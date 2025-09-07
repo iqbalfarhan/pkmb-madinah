@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BulkUpdatebillRequest extends FormRequest
+class BulkUpdateBillRequest extends FormRequest
 {
     /**
      * Determine if the bill is authorized to make this request.

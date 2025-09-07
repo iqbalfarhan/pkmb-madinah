@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BulkUpdatesubjectRequest extends FormRequest
+class BulkUpdateSubjectRequest extends FormRequest
 {
     /**
      * Determine if the subject is authorized to make this request.

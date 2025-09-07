@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BulkUpdatematerialRequest extends FormRequest
+class BulkUpdateMaterialRequest extends FormRequest
 {
     /**
      * Determine if the material is authorized to make this request.

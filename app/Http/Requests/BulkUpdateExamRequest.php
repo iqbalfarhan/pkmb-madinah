@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BulkUpdateexamRequest extends FormRequest
+class BulkUpdateExamRequest extends FormRequest
 {
     /**
      * Determine if the exam is authorized to make this request.

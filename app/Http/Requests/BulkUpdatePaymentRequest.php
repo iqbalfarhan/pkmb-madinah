@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BulkUpdatepaymentRequest extends FormRequest
+class BulkUpdatePaymentRequest extends FormRequest
 {
     /**
      * Determine if the payment is authorized to make this request.
