@@ -5,13 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
 class Lesson extends Model
 {
     use HasFactory;
-    
 
-    //protected $table = 'lessons';
+    // protected $table = 'lessons';
 
     /*
     protected $fillable = [
@@ -29,45 +27,51 @@ class Lesson extends Model
 
     public $appends = ['name', 'description'];
 
-    public function classroom(){
+    public function classroom()
+    {
         return $this->belongsTo(Classroom::class);
     }
 
-    public function subject(){
+    public function subject()
+    {
         return $this->belongsTo(Subject::class);
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
     public function getNameAttribute()
     {
-        return $this->subject->name . ' - ' . $this->classroom->name;
+        return $this->subject->name.' - '.$this->classroom->name;
     }
 
     public function getDescriptionAttribute()
     {
-        return implode(" ", [
+        return implode(' ', [
             'Kelas group',
             'mata pelajaran',
             $this->subject->name,
             'untuk kelas',
             $this->classroom->name,
             'dibimbing oleh',
-            $this->user->name
+            $this->user->name,
         ]);
     }
 
-    public function materials(){
+    public function materials()
+    {
         return $this->hasMany(Material::class);
     }
 
-    public function assignments(){
+    public function assignments()
+    {
         return $this->hasMany(Assignment::class);
     }
 
-    public function exams(){
+    public function exams()
+    {
         return $this->hasMany(Exam::class);
     }
 

@@ -2,20 +2,19 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Extracurricular;
-use Spatie\Permission\Models\Permission;
+use Illuminate\Database\Seeder;
 
 class ExtracurricularSeeder extends Seeder
 {
     public function run(): void
     {
         $extracurriculars = [
-            "Pramuka",
-            "Pencak Silat",
-            "Futsal",
-            "Seni Tari",
-            "Drum Band",
+            'Pramuka',
+            'Pencak Silat',
+            'Futsal',
+            'Seni Tari',
+            'Drum Band',
         ];
 
         foreach ($extracurriculars as $extracurricular) {

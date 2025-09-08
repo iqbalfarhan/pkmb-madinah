@@ -31,11 +31,11 @@ class Bill extends Model
     public static $statusLists = [
         'unpaid',
         'partial',
-        'paid'
+        'paid',
     ];
 
     public $appends = [
-        'total_paid'
+        'total_paid',
     ];
 
     protected static function boot()

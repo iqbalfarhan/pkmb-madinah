@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteAssignmentRequest;
+use App\Http\Requests\BulkUpdateAssignmentRequest;
 use App\Http\Requests\StoreAssignmentRequest;
 use App\Http\Requests\UpdateAssignmentRequest;
-use App\Http\Requests\BulkUpdateAssignmentRequest;
-use App\Http\Requests\BulkDeleteAssignmentRequest;
 use App\Models\Assignment;
 use App\Models\Lesson;
 use Illuminate\Http\Request;
@@ -19,7 +19,7 @@ class AssignmentController extends Controller
     public function index(Request $request)
     {
         $data = Assignment::query()
-        ->with(['lesson']);
+            ->with(['lesson']);
         // ->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('assignment/index', [
@@ -31,7 +31,7 @@ class AssignmentController extends Controller
                 'canUpdate' => $this->user->can('update assignment'),
                 'canDelete' => $this->user->can('delete assignment'),
                 'canShow' => $this->user->can('show assignment'),
-            ]
+            ],
         ]);
     }
 
@@ -56,7 +56,7 @@ class AssignmentController extends Controller
                 'canUpdate' => $this->user->can('update score'),
                 'canDelete' => $this->user->can('delete score'),
                 'canShow' => $this->user->can('show score'),
-            ]
+            ],
         ]);
     }
 
@@ -94,6 +94,4 @@ class AssignmentController extends Controller
         $data = $request->validated();
         Assignment::whereIn('id', $data['assignment_ids'])->delete();
     }
-
-    
 }

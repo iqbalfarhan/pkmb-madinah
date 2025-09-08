@@ -1,34 +1,32 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AcademicYearController;
+use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\BillController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExamController;
+use App\Http\Controllers\ExamscoreController;
+use App\Http\Controllers\ExtracurricularController;
+use App\Http\Controllers\FamilyController;
+use App\Http\Controllers\GradeController;
+use App\Http\Controllers\LessonController;
+use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MediaController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PaymentTypeController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PpdbController;
+use App\Http\Controllers\PrevschoolController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ScoreController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\PpdbMiddleware;
-use App\Http\Controllers\AcademicYearController;
-use App\Http\Controllers\GradeController;
-use App\Http\Controllers\SubjectController;
-use App\Http\Controllers\NewsController;
-use App\Http\Controllers\ExtracurricularController;
-use App\Http\Controllers\PaymentTypeController;
-use App\Http\Controllers\LessonController;
-use App\Http\Controllers\MaterialController;
-use App\Http\Controllers\FamilyController;
-use App\Http\Controllers\PrevschoolController;
-use App\Http\Controllers\BillController;
-use App\Http\Controllers\ScoreController;
-use App\Http\Controllers\AssignmentController;
-use App\Http\Controllers\ActivityController;
-use App\Http\Controllers\SettingController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\ExamController;
-use App\Http\Controllers\ExamscoreController;
-
-
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
 Route::get('/berita', [WelcomeController::class, 'berita'])->name('berita');
@@ -106,7 +104,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('score/bulk', [ScoreController::class, 'bulkUpdate'])->name('score.bulk.update');
     Route::delete('score/bulk', [ScoreController::class, 'bulkDelete'])->name('score.bulk.destroy');
     Route::apiResource('score', ScoreController::class);
-    
+
     Route::put('activity/bulk', [ActivityController::class, 'bulkUpdate'])->name('activity.bulk.update');
     Route::delete('activity/bulk', [ActivityController::class, 'bulkDelete'])->name('activity.bulk.destroy');
     Route::apiResource('activity', ActivityController::class);

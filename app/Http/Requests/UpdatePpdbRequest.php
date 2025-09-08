@@ -33,7 +33,7 @@ class UpdatePpdbRequest extends FormRequest
             'dob' => 'nullable|date',
             'status' => [
                 'nullable',
-                Rule::in(Student::$statusLists)
+                Rule::in(Student::$statusLists),
             ],
             'address' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:255',

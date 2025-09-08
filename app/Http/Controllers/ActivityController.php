@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteActivityRequest;
+use App\Http\Requests\BulkUpdateActivityRequest;
 use App\Http\Requests\StoreActivityRequest;
 use App\Http\Requests\UpdateActivityRequest;
-use App\Http\Requests\BulkUpdateActivityRequest;
-use App\Http\Requests\BulkDeleteActivityRequest;
 use App\Models\AcademicYear;
 use App\Models\Activity;
 use App\Models\Extracurricular;
@@ -22,7 +22,7 @@ class ActivityController extends Controller
     {
         $data = Activity::query()
             ->with(['academic_year', 'student', 'extracurricular'])
-            ->when($request->name, function($q, $v)  {
+            ->when($request->name, function ($q, $v) {
                 $q->where('name', $v);
             });
 
@@ -37,7 +37,7 @@ class ActivityController extends Controller
                 'canUpdate' => $this->user->can('update activity'),
                 'canDelete' => $this->user->can('delete activity'),
                 'canShow' => $this->user->can('show activity'),
-            ]
+            ],
         ]);
     }
 
@@ -56,7 +56,7 @@ class ActivityController extends Controller
     public function show(Activity $activity)
     {
         return Inertia::render('activity/show', [
-            'activity' => $activity->load('student', 'extracurricular', 'academic_year')
+            'activity' => $activity->load('student', 'extracurricular', 'academic_year'),
         ]);
     }
 
@@ -94,6 +94,4 @@ class ActivityController extends Controller
         $data = $request->validated();
         Activity::whereIn('id', $data['activity_ids'])->delete();
     }
-
-    
 }

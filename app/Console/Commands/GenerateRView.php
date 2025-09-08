@@ -15,7 +15,6 @@ class GenerateRView extends Command
      */
     protected $signature = 'generate:rview {name} {--sd|softDelete} {--fields=}';
 
-
     /**
      * The console command description.
      *
@@ -37,32 +36,32 @@ class GenerateRView extends Command
 
         // Struktur file default
         $files = [
-            "index.tsx" => "stubs/react-stubs/index.stub",
-            "show.tsx" => "stubs/react-stubs/show.stub",
-            "components/{$name}-delete-dialog.tsx" => "stubs/react-stubs/delete-dialog.stub",
-            "components/{$name}-filter-sheet.tsx" => "stubs/react-stubs/filter-sheet.stub",
-            "components/{$name}-form-sheet.tsx" => "stubs/react-stubs/form-sheet.stub",
-            "components/{$name}-bulk-edit-sheet.tsx" => "stubs/react-stubs/bulk-edit-sheet.stub",
-            "components/{$name}-bulk-delete-dialog.tsx" => "stubs/react-stubs/bulk-delete-dialog.stub",
-            "components/{$name}-item-card.tsx" => "stubs/react-stubs/item-card.stub",
-            "../../types/{$name}.d.ts" => "stubs/react-stubs/type.stub",
+            'index.tsx' => 'stubs/react-stubs/index.stub',
+            'show.tsx' => 'stubs/react-stubs/show.stub',
+            "components/{$name}-delete-dialog.tsx" => 'stubs/react-stubs/delete-dialog.stub',
+            "components/{$name}-filter-sheet.tsx" => 'stubs/react-stubs/filter-sheet.stub',
+            "components/{$name}-form-sheet.tsx" => 'stubs/react-stubs/form-sheet.stub',
+            "components/{$name}-bulk-edit-sheet.tsx" => 'stubs/react-stubs/bulk-edit-sheet.stub',
+            "components/{$name}-bulk-delete-dialog.tsx" => 'stubs/react-stubs/bulk-delete-dialog.stub',
+            "components/{$name}-item-card.tsx" => 'stubs/react-stubs/item-card.stub',
+            "../../types/{$name}.d.ts" => 'stubs/react-stubs/type.stub',
         ];
 
         // Tambahin archived kalau ada flag --softDelete
         if ($isSoftDelete) {
-            $files["archived.tsx"] = "stubs/react-stubs/archived.stub";
+            $files['archived.tsx'] = 'stubs/react-stubs/archived.stub';
         }
 
         foreach ($files as $file => $stub) {
-            $filePath = $basePath . '/' . $file;
+            $filePath = $basePath.'/'.$file;
             $dir = dirname($filePath);
 
-            if (!File::exists($dir)) {
+            if (! File::exists($dir)) {
                 File::makeDirectory($dir, 0755, true);
                 $this->info("Created directory: {$dir}");
             }
 
-            if (!File::exists($filePath)) {
+            if (! File::exists($filePath)) {
                 $stubPath = base_path($stub);
                 if (File::exists($stubPath)) {
                     $content = File::get($stubPath);
@@ -78,7 +77,7 @@ class GenerateRView extends Command
                         $content
                     );
                 } else {
-                    $content = "// {$Name} - " . basename($filePath);
+                    $content = "// {$Name} - ".basename($filePath);
                 }
 
                 File::put($filePath, $content);
@@ -90,7 +89,7 @@ class GenerateRView extends Command
 
         // Tambahin fields ke type.d.ts kalau ada --fields
         $fieldsOption = $this->option('fields');
-        if (!$fieldsOption) {
+        if (! $fieldsOption) {
             $fields = ['name:string'];
         } else {
             $fields = explode(',', $fieldsOption); // ex: ["title:string"," body:text"]
@@ -130,6 +129,4 @@ class GenerateRView extends Command
 
         $this->info("React view for '{$name}' generated successfully!");
     }
-
-
 }

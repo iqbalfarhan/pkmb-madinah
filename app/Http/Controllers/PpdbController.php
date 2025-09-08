@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\PpdbMiddleware;
 use App\Http\Requests\StorePpdbRequest;
 use App\Http\Requests\UpdatePpdbRequest;
 use App\Models\Family;
@@ -21,23 +20,23 @@ class PpdbController extends Controller
     {
         $data = Student::query()
             ->with(['grade', 'prevschool']);
-            //->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        // ->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('ppdb/index', [
             'ppdbs' => $data->ppdb()->get(),
             'query' => $request->input(),
             'statusLists' => Student::$statusLists,
-            'ppdbSetting' => Setting::where('key','PPDB_OPEN')->first(),
-            "counts" => [
-                "draft" => Student::draft()->count(),
-                "ppdb" => Student::ppdb()->count(),
+            'ppdbSetting' => Setting::where('key', 'PPDB_OPEN')->first(),
+            'counts' => [
+                'draft' => Student::draft()->count(),
+                'ppdb' => Student::ppdb()->count(),
             ],
             'permissions' => [
                 'canAdd' => $this->user->can('create ppdb'),
                 'canUpdate' => $this->user->can('update ppdb'),
                 'canDelete' => $this->user->can('delete ppdb'),
                 'canShow' => $this->user->can('show ppdb'),
-            ]
+            ],
         ]);
     }
 
@@ -47,7 +46,7 @@ class PpdbController extends Controller
     public function create()
     {
         return Inertia::render('ppdb/create', [
-            'grades' => Grade::get()
+            'grades' => Grade::get(),
         ]);
     }
 
@@ -60,6 +59,7 @@ class PpdbController extends Controller
         $data['user_id'] = auth()->id();
 
         $student = Student::create($data);
+
         return redirect(route('ppdb.edit', $student->id));
     }
 
@@ -68,7 +68,7 @@ class PpdbController extends Controller
      */
     public function show(Student $ppdb)
     {
-        if ($ppdb->status === "draft") {
+        if ($ppdb->status === 'draft') {
             return redirect()->route('ppdb.edit', $ppdb);
         }
 
@@ -76,7 +76,7 @@ class PpdbController extends Controller
             'ppdb' => $ppdb->load(['grade', 'family', 'media', 'prevschool']),
             'permissions' => [
                 'canApprove' => $this->user->can('update ppdb'),
-            ]
+            ],
         ]);
     }
 
@@ -85,7 +85,7 @@ class PpdbController extends Controller
      */
     public function edit(Request $request, Student $ppdb)
     {
-        if ($ppdb->status !== "draft") {
+        if ($ppdb->status !== 'draft') {
             return redirect()->route('ppdb.show', $ppdb);
         }
 
@@ -96,11 +96,11 @@ class PpdbController extends Controller
             'media' => $ppdb->media,
             'prevschool' => $ppdb->prevschool,
             'salaryLists' => Family::$sallaryLists,
-            "permissions" => [
+            'permissions' => [
                 'canUpdate' => $ppdb->status == 'draft',
                 'canDelete' => $ppdb->status == 'draft',
             ],
-            "query" => $request->input()
+            'query' => $request->input(),
         ]);
     }
 

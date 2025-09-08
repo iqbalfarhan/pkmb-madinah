@@ -9,14 +9,12 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-
 class Score extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
-    
 
-    //protected $table = 'scores';
+    // protected $table = 'scores';
 
     /*
     protected $fillable = [
@@ -35,7 +33,7 @@ class Score extends Model implements HasMedia
     ];
 
     public $appends = [
-        'rated_score'
+        'rated_score',
     ];
 
     public function lesson()

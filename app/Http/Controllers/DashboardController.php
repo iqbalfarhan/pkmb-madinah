@@ -13,7 +13,7 @@ class DashboardController extends Controller
 {
     /**
      * Returns the dashboard page.
-     * 
+     *
      * @return \Inertia\Response
      */
     public function index()
@@ -27,14 +27,14 @@ class DashboardController extends Controller
             'unverifiedPaymentsCount' => Payment::where('verified', false)->count(),
             'permissions' => [
                 'canOpenStudentBill' => $this->user->can('student bill'),
-                'canOpenPayment' => $this->user->can('index payment') && Payment::where('verified', false)->exists()
+                'canOpenPayment' => $this->user->can('index payment') && Payment::where('verified', false)->exists(),
             ],
         ]);
     }
 
     /**
      * Returns the documentation page with the content of the README.md file.
-     * 
+     *
      * @return \Inertia\Response
      */
     public function documentation()
@@ -62,7 +62,7 @@ class DashboardController extends Controller
                 'canUpdate' => $this->user->can('update bill'),
                 'canDelete' => $this->user->can('delete bill'),
                 'canShow' => $this->user->can('show bill'),
-            ]
+            ],
         ]);
     }
 }

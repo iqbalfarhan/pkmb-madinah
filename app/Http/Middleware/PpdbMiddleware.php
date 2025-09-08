@@ -18,14 +18,14 @@ class PpdbMiddleware
     {
         $user = $request->user();
 
-        $setting = Setting::where("key", "PPDB_OPEN")->first();
-        $active = $setting ? $setting->value === "true" : false;
+        $setting = Setting::where('key', 'PPDB_OPEN')->first();
+        $active = $setting ? $setting->value === 'true' : false;
 
-        if ($active || $user?->can("ppdb setting")) {
-            return $next($request);        
+        if ($active || $user?->can('ppdb setting')) {
+            return $next($request);
         }
 
-        abort(403, "Sesi ppdb belum dibuka");
+        abort(403, 'Sesi ppdb belum dibuka');
 
     }
 }

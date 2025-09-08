@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Examscore;
+use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 
 class ExamscoreSeeder extends Seeder
@@ -13,20 +13,20 @@ class ExamscoreSeeder extends Seeder
         Examscore::factory()->count(10)->create();
 
         $permissions = [
-            "menu examscore",
-            "index examscore",
-            "show examscore",
-            "create examscore",
-            "update examscore",
-            "delete examscore",
-            //"archived examscore",
-            //"restore examscore",
-            //"force delete examscore",
+            'menu examscore',
+            'index examscore',
+            'show examscore',
+            'create examscore',
+            'update examscore',
+            'delete examscore',
+            // "archived examscore",
+            // "restore examscore",
+            // "force delete examscore",
         ];
 
         foreach ($permissions as $permit) {
             Permission::updateOrCreate([
-                'group' => "examscore",
+                'group' => 'examscore',
                 'name' => $permit,
             ]);
         }

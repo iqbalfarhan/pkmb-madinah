@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteGradeRequest;
+use App\Http\Requests\BulkUpdateGradeRequest;
 use App\Http\Requests\StoreGradeRequest;
 use App\Http\Requests\UpdateGradeRequest;
-use App\Http\Requests\BulkUpdateGradeRequest;
-use App\Http\Requests\BulkDeleteGradeRequest;
 use App\Models\Grade;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,7 +17,7 @@ class GradeController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Grade::query()->when($request->group, fn($q, $v) => $q->where('group', $v));
+        $data = Grade::query()->when($request->group, fn ($q, $v) => $q->where('group', $v));
 
         return Inertia::render('grade/index', [
             'grades' => $data->get(),
@@ -28,7 +28,7 @@ class GradeController extends Controller
                 'canUpdate' => $this->user->can('update grade'),
                 'canDelete' => $this->user->can('delete grade'),
                 'canShow' => $this->user->can('show grade'),
-            ]
+            ],
         ]);
     }
 
@@ -47,7 +47,7 @@ class GradeController extends Controller
     public function show(Grade $grade)
     {
         return Inertia::render('grade/show', [
-            'grade' => $grade
+            'grade' => $grade,
         ]);
     }
 
@@ -85,6 +85,4 @@ class GradeController extends Controller
         $data = $request->validated();
         Grade::whereIn('id', $data['grade_ids'])->delete();
     }
-
-    
 }

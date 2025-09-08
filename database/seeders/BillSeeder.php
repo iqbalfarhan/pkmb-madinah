@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Bill;
-use Spatie\Permission\Models\Permission;
+use Illuminate\Database\Seeder;
 
 class BillSeeder extends Seeder
 {

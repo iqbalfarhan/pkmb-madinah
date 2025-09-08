@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeletePaymentTypeRequest;
+use App\Http\Requests\BulkUpdatePaymentTypeRequest;
 use App\Http\Requests\StorePaymentTypeRequest;
 use App\Http\Requests\UpdatePaymentTypeRequest;
-use App\Http\Requests\BulkUpdatePaymentTypeRequest;
-use App\Http\Requests\BulkDeletePaymentTypeRequest;
 use App\Models\PaymentType;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,7 +17,7 @@ class PaymentTypeController extends Controller
      */
     public function index(Request $request)
     {
-        $data = PaymentType::query()->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = PaymentType::query()->when($request->name, fn ($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('paymenttype/index', [
             'paymenttypes' => $data->get(),
@@ -28,7 +28,7 @@ class PaymentTypeController extends Controller
                 'canUpdate' => $this->user->can('update paymentType'),
                 'canDelete' => $this->user->can('delete paymentType'),
                 'canShow' => $this->user->can('show paymentType'),
-            ]
+            ],
         ]);
     }
 
@@ -86,6 +86,4 @@ class PaymentTypeController extends Controller
         $data = $request->validated();
         PaymentType::whereIn('id', $data['payment_type_ids'])->delete();
     }
-
-    
 }

@@ -3,11 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\AcademicYear;
+use App\Models\Classroom;
 use App\Models\Grade;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use App\Models\Classroom;
-use Spatie\Permission\Models\Permission;
 
 class ClassroomSeeder extends Seeder
 {
@@ -20,7 +19,7 @@ class ClassroomSeeder extends Seeder
                 'name' => "Kelas {$grade->name}",
                 'academic_year_id' => AcademicYear::active()->id,
                 'user_id' => User::role('walikelas')->pluck('id')->random(),
-                'grade_id' => $grade->id
+                'grade_id' => $grade->id,
             ]);
         }
     }

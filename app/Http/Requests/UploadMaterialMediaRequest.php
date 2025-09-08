@@ -22,7 +22,7 @@ class UploadMaterialMediaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => 'required|mimes:pdf,pptx,docx'
+            'file' => 'required|mimes:pdf,pptx,docx',
         ];
     }
 }

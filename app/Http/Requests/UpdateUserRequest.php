@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -29,7 +28,7 @@ class UpdateUserRequest extends FormRequest
             'phone' => 'nullable|string',
             'gender' => 'nullable|boolean',
             'roles' => 'nullable|array',
-            'roles.*' => 'exists:roles,name'
+            'roles.*' => 'exists:roles,name',
         ];
     }
 }

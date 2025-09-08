@@ -16,7 +16,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements HasMedia
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles, InteractsWithMedia, SoftDeletes;
+    use HasFactory, HasRoles, InteractsWithMedia, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -44,10 +44,11 @@ class User extends Authenticatable implements HasMedia
 
     public $appends = [
         'avatar',
-        "role_lists"
+        'role_lists',
     ];
+
     public $casts = [
-        'gender' => 'boolean'
+        'gender' => 'boolean',
     ];
 
     /**
@@ -66,7 +67,8 @@ class User extends Authenticatable implements HasMedia
     public function getAvatarAttribute()
     {
         $firstMedia = $this->getFirstMediaUrl();
-        return $firstMedia != "" ? $firstMedia : "https://api.dicebear.com/9.x/dylan/png?seed={$this->email}";
+
+        return $firstMedia != '' ? $firstMedia : "https://api.dicebear.com/9.x/dylan/png?seed={$this->email}";
     }
 
     public function students()
@@ -77,12 +79,14 @@ class User extends Authenticatable implements HasMedia
     public function classrooms()
     {
         $active = AcademicYear::active();
+
         return $this->hasMany(Classroom::class)->whereAcademicYearId($active->id);
     }
 
     public function lessons()
     {
         $active = AcademicYear::active();
+
         return $this->hasMany(Lesson::class)->whereHas('classroom', function ($q) use ($active) {
             $q->where('academic_year_id', $active->id);
         });

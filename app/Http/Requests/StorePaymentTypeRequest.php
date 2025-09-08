@@ -20,7 +20,7 @@ class StorePaymentTypeRequest extends FormRequest
             'default_amount' => 'required|numeric',
             'billing_cycle' => [
                 'required',
-                Rule::in(PaymentType::$defaultCycle)
+                Rule::in(PaymentType::$defaultCycle),
             ],
         ];
     }

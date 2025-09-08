@@ -21,7 +21,7 @@ class UpdateReportRequest extends FormRequest
             'student_id' => 'nullable|exists:students,id',
             'report_type' => [
                 'nullable',
-                Rule::in(Report::$reportTypes)
+                Rule::in(Report::$reportTypes),
             ],
             'data' => 'nullable',
         ];

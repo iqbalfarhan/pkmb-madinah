@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteSubjectRequest;
+use App\Http\Requests\BulkUpdateSubjectRequest;
 use App\Http\Requests\StoreSubjectRequest;
 use App\Http\Requests\UpdateSubjectRequest;
-use App\Http\Requests\BulkUpdateSubjectRequest;
-use App\Http\Requests\BulkDeleteSubjectRequest;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,7 +17,7 @@ class SubjectController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Subject::query()->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = Subject::query()->when($request->name, fn ($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('subject/index', [
             'subjects' => $data->get(),
@@ -28,7 +28,7 @@ class SubjectController extends Controller
                 'canUpdate' => $this->user->can('update subject'),
                 'canDelete' => $this->user->can('delete subject'),
                 'canShow' => $this->user->can('show subject'),
-            ]
+            ],
         ]);
     }
 
@@ -47,7 +47,7 @@ class SubjectController extends Controller
     public function show(Subject $subject)
     {
         return Inertia::render('subject/show', [
-            'subject' => $subject
+            'subject' => $subject,
         ]);
     }
 
@@ -85,6 +85,4 @@ class SubjectController extends Controller
         $data = $request->validated();
         Subject::whereIn('id', $data['subject_ids'])->delete();
     }
-
-    
 }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteScoreRequest;
+use App\Http\Requests\BulkUpdateScoreRequest;
 use App\Http\Requests\StoreScoreRequest;
 use App\Http\Requests\UpdateScoreRequest;
-use App\Http\Requests\BulkUpdateScoreRequest;
-use App\Http\Requests\BulkDeleteScoreRequest;
 use App\Models\Assignment;
 use App\Models\Lesson;
 use App\Models\Score;
@@ -22,7 +22,7 @@ class ScoreController extends Controller
     {
         $data = Score::query()
             ->with(['student', 'lesson', 'assignment'])
-            ->when($request->name, function($q, $v) {
+            ->when($request->name, function ($q, $v) {
                 $q->where('name', $v);
             });
 
@@ -37,7 +37,7 @@ class ScoreController extends Controller
                 'canUpdate' => $this->user->can('update score'),
                 'canDelete' => $this->user->can('delete score'),
                 'canShow' => $this->user->can('show score'),
-            ]
+            ],
         ]);
     }
 
@@ -56,7 +56,7 @@ class ScoreController extends Controller
     public function show(Score $score)
     {
         return Inertia::render('score/show', [
-            'score' => $score
+            'score' => $score,
         ]);
     }
 
@@ -94,6 +94,4 @@ class ScoreController extends Controller
         $data = $request->validated();
         Score::whereIn('id', $data['score_ids'])->delete();
     }
-
-    
 }

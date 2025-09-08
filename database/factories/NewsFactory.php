@@ -14,7 +14,7 @@ class NewsFactory extends Factory
     {
         $title = fake()->sentence();
         $slug = str($title)->slug();
-        
+
         return [
             'title' => $title,
             'slug' => $slug,

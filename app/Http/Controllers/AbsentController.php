@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteAbsentRequest;
+use App\Http\Requests\BulkUpdateAbsentRequest;
 use App\Http\Requests\StoreAbsentRequest;
 use App\Http\Requests\UpdateAbsentRequest;
-use App\Http\Requests\BulkUpdateAbsentRequest;
-use App\Http\Requests\BulkDeleteAbsentRequest;
 use App\Models\Absent;
 use App\Models\AcademicYear;
 use App\Models\Student;
@@ -21,13 +21,13 @@ class AbsentController extends Controller
     {
         $data = Absent::query()
             ->with(['student', 'academic_year'])
-            ->when($request->student_id, function($q, $v) {
+            ->when($request->student_id, function ($q, $v) {
                 $q->where('student_id', $v);
             })
-            ->when($request->academic_year_id, function($q, $v) {
+            ->when($request->academic_year_id, function ($q, $v) {
                 $q->where('academic_year_id', $v);
             })
-            ->when($request->reason, function($q, $v) {
+            ->when($request->reason, function ($q, $v) {
                 $q->where('reason', $v);
             });
 
@@ -42,7 +42,7 @@ class AbsentController extends Controller
                 'canUpdate' => $this->user->can('update absent'),
                 'canDelete' => $this->user->can('delete absent'),
                 'canShow' => $this->user->can('show absent'),
-            ]
+            ],
         ]);
     }
 
@@ -53,7 +53,7 @@ class AbsentController extends Controller
     {
         $data = $request->validated();
         $data['academic_year_id'] = AcademicYear::active()->id;
-        
+
         Absent::create($data);
     }
 
@@ -63,7 +63,7 @@ class AbsentController extends Controller
     public function show(Absent $absent)
     {
         return Inertia::render('absent/show', [
-            'absent' => $absent
+            'absent' => $absent,
         ]);
     }
 
@@ -101,6 +101,4 @@ class AbsentController extends Controller
         $data = $request->validated();
         Absent::whereIn('id', $data['absent_ids'])->delete();
     }
-
-    
 }

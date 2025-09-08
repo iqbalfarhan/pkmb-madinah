@@ -15,15 +15,16 @@ class StudentFactory extends Factory
     public function definition(): array
     {
         $status = fake()->randomElement(Student::$statusLists);
+
         return [
-            'nisn' => fake()->numerify("#######"),
-            'nis' => fake()->numerify("#######"),
+            'nisn' => fake()->numerify('#######'),
+            'nis' => fake()->numerify('#######'),
             'name' => fake()->name(),
             'gender' => fake()->boolean(),
             'status' => $status,
             'address' => fake()->address(),
             'grade_id' => Grade::pluck('id')->random(),
-            'classroom_id' => $status === "aktif" ? Classroom::pluck('id')->random() : null,
+            'classroom_id' => $status === 'aktif' ? Classroom::pluck('id')->random() : null,
             'phone' => fake()->e164PhoneNumber(),
             'email' => fake()->email(),
             'pob' => fake()->city(),

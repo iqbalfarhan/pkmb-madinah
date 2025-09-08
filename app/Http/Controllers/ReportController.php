@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteReportRequest;
+use App\Http\Requests\BulkUpdateReportRequest;
 use App\Http\Requests\StoreReportRequest;
 use App\Http\Requests\UpdateReportRequest;
-use App\Http\Requests\BulkUpdateReportRequest;
-use App\Http\Requests\BulkDeleteReportRequest;
 use App\Models\AcademicYear;
 use App\Models\Classroom;
 use App\Models\Examscore;
@@ -14,9 +14,9 @@ use App\Models\Report;
 use App\Models\Score;
 use App\Models\Setting;
 use App\Models\Student;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use PDF;
 
 class ReportController extends Controller
 {
@@ -27,8 +27,8 @@ class ReportController extends Controller
     {
         $data = Report::query()
             ->with(['academic_year', 'classroom', 'student'])
-            ->when($request->report_type, fn($q, $v) => $q->where('report_type', $v))
-            ->when($request->student_id, fn($q, $v) => $q->where('student_id', $v));
+            ->when($request->report_type, fn ($q, $v) => $q->where('report_type', $v))
+            ->when($request->student_id, fn ($q, $v) => $q->where('student_id', $v));
 
         return Inertia::render('report/index', [
             'reports' => $data->get(),
@@ -42,7 +42,7 @@ class ReportController extends Controller
                 'canUpdate' => $this->user->can('update report'),
                 'canDelete' => $this->user->can('delete report'),
                 'canShow' => $this->user->can('show report'),
-            ]
+            ],
         ]);
     }
 
@@ -59,34 +59,33 @@ class ReportController extends Controller
         // $classroom = Classroom::find($data['classroom_id']);
         $classroom = Classroom::find($data['classroom_id']);
 
-        $mockup = config('report-mockup')[$data["report_type"]];
+        $mockup = config('report-mockup')[$data['report_type']];
         $mockup['tahunajaran'] = $academicYear->year;
         $mockup['semester'] = $academicYear->semester;
         $mockup['nama'] = $student->name;
         $mockup['kelas'] = $classroom->name;
-        $mockup['walikelas'] = $classroom->user->name ?? "";
+        $mockup['walikelas'] = $classroom->user->name ?? '';
         $mockup['usia'] = $student->umur;
         $mockup['nisn'] = $student->nisn;
 
-        if ($data["report_type"] == "perkembangan") {
-            $mockup["ketidakhadiran"]["sakit"] = $student->absents->where('reason', 'sakit')->count() ?? 0;
-            $mockup["ketidakhadiran"]["izin"] = $student->absents->where('reason', 'izin')->count() ?? 0;
-            $mockup["ketidakhadiran"]["tanpa keterangan"] = $student->absents->where('reason', 'tanpa keterangan')->count() ?? 0;
+        if ($data['report_type'] == 'perkembangan') {
+            $mockup['ketidakhadiran']['sakit'] = $student->absents->where('reason', 'sakit')->count() ?? 0;
+            $mockup['ketidakhadiran']['izin'] = $student->absents->where('reason', 'izin')->count() ?? 0;
+            $mockup['ketidakhadiran']['tanpa keterangan'] = $student->absents->where('reason', 'tanpa keterangan')->count() ?? 0;
 
-            $mockup['ekskul'] = $student->activities->load(['extracurricular'])->map(function($ekskul){
+            $mockup['ekskul'] = $student->activities->load(['extracurricular'])->map(function ($ekskul) {
                 return [
-                    "nama" => $ekskul->extracurricular->name,
-                    "kegiatan" => $ekskul->description
+                    'nama' => $ekskul->extracurricular->name,
+                    'kegiatan' => $ekskul->description,
                 ];
             });
-        }
-        elseif ($data["report_type"] == "nilai") {
-            $mockup["rapor_kenaikan_kelas"] = $academicYear->semester === "ganjil" ? false : true;
-            $mockup["naik_kelas"] = null;
-            $mockup["ke_kelas"] = "";
-            $mockup["tanggal"] = now();
+        } elseif ($data['report_type'] == 'nilai') {
+            $mockup['rapor_kenaikan_kelas'] = $academicYear->semester === 'ganjil' ? false : true;
+            $mockup['naik_kelas'] = null;
+            $mockup['ke_kelas'] = '';
+            $mockup['tanggal'] = now();
 
-            $mockup["nilai"] = $classroom->lessons->map(function($lesson) use($student){
+            $mockup['nilai'] = $classroom->lessons->map(function ($lesson) use ($student) {
                 $lesson = $lesson->load('exams.examscores', 'assignments.scores');
                 $subject = $lesson->subject;
 
@@ -94,21 +93,19 @@ class ReportController extends Controller
                 $examscore = Examscore::whereStudentId($student->id)->whereLessonId($lesson->id)->get()->sum('rated_score') ?? 0;
 
                 return [
-                    "name" => $subject->name,
-                    "type" => $subject->group,
-                    "nilai_tugas" => $score,
-                    "evaluasi" => $examscore,
-                    "rata_rata" => ($score + $examscore)/2,
+                    'name' => $subject->name,
+                    'type' => $subject->group,
+                    'nilai_tugas' => $score,
+                    'evaluasi' => $examscore,
+                    'rata_rata' => ($score + $examscore) / 2,
                 ];
             });
-        }
-        elseif ($data["report_type"] == "tahfidz") {
-            $mockup["tanggal"] = $settings['SCHOOL_CITY'] .", ". now()->format('d F Y');
-            $mockup["pembimbing"] = $settings['PEMBIMBING_TAHFIDZ'];
-            $mockup["koordinator"] = $settings['KOORDINATOR_Al-MUYASSAR'];
-            $mockup["catatan"] = "Semoga ananda {$student->name} tetap rajin muroja'ah di rumah agar hafalan Surah Al Qur'an-nya tetap terjaga";
-        }
-        elseif ($data["report_type"] == "tahsin") {
+        } elseif ($data['report_type'] == 'tahfidz') {
+            $mockup['tanggal'] = $settings['SCHOOL_CITY'].', '.now()->format('d F Y');
+            $mockup['pembimbing'] = $settings['PEMBIMBING_TAHFIDZ'];
+            $mockup['koordinator'] = $settings['KOORDINATOR_Al-MUYASSAR'];
+            $mockup['catatan'] = "Semoga ananda {$student->name} tetap rajin muroja'ah di rumah agar hafalan Surah Al Qur'an-nya tetap terjaga";
+        } elseif ($data['report_type'] == 'tahsin') {
 
         }
 
@@ -130,7 +127,7 @@ class ReportController extends Controller
             'permissions' => [
                 'canUpdate' => $this->user->can('update report'),
                 'canAddParentComment' => $this->user->can('comment report'),
-            ]
+            ],
         ]);
     }
 
@@ -140,13 +137,13 @@ class ReportController extends Controller
             'report' => $report->load('student', 'classroom', 'academic_year'),
             'student' => $report->student->load('activities', 'activities.extracurricular', 'absents'),
             'classroom' => $report->classroom,
-            'grades' => Grade::get()
+            'grades' => Grade::get(),
         ]);
     }
 
     public function raw(Report $report)
     {
-        return response()->json($report,200);
+        return response()->json($report, 200);
     }
 
     /**
@@ -186,8 +183,14 @@ class ReportController extends Controller
 
     public function download(Report $report)
     {
-        return PDF::loadView('pdf.invoice')->stream('document.pdf');
-    }
+        $data = collect($report->data);
+        // $pdf = Pdf::loadView('pdf.invoice', [
+        //     "data" => collect($report->data),
+        // ]);
 
-    
+        // return $pdf->stream('invoice.pdf');
+
+        return Pdf::loadView('pdf.invoice', compact('data'))->stream();
+        // return view('pdf.invoice', compact('data'));
+    }
 }

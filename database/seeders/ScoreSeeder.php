@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Score;
+use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 
 class ScoreSeeder extends Seeder
@@ -13,20 +13,20 @@ class ScoreSeeder extends Seeder
         Score::factory()->count(10)->create();
 
         $permissions = [
-            "menu score",
-            "index score",
-            "show score",
-            "create score",
-            "update score",
-            "delete score",
-            //"archived score",
-            //"restore score",
-            //"force delete score",
+            'menu score',
+            'index score',
+            'show score',
+            'create score',
+            'update score',
+            'delete score',
+            // "archived score",
+            // "restore score",
+            // "force delete score",
         ];
 
         foreach ($permissions as $permit) {
             Permission::updateOrCreate([
-                'group' => "score",
+                'group' => 'score',
                 'name' => $permit,
             ]);
         }

@@ -6,13 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-
 class AcademicYear extends Model
 {
     use HasFactory;
-    
 
-    //protected $table = 'academic_years';
+    // protected $table = 'academic_years';
 
     /*
     protected $fillable = [
@@ -43,9 +41,9 @@ class AcademicYear extends Model
 
     public function setActive()
     {
-        DB::transaction(function(){
+        DB::transaction(function () {
             self::where('id', '!=', $this->id)->update(['active' => false]);
-    
+
             $this->active = true;
             $this->save();
         });
@@ -53,7 +51,7 @@ class AcademicYear extends Model
 
     public function getLabelAttribute()
     {
-        return $this->year . ' - Semester ' . $this->semester;
+        return $this->year.' - Semester '.$this->semester;
     }
 
     /*

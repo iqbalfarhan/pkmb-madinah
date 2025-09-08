@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteLessonRequest;
+use App\Http\Requests\BulkUpdateLessonRequest;
 use App\Http\Requests\StoreLessonRequest;
 use App\Http\Requests\UpdateLessonRequest;
-use App\Http\Requests\BulkUpdateLessonRequest;
-use App\Http\Requests\BulkDeleteLessonRequest;
 use App\Models\AcademicYear;
 use App\Models\Classroom;
 use App\Models\Examscore;
 use App\Models\Lesson;
 use App\Models\Score;
-use App\Models\Student;
 use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -27,8 +26,8 @@ class LessonController extends Controller
         $data = Lesson::query()->with([
             'classroom',
             'subject',
-            'user'
-        ])->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+            'user',
+        ])->when($request->name, fn ($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('lesson/index', [
             'lessons' => $data->get(),
@@ -41,7 +40,7 @@ class LessonController extends Controller
                 'canUpdate' => $this->user->can('update lesson'),
                 'canDelete' => $this->user->can('delete lesson'),
                 'canShow' => $this->user->can('show lesson'),
-            ]
+            ],
         ]);
     }
 
@@ -78,7 +77,7 @@ class LessonController extends Controller
                 'canDelete' => $this->user->can('delete assignment'),
                 'canShow' => $this->user->can('show assignment'),
             ],
-            "query" => $request->input()
+            'query' => $request->input(),
         ]);
     }
 
@@ -116,6 +115,4 @@ class LessonController extends Controller
         $data = $request->validated();
         Lesson::whereIn('id', $data['lesson_ids'])->delete();
     }
-
-    
 }

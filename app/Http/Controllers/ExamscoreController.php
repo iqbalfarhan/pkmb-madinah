@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteExamscoreRequest;
+use App\Http\Requests\BulkUpdateExamscoreRequest;
 use App\Http\Requests\StoreExamscoreRequest;
 use App\Http\Requests\UpdateExamscoreRequest;
-use App\Http\Requests\BulkUpdateExamscoreRequest;
-use App\Http\Requests\BulkDeleteExamscoreRequest;
 use App\Models\Examscore;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,7 +17,7 @@ class ExamscoreController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Examscore::query()->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = Examscore::query()->when($request->name, fn ($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('examscore/index', [
             'examscores' => $data->get(),
@@ -27,7 +27,7 @@ class ExamscoreController extends Controller
                 'canUpdate' => $this->user->can('update examscore'),
                 'canDelete' => $this->user->can('delete examscore'),
                 'canShow' => $this->user->can('show examscore'),
-            ]
+            ],
         ]);
     }
 
@@ -46,7 +46,7 @@ class ExamscoreController extends Controller
     public function show(Examscore $examscore)
     {
         return Inertia::render('examscore/show', [
-            'examscore' => $examscore
+            'examscore' => $examscore,
         ]);
     }
 
@@ -84,6 +84,4 @@ class ExamscoreController extends Controller
         $data = $request->validated();
         Examscore::whereIn('id', $data['examscore_ids'])->delete();
     }
-
-    
 }

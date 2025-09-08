@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteClassroomRequest;
+use App\Http\Requests\BulkUpdateClassroomRequest;
 use App\Http\Requests\StoreClassroomRequest;
 use App\Http\Requests\UpdateClassroomRequest;
-use App\Http\Requests\BulkUpdateClassroomRequest;
-use App\Http\Requests\BulkDeleteClassroomRequest;
 use App\Models\Absent;
 use App\Models\AcademicYear;
 use App\Models\Activity;
@@ -32,7 +32,7 @@ class ClassroomController extends Controller
         $data = Classroom::query()
             ->with(['academic_year', 'user', 'grade', 'students', 'lessons'])
             ->whereAcademicYearId($activeAcademicYear->id)
-            ->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+            ->when($request->name, fn ($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('classroom/index', [
             'classrooms' => $data->get(),
@@ -44,7 +44,7 @@ class ClassroomController extends Controller
                 'canUpdate' => $this->user->can('update classroom'),
                 'canDelete' => $this->user->can('delete classroom'),
                 'canShow' => $this->user->can('show classroom'),
-            ]
+            ],
         ]);
     }
 
@@ -55,7 +55,7 @@ class ClassroomController extends Controller
     {
         $data = $request->validated();
         $data['academic_year_id'] = AcademicYear::active()->id;
-        
+
         Classroom::create($data);
     }
 
@@ -69,7 +69,7 @@ class ClassroomController extends Controller
             'tabname' => 'show',
             'permissions' => [
                 'canUpdate' => $this->user->can('update classroom'),
-            ]
+            ],
         ]);
     }
 
@@ -119,7 +119,7 @@ class ClassroomController extends Controller
                 'canUpdate' => $this->user->can('update student'),
                 'canDelete' => $this->user->can('delete student'),
                 'canShow' => $this->user->can('show student'),
-            ]
+            ],
         ]);
     }
 
@@ -134,7 +134,7 @@ class ClassroomController extends Controller
             'tabname' => 'lessons',
             'permissions' => [
                 'canAddLesson' => $this->user->can('create lesson'),
-            ]
+            ],
         ]);
     }
 
@@ -143,7 +143,7 @@ class ClassroomController extends Controller
         return Inertia::render('classroom/tabs/classroom-absents-tab', [
             'classroom' => $classroom,
             'students' => Student::whereClassroomId($classroom->id)->aktif()->get(),
-            'absents' => Absent::with(['academic_year', 'student'])->whereHas('student', fn($query) => $query->where('classroom_id', $classroom->id))->get(),
+            'absents' => Absent::with(['academic_year', 'student'])->whereHas('student', fn ($query) => $query->where('classroom_id', $classroom->id))->get(),
             'tabname' => 'absents',
             'reasonLists' => Absent::$reasonLists,
             'permissions' => [
@@ -151,7 +151,7 @@ class ClassroomController extends Controller
                 'canUpdate' => $this->user->can('update absent'),
                 'canDelete' => $this->user->can('delete absent'),
                 'canShow' => $this->user->can('show absent'),
-            ]
+            ],
         ]);
     }
 
@@ -171,7 +171,7 @@ class ClassroomController extends Controller
                 'canUpdate' => $this->user->can('update report'),
                 'canDelete' => $this->user->can('delete report'),
             ],
-            'query' => $request->input()
+            'query' => $request->input(),
         ]);
     }
 
@@ -181,7 +181,7 @@ class ClassroomController extends Controller
         $data = Activity::query()
             ->with(['academic_year', 'student', 'extracurricular'])
             ->whereIn('student_id', $student_ids)
-            ->when($request->name, function($q, $v)  {
+            ->when($request->name, function ($q, $v) {
                 $q->where('name', $v);
             });
 
@@ -198,9 +198,7 @@ class ClassroomController extends Controller
                 'canUpdate' => $this->user->can('update activity'),
                 'canDelete' => $this->user->can('delete activity'),
                 'canShow' => $this->user->can('show activity'),
-            ]
+            ],
         ]);
     }
-
-    
 }

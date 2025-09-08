@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\PaymentType;
-use Spatie\Permission\Models\Permission;
+use Illuminate\Database\Seeder;
 
 class PaymentTypeSeeder extends Seeder
 {
@@ -12,34 +11,34 @@ class PaymentTypeSeeder extends Seeder
     {
         $paymentTypes = [
             [
-                "name" => "Spp bulanan",
-                "default_amount" => 500000,
-                "billing_cycle" => "bulanan",
+                'name' => 'Spp bulanan',
+                'default_amount' => 500000,
+                'billing_cycle' => 'bulanan',
             ],
             [
-                "name" => "Uang pendaftaran",
-                "default_amount" => 1000000,
-                "billing_cycle" => "sekali",
+                'name' => 'Uang pendaftaran',
+                'default_amount' => 1000000,
+                'billing_cycle' => 'sekali',
             ],
             [
-                "name" => "Uang masuk",
-                "default_amount" => 1000000,
-                "billing_cycle" => "sekali",
+                'name' => 'Uang masuk',
+                'default_amount' => 1000000,
+                'billing_cycle' => 'sekali',
             ],
             [
-                "name" => "Seragam",
-                "default_amount" => 2000000,
-                "billing_cycle" => "sekali",
+                'name' => 'Seragam',
+                'default_amount' => 2000000,
+                'billing_cycle' => 'sekali',
             ],
             [
-                "name" => "Daftar ulang",
-                "default_amount" => 100000,
-                "billing_cycle" => "tahunan",
+                'name' => 'Daftar ulang',
+                'default_amount' => 100000,
+                'billing_cycle' => 'tahunan',
             ],
             [
-                "name" => "Uang kegiatan per semester.",
-                "default_amount" => 1000000,
-                "billing_cycle" => "semester",
+                'name' => 'Uang kegiatan per semester.',
+                'default_amount' => 1000000,
+                'billing_cycle' => 'semester',
             ],
         ];
 

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteMaterialRequest;
+use App\Http\Requests\BulkUpdateMaterialRequest;
 use App\Http\Requests\StoreMaterialRequest;
 use App\Http\Requests\UpdateMaterialRequest;
-use App\Http\Requests\BulkUpdateMaterialRequest;
-use App\Http\Requests\BulkDeleteMaterialRequest;
 use App\Http\Requests\UploadMaterialMediaRequest;
 use App\Models\Lesson;
 use App\Models\Material;
@@ -19,7 +19,7 @@ class MaterialController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Material::query()->with('lesson')->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = Material::query()->with('lesson')->when($request->name, fn ($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('material/index', [
             'materials' => $data->get(),
@@ -30,7 +30,7 @@ class MaterialController extends Controller
                 'canUpdate' => $this->user->can('update material'),
                 'canDelete' => $this->user->can('delete material'),
                 'canShow' => $this->user->can('show material'),
-            ]
+            ],
         ]);
     }
 
@@ -50,9 +50,9 @@ class MaterialController extends Controller
     {
         return Inertia::render('material/show', [
             'material' => $material->load('media'),
-            "permissions" => [
-                "canUpload" => $this->user->can("upload material"),
-            ]
+            'permissions' => [
+                'canUpload' => $this->user->can('upload material'),
+            ],
         ]);
     }
 
@@ -94,10 +94,8 @@ class MaterialController extends Controller
     public function uploadMedia(UploadMaterialMediaRequest $request, Material $material)
     {
         $data = $request->validated();
-        $collection = "material";
-        
+        $collection = 'material';
+
         $material->addMedia($data['file'])->toMediaCollection($collection);
     }
-
-    
 }

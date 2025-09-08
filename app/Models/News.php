@@ -9,14 +9,12 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-
 class News extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
-    
 
-    //protected $table = 'news';
+    // protected $table = 'news';
 
     /*
     protected $fillable = [
@@ -35,14 +33,14 @@ class News extends Model implements HasMedia
 
     public $appends = [
         'thumbnail',
-        'description'
+        'description',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    
+
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('preview')
@@ -53,13 +51,12 @@ class News extends Model implements HasMedia
     public function getThumbnailAttribute()
     {
         $thumbnail = $this->getFirstMediaUrl();
-        return $thumbnail != "" ? $thumbnail : asset("nocontent.jpg");
+
+        return $thumbnail != '' ? $thumbnail : asset('nocontent.jpg');
     }
 
     public function getDescriptionAttribute(): string
     {
         return "Ditulis oleh {$this->user->name} pada {$this->created_at->diffForHumans()}";
     }
-
-    
 }

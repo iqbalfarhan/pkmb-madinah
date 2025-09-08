@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteFamilyRequest;
+use App\Http\Requests\BulkUpdateFamilyRequest;
 use App\Http\Requests\StoreFamilyRequest;
 use App\Http\Requests\UpdateFamilyRequest;
-use App\Http\Requests\BulkUpdateFamilyRequest;
-use App\Http\Requests\BulkDeleteFamilyRequest;
 use App\Models\Family;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,7 +17,7 @@ class FamilyController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Family::query()->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = Family::query()->when($request->name, fn ($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('family/index', [
             'families' => $data->get(),
@@ -27,7 +27,7 @@ class FamilyController extends Controller
                 'canUpdate' => $this->user->can('update family'),
                 'canDelete' => $this->user->can('delete family'),
                 'canShow' => $this->user->can('show family'),
-            ]
+            ],
         ]);
     }
 
@@ -46,7 +46,7 @@ class FamilyController extends Controller
     public function show(Family $family)
     {
         return Inertia::render('family/show', [
-            'family' => $family
+            'family' => $family,
         ]);
     }
 
@@ -84,6 +84,4 @@ class FamilyController extends Controller
         $data = $request->validated();
         Family::whereIn('id', $data['family_ids'])->delete();
     }
-
-    
 }

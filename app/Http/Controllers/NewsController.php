@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteNewsRequest;
+use App\Http\Requests\BulkUpdateNewsRequest;
 use App\Http\Requests\StoreNewsRequest;
 use App\Http\Requests\UpdateNewsRequest;
-use App\Http\Requests\BulkUpdateNewsRequest;
-use App\Http\Requests\BulkDeleteNewsRequest;
 use App\Http\Requests\UploadNewsMediaRequest;
 use App\Models\News;
 use App\Models\User;
@@ -22,7 +22,7 @@ class NewsController extends Controller
     {
         $data = News::query()
             ->with('user')
-            ->when($request->user_id, function($q, $v)  {
+            ->when($request->user_id, function ($q, $v) {
                 $q->where('user_id', $v);
             });
 
@@ -35,7 +35,7 @@ class NewsController extends Controller
                 'canUpdate' => $this->user->can('update news'),
                 'canDelete' => $this->user->can('delete news'),
                 'canShow' => $this->user->can('show news'),
-            ]
+            ],
         ]);
     }
 
@@ -57,7 +57,7 @@ class NewsController extends Controller
     public function show(News $news)
     {
         return Inertia::render('news/show', [
-            'news' => $news->load(['user', 'media'])
+            'news' => $news->load(['user', 'media']),
         ]);
     }
 
@@ -67,7 +67,7 @@ class NewsController extends Controller
     public function edit(News $news)
     {
         return Inertia::render('news/edit', [
-            'news' => $news->load(['user', 'media'])
+            'news' => $news->load(['user', 'media']),
         ]);
     }
 
@@ -113,6 +113,4 @@ class NewsController extends Controller
         $data = $request->validated();
         $news->addMedia($data['file'])->toMediaCollection();
     }
-
-    
 }

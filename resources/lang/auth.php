@@ -1,5 +1,5 @@
 <?php
 
 return [
-  "failed" => "gagal login"
+    'failed' => 'gagal login',
 ];

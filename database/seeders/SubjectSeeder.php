@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Subject;
-use Spatie\Permission\Models\Permission;
+use Illuminate\Database\Seeder;
 
 class SubjectSeeder extends Seeder
 {
@@ -12,40 +11,40 @@ class SubjectSeeder extends Seeder
     {
         $datas = [
             [
-                "group" => "Pelajaran dasar",
-                "name" => "Pendidikan Agama dan Budi Pekerti"
+                'group' => 'Pelajaran dasar',
+                'name' => 'Pendidikan Agama dan Budi Pekerti',
             ],
             [
-                "group" => "Pelajaran dasar",
-                "name" => "Pendidikan Pancasila dan Kewarganegaraan"
+                'group' => 'Pelajaran dasar',
+                'name' => 'Pendidikan Pancasila dan Kewarganegaraan',
             ],
             [
-                "group" => "Pelajaran dasar",
-                "name" => "Bahasa Indonesia"
+                'group' => 'Pelajaran dasar',
+                'name' => 'Bahasa Indonesia',
             ],
             [
-                "group" => "Pelajaran dasar",
-                "name" => "Matematika"
+                'group' => 'Pelajaran dasar',
+                'name' => 'Matematika',
             ],
             [
-                "group" => "Pelajaran dasar",
-                "name" => "Ilmu Pengetahuan Alam dan Sosial"
+                'group' => 'Pelajaran dasar',
+                'name' => 'Ilmu Pengetahuan Alam dan Sosial',
             ],
             [
-                "group" => "Pelajaran dasar",
-                "name" => "Seni Budaya dan Prakarya"
+                'group' => 'Pelajaran dasar',
+                'name' => 'Seni Budaya dan Prakarya',
             ],
             [
-                "group" => "Pelajaran dasar",
-                "name" => "Pendidikan Jasmani, Olahraga dan Kesehatan"
+                'group' => 'Pelajaran dasar',
+                'name' => 'Pendidikan Jasmani, Olahraga dan Kesehatan',
             ],
             [
-                "group" => "Pelajaran dasar",
-                "name" => "Bahasa Inggris"
+                'group' => 'Pelajaran dasar',
+                'name' => 'Bahasa Inggris',
             ],
             [
-                "group" => "Muatan lokal",
-                "name" => "Pendidikan Lingkungan Hidup"
+                'group' => 'Muatan lokal',
+                'name' => 'Pendidikan Lingkungan Hidup',
             ],
         ];
 

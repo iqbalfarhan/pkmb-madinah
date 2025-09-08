@@ -11,17 +11,14 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-
 class Student extends Model implements HasMedia
 {
     use HasFactory;
-    use SoftDeletes;
     use InteractsWithMedia;
+    use SoftDeletes;
 
+    // protected $table = 'students';
 
-    //protected $table = 'students';
-
-    
     protected $fillable = [
         'nisn',
         'nis',
@@ -35,7 +32,7 @@ class Student extends Model implements HasMedia
         'email',
         'pob',
         'dob',
-        'user_id'
+        'user_id',
     ];
 
     protected $guarded = [
@@ -50,10 +47,11 @@ class Student extends Model implements HasMedia
         'aktif',
         'dikeluarkan',
         'lulus',
-        'pindah'
+        'pindah',
     ];
 
     public $appends = ['kelahiran', 'umur', 'avatar'];
+
     public $casts = [
         'gender' => 'boolean',
     ];
@@ -112,13 +110,14 @@ class Student extends Model implements HasMedia
 
     public function getKelahiranAttribute()
     {
-        return $this->pob . ', ' . Carbon::parse($this->dob)->format('d F Y');
+        return $this->pob.', '.Carbon::parse($this->dob)->format('d F Y');
     }
 
     public function getUmurAttribute()
     {
         $diff = date_diff(date_create($this->dob), date_create('now'));
-        return $diff->y . ' tahun ' . $diff->m . ' bulan';
+
+        return $diff->y.' tahun '.$diff->m.' bulan';
     }
 
     public function family()
@@ -133,6 +132,6 @@ class Student extends Model implements HasMedia
 
     public function getAvatarAttribute()
     {
-        return "https://api.dicebear.com/9.x/dylan/png?seed=" . $this->name;
+        return 'https://api.dicebear.com/9.x/dylan/png?seed='.$this->name;
     }
 }

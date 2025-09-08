@@ -33,7 +33,7 @@ class StorePpdbRequest extends FormRequest
             'dob' => 'required|date',
             'status' => [
                 'required',
-                Rule::in(Student::$statusLists)
+                Rule::in(Student::$statusLists),
             ],
         ];
     }

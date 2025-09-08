@@ -2,9 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Family;
-use App\Models\Prevschool;
-use App\Models\Student;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -21,7 +18,7 @@ class UserSeeder extends Seeder
             'email' => 'superadmin@gmail.com',
         ], [
             'name' => 'Super administrator',
-            'username' => "superadmin",
+            'username' => 'superadmin',
             'password' => 'password',
         ]);
         $superadmin->assignRole('superadmin');
@@ -32,7 +29,7 @@ class UserSeeder extends Seeder
             'email' => 'admin@gmail.com',
         ], [
             'name' => 'Administrator',
-            'username' => "admin",
+            'username' => 'admin',
             'password' => 'password',
         ]);
         $admin->assignRole('admin');

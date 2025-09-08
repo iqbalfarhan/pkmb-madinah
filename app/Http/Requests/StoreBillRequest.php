@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Bill;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreBillRequest extends FormRequest
 {

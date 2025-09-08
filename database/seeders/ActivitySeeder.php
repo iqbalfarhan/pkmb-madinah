@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Activity;
+use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 
 class ActivitySeeder extends Seeder
@@ -13,20 +13,20 @@ class ActivitySeeder extends Seeder
         Activity::factory()->count(10)->create();
 
         $permissions = [
-            "menu activity",
-            "index activity",
-            "show activity",
-            "create activity",
-            "update activity",
-            "delete activity",
-            //"archived activity",
-            //"restore activity",
-            //"force delete activity",
+            'menu activity',
+            'index activity',
+            'show activity',
+            'create activity',
+            'update activity',
+            'delete activity',
+            // "archived activity",
+            // "restore activity",
+            // "force delete activity",
         ];
 
         foreach ($permissions as $permit) {
             Permission::updateOrCreate([
-                'group' => "activity",
+                'group' => 'activity',
                 'name' => $permit,
             ]);
         }

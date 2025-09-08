@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeletePaymentRequest;
+use App\Http\Requests\BulkUpdatePaymentRequest;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
-use App\Http\Requests\BulkUpdatePaymentRequest;
-use App\Http\Requests\BulkDeletePaymentRequest;
 use App\Models\Payment;
 use DB;
 use Illuminate\Http\Request;
@@ -20,7 +20,7 @@ class PaymentController extends Controller
     {
         $data = Payment::query()
             ->with(['bill', 'media', 'bill.student'])
-            ->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+            ->when($request->name, fn ($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('payment/index', [
             'payments' => $data->get(),
@@ -30,7 +30,7 @@ class PaymentController extends Controller
                 'canUpdate' => $this->user->can('update payment'),
                 'canDelete' => $this->user->can('delete payment'),
                 'canShow' => $this->user->can('show payment'),
-            ]
+            ],
         ]);
     }
 
@@ -59,7 +59,7 @@ class PaymentController extends Controller
     public function show(Payment $payment)
     {
         return Inertia::render('payment/show', [
-            'payment' => $payment
+            'payment' => $payment,
         ]);
     }
 
@@ -107,6 +107,4 @@ class PaymentController extends Controller
         $data = $request->validated();
         Payment::whereIn('id', $data['payment_ids'])->delete();
     }
-
-    
 }

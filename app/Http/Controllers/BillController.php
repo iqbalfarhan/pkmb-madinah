@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteBillRequest;
+use App\Http\Requests\BulkUpdateBillRequest;
 use App\Http\Requests\StoreBillRequest;
 use App\Http\Requests\UpdateBillRequest;
-use App\Http\Requests\BulkUpdateBillRequest;
-use App\Http\Requests\BulkDeleteBillRequest;
 use App\Models\Bill;
 use App\Models\PaymentType;
-use App\Models\Student;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -19,13 +18,13 @@ class BillController extends Controller
      */
     public function index(Request $request)
     {
-        $student_ids = $this->user->students->pluck("id")->toArray();
+        $student_ids = $this->user->students->pluck('id')->toArray();
         $data = Bill::query()
             ->with(['student', 'payment_type'])
-            ->orderBy('id','desc')
+            ->orderBy('id', 'desc')
             ->whereIn('id', $student_ids)
-            ->when($request->student_id, fn($q, $v) => $q->where('student_id', $v))
-            ->when($request->status, fn($q, $v) => $q->where('status', $v));
+            ->when($request->student_id, fn ($q, $v) => $q->where('student_id', $v))
+            ->when($request->status, fn ($q, $v) => $q->where('status', $v));
 
         return Inertia::render('bill/index', [
             'bills' => $data->get(),
@@ -38,7 +37,7 @@ class BillController extends Controller
                 'canUpdate' => $this->user->can('update bill'),
                 'canDelete' => $this->user->can('delete bill'),
                 'canShow' => $this->user->can('show bill'),
-            ]
+            ],
         ]);
     }
 
@@ -57,15 +56,15 @@ class BillController extends Controller
     public function show(Bill $bill)
     {
         $bill->refreshStatus();
-        
+
         return Inertia::render('bill/show', [
             'bill' => $bill->load('student', 'payment_type', 'payments', 'payments.media'),
             'permissions' => [
-                "canAdd" => $this->user->can("create payment"),
-                "canUpdate" => $this->user->can("update payment"),
-                "canDelete" => $this->user->can("delete payment"),
-                "canApprove" => $this->user->can("approve payment"),
-            ]
+                'canAdd' => $this->user->can('create payment'),
+                'canUpdate' => $this->user->can('update payment'),
+                'canDelete' => $this->user->can('delete payment'),
+                'canApprove' => $this->user->can('approve payment'),
+            ],
         ]);
     }
 
@@ -103,6 +102,4 @@ class BillController extends Controller
         $data = $request->validated();
         Bill::whereIn('id', $data['bill_ids'])->delete();
     }
-
-    
 }

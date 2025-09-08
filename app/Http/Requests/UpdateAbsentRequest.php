@@ -19,7 +19,7 @@ class UpdateAbsentRequest extends FormRequest
             'date' => 'nullable|date',
             'reason' => [
                 'nullable',
-                Rule::in(Absent::$reasonLists)
+                Rule::in(Absent::$reasonLists),
             ],
             'description' => 'nullable|string|max:255',
         ];

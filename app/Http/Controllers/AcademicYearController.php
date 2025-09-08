@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteAcademicYearRequest;
+use App\Http\Requests\BulkUpdateAcademicYearRequest;
 use App\Http\Requests\StoreAcademicYearRequest;
 use App\Http\Requests\UpdateAcademicYearRequest;
-use App\Http\Requests\BulkUpdateAcademicYearRequest;
-use App\Http\Requests\BulkDeleteAcademicYearRequest;
 use App\Models\AcademicYear;
 use App\Models\Classroom;
 use App\Models\Student;
@@ -21,7 +21,7 @@ class AcademicYearController extends Controller
     public function index(Request $request)
     {
         $data = AcademicYear::query()
-            ->when($request->name, function($q, $v) {
+            ->when($request->name, function ($q, $v) {
                 $q->where('name', 'like', "%$v%");
             })
             ->orderBy('year', 'desc');
@@ -34,7 +34,7 @@ class AcademicYearController extends Controller
                 'canUpdate' => $this->user->can('update academicyear'),
                 'canDelete' => $this->user->can('delete academicyear'),
                 'canShow' => $this->user->can('show academicyear'),
-            ]
+            ],
         ]);
     }
 
@@ -45,7 +45,7 @@ class AcademicYearController extends Controller
     {
         $data = $request->validated();
 
-        DB::transaction(function () use ($request, $data) {
+        DB::transaction(function () use ($data) {
 
             $newClassroom = $data['new_classroom'];
             $detachStudents = $data['detach_students'];
@@ -53,7 +53,7 @@ class AcademicYearController extends Controller
             if ($detachStudents) {
                 Student::query()->update(['classroom_id' => null]);
             }
-    
+
             $newAcadmicYear = AcademicYear::create($data);
 
             if ($newClassroom) {
@@ -62,9 +62,9 @@ class AcademicYearController extends Controller
 
                 foreach ($classrooms as $classroom) {
                     Classroom::create([
-                        'academic_year_id'=> $newAcadmicYear->id,
+                        'academic_year_id' => $newAcadmicYear->id,
                         'name' => $classroom->name,
-                        'grade_id' => $classroom->grade_id
+                        'grade_id' => $classroom->grade_id,
                     ]);
                 }
             }
@@ -79,7 +79,7 @@ class AcademicYearController extends Controller
     public function show(AcademicYear $academicyear)
     {
         return Inertia::render('academicyear/show', [
-            'academicyear' => $academicyear
+            'academicyear' => $academicyear,
         ]);
     }
 
@@ -122,6 +122,4 @@ class AcademicYearController extends Controller
     {
         $academicyear->setActive();
     }
-
-    
 }

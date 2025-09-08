@@ -5,13 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
 class Report extends Model
 {
     use HasFactory;
-    
 
-    //protected $table = 'reports';
+    // protected $table = 'reports';
 
     /*
     protected $fillable = [
@@ -30,14 +28,14 @@ class Report extends Model
     ];
 
     public $casts = [
-        'data' => 'array'
+        'data' => 'array',
     ];
 
     public static $reportTypes = [
         'nilai',
         'perkembangan',
         'tahsin',
-        'tahfidz'
+        'tahfidz',
     ];
 
     public function academic_year()

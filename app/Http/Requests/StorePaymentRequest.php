@@ -17,7 +17,7 @@ class StorePaymentRequest extends FormRequest
             'bill_id' => 'required|exists:bills,id',
             'amount' => 'required|numeric',
             'remark' => 'nullable|string|max:255',
-            'file' => 'required|image'
+            'file' => 'required|image',
         ];
     }
 }

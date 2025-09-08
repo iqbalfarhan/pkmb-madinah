@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Assignment;
-use Spatie\Permission\Models\Permission;
+use Illuminate\Database\Seeder;
 
 class AssignmentSeeder extends Seeder
 {

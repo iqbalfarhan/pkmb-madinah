@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeletePrevschoolRequest;
+use App\Http\Requests\BulkUpdatePrevschoolRequest;
 use App\Http\Requests\StorePrevschoolRequest;
 use App\Http\Requests\UpdatePrevschoolRequest;
-use App\Http\Requests\BulkUpdatePrevschoolRequest;
-use App\Http\Requests\BulkDeletePrevschoolRequest;
 use App\Models\Prevschool;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,7 +17,7 @@ class PrevschoolController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Prevschool::query()->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = Prevschool::query()->when($request->name, fn ($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('prevschool/index', [
             'prevschools' => $data->get(),
@@ -27,7 +27,7 @@ class PrevschoolController extends Controller
                 'canUpdate' => $this->user->can('update prevschool'),
                 'canDelete' => $this->user->can('delete prevschool'),
                 'canShow' => $this->user->can('show prevschool'),
-            ]
+            ],
         ]);
     }
 
@@ -46,7 +46,7 @@ class PrevschoolController extends Controller
     public function show(Prevschool $prevschool)
     {
         return Inertia::render('prevschool/show', [
-            'prevschool' => $prevschool
+            'prevschool' => $prevschool,
         ]);
     }
 
@@ -84,6 +84,4 @@ class PrevschoolController extends Controller
         $data = $request->validated();
         Prevschool::whereIn('id', $data['prevschool_ids'])->delete();
     }
-
-    
 }

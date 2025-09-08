@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Report;
-use Spatie\Permission\Models\Permission;
+use Illuminate\Database\Seeder;
 
 class ReportSeeder extends Seeder
 {

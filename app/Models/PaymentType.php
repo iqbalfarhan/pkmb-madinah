@@ -5,13 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
 class PaymentType extends Model
 {
     use HasFactory;
-    
 
-    //protected $table = 'payment_types';
+    // protected $table = 'payment_types';
 
     /*
     protected $fillable = [
@@ -30,7 +28,7 @@ class PaymentType extends Model
         'sekali',
         'bulanan',
         'semester',
-        'tahunan'
+        'tahunan',
     ];
 
     /*

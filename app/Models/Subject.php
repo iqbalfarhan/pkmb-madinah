@@ -5,13 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
 class Subject extends Model
 {
     use HasFactory;
-    
 
-    //protected $table = 'subjects';
+    // protected $table = 'subjects';
 
     /*
     protected $fillable = [
@@ -27,8 +25,8 @@ class Subject extends Model
     ];
 
     public static $defaultGroups = [
-        "Pelajaran dasar",
-        "Muatan lokal",
+        'Pelajaran dasar',
+        'Muatan lokal',
     ];
 
     /*

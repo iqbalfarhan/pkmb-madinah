@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteExtracurricularRequest;
+use App\Http\Requests\BulkUpdateExtracurricularRequest;
 use App\Http\Requests\StoreExtracurricularRequest;
 use App\Http\Requests\UpdateExtracurricularRequest;
-use App\Http\Requests\BulkUpdateExtracurricularRequest;
-use App\Http\Requests\BulkDeleteExtracurricularRequest;
 use App\Models\Extracurricular;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -18,7 +18,7 @@ class ExtracurricularController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Extracurricular::query()->with('user')->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = Extracurricular::query()->with('user')->when($request->name, fn ($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('extracurricular/index', [
             'extracurriculars' => $data->get(),
@@ -29,7 +29,7 @@ class ExtracurricularController extends Controller
                 'canUpdate' => $this->user->can('update extracurricular'),
                 'canDelete' => $this->user->can('delete extracurricular'),
                 'canShow' => $this->user->can('show extracurricular'),
-            ]
+            ],
         ]);
     }
 
@@ -48,7 +48,7 @@ class ExtracurricularController extends Controller
     public function show(Extracurricular $extracurricular)
     {
         return Inertia::render('extracurricular/show', [
-            'extracurricular' => $extracurricular
+            'extracurricular' => $extracurricular,
         ]);
     }
 
@@ -86,6 +86,4 @@ class ExtracurricularController extends Controller
         $data = $request->validated();
         Extracurricular::whereIn('id', $data['extracurricular_ids'])->delete();
     }
-
-    
 }

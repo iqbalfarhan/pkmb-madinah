@@ -15,7 +15,7 @@ return new class extends Migration
             $table->date('paid_date')->nullable();
             $table->string('description')->nullable();
             $table->integer('total_amount')->default(0);
-            $table->enum('status', ['unpaid','partial','paid'])->default('unpaid');
+            $table->enum('status', ['unpaid', 'partial', 'paid'])->default('unpaid');
             $table->boolean('verified')->default(false);
             $table->timestamps();
         });

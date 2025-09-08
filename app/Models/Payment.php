@@ -9,14 +9,12 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-
 class Payment extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
-    
 
-    //protected $table = 'payments';
+    // protected $table = 'payments';
 
     /*
     protected $fillable = [
@@ -34,7 +32,7 @@ class Payment extends Model implements HasMedia
     ];
 
     public $appends = [
-        'code'
+        'code',
     ];
 
     public function registerMediaConversions(?Media $media = null): void
@@ -51,6 +49,6 @@ class Payment extends Model implements HasMedia
 
     public function getCodeAttribute()
     {
-        return "#".$this->created_at->format('YmdHis');
+        return '#'.$this->created_at->format('YmdHis');
     }
 }

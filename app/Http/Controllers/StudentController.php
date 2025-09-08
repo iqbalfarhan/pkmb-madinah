@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteStudentRequest;
+use App\Http\Requests\BulkUpdateStudentRequest;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
-use App\Http\Requests\BulkUpdateStudentRequest;
-use App\Http\Requests\BulkDeleteStudentRequest;
 use App\Http\Requests\UploadStudentMediaRequest;
 use App\Models\Absent;
 use App\Models\AcademicYear;
@@ -23,7 +23,6 @@ use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class StudentController extends Controller
@@ -33,7 +32,7 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Student::query()->with(['user', 'grade', 'classroom'])->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = Student::query()->with(['user', 'grade', 'classroom'])->when($request->name, fn ($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('student/index', [
             'students' => $data->aktif()->get(),
@@ -46,7 +45,7 @@ class StudentController extends Controller
                 'canUpdate' => $this->user->can('update student'),
                 'canDelete' => $this->user->can('delete student'),
                 'canShow' => $this->user->can('show student'),
-            ]
+            ],
         ]);
     }
 
@@ -78,7 +77,7 @@ class StudentController extends Controller
             'classrooms' => [$student->classroom],
             'permissions' => [
                 'canUpdate' => $this->user->can('update student'),
-            ]
+            ],
         ]);
     }
 
@@ -105,10 +104,10 @@ class StudentController extends Controller
     public function destroy(Request $request, Student $student)
     {
         $data = $request->validate([
-            'status' => 'required|in:'.implode(',', Student::$statusLists)
+            'status' => 'required|in:'.implode(',', Student::$statusLists),
         ]);
         $student->update($data);
-        
+
         $student->delete();
     }
 
@@ -137,7 +136,7 @@ class StudentController extends Controller
         Student::whereIn('id', $data['student_ids'])->delete();
     }
 
-        /**
+    /**
      * View archived resource from storage.
      */
     public function archived()
@@ -156,7 +155,7 @@ class StudentController extends Controller
         $model->restore();
 
         $model->update([
-            'status' => 'aktif'
+            'status' => 'aktif',
         ]);
     }
 
@@ -174,7 +173,7 @@ class StudentController extends Controller
         $data = Report::query()
             ->whereStudentId($student->id)
             ->with(['academic_year', 'classroom', 'student'])
-            ->when($request->report_type, function($q, $v)  {
+            ->when($request->report_type, function ($q, $v) {
                 $q->where('report_type', $v);
             });
 
@@ -192,7 +191,7 @@ class StudentController extends Controller
                 'canDelete' => $this->user->can('delete report'),
                 'canShow' => $this->user->can('show report'),
             ],
-            'student' => $student
+            'student' => $student,
         ]);
     }
 
@@ -201,10 +200,10 @@ class StudentController extends Controller
         $data = Absent::query()
             ->with(['student', 'academic_year'])
             ->whereStudentId($student->id)
-            ->when($request->academic_year_id, function($q, $v) {
+            ->when($request->academic_year_id, function ($q, $v) {
                 $q->where('academic_year_id', $v);
             })
-            ->when($request->reason, function($q, $v) {
+            ->when($request->reason, function ($q, $v) {
                 $q->where('reason', $v);
             });
 
@@ -220,7 +219,7 @@ class StudentController extends Controller
                 'canUpdate' => $this->user->can('update absent'),
                 'canDelete' => $this->user->can('delete absent'),
                 'canShow' => $this->user->can('show absent'),
-            ]
+            ],
         ]);
     }
 
@@ -229,7 +228,7 @@ class StudentController extends Controller
         $data = Activity::query()
             ->with(['academic_year', 'student', 'extracurricular'])
             ->whereStudentId($student->id)
-            ->when($request->name, function($q, $v)  {
+            ->when($request->name, function ($q, $v) {
                 $q->where('name', $v);
             });
 
@@ -244,7 +243,7 @@ class StudentController extends Controller
                 'canUpdate' => $this->user->can('update activity'),
                 'canDelete' => $this->user->can('delete activity'),
                 'canShow' => $this->user->can('show activity'),
-            ]
+            ],
         ]);
     }
 
@@ -253,7 +252,7 @@ class StudentController extends Controller
         $data = Score::query()
             ->with(['student', 'lesson', 'assignment'])
             ->whereStudentId($student->id)
-            ->when($request->name, function($q, $v) {
+            ->when($request->name, function ($q, $v) {
                 $q->where('name', $v);
             });
 
@@ -268,7 +267,7 @@ class StudentController extends Controller
                 'canUpdate' => $this->user->can('update score'),
                 'canDelete' => $this->user->can('delete score'),
                 'canShow' => $this->user->can('show score'),
-            ]
+            ],
         ]);
     }
 
@@ -289,7 +288,7 @@ class StudentController extends Controller
                 'canUpdate' => $this->user->can('update bill'),
                 'canDelete' => $this->user->can('delete bill'),
                 'canShow' => $this->user->can('show bill'),
-            ]
+            ],
         ]);
     }
 
@@ -297,7 +296,7 @@ class StudentController extends Controller
     {
         $data = $request->validated();
         $collection = $data['collection_name'];
-        
+
         $student->addMedia($data['file'])->toMediaCollection($collection);
     }
 }

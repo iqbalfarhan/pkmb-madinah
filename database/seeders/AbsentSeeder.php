@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Absent;
-use Spatie\Permission\Models\Permission;
+use Illuminate\Database\Seeder;
 
 class AbsentSeeder extends Seeder
 {

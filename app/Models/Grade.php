@@ -5,13 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
 class Grade extends Model
 {
     use HasFactory;
-    
 
-    //protected $table = 'grades';
+    // protected $table = 'grades';
 
     /*
     protected $fillable = [
@@ -27,10 +25,10 @@ class Grade extends Model
     ];
 
     public static $defaultGroups = [
-        "TK",
-        "SD",
-        "SMP",
-        "SMA",
+        'TK',
+        'SD',
+        'SMP',
+        'SMA',
     ];
 
     /*

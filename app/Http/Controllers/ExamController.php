@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteExamRequest;
+use App\Http\Requests\BulkUpdateExamRequest;
 use App\Http\Requests\StoreExamRequest;
 use App\Http\Requests\UpdateExamRequest;
-use App\Http\Requests\BulkUpdateExamRequest;
-use App\Http\Requests\BulkDeleteExamRequest;
 use App\Models\AcademicYear;
 use App\Models\Classroom;
 use App\Models\Exam;
@@ -21,8 +21,8 @@ class ExamController extends Controller
     public function index(Request $request)
     {
         $data = Exam::query()
-        ->with(['lesson', 'academic_year', 'classroom'])
-        ->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+            ->with(['lesson', 'academic_year', 'classroom'])
+            ->when($request->name, fn ($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('exam/index', [
             'exams' => $data->get(),
@@ -35,7 +35,7 @@ class ExamController extends Controller
                 'canUpdate' => $this->user->can('update exam'),
                 'canDelete' => $this->user->can('delete exam'),
                 'canShow' => $this->user->can('show exam'),
-            ]
+            ],
         ]);
     }
 
@@ -54,7 +54,7 @@ class ExamController extends Controller
     public function show(Exam $exam)
     {
         return Inertia::render('exam/show', [
-            'exam' => $exam->load(['lesson', 'academic_year', 'classroom'])
+            'exam' => $exam->load(['lesson', 'academic_year', 'classroom']),
         ]);
     }
 
@@ -92,6 +92,4 @@ class ExamController extends Controller
         $data = $request->validated();
         Exam::whereIn('id', $data['exam_ids'])->delete();
     }
-
-    
 }

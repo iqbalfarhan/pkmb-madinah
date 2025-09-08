@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteSettingRequest;
+use App\Http\Requests\BulkUpdateSettingRequest;
 use App\Http\Requests\StoreSettingRequest;
 use App\Http\Requests\UpdateSettingRequest;
-use App\Http\Requests\BulkUpdateSettingRequest;
-use App\Http\Requests\BulkDeleteSettingRequest;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,7 +17,7 @@ class SettingController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Setting::query()->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = Setting::query()->when($request->name, fn ($q, $v) => $q->where('name', 'like', "%$v%"));
 
         return Inertia::render('setting/index', [
             'settings' => $data->get(),
@@ -27,7 +27,7 @@ class SettingController extends Controller
                 'canUpdate' => $this->user->can('update setting'),
                 'canDelete' => false,
                 'canShow' => false,
-            ]
+            ],
         ]);
     }
 
@@ -46,7 +46,7 @@ class SettingController extends Controller
     public function show(Setting $setting)
     {
         return Inertia::render('setting/show', [
-            'setting' => $setting
+            'setting' => $setting,
         ]);
     }
 
@@ -84,6 +84,4 @@ class SettingController extends Controller
         $data = $request->validated();
         Setting::whereIn('id', $data['setting_ids'])->delete();
     }
-
-    
 }

@@ -21,7 +21,7 @@ class StoreReportRequest extends FormRequest
             'student_id' => 'required|exists:students,id',
             'report_type' => [
                 'required',
-                Rule::in(Report::$reportTypes)
+                Rule::in(Report::$reportTypes),
             ],
             'data' => 'nullable',
         ];

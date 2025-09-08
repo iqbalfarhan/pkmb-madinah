@@ -14,8 +14,9 @@ class AcademicYearFormatRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!preg_match('/^\d{4}\/\d{4}$/', $value)) {
+        if (! preg_match('/^\d{4}\/\d{4}$/', $value)) {
             $fail("The {$attribute} must be in format YYYY/YYYY.");
+
             return;
         }
 
@@ -23,7 +24,7 @@ class AcademicYearFormatRule implements ValidationRule
         [$start, $end] = explode('/', $value);
 
         // Cek selisih tahun
-        if ((int)$end !== (int)$start + 1) {
+        if ((int) $end !== (int) $start + 1) {
             $fail("The {$attribute} must be consecutive years (e.g. 2023/2024).");
         }
     }

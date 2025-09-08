@@ -53,51 +53,50 @@ class HandleInertiaRequests extends Middleware
                 'roles' => $request->user()?->getRoleNames(),
             ],
             'menus' => [
-                "adminer" => $user?->can('open adminer'),
-                "documentation" => $user?->can('documentation'),
-                "studentBill" => $user?->can('student bill'),
+                'adminer' => $user?->can('open adminer'),
+                'documentation' => $user?->can('documentation'),
+                'studentBill' => $user?->can('student bill'),
 
-                //Pembarayan
-                "paymenttype" => $user?->can('menu paymenttype'),
-                "bill" => $user?->can('menu bill'),
-                "payment" => $user?->can('menu payment'),
-
+                // Pembarayan
+                'paymenttype' => $user?->can('menu paymenttype'),
+                'bill' => $user?->can('menu bill'),
+                'payment' => $user?->can('menu payment'),
 
                 // Pengaturan
-                "ppdb" => $user?->can('menu ppdb'),
-                "academicyear" => $user?->can('menu academicyear'),
-                "news" => $user?->can('menu news'),
-                "setting" => $user?->can('menu setting'),
+                'ppdb' => $user?->can('menu ppdb'),
+                'academicyear' => $user?->can('menu academicyear'),
+                'news' => $user?->can('menu news'),
+                'setting' => $user?->can('menu setting'),
 
                 // list master data
-                "grade" => $user?->can('menu grade'),
-                "subject" => $user?->can('menu subject'),
-                "extracurricular" => $user?->can('menu extracurricular'),
+                'grade' => $user?->can('menu grade'),
+                'subject' => $user?->can('menu subject'),
+                'extracurricular' => $user?->can('menu extracurricular'),
 
                 // list pengaturan kelas
-                "classroom" => $user?->can('menu classroom'),
-                "lesson" => $user?->can('menu lesson'),
-                "material" => $user?->can('menu material'),
-                "assignment" => $user?->can('menu assignment'),
-                "exam" => $user?->can('menu exam'),
+                'classroom' => $user?->can('menu classroom'),
+                'lesson' => $user?->can('menu lesson'),
+                'material' => $user?->can('menu material'),
+                'assignment' => $user?->can('menu assignment'),
+                'exam' => $user?->can('menu exam'),
 
                 // list pengaturan siswa
-                "student" => $user?->can('menu student'),
-                "report" => $user?->can('menu report'),
-                "absent" => $user?->can('menu absent'),
-                "score" => $user?->can('menu score'),
-                "activity" => $user?->can('menu activity'),
+                'student' => $user?->can('menu student'),
+                'report' => $user?->can('menu report'),
+                'absent' => $user?->can('menu absent'),
+                'score' => $user?->can('menu score'),
+                'activity' => $user?->can('menu activity'),
 
                 // Authentication
-                "user" => $user?->can('menu user'),
-                "role" => $user?->can('menu role'),
+                'user' => $user?->can('menu user'),
+                'role' => $user?->can('menu role'),
             ],
-            "myclassrooms" => $user?->classrooms ?? [],
-            "mylessons" => $user?->lessons ?? [],
-            "mystudents" => $user?->students ?? [],
+            'myclassrooms' => $user?->classrooms ?? [],
+            'mylessons' => $user?->lessons ?? [],
+            'mystudents' => $user?->students ?? [],
             'activeAcademicYear' => AcademicYear::active() ?? null,
             'settings' => Setting::pluck('value', 'key'),
-            
+
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

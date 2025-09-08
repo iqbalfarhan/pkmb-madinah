@@ -20,7 +20,7 @@ class StoreAbsentRequest extends FormRequest
             'student_id' => 'required|exists:students,id',
             'reason' => [
                 'required',
-                Rule::in(Absent::$reasonLists)
+                Rule::in(Absent::$reasonLists),
             ],
             'description' => 'required|string|max:255',
         ];

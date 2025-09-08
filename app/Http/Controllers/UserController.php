@@ -18,20 +18,20 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $this->pass("index user");
+        $this->pass('index user');
 
         $data = User::query()->withoutRole('superadmin')
-            ->when($request->role, function($q, $v) {
+            ->when($request->role, function ($q, $v) {
                 $q->role($v);
             })
-            ->when($request->name, function($q, $v) {
+            ->when($request->name, function ($q, $v) {
                 $q->where('name', 'like', "%$v%");
             });
 
         return Inertia::render('user/index', [
             'users' => $data->get(),
             'query' => $request->input(),
-            'roles' => Role::whereNot('name', 'superadmin')->pluck('name')
+            'roles' => Role::whereNot('name', 'superadmin')->pluck('name'),
         ]);
     }
 
@@ -40,7 +40,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $this->pass("create user");
+        $this->pass('create user');
 
         $data = $request->validated();
         $user = User::create($data);
@@ -52,10 +52,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $this->pass("show user");
+        $this->pass('show user');
 
         return Inertia::render('user/show', [
-            'user' => $user->load('students', 'lessons', 'classrooms.students')
+            'user' => $user->load('students', 'lessons', 'classrooms.students'),
         ]);
     }
 
@@ -64,7 +64,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $this->pass("update user");
+        $this->pass('update user');
 
         $data = $request->validated();
         $user->update($data);
@@ -77,29 +77,29 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $this->pass("delete user");
+        $this->pass('delete user');
 
         $user->delete();
     }
 
     public function bulkUpdate(BulkUpdateUserRequest $request)
     {
-        $this->pass("update user");
+        $this->pass('update user');
 
         $data = $request->validated();
         User::whereIn('id', $data['user_ids'])->update($data);
     }
-    
+
     public function bulkDelete(BulkDeleteUserRequest $request)
     {
-        $this->pass("delete user");
+        $this->pass('delete user');
         $data = $request->validated();
         User::whereIn('id', $data['user_ids'])->delete();
     }
 
     public function archived()
     {
-        $this->pass("archived user");
+        $this->pass('archived user');
 
         return Inertia::render('user/archived', [
             'users' => User::onlyTrashed()->get(),
@@ -108,7 +108,7 @@ class UserController extends Controller
 
     public function restore($user)
     {
-        $this->pass("restore user");
+        $this->pass('restore user');
 
         $user = User::onlyTrashed()->find($user);
         $user->restore();
@@ -116,7 +116,7 @@ class UserController extends Controller
 
     public function forceDelete($user)
     {
-        $this->pass("force delete user");
+        $this->pass('force delete user');
 
         $user = User::onlyTrashed()->find($user);
         $user->forceDelete();

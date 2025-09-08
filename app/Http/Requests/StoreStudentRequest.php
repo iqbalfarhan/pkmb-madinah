@@ -22,7 +22,7 @@ class StoreStudentRequest extends FormRequest
             'gender' => 'nullable|boolean',
             'status' => [
                 'nullable',
-                Rule::in(Student::$statusLists)
+                Rule::in(Student::$statusLists),
             ],
             'address' => 'nullable|string|max:255',
             'grade_id' => 'nullable|exists:grades,id',

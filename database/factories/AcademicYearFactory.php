@@ -13,7 +13,7 @@ class AcademicYearFactory extends Factory
     {
         return [
             'year' => fake()->sentence(),
-            'semester' => fake()->randomElement(["ganjil", "genap"]),
+            'semester' => fake()->randomElement(['ganjil', 'genap']),
             'active' => fake()->boolean(),
         ];
     }

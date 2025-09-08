@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
 
             UserSeeder::class,
             NewsSeeder::class,
-            
+
             WalikelasSeeder::class,
             ClassroomSeeder::class,
 
@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
             AbsentSeeder::class,
             BillSeeder::class,
             PaymentSeeder::class,
-            
+
         ]);
     }
 }
