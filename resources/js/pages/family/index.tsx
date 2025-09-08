@@ -10,11 +10,11 @@ import { Family } from '@/types/family';
 import { Link, usePage } from '@inertiajs/react';
 import { Edit, Filter, Folder, Plus, Trash2 } from 'lucide-react';
 import { FC, useState } from 'react';
+import FamilyBulkDeleteDialog from './components/family-bulk-delete-dialog';
+import FamilyBulkEditSheet from './components/family-bulk-edit-sheet';
 import FamilyDeleteDialog from './components/family-delete-dialog';
 import FamilyFilterSheet from './components/family-filter-sheet';
 import FamilyFormSheet from './components/family-form-sheet';
-import FamilyBulkEditSheet from './components/family-bulk-edit-sheet';
-import FamilyBulkDeleteDialog from './components/family-bulk-delete-dialog';
 
 type Props = {
   families: Family[];
@@ -41,7 +41,6 @@ const FamilyList: FC<Props> = ({ families, query }) => {
               </Button>
             </FamilyFormSheet>
           )}
-          
         </>
       }
     >
@@ -118,7 +117,7 @@ const FamilyList: FC<Props> = ({ families, query }) => {
                     </Label>
                   </Button>
                 </TableCell>
-                <TableCell>{ family.name }</TableCell>
+                <TableCell>{family.name}</TableCell>
                 <TableCell>
                   {permissions?.canShow && (
                     <Button variant={'ghost'} size={'icon'}>

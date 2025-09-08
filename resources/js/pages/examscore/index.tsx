@@ -10,11 +10,11 @@ import { Examscore } from '@/types/examscore';
 import { Link, usePage } from '@inertiajs/react';
 import { Edit, Filter, Folder, Plus, Trash2 } from 'lucide-react';
 import { FC, useState } from 'react';
+import ExamscoreBulkDeleteDialog from './components/examscore-bulk-delete-dialog';
+import ExamscoreBulkEditSheet from './components/examscore-bulk-edit-sheet';
 import ExamscoreDeleteDialog from './components/examscore-delete-dialog';
 import ExamscoreFilterSheet from './components/examscore-filter-sheet';
 import ExamscoreFormSheet from './components/examscore-form-sheet';
-import ExamscoreBulkEditSheet from './components/examscore-bulk-edit-sheet';
-import ExamscoreBulkDeleteDialog from './components/examscore-bulk-delete-dialog';
 
 type Props = {
   examscores: Examscore[];
@@ -41,7 +41,6 @@ const ExamscoreList: FC<Props> = ({ examscores, query }) => {
               </Button>
             </ExamscoreFormSheet>
           )}
-          
         </>
       }
     >
@@ -118,7 +117,7 @@ const ExamscoreList: FC<Props> = ({ examscores, query }) => {
                     </Label>
                   </Button>
                 </TableCell>
-                <TableCell>{ examscore.name }</TableCell>
+                <TableCell>{examscore.name}</TableCell>
                 <TableCell>
                   {permissions?.canShow && (
                     <Button variant={'ghost'} size={'icon'}>

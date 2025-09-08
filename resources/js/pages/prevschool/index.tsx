@@ -10,11 +10,11 @@ import { Prevschool } from '@/types/prevschool';
 import { Link, usePage } from '@inertiajs/react';
 import { Edit, Filter, Folder, Plus, Trash2 } from 'lucide-react';
 import { FC, useState } from 'react';
+import PrevschoolBulkDeleteDialog from './components/prevschool-bulk-delete-dialog';
+import PrevschoolBulkEditSheet from './components/prevschool-bulk-edit-sheet';
 import PrevschoolDeleteDialog from './components/prevschool-delete-dialog';
 import PrevschoolFilterSheet from './components/prevschool-filter-sheet';
 import PrevschoolFormSheet from './components/prevschool-form-sheet';
-import PrevschoolBulkEditSheet from './components/prevschool-bulk-edit-sheet';
-import PrevschoolBulkDeleteDialog from './components/prevschool-bulk-delete-dialog';
 
 type Props = {
   prevschools: Prevschool[];
@@ -41,7 +41,6 @@ const PrevschoolList: FC<Props> = ({ prevschools, query }) => {
               </Button>
             </PrevschoolFormSheet>
           )}
-          
         </>
       }
     >
@@ -118,7 +117,7 @@ const PrevschoolList: FC<Props> = ({ prevschools, query }) => {
                     </Label>
                   </Button>
                 </TableCell>
-                <TableCell>{ prevschool.name }</TableCell>
+                <TableCell>{prevschool.name}</TableCell>
                 <TableCell>
                   {permissions?.canShow && (
                     <Button variant={'ghost'} size={'icon'}>

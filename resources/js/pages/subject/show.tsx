@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { Subject } from '@/types/subject';
 import { FC } from 'react';
@@ -12,7 +12,7 @@ const ShowSubject: FC<Props> = ({ subject }) => {
     <AppLayout title="Detail Subject" description="Detail subject">
       <Card>
         <CardHeader>
-          <CardTitle>{ subject.name }</CardTitle>
+          <CardTitle>{subject.name}</CardTitle>
           <CardDescription>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, quo impedit cupiditate voluptas culpa magnam itaque distinctio at ullam,
             beatae perferendis doloremque facilis mollitia, quod corporis. Autem voluptatum ipsum placeat.

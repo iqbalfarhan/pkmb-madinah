@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { Grade } from '@/types/grade';
 import { FC } from 'react';
@@ -12,7 +12,7 @@ const ShowGrade: FC<Props> = ({ grade }) => {
     <AppLayout title="Detail Grade" description="Detail grade">
       <Card>
         <CardHeader>
-          <CardTitle>{ grade.name }</CardTitle>
+          <CardTitle>{grade.name}</CardTitle>
           <CardDescription>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, quo impedit cupiditate voluptas culpa magnam itaque distinctio at ullam,
             beatae perferendis doloremque facilis mollitia, quod corporis. Autem voluptatum ipsum placeat.

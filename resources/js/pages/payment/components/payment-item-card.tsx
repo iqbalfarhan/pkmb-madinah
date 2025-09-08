@@ -1,11 +1,11 @@
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Edit, Trash2, Folder } from 'lucide-react';
-import { FC } from 'react';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Payment } from '@/types/payment';
 import { Link } from '@inertiajs/react';
-import PaymentFormSheet from './payment-form-sheet';
+import { Edit, Folder, Trash2 } from 'lucide-react';
+import { FC } from 'react';
 import PaymentDeleteDialog from './payment-delete-dialog';
+import PaymentFormSheet from './payment-form-sheet';
 
 type Props = {
   payment: Payment;
@@ -15,12 +15,10 @@ const PaymentItemCard: FC<Props> = ({ payment }) => {
   return (
     <Card className="flex flex-col justify-between">
       <CardHeader>
-        <CardTitle>{ payment.name }</CardTitle>
+        <CardTitle>{payment.name}</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-muted-foreground">
-          ID: { payment.id }
-        </p>
+        <p className="text-sm text-muted-foreground">ID: {payment.id}</p>
       </CardContent>
       <CardFooter className="flex gap-2">
         <Button variant="ghost" size="icon" asChild>
@@ -28,12 +26,12 @@ const PaymentItemCard: FC<Props> = ({ payment }) => {
             <Folder />
           </Link>
         </Button>
-        <PaymentFormSheet purpose="edit" payment={ payment }>
+        <PaymentFormSheet purpose="edit" payment={payment}>
           <Button variant="ghost" size="icon">
             <Edit />
           </Button>
         </PaymentFormSheet>
-        <PaymentDeleteDialog payment={ payment }>
+        <PaymentDeleteDialog payment={payment}>
           <Button variant="ghost" size="icon">
             <Trash2 />
           </Button>
