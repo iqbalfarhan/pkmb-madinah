@@ -8,7 +8,7 @@ import AppLayout from '@/layouts/app-layout';
 import { SharedData } from '@/types';
 import { Report } from '@/types/report';
 import { Link, usePage } from '@inertiajs/react';
-import { Edit, FileJson, Filter, Folder, Plus, Trash2 } from 'lucide-react';
+import { Download, Edit, Filter, Folder, Plus, Trash2 } from 'lucide-react';
 import { FC, useState } from 'react';
 import ReportBulkDeleteDialog from './components/report-bulk-delete-dialog';
 import ReportBulkEditSheet from './components/report-bulk-edit-sheet';
@@ -135,8 +135,8 @@ const ReportList: FC<Props> = ({ reports, query }) => {
                         </Link>
                       </Button>
                       <Button variant={'ghost'} size={'icon'}>
-                        <a href={route('report.raw', report.id)}>
-                          <FileJson />
+                        <a href={route('report.download', report.id)}>
+                          <Download />
                         </a>
                       </Button>
                     </>

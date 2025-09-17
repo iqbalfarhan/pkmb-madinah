@@ -184,13 +184,10 @@ class ReportController extends Controller
     public function download(Report $report)
     {
         $data = collect($report->data);
-        // $pdf = Pdf::loadView('pdf.invoice', [
-        //     "data" => collect($report->data),
-        // ]);
+        if ($report->report_type == "perkembangan") {
+            return Pdf::loadView('pdf.perkembangan', compact('data'))->stream();
+        }
 
-        // return $pdf->stream('invoice.pdf');
-
-        return Pdf::loadView('pdf.invoice', compact('data'))->stream();
-        // return view('pdf.invoice', compact('data'));
+        return abort(404);
     }
 }

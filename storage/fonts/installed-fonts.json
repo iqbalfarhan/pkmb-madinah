@@ -1,0 +1,14 @@
+{
+    "noto serif": {
+        "normal": "noto_serif_normal_20a7d3d211e573620793b9ca6e4ba3c2"
+    },
+    "noto serif bold": {
+        "bold": "noto_serif_bold_bold_4fc23b9c7c136a32bf25d94050baa044"
+    },
+    "noto sans": {
+        "normal": "noto_sans_normal_05bf4a9140ff8ceb77ef06ff43cc2e36"
+    },
+    "noto sans bold": {
+        "bold": "noto_sans_bold_bold_b3937550d347fc008fd9a9013fee9590"
+    }
+}
