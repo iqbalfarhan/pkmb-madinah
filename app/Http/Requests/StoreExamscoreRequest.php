@@ -15,6 +15,7 @@ class StoreExamscoreRequest extends FormRequest
     {
         return [
             'student_id' => 'required|exists:students,id',
+            'lesson_id' => 'required|exists:lessons,id',
             'exam_id' => 'required|exists:exams,id',
             'score' => 'required|numeric',
             'remark' => 'nullable|string|max:255',

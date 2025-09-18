@@ -69,6 +69,8 @@ class ReportController extends Controller
         $mockup['nisn'] = $student->nisn;
 
         if ($data['report_type'] == 'perkembangan') {
+            $mockup['tanggal'] = $settings['SCHOOL_CITY'].', '.now()->format('d F Y');
+
             $mockup['ketidakhadiran']['sakit'] = $student->absents->where('reason', 'sakit')->count() ?? 0;
             $mockup['ketidakhadiran']['izin'] = $student->absents->where('reason', 'izin')->count() ?? 0;
             $mockup['ketidakhadiran']['tanpa keterangan'] = $student->absents->where('reason', 'tanpa keterangan')->count() ?? 0;
@@ -80,12 +82,13 @@ class ReportController extends Controller
                 ];
             });
         } elseif ($data['report_type'] == 'nilai') {
+            $mockup['tanggal'] = $settings['SCHOOL_CITY'].', '.now()->format('d F Y');
             $mockup['rapor_kenaikan_kelas'] = $academicYear->semester === 'ganjil' ? false : true;
             $mockup['naik_kelas'] = null;
             $mockup['ke_kelas'] = '';
-            $mockup['tanggal'] = now();
 
-            $mockup['nilai'] = $classroom->lessons->map(function ($lesson) use ($student) {
+            $mockup['nilai'] = $classroom->lessons?->map(function ($lesson) use ($student) {
+
                 $lesson = $lesson->load('exams.examscores', 'assignments.scores');
                 $subject = $lesson->subject;
 
@@ -185,7 +188,18 @@ class ReportController extends Controller
     {
         $data = collect($report->data);
         if ($report->report_type == "perkembangan") {
-            return Pdf::loadView('pdf.perkembangan', compact('data'))->stream();
+            return Pdf::setOption('paper', 'a4')->loadView('pdf.perkembangan', [
+                "data" => $data,
+                "settings" => Setting::pluck('value', 'key'),
+                "report" => $report
+            ])->stream();
+        }
+        elseif ($report->report_type == "nilai") {
+            return Pdf::setOption('paper', 'a4')->loadView('pdf.nilai', [
+                "data" => $data,
+                "settings" => Setting::pluck('value', 'key'),
+                "report" => $report
+            ])->stream();
         }
 
         return abort(404);

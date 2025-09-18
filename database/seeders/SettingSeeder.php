@@ -55,6 +55,11 @@ class SettingSeeder extends Seeder
                 'hint' => 'Nama pembimbing tahfidz (unruk rapor tahfidz)',
                 'value' => 'Wafiqoh Rofa Amaliah',
             ],
+            [
+                'key' => 'KEPALA_SEKOLAH',
+                'hint' => 'Nama kepala sekolah',
+                'value' => 'Semi Hidayati, A.Md., S.Pd',
+            ],
         ];
 
         foreach ($settings as $setting) {

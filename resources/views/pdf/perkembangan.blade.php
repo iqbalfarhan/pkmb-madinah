@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
 
@@ -126,6 +127,15 @@
     .hidden {
       display: none
     }
+
+    table.table-condensed {
+      border: 0px
+    }
+
+    table.table-condensed tr td {
+      padding: 0px;
+      vertical-align: middle;
+    }
   </style>
 </head>
 <body>
@@ -185,9 +195,21 @@
               <strong>{{ $point['name'] }}</strong>
             </td>
             <td class="domain-value">{{ $point['description'] }}</td>
-            <td class="domain-checkbox">{{ $point['mark'] == "A" ? "ü" : "" }}</td>
-            <td class="domain-checkbox">{{ $point['mark'] == "B" ? "ü" : "" }}</td>
-            <td class="domain-checkbox">{{ $point['mark'] == "C" ? "ü" : "" }}</td>
+            <td class="domain-checkbox">
+              @if ($point['mark'] == "A")
+                <img src="{{ public_path('symbols/check.png') }}" style="width: 10pt" />
+              @endif
+            </td>
+            <td class="domain-checkbox">
+              @if ($point['mark'] == "B")
+                <img src="{{ public_path('symbols/check.png') }}" style="width: 10pt" />
+              @endif
+            </td>
+            <td class="domain-checkbox">
+              @if ($point['mark'] == "C")
+                <img src="{{ public_path('symbols/check.png') }}" style="width: 10pt" />
+              @endif
+            </td>
           </tr>
         @endforeach
       </table>
@@ -203,25 +225,56 @@
       <tr>
         <td colspan="5">
           4 dari 18 sikap yang dibangun di Sekolah Al-Madinah<br>
-          <strong>I (Membutuhkan motivasi)</strong><br>
-          <strong>II (Menunjukkan perbaikan)</strong><br>
-          <strong>III (Memiliki kompetensi)</strong><br>
+          <table border="0" class="table-condensed">
+            @foreach (["Membutuhkan motivasi", "Menunjukkan perbaikan", "Memiliki kompetensi"] as $key => $item)
+              <tr>
+                <td style="width: 70px">
+                  @if($key === 0)
+                    <img src="{{ public_path("symbols/star-fill-black.png") }}" style="height: 10px; margin-top: 7px;" />
+                  @elseif($key === 1)
+                    <img src="{{ public_path("symbols/2-star-fill-black.png") }}" style="height: 10px; margin-top: 7px;" />
+                  @elseif($key === 2)
+                    <img src="{{ public_path("symbols/3-star-fill-black.png") }}" style="height: 10px; margin-top: 7px;" />
+                  @endif
+                </td>
+                <td>({{ $item }})</td>
+              </tr>
+            @endforeach
+          </table>
         </td>
       </tr>
       <tr style="background-color: black; color: white;">
         <th>No</th>
         <th>Sikap yang dikembangkan</th>
-        <th>I</th>
-        <th>II</th>
-        <th>III</th>
+        <th>
+          <img src="{{ public_path("symbols/star-fill-white.png") }}" style="height: 10px; margin-top: 5px;" />
+        </th>
+        <th>
+          <img src="{{ public_path("symbols/2-star-fill-white.png") }}" style="height: 10px; margin-top: 5px;" />
+        </th>
+        <th>
+          <img src="{{ public_path("symbols/3-star-fill-white.png") }}" style="height: 10px; margin-top: 5px;" />
+        </th>
       </tr>
       @foreach ($data['sikap'] as $key => $value)
           <tr>
             <td>{{ $loop->iteration }}</td>
             <td style="width: 100%"><strong>{{ ucfirst($key) }}</strong></td>
-            <th style="width: 30px">{{ $value == 1 ? "v" : "" }}</th>
-            <th style="width: 30px">{{ $value == 2 ? "v" : "" }}</th>
-            <th style="width: 30px">{{ $value == 3 ? "v" : "" }}</th>
+            <th style="width: 50px">
+              @if ($value == 1)
+                  <img src="{{ public_path("symbols/check.png") }}" style="width: 10px" />
+              @endif
+            </th>
+            <th style="width: 50px">
+              @if ($value == 2)
+                  <img src="{{ public_path("symbols/check.png") }}" style="width: 10px" />
+              @endif
+            </th>
+            <th style="width: 50px">
+              @if ($value == 3)
+                  <img src="{{ public_path("symbols/check.png") }}" style="width: 10px" />
+              @endif
+            </th>
           </tr>
       @endforeach
     </table>
@@ -313,7 +366,7 @@
           .................
         </td>
         <td style="width: 50%; text-align: center;">
-          Balikpapan, 14 Juni 2024<br>
+          {{ $data['tanggal'] ?? "" }}<br>
           Wali Kelas,
           <br>
           <br>

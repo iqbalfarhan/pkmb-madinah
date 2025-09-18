@@ -14,6 +14,7 @@ class Examscore extends Model
     /*
     protected $fillable = [
         'student_id',
+        'lesson_id',
         'exam_id',
         'score',
         'remark'
@@ -29,6 +30,12 @@ class Examscore extends Model
     public function exam()
     {
         return $this->belongsTo(Exam::class);
+    }
+
+    public function lesson()
+
+    {
+        return $this->belongsTo(Lesson::class);
     }
 
     public function getRatedScoreAttribute()

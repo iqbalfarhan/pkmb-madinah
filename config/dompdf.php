@@ -110,7 +110,7 @@ return [
         /**
          * Whether to enable font subsetting or not.
          */
-        'enable_font_subsetting' => false,
+        'enable_font_subsetting' => true,
 
         /**
          * The PDF rendering backend to use
@@ -233,7 +233,7 @@ return [
          *
          * @var bool
          */
-        'enable_php' => true,
+        'enable_php' => false,
 
         /**
          * Rnable inline JavaScript
