@@ -93,10 +93,9 @@ const AssignmentList: FC<Props> = ({ assignments, query }) => {
                 </Label>
               </Button>
             </TableHead>
-            <TableHead>Pelajaran</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead>Rate</TableHead>
+            <TableHead>Pelajaran - kelas</TableHead>
+            <TableHead>Judul tugas</TableHead>
+            <TableHead>Bobot nilai</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -121,10 +120,16 @@ const AssignmentList: FC<Props> = ({ assignments, query }) => {
                     </Label>
                   </Button>
                 </TableCell>
-                <TableCell>{assignment.lesson.name}</TableCell>
-                <TableCell>{assignment.name}</TableCell>
-                <TableCell>{strLimit(assignment.description)}</TableCell>
-                <TableCell>{assignment.rate}</TableCell>
+                <TableCell>
+                  <Link href={route('lesson.show', assignment.lesson_id)}>{assignment.lesson.name}</Link>
+                </TableCell>
+                <TableCell>
+                  <div className="flex flex-col">
+                    <h4>{strLimit(assignment.name)}</h4>
+                    <span className="text-muted-foreground">{strLimit(assignment.description)}</span>
+                  </div>
+                </TableCell>
+                <TableCell>{assignment.rate}%</TableCell>
                 <TableCell>
                   {permissions?.canShow && (
                     <Button variant={'ghost'} size={'icon'}>
