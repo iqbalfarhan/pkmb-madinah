@@ -1,21 +1,39 @@
+import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AppLayout from '@/layouts/app-layout';
+import { SharedData } from '@/types';
 import { Classroom } from '@/types/classroom';
 import { router, usePage } from '@inertiajs/react';
+import { Edit } from 'lucide-react';
 import { FC, PropsWithChildren } from 'react';
+import ClassroomFormSheet from '../components/classroom-form-sheet';
 
 type Props = PropsWithChildren & {};
 
 const ClassroomLayout: FC<Props> = ({ children }) => {
-  const { tabname = '', classroom } = usePage<{ tabname: string; classroom: Classroom }>().props;
+  const { tabname = '', classroom, permissions } = usePage<SharedData & { tabname: string; classroom: Classroom }>().props;
 
   const handleNavigate = (v: string) => {
     router.visit(route(`classroom.${v}`, classroom.id));
   };
 
   return (
-    <AppLayout title="Detail Classroom" description="Detail classroom">
+    <AppLayout
+      title="Detail Classroom"
+      description="Detail classroom"
+      actions={
+        <>
+          {permissions?.canUpdate && (
+            <ClassroomFormSheet purpose="edit" classroom={classroom}>
+              <Button>
+                <Edit /> Edit kelas
+              </Button>
+            </ClassroomFormSheet>
+          )}
+        </>
+      }
+    >
       <Card>
         <CardHeader>
           <CardTitle>{classroom.name}</CardTitle>

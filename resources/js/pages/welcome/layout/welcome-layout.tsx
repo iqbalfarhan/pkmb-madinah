@@ -11,9 +11,7 @@ const WelcomeLayout: FC<Props> = ({ children }) => {
     <SidebarProvider defaultOpen={false}>
       <WelcomeSidebar />
       <SidebarInset className="bg-gradient-to-br from-primary/20 to-success/20">
-        <div className="p-4 md:p-8">
-          <WelcomeNavbar />
-        </div>
+        <WelcomeNavbar />
         {children}
         <FooterSection />
       </SidebarInset>

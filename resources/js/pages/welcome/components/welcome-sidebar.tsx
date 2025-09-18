@@ -1,7 +1,9 @@
 import AppLogo from '@/components/app-logo';
+import ThemeToggler from '@/components/theme-toggler';
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupLabel,
   SidebarHeader,
@@ -87,6 +89,9 @@ const WelcomeSidebar = () => {
           </SidebarGroup>
         </SidebarContent>
       </SidebarContent>
+      <SidebarFooter>
+        <ThemeToggler />
+      </SidebarFooter>
     </Sidebar>
   );
 };

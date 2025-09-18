@@ -22,7 +22,7 @@ type Props = PropsWithChildren & {
 const ClassroomFormSheet: FC<Props> = ({ children, classroom, purpose }) => {
   const [open, setOpen] = useState(false);
 
-  const { users, grades } = usePage<{
+  const { users = [], grades = [] } = usePage<{
     users: User[];
     grades: Grade[];
   }>().props;

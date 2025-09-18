@@ -127,39 +127,39 @@ export function AppSidebar() {
               available: menus.ppdb,
             },
             {
-              title: 'Daftar tahun ajaran',
+              title: 'Tahun Ajaran',
               href: route('academicyear.index'),
               icon: CalendarCheck,
               available: menus.academicyear,
             },
 
             {
-              title: 'Daftar berita sekolah',
+              title: 'Berita Sekolah',
               href: route('news.index'),
               icon: Newspaper,
               available: menus.news,
             },
 
             {
-              title: 'Tagihan & pembayaran',
+              title: 'Tagihan & Pembayaran',
               href: route('bill.index'),
               icon: Wallet,
               available: menus.bill,
               items: [
                 {
-                  title: 'Tagihan siswa',
+                  title: 'Tagihan Siswa',
                   href: route('bill.index'),
                   icon: Wallet,
                   available: menus.bill,
                 },
                 {
-                  title: 'Validasi pembayaran',
+                  title: 'Validasi Pembayaran',
                   href: route('payment.index'),
                   icon: Wallet,
                   available: menus.payment,
                 },
                 {
-                  title: 'Jenis pembayaran',
+                  title: 'Jenis Pembayaran',
                   href: route('paymenttype.index'),
                   icon: Wallet,
                   available: menus.paymenttype,
@@ -168,7 +168,7 @@ export function AppSidebar() {
             },
 
             {
-              title: 'List master data',
+              title: 'Data Master',
               href: '',
               icon: List,
               available: menus.grade,

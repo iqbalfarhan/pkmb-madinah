@@ -1,12 +1,11 @@
-import AppLogoIcon from '@/components/app-logo-icon';
-import ThemeToggler from '@/components/theme-toggler';
+import AppLogo from '@/components/app-logo';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-import { NavItem, SharedData } from '@/types';
-import { Link, usePage } from '@inertiajs/react';
+import { NavItem } from '@/types';
+import { Link } from '@inertiajs/react';
 import { Home, LogIn, Newspaper, UserPlus2 } from 'lucide-react';
 
 const links: NavItem[] = [
@@ -36,36 +35,39 @@ const authLinks: NavItem[] = [
 ];
 
 const WelcomeNavbar = () => {
-  const { settings } = usePage<SharedData>().props;
+  // const { settings } = usePage<SharedData>().props;
   const isMobile = useIsMobile();
+
   return (
-    <Card>
+    <Card className="rounded-none md:m-6 md:rounded-lg">
       <CardContent>
         <div className="flex items-center justify-between">
-          <CardHeader className="flex flex-row items-center gap-2">
-            <AppLogoIcon className="size-8 fill-primary" />
-            <h1 className="text-lg font-semibold">{settings?.SCHOOL_NAME}</h1>
-          </CardHeader>
-          <CardFooter className="hidden md:flex">
-            {links.map(({ title, href, icon: Icon }, index) => (
-              <Button variant={'ghost'} asChild key={index}>
-                <Link href={href}>
-                  {Icon && <Icon />}
-                  {title}
-                </Link>
-              </Button>
-            ))}
-            {authLinks.map(({ title, href, icon: Icon }, index) => (
-              <Button variant={'ghost'} asChild key={index}>
-                <Link href={href}>
-                  {Icon && <Icon />}
-                  {title}
-                </Link>
-              </Button>
-            ))}
-            <ThemeToggler />
+          <div className="flex flex-row items-center gap-2">
+            <AppLogo />
+          </div>
+          <div>
+            {!isMobile && (
+              <>
+                {links.map(({ title, href, icon: Icon }, index) => (
+                  <Button variant={'ghost'} asChild key={index}>
+                    <Link href={href}>
+                      {Icon && <Icon />}
+                      <span className="hidden lg:block">{title}</span>
+                    </Link>
+                  </Button>
+                ))}
+                {authLinks.map(({ title, href, icon: Icon }, index) => (
+                  <Button variant={'ghost'} asChild key={index}>
+                    <Link href={href}>
+                      {Icon && <Icon />}
+                      <span className="hidden lg:block">{title}</span>
+                    </Link>
+                  </Button>
+                ))}
+              </>
+            )}
             {isMobile && <SidebarTrigger />}
-          </CardFooter>
+          </div>
         </div>
       </CardContent>
     </Card>

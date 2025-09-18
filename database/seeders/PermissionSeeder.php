@@ -80,8 +80,8 @@ class PermissionSeeder extends Seeder
                 'menu lesson' => ['admin'],
                 'index lesson' => ['admin'],
                 'show lesson' => ['*'],
-                'create lesson' => ['admin', 'guru'],
-                'update lesson' => ['admin', 'guru'],
+                'create lesson' => ['admin', 'walikelas'],
+                'update lesson' => ['admin', 'walikelas'],
                 'delete lesson' => ['admin', 'guru'],
             ],
             'material' => [
