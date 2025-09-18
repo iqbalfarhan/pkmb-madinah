@@ -99,74 +99,88 @@
     </table>
   </div>
 
-  <div class="content">
-    <table border="1" style="width: 100%">
-      <thead>
-        <tr>
-          <th>NO</th>
-          <th>MATA PELAJARAN</th>
-          <th style="width: 90px">NILAI<br>TUGAS</th>
-          <th style="width: 90px">NILAI<br>EVALUASI</th>
-          <th style="width: 90px">NILAI<br>RATA-RATA</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach ($data['nilai'] as $nilai)
-          @if ($nilai['type'] == "Pelajaran dasar")
-            <tr>
-              <td class="text-center">{{ $loop->iteration }}</td>
-              <td>{{ $nilai['name'] }}</td>
-              <td class="text-center">{{ round($nilai['nilai_tugas'], 2) }}</td>
-              <td class="text-center">{{ round($nilai['evaluasi'], 2) }}</td>
-              <td class="text-center">{{ round($nilai['rata_rata'], 2) }}</td>
-            </tr>
-          @endif
-        @endforeach
-        <tr style="background-color: lightgrey">
-          <th colspan="5" class="text-left">MUATAN LOKAL :</th>
-        </tr>
-        @foreach ($data['nilai'] as $nilai)
-          @if ($nilai['type'] == "Muatan lokal")
-            <tr>
-              <td class="text-center">{{ $loop->iteration }}</td>
-              <td>{{ $nilai['name'] }}</td>
-              <td class="text-center">{{ round($nilai['nilai_tugas'], 2) }}</td>
-              <td class="text-center">{{ round($nilai['evaluasi'], 2) }}</td>
-              <td class="text-center">{{ round($nilai['rata_rata'], 2) }}</td>
-            </tr>
-          @endif
-        @endforeach
-      </tbody>
-      <tfoot>
-        <tr>
-          <th colspan="2">Rata-rata</th>
-          <th>0.00</th>
-          <th>0.00</th>
-          <th>0.00</th>
-        </tr>
-      </tfoot>
-    </table>
-    <br>
-    <table style="margin-left: auto; width: 45%;">
-      <tr>
-        <td colspan="3">Keputusan :</td>
-      </tr>
-      <tr>
-        <td colspan="3">Berdasarkan pencapaian kompetensi pada semester 1 dan 2, peserta didik dinyatakan :</td>
-      </tr>
-      <tr>
-        <td>Naik ke kelas</td>
-        <td style="width: 5px">:</td>
-        <td>II (Dua)</td>
-      </tr>
-      <tr>
-        <td>Tinggal dikelas</td>
-        <td style="width: 5px">:</td>
-        <td>-</td>
-      </tr>
-    </table>
-    <br>
-  </div>
+	@php
+		$grouped = [];
+
+		foreach ($data['nilai'] as $item) {
+			$grouped[$item['type']][] = $item;
+		}
+	@endphp
+
+	<div class="content">
+		<table border="1" style="width: 100%">
+			<thead>
+				<tr>
+					<th>NO</th>
+					<th>MATA PELAJARAN</th>
+					<th style="width: 90px">NILAI<br>TUGAS</th>
+					<th style="width: 90px">NILAI<br>EVALUASI</th>
+					<th style="width: 90px">NILAI<br>RATA-RATA</th>
+				</tr>
+			</thead>
+			<tbody>
+				@php
+					$no = 1;
+				@endphp
+				@foreach ($grouped as $type => $nilais)
+					@if ($type == "Muatan lokal")
+						<tr style="background-color: lightgrey">
+							<th colspan="5" class="text-left">{{ $type }} :</th>
+						</tr>
+					@endif
+					@foreach ($nilais as $nilai)
+						<tr>
+							<td class="text-center">{{ $no++ }}</td>
+							<td>{{ $nilai['name'] }}</td>
+							<td class="text-center">{{ round($nilai['nilai_tugas'], 2) }}</td>
+							<td class="text-center">{{ round($nilai['evaluasi'], 2) }}</td>
+							<td class="text-center">{{ round($nilai['rata_rata'], 2) }}</td>
+						</tr>
+					@endforeach
+				@endforeach
+			</tbody>
+			<tfoot>
+				<tr>
+				<th colspan="2">Rata-rata</th>
+				<th>0.00</th>
+				<th>0.00</th>
+				<th>0.00</th>
+				</tr>
+			</tfoot>
+		</table>
+
+		@if ($data['rapor_kenaikan_kelas'] == true)
+			<br>
+			<table style="margin-left: auto; width: 45%;">
+				<tr>
+					<td colspan="3">Keputusan :</td>
+				</tr>
+				<tr>
+					<td colspan="3">Berdasarkan pencapaian kompetensi pada semester 1 dan 2, peserta didik dinyatakan :</td>
+				</tr>
+				<tr>
+					<td>Naik ke kelas</td>
+					<td style="width: 5px">:</td>
+					<td>
+						@if ($data['naik_kelas'] && $data['ke_kelas'])
+							{{ $data['ke_kelas'] }}
+						@endif
+					</td>
+				</tr>
+				<tr>
+					<td>Tinggal dikelas</td>
+					<td style="width: 5px">:</td>
+					<td>
+						@if (!$data['naik_kelas'] && $data['ke_kelas'])
+							{{ $data['ke_kelas'] }}
+						@endif
+					</td>
+				</tr>
+			</table>
+		@endif
+
+		<br>
+	</div>
 
 
   <div>

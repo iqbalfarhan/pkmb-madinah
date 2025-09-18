@@ -19,7 +19,6 @@ const ReportHeader = () => {
 
   return (
     <div className="flex items-center">
-      <img src="/rapor-tahfidz.png" className="aspect-square object-contain" />
       <h1 className="flex-1 text-center text-xl font-semibold uppercase">
         {label[report.report_type]}
         <br />

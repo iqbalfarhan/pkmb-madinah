@@ -1,9 +1,8 @@
-import BackButton from '@/components/back-button';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { Report, ReportNilaiData, ReportPerkembanganData, ReportTahfidzData } from '@/types/report';
 import { Link } from '@inertiajs/react';
-import { Edit, FileJson } from 'lucide-react';
+import { Download, Edit } from 'lucide-react';
 import { FC } from 'react';
 import ReportNilaiReader from './reader/report-nilai';
 import ReportPerkembanganReader from './reader/report-perkembangan';
@@ -20,11 +19,10 @@ const ShowReport: FC<Props> = ({ report }) => {
       description={`Detail report tahun ajaran ${report.academic_year.label}`}
       actions={
         <>
-          <BackButton />
           <Button asChild>
-            <a href={route('report.raw', report.id)}>
-              <FileJson />
-              Raw data
+            <a href={route('report.download', report.id)}>
+              <Download />
+              Download
             </a>
           </Button>
           <Button asChild>

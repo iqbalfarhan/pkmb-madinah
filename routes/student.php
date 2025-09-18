@@ -23,6 +23,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('report/{report}/download', [ReportController::class, 'download'])->name('report.download');
     Route::get('report/{report}/raw', [ReportController::class, 'raw'])->name('report.raw');
+    Route::put('report/{report}/refres-nilai', [ReportController::class, 'refreshNilai'])->name('report.refresh-nilai');
     Route::put('report/bulk', [ReportController::class, 'bulkUpdate'])->name('report.bulk.update');
     Route::delete('report/bulk', [ReportController::class, 'bulkDelete'])->name('report.bulk.destroy');
     Route::resource('report', ReportController::class);

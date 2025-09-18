@@ -11,7 +11,7 @@ import { em, groupBy } from '@/lib/utils';
 import { Grade } from '@/types/grade';
 import { Report, ReportNilaiData } from '@/types/report';
 import { Student } from '@/types/student';
-import { useForm, usePage } from '@inertiajs/react';
+import { router, useForm, usePage } from '@inertiajs/react';
 import { Check, RefreshCcw } from 'lucide-react';
 import { FC, useCallback } from 'react';
 import { toast } from 'sonner';
@@ -45,6 +45,20 @@ const ReportNilai: FC<Props> = ({ data }) => {
 
   const groupMapel = groupBy(formData.data.nilai, 'type');
 
+  const handleRefreshNilai = () => {
+    router.put(
+      route('report.refresh-nilai', report.id),
+      {
+        type: report.report_type,
+      },
+      {
+        preserveScroll: true,
+        onSuccess: () => toast.success('Nilai updated'),
+        onError: (e) => toast.error(em(e)),
+      },
+    );
+  };
+
   return (
     <>
       <ReportHeader />
@@ -66,8 +80,9 @@ const ReportNilai: FC<Props> = ({ data }) => {
             <CardDescription>Nilai yang tampil saat ini adalah rekap nilai yang diisi oleh guru.</CardDescription>
           </CardHeader>
           <CardFooter>
-            <Button size={'icon'} variant={'ghost'}>
+            <Button variant={'secondary'} onClick={handleRefreshNilai}>
               <RefreshCcw />
+              Refresh nilai
             </Button>
           </CardFooter>
         </div>

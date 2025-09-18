@@ -8,7 +8,7 @@ import { capitalizeWords, em, hariNumberDescription } from '@/lib/utils';
 import { PointMark, Report, ReportPerkembanganData } from '@/types/report';
 import { Student } from '@/types/student';
 import { useForm, usePage } from '@inertiajs/react';
-import { Check } from 'lucide-react';
+import { Check, Download, FileJson } from 'lucide-react';
 import { FC, useCallback, useEffect } from 'react';
 import { toast } from 'sonner';
 import { useDebouncedCallback } from 'use-debounce';
@@ -71,10 +71,26 @@ const ReportPerkambangan: FC<Props> = ({ data }) => {
         student_nisn={formData.data.nisn}
         classroom_name={formData.data.kelas}
       />
-      <Button onClick={handleUpdate} className="fixed right-6 bottom-6">
-        <Check />
-        Simpan
-      </Button>
+      <div className="fixed right-6 -bottom-2 z-50">
+        <div className="flex flex-col gap-2">
+          <Button asChild variant={'secondary'}>
+            <a href={route('report.download', report.id)}>
+              <Download />
+              Download PDF
+            </a>
+          </Button>
+          <Button asChild variant={'secondary'}>
+            <a href={route('report.raw', report.id)}>
+              <FileJson />
+              Raw data
+            </a>
+          </Button>
+          <Button onClick={handleUpdate}>
+            <Check />
+            Simpan
+          </Button>
+        </div>
+      </div>
 
       <h2 className="text-center text-xl font-bold">CURRICULAR DOMAIN</h2>
       {formData.data.curricular_domain.map((nilai, nilaiIndex) => (

@@ -1,9 +1,10 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BulkDeleteReportRequest;
 use App\Http\Requests\BulkUpdateReportRequest;
+use App\Http\Requests\RefreshNilaiReportRequest;
 use App\Http\Requests\StoreReportRequest;
 use App\Http\Requests\UpdateReportRequest;
 use App\Models\AcademicYear;
@@ -158,6 +159,36 @@ class ReportController extends Controller
         $report->update($data);
     }
 
+    public function refreshNilai(RefreshNilaiReportRequest $request, Report $report)
+    {
+        $request->validated();
+
+        $classroom = $report->classroom;
+        $student = $report->student;
+
+        $mockup = $report->data;
+
+        $mockup['nilai'] = $classroom->lessons?->map(function ($lesson) use ($student) {
+            $lesson = $lesson->load('exams.examscores', 'assignments.scores');
+            $subject = $lesson->subject;
+
+            $score = Score::whereStudentId($student->id)->whereLessonId($lesson->id)->get()->sum('rated_score') ?? 0;
+            $examscore = Examscore::whereStudentId($student->id)->whereLessonId($lesson->id)->get()->sum('rated_score') ?? 0;
+
+            return [
+                'name' => $subject->name,
+                'type' => $subject->group,
+                'nilai_tugas' => $score,
+                'evaluasi' => $examscore,
+                'rata_rata' => ($score + $examscore) / 2,
+            ];
+        });
+
+        $report->update([
+            'data' => $mockup
+        ]);
+    }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -187,18 +218,23 @@ class ReportController extends Controller
     public function download(Report $report)
     {
         $data = collect($report->data);
-        if ($report->report_type == "perkembangan") {
+        if ($report->report_type == 'perkembangan') {
             return Pdf::setOption('paper', 'a4')->loadView('pdf.perkembangan', [
-                "data" => $data,
-                "settings" => Setting::pluck('value', 'key'),
-                "report" => $report
+                'data' => $data,
+                'settings' => Setting::pluck('value', 'key'),
+                'report' => $report,
             ])->stream();
-        }
-        elseif ($report->report_type == "nilai") {
+        } elseif ($report->report_type == 'nilai') {
             return Pdf::setOption('paper', 'a4')->loadView('pdf.nilai', [
-                "data" => $data,
-                "settings" => Setting::pluck('value', 'key'),
-                "report" => $report
+                'data' => $data,
+                'settings' => Setting::pluck('value', 'key'),
+                'report' => $report,
+            ])->stream();
+        } elseif ($report->report_type == 'tahfidz') {
+            return Pdf::setOption('paper', 'a4')->loadView('pdf.tahfidz', [
+                'data' => $data,
+                'settings' => Setting::pluck('value', 'key'),
+                'report' => $report,
             ])->stream();
         }
 

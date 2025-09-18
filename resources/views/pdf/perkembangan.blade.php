@@ -147,9 +147,9 @@
       <td>
         <h2 class="judul-rapor">
           LAPORAN PERKEMBANGAN SISWA<br>
-          PKBM AL-MADINAH<br>
-          SEMESTER GENAP<br>
-          TAHUN AJARAN 2023/2024
+          {{ $settings['SCHOOL_NAME'] }}<br>
+          SEMESTER {{ strtoupper($data['semester']) }}<br>
+          TAHUN AJARAN {{ $data['tahunajaran'] }}
         </h2>
       </td>
     </tr>
@@ -335,19 +335,19 @@
         <th>KOMENTAR GURU</th>
       </tr>
       <tr>
-        <td>{!! str()->markdown($data['komentar_guru']) !!}</td>
+        <td>{!! str()->markdown($data['komentar_guru'] ?? "") !!}</td>
       </tr>
       <tr style="background-color: black; color: white;">
         <th>KOMENTAR SISWA</th>
       </tr>
       <tr>
-        <td>{!! str()->markdown($data['komentar_siswa']) !!}</td>
+        <td>{!! str()->markdown($data['komentar_siswa'] ?? "") !!}</td>
       </tr>
       <tr style="background-color: black; color: white;">
         <th>KOMENTAR ORANGTUA/WALI</th>
       </tr>
       <tr>
-        <td>{!! str()->markdown($data['komentar_wali']) !!}</td>
+        <td>{!! str()->markdown($data['komentar_wali'] ?? "") !!}</td>
       </tr>
     </table>
     <br>

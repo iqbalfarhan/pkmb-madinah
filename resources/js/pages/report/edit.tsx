@@ -1,8 +1,6 @@
 import BackButton from '@/components/back-button';
-import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { Report, ReportNilaiData, ReportPerkembanganData, ReportTahfidzData, ReportTahsinData } from '@/types/report';
-import { FileJson } from 'lucide-react';
 import { FC } from 'react';
 import ReportNilai from './variants/report-nilai';
 import ReportPerkambangan from './variants/report-perkembangan';
@@ -21,12 +19,6 @@ const EditReport: FC<Props> = ({ report }) => {
       actions={
         <>
           <BackButton />
-          <Button asChild>
-            <a href={route('report.raw', report.id)}>
-              <FileJson />
-              Raw data
-            </a>
-          </Button>
         </>
       }
     >
