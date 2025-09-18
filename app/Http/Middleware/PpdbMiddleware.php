@@ -21,7 +21,7 @@ class PpdbMiddleware
         $setting = Setting::where('key', 'PPDB_OPEN')->first();
         $active = $setting ? $setting->value === 'true' : false;
 
-        if ($active || $user?->can('ppdb setting')) {
+        if ($active || $user?->can('setting ppdb')) {
             return $next($request);
         }
 

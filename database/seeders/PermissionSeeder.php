@@ -19,6 +19,15 @@ class PermissionSeeder extends Seeder
                 'profile' => ['*'],
                 'documentation' => ['*'],
             ],
+            'ppdb' => [
+                'menu ppdb' => ['admin'],
+                'index ppdb' => ['admin'],
+                'show ppdb' => ['*'],
+                'create ppdb' => ['admin'],
+                'update ppdb' => ['admin'],
+                'delete ppdb' => ['admin'],
+                'setting ppdb' => ['admin'],
+            ],
             'absent' => [
                 'menu absent' => ['admin'],
                 'index absent' => ['admin'],
