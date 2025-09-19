@@ -92,8 +92,9 @@ const MaterialList: FC<Props> = ({ materials, query }) => {
                 </Label>
               </Button>
             </TableHead>
-            <TableHead>Material title</TableHead>
-            <TableHead>Lesson</TableHead>
+            <TableHead>Kelas</TableHead>
+            <TableHead>Pelajaran</TableHead>
+            <TableHead>Judul materi belajar</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -118,8 +119,9 @@ const MaterialList: FC<Props> = ({ materials, query }) => {
                     </Label>
                   </Button>
                 </TableCell>
-                <TableCell>{material.title}</TableCell>
+                <TableCell>{material.lesson.classroom.name}</TableCell>
                 <TableCell>{material.lesson.name}</TableCell>
+                <TableCell>{material.title}</TableCell>
                 <TableCell>
                   {permissions?.canShow && (
                     <Button variant={'ghost'} size={'icon'}>

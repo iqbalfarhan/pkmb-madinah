@@ -20,6 +20,8 @@ class AcademicYearController extends Controller
      */
     public function index(Request $request)
     {
+        $this->pass('index academicyear');
+
         $data = AcademicYear::query()
             ->when($request->name, function ($q, $v) {
                 $q->where('name', 'like', "%$v%");
@@ -78,6 +80,8 @@ class AcademicYearController extends Controller
      */
     public function show(AcademicYear $academicyear)
     {
+        $this->pass('show academicyear');
+
         return Inertia::render('academicyear/show', [
             'academicyear' => $academicyear,
         ]);
@@ -88,6 +92,8 @@ class AcademicYearController extends Controller
      */
     public function update(UpdateAcademicYearRequest $request, AcademicYear $academicyear)
     {
+        $this->pass('update academicyear');
+
         $data = $request->validated();
         $academicyear->update($data);
     }
@@ -97,6 +103,8 @@ class AcademicYearController extends Controller
      */
     public function destroy(AcademicYear $academicyear)
     {
+        $this->pass('delete academicyear');
+
         $academicyear->delete();
     }
 
@@ -105,6 +113,8 @@ class AcademicYearController extends Controller
      */
     public function bulkUpdate(BulkUpdateAcademicYearRequest $request)
     {
+        $this->pass('update academicyear');
+
         $data = $request->validated();
         AcademicYear::whereIn('id', $data['academic-year_ids'])->update($data);
     }
@@ -114,12 +124,16 @@ class AcademicYearController extends Controller
      */
     public function bulkDelete(BulkDeleteAcademicYearRequest $request)
     {
+        $this->pass('delete academicyear');
+
         $data = $request->validated();
         AcademicYear::whereIn('id', $data['academic-year_ids'])->delete();
     }
 
     public function setActive(AcademicYear $academicyear)
     {
+        $this->pass('update academicyear');
+
         $academicyear->setActive();
     }
 }

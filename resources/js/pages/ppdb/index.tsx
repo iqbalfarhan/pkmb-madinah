@@ -6,10 +6,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
+import { cn } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Setting } from '@/types/setting';
 import { Student } from '@/types/student';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import dayjs from 'dayjs';
 import { BookCheck, CheckCheck, Edit, Folder, PencilRuler, Plus, Settings, Trash2, Wallet } from 'lucide-react';
 import { FC, useState } from 'react';
@@ -38,7 +39,9 @@ const PpdbList: FC<Props> = ({
     draft: 0,
     ppdb: 0,
   },
+  query,
 }) => {
+  const [status] = useState(query.status ?? 'ppdb');
   const [ids, setIds] = useState<number[]>([]);
   const [cari, setCari] = useState('');
 
@@ -77,18 +80,7 @@ const PpdbList: FC<Props> = ({
             </CardHeader>
           </Card>
         </PpdbSettingSheet>
-        <Card>
-          <CardHeader className="flex flex-row space-y-5 space-x-4">
-            <div className="size-5">
-              <PencilRuler />
-            </div>
-            <div className="space-y-1.5">
-              <CardTitle className="line-clamp-1">Proses pendfataran</CardTitle>
-              <CardDescription className="line-clamp-2">{counts.draft} siswa dalam proses pengisian data siswa baru.</CardDescription>
-            </div>
-          </CardHeader>
-        </Card>
-        <Card>
+        <Card className={cn('cursor-pointer opacity-60', status === 'ppdb' ? 'opacity-100' : '')} onClick={() => router.get('', { status: 'ppdb' })}>
           <CardHeader className="flex flex-row space-y-5 space-x-4">
             <div className="size-5">
               <BookCheck />
@@ -99,8 +91,26 @@ const PpdbList: FC<Props> = ({
             </div>
           </CardHeader>
         </Card>
+        <Card
+          className={cn('cursor-pointer opacity-60', status === 'draft' ? 'opacity-100' : '')}
+          onClick={() => router.get('', { status: 'draft' })}
+        >
+          <CardHeader className="flex flex-row space-y-5 space-x-4">
+            <div className="size-5">
+              <PencilRuler />
+            </div>
+            <div className="space-y-1.5">
+              <CardTitle className="line-clamp-1">Proses pendfataran</CardTitle>
+              <CardDescription className="line-clamp-2">{counts.draft} siswa dalam proses pengisian data siswa baru.</CardDescription>
+            </div>
+          </CardHeader>
+        </Card>
       </div>
-      <HeadingSmall title="Siap diverfikasi" description="List calon siswa yang siap untuk diverifikasi" />
+      {status === 'ppdb' ? (
+        <HeadingSmall title="Siap diverfikasi" description="List calon siswa yang siap untuk diverifikasi" />
+      ) : (
+        <HeadingSmall title="Proses pendaftaran" description="List calon siswa dalam proses pengisian data pendaftaran" />
+      )}
       <div className="flex gap-2">
         <Input placeholder="Search ppdbs..." value={cari} onChange={(e) => setCari(e.target.value)} />
         {ids.length > 0 && (
@@ -172,35 +182,35 @@ const PpdbList: FC<Props> = ({
                 </TableCell>
                 <TableCell>{ppdb.nisn}</TableCell>
                 <TableCell>{ppdb.name}</TableCell>
-                <TableCell>{ppdb.grade?.name}</TableCell>
+                <TableCell>{ppdb.grade?.group}</TableCell>
                 <TableCell>{ppdb.prevschool?.name}</TableCell>
                 <TableCell>{dayjs(ppdb.created_at).format('DD MMMM YYYY HH:mm:ss')}</TableCell>
                 <TableCell>
                   <StudentStatusBadge status={ppdb.status} />
                 </TableCell>
                 <TableCell>
-                  {permissions?.canUpdate && (
+                  {permissions?.canUpdate && status == 'ppdb' && (
                     <PpdbAcceptRegistrationSheet ppdb={ppdb}>
                       <Button variant={'ghost'} size={'icon'}>
                         <CheckCheck />
                       </Button>
                     </PpdbAcceptRegistrationSheet>
                   )}
-                  {permissions?.canUpdate && (
+                  {permissions?.canUpdate && status == 'ppdb' && (
                     <Button variant={'ghost'} size={'icon'} asChild>
                       <Link href={route('student.bill', ppdb.id)}>
                         <Wallet />
                       </Link>
                     </Button>
                   )}
-                  {permissions?.canShow && (
+                  {permissions?.canShow && status == 'ppdb' && (
                     <Button variant={'ghost'} size={'icon'}>
                       <Link href={route('ppdb.show', ppdb.id)}>
                         <Folder />
                       </Link>
                     </Button>
                   )}
-                  {permissions?.canUpdate && (
+                  {permissions?.canUpdate && status == 'ppdb' && (
                     <PpdbFormSheet purpose="edit" ppdb={ppdb}>
                       <Button variant={'ghost'} size={'icon'}>
                         <Edit />

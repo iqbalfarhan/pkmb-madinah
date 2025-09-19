@@ -1,9 +1,9 @@
 import FormControl from '@/components/form-control';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { router, useForm } from '@inertiajs/react';
+import { router, useForm, usePage } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
@@ -15,12 +15,14 @@ type Props = PropsWithChildren & {
 const SubjectFilterSheet: FC<Props> = ({ children }) => {
   const [open, setOpen] = useState(false);
 
+  const { defaultGroups } = usePage<{ defaultGroups: string[] }>().props;
+
   const { data, setData, get } = useForm({
-    name: '',
+    group: '',
   });
 
   const applyFilter = () => {
-    get(route('subject.index'), {
+    get('', {
       preserveScroll: true,
       preserveState: true,
       replace: true,
@@ -32,11 +34,11 @@ const SubjectFilterSheet: FC<Props> = ({ children }) => {
   };
 
   const resetFilter = () => {
-    setData('name', '');
+    setData('group', '');
     router.get(
-      route('subject.index'),
+      '',
       {
-        name: '',
+        group: '',
       },
       {
         preserveScroll: true,
@@ -63,8 +65,19 @@ const SubjectFilterSheet: FC<Props> = ({ children }) => {
               applyFilter();
             }}
           >
-            <FormControl label="Nama Subject">
-              <Input type="text" placeholder="Name subject" value={data.name} onChange={(e) => setData('name', e.target.value)} />
+            <FormControl label="Group mata pelajaran">
+              <Select value={data.group} onValueChange={(e) => setData('group', e)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Pilih group" />
+                </SelectTrigger>
+                <SelectContent>
+                  {defaultGroups.map((group) => (
+                    <SelectItem key={group} value={group}>
+                      {group}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </FormControl>
           </form>
         </ScrollArea>

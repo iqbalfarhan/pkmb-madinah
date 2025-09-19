@@ -39,10 +39,10 @@ class PermissionSeeder extends Seeder
             'academicyear' => [
                 'menu academicyear' => ['admin'],
                 'index academicyear' => ['admin'],
-                'show academicyear' => ['admin'],
+                'show academicyear' => [],
                 'create academicyear' => ['admin'],
                 'update academicyear' => ['admin'],
-                'delete academicyear' => ['admin'],
+                'delete academicyear' => [],
             ],
             'assignment' => [
                 'menu assignment' => ['admin', 'guru'],

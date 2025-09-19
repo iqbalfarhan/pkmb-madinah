@@ -77,6 +77,22 @@ const LessonFormSheet: FC<Props> = ({ children, lesson, purpose }) => {
               handleSubmit();
             }}
           >
+            {classrooms.length > 1 && (
+              <FormControl label="Kelas">
+                <Select value={data.classroom_id.toString()} onValueChange={(e) => setData('classroom_id', Number(e))}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih guru" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {classrooms.map((classroom) => (
+                      <SelectItem key={classroom.id} value={classroom.id.toString()}>
+                        {classroom.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            )}
             <FormControl label="Mata pelajaran">
               <Select value={data.subject_id.toString()} onValueChange={(e) => setData('subject_id', e)}>
                 <SelectTrigger>
@@ -105,22 +121,6 @@ const LessonFormSheet: FC<Props> = ({ children, lesson, purpose }) => {
                 </SelectContent>
               </Select>
             </FormControl>
-            {classrooms.length > 1 && (
-              <FormControl label="Kelas">
-                <Select value={data.classroom_id.toString()} onValueChange={(e) => setData('classroom_id', Number(e))}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Pilih guru" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {classrooms.map((classroom) => (
-                      <SelectItem key={classroom.id} value={classroom.id.toString()}>
-                        {classroom.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormControl>
-            )}
           </form>
         </ScrollArea>
         <SheetFooter>

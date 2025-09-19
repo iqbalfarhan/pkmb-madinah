@@ -1,9 +1,11 @@
 import FormControl from '@/components/form-control';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { router, useForm } from '@inertiajs/react';
+import { Classroom } from '@/types/classroom';
+import { Lesson } from '@/types/lesson';
+import { router, useForm, usePage } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
@@ -12,15 +14,21 @@ type Props = PropsWithChildren & {
   query: { [key: string]: string };
 };
 
-const MaterialFilterSheet: FC<Props> = ({ children }) => {
+const MaterialFilterSheet: FC<Props> = ({ children, query }) => {
   const [open, setOpen] = useState(false);
 
+  const { lessons = [], classrooms = [] } = usePage<{
+    lessons: Lesson[];
+    classrooms: Classroom[];
+  }>().props;
+
   const { data, setData, get } = useForm({
-    name: '',
+    classroom_id: query?.classroom_id ?? '',
+    lesson_id: query?.lesson_id ?? '',
   });
 
   const applyFilter = () => {
-    get(route('material.index'), {
+    get('', {
       preserveScroll: true,
       preserveState: true,
       replace: true,
@@ -32,11 +40,13 @@ const MaterialFilterSheet: FC<Props> = ({ children }) => {
   };
 
   const resetFilter = () => {
-    setData('name', '');
+    setData('classroom_id', '');
+    setData('lesson_id', '');
     router.get(
-      route('material.index'),
+      '',
       {
-        name: '',
+        classroom_id: '',
+        lesson_id: '',
       },
       {
         preserveScroll: true,
@@ -63,9 +73,40 @@ const MaterialFilterSheet: FC<Props> = ({ children }) => {
               applyFilter();
             }}
           >
-            <FormControl label="Nama Material">
-              <Input type="text" placeholder="Name material" value={data.name} onChange={(e) => setData('name', e.target.value)} />
-            </FormControl>
+            {classrooms.length > 1 && (
+              <FormControl label="Kelas">
+                <Select value={data.classroom_id.toString()} onValueChange={(value) => setData('classroom_id', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih kelas" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {classrooms.map((kelas) => (
+                      <SelectItem key={kelas.id} value={kelas.id.toString()}>
+                        {kelas.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            )}
+            {lessons.length > 1 && (
+              <FormControl label="Pelajaran">
+                <Select value={data.lesson_id.toString()} onValueChange={(value) => setData('lesson_id', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih kelas" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {lessons
+                      .filter((lesson) => lesson.classroom_id.toString() === data.classroom_id.toString())
+                      .map((lesson) => (
+                        <SelectItem key={lesson.id} value={lesson.id.toString()}>
+                          {lesson.name}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            )}
           </form>
         </ScrollArea>
         <SheetFooter>

@@ -8,6 +8,7 @@ use App\Models\Family;
 use App\Models\Grade;
 use App\Models\Setting;
 use App\Models\Student;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -19,11 +20,16 @@ class PpdbController extends Controller
     public function index(Request $request)
     {
         $data = Student::query()
-            ->with(['grade', 'prevschool']);
-        // ->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+            ->with(['grade', 'prevschool'])
+            ->whereIn('status', ['draft', 'ppdb'])
+            ->when($request->status, function($q, $v) {
+                $q->where('status', $v);
+            }, function ($q) {
+                $q->where('status', 'ppdb');
+            });
 
         return Inertia::render('ppdb/index', [
-            'ppdbs' => $data->ppdb()->get(),
+            'ppdbs' => $data->get(),
             'query' => $request->input(),
             'statusLists' => Student::$statusLists,
             'ppdbSetting' => Setting::where('key', 'PPDB_OPEN')->first(),
@@ -119,5 +125,12 @@ class PpdbController extends Controller
     public function destroy(Student $ppdb)
     {
         $ppdb->delete();
+    }
+
+    public function download(Student $ppdb)
+    {
+        return Pdf::loadView('pdf.pendaftaran', [
+            'ppdb' => $ppdb->load(['family', 'prevschool', 'media'])
+        ])->stream();
     }
 }

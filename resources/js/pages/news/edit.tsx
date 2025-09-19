@@ -9,11 +9,13 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { copyMarkdownImage, em, handlePasteScreenshot } from '@/lib/utils';
+import { Media } from '@/types';
 import { News } from '@/types/news';
 import { Link, router, useForm } from '@inertiajs/react';
-import { Folder, Info } from 'lucide-react';
+import { Folder, Info, Trash2, Upload } from 'lucide-react';
 import { FC, useEffect } from 'react';
 import { toast } from 'sonner';
+import NewsUploadForm from './components/news-upload-form';
 
 type Props = {
   news: News;
@@ -53,6 +55,10 @@ const EditNews: FC<Props> = ({ news }) => {
     return cleanup;
   }, [news.id]);
 
+  const handleDeleteMedia = (m: Media) => {
+    router.delete(route('document.destroy', m.id));
+  };
+
   return (
     <AppLayout
       title="Edit News"
@@ -90,18 +96,35 @@ const EditNews: FC<Props> = ({ news }) => {
               <CardDescription>Upload image file maximum size 2Mb</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-3 gap-1.5">
+              <div className="grid grid-cols-2 gap-1.5">
                 {(news.media ?? []).length > 0 && (
                   <>
                     {news.media.map((m) => (
-                      <Avatar className="size-full rounded-lg" onClick={() => copyMarkdownImage(m.name, m.original_url)}>
-                        <AvatarImage src={m.preview_url} className="object-cover" />
-                      </Avatar>
+                      <div className="group relative">
+                        <Avatar className="size-full rounded-lg" onClick={() => copyMarkdownImage(m.name, m.original_url)}>
+                          <AvatarImage src={m.preview_url} className="object-cover" />
+                        </Avatar>
+                        <Button
+                          size={'icon'}
+                          variant={'destructive'}
+                          className="absolute right-1 bottom-1 hidden group-hover:flex"
+                          onClick={() => handleDeleteMedia(m)}
+                        >
+                          <Trash2 />
+                        </Button>
+                      </div>
                     ))}
                   </>
                 )}
               </div>
             </CardContent>
+            <CardFooter>
+              <NewsUploadForm news={news}>
+                <Button>
+                  <Upload /> Upload gambar
+                </Button>
+              </NewsUploadForm>
+            </CardFooter>
           </Card>
 
           <Alert>

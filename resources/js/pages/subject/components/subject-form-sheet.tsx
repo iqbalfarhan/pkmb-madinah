@@ -66,7 +66,7 @@ const SubjectFormSheet: FC<Props> = ({ children, subject, purpose }) => {
               handleSubmit();
             }}
           >
-            <FormControl label="Nama subject">
+            <FormControl label="Group mata pelajaran">
               <Select value={data.group} onValueChange={(e) => setData('group', e)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih group" />
@@ -80,7 +80,7 @@ const SubjectFormSheet: FC<Props> = ({ children, subject, purpose }) => {
                 </SelectContent>
               </Select>
             </FormControl>
-            <FormControl label="Nama subject">
+            <FormControl label="Nama mata pelajaran">
               <Input type="text" placeholder="Name" value={data.name} onChange={(e) => setData('name', e.target.value)} />
             </FormControl>
           </form>

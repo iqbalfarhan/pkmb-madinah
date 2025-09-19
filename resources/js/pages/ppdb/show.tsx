@@ -8,7 +8,7 @@ import { dateDFY, numberPad } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Student } from '@/types/student';
 import { router, usePage } from '@inertiajs/react';
-import { ArrowRight, Wallet } from 'lucide-react';
+import { ArrowRight, Download, Wallet } from 'lucide-react';
 import { FC } from 'react';
 import FamilyCardContent from '../family/components/family-card-content';
 import StudentMediaTable from '../student/components/student-media-table';
@@ -42,6 +42,12 @@ const ShowPpdb: FC<Props> = ({ ppdb }) => {
         <>
           <Button variant={'secondary'} disabled>
             Kode pendaftaran: {`#${numberPad(ppdb.id)}`}
+          </Button>
+          <Button asChild>
+            <a href={route('ppdb.download', ppdb.id)}>
+              <Download />
+              Download form
+            </a>
           </Button>
         </>
       }

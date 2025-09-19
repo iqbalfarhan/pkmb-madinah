@@ -11,7 +11,7 @@ const FooterSection = () => {
     <SectionContainer>
       <div className="grid gap-6 md:grid-cols-2">
         <div className="flex flex-col space-y-6">
-          <AppLogoIcon className="size-12 fill-primary" />
+          <AppLogoIcon className="size-16 fill-primary" />
           <div className="space-y-0">
             <h1 className="text-xl font-semibold">{settings?.SCHOOL_NAME}</h1>
             <p className="text-muted-foreground">{settings?.SCHOOL_ADDRESS}</p>

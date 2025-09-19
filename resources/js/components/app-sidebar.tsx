@@ -180,13 +180,13 @@ export function AppSidebar() {
                   available: menus.grade,
                 },
                 {
-                  title: 'List mata pelajaran',
+                  title: 'Mata pelajaran',
                   href: route('subject.index'),
                   icon: Book,
                   available: menus.subject,
                 },
                 {
-                  title: 'Daftar ekstrakurikuler',
+                  title: 'Ekstrakulikuler',
                   href: route('extracurricular.index'),
                   icon: Palette,
                   available: menus.extracurricular,

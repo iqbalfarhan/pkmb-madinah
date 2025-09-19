@@ -3,6 +3,11 @@
 use App\Http\Controllers\AbsentController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\BillController;
+use App\Http\Controllers\FamilyController;
+use App\Http\Controllers\PpdbController;
+use App\Http\Controllers\PrevschoolController;
+use App\Http\Middleware\PpdbMiddleware;
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('student/{student}/rapor', [StudentController::class, 'rapor'])->name('student.rapor');
@@ -31,4 +36,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('absent/bulk', [AbsentController::class, 'bulkUpdate'])->name('absent.bulk.update');
     Route::delete('absent/bulk', [AbsentController::class, 'bulkDelete'])->name('absent.bulk.destroy');
     Route::apiResource('absent', AbsentController::class);
+
+    Route::get('ppdb/{ppdb}/download', [PpdbController::class, 'download'])->name('ppdb.download');
+    Route::middleware(PpdbMiddleware::class)->resource('ppdb', PpdbController::class);
+
+    Route::put('family/bulk', [FamilyController::class, 'bulkUpdate'])->name('family.bulk.update');
+    Route::delete('family/bulk', [FamilyController::class, 'bulkDelete'])->name('family.bulk.destroy');
+    Route::apiResource('family', FamilyController::class);
+
+    Route::put('prevschool/bulk', [PrevschoolController::class, 'bulkUpdate'])->name('prevschool.bulk.update');
+    Route::delete('prevschool/bulk', [PrevschoolController::class, 'bulkDelete'])->name('prevschool.bulk.destroy');
+    Route::apiResource('prevschool', PrevschoolController::class);
+    
+    Route::put('bill/bulk', [BillController::class, 'bulkUpdate'])->name('bill.bulk.update');
+    Route::delete('bill/bulk', [BillController::class, 'bulkDelete'])->name('bill.bulk.destroy');
+    Route::apiResource('bill', BillController::class);
 });

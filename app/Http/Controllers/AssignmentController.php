@@ -7,6 +7,7 @@ use App\Http\Requests\BulkUpdateAssignmentRequest;
 use App\Http\Requests\StoreAssignmentRequest;
 use App\Http\Requests\UpdateAssignmentRequest;
 use App\Models\Assignment;
+use App\Models\Classroom;
 use App\Models\Lesson;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -19,13 +20,21 @@ class AssignmentController extends Controller
     public function index(Request $request)
     {
         $data = Assignment::query()
-            ->with(['lesson']);
-        // ->when($request->name, fn($q, $v) => $q->where('name', 'like', "%$v%"));
+            ->with(['lesson'])
+            ->when($request->classroom_id, function ($q, $v) {
+                $q->whereHas('lesson', function ($lessonQuery) use ($v) {
+                    $lessonQuery->where('classroom_id', $v);
+                });
+            })
+            ->when($request->lesson_id, function ($q, $v) {
+                $q->where('lesson_id',  $v);
+            });
 
         return Inertia::render('assignment/index', [
             'assignments' => $data->get(),
             'query' => $request->input(),
             'lessons' => Lesson::get(),
+            'classrooms' => Classroom::get(),
             'permissions' => [
                 'canAdd' => $this->user->can('create assignment'),
                 'canUpdate' => $this->user->can('update assignment'),

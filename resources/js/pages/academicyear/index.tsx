@@ -162,13 +162,13 @@ const AcademicyearList: FC<Props> = ({ academicyears, query }) => {
                       </Link>
                     </Button>
                   )}
-                  {permissions?.canUpdate && (
+                  {/* {permissions?.canUpdate && (
                     <AcademicyearFormSheet purpose="edit" academicyear={academicyear}>
                       <Button variant={'ghost'} size={'icon'}>
                         <Edit />
                       </Button>
                     </AcademicyearFormSheet>
-                  )}
+                  )} */}
                   {permissions?.canDelete && (
                     <AcademicyearDeleteDialog academicyear={academicyear}>
                       <Button variant={'ghost'} size={'icon'}>

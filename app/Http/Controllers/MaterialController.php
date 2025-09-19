@@ -7,6 +7,7 @@ use App\Http\Requests\BulkUpdateMaterialRequest;
 use App\Http\Requests\StoreMaterialRequest;
 use App\Http\Requests\UpdateMaterialRequest;
 use App\Http\Requests\UploadMaterialMediaRequest;
+use App\Models\Classroom;
 use App\Models\Lesson;
 use App\Models\Material;
 use Illuminate\Http\Request;
@@ -19,12 +20,22 @@ class MaterialController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Material::query()->with('lesson')->when($request->name, fn ($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = Material::query()
+            ->with(['lesson'])
+            ->when($request->classroom_id, function ($q, $v) {
+                $q->whereHas('lesson', function ($lessonQuery) use ($v) {
+                    $lessonQuery->where('classroom_id', $v);
+                });
+            })
+            ->when($request->lesson_id, function ($q, $v) {
+                $q->where('lesson_id',  $v);
+            });
 
         return Inertia::render('material/index', [
             'materials' => $data->get(),
             'query' => $request->input(),
             'lessons' => Lesson::get(),
+            'classrooms' => Classroom::get(),
             'permissions' => [
                 'canAdd' => $this->user->can('create material'),
                 'canUpdate' => $this->user->can('update material'),

@@ -3,12 +3,10 @@
 use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AssignmentController;
-use App\Http\Controllers\BillController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\ExamscoreController;
 use App\Http\Controllers\ExtracurricularController;
-use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\MaterialController;
@@ -17,15 +15,12 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentTypeController;
 use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\PpdbController;
-use App\Http\Controllers\PrevschoolController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
-use App\Http\Middleware\PpdbMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
@@ -84,18 +79,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('material/bulk', [MaterialController::class, 'bulkDelete'])->name('material.bulk.destroy');
     Route::apiResource('material', MaterialController::class);
 
-    Route::middleware(PpdbMiddleware::class)->resource('ppdb', PpdbController::class);
-
-    Route::put('family/bulk', [FamilyController::class, 'bulkUpdate'])->name('family.bulk.update');
-    Route::delete('family/bulk', [FamilyController::class, 'bulkDelete'])->name('family.bulk.destroy');
-    Route::apiResource('family', FamilyController::class);
-
-    Route::put('prevschool/bulk', [PrevschoolController::class, 'bulkUpdate'])->name('prevschool.bulk.update');
-    Route::delete('prevschool/bulk', [PrevschoolController::class, 'bulkDelete'])->name('prevschool.bulk.destroy');
-    Route::apiResource('prevschool', PrevschoolController::class);
-    Route::put('bill/bulk', [BillController::class, 'bulkUpdate'])->name('bill.bulk.update');
-    Route::delete('bill/bulk', [BillController::class, 'bulkDelete'])->name('bill.bulk.destroy');
-    Route::apiResource('bill', BillController::class);
+    
 
     Route::put('assignment/bulk', [AssignmentController::class, 'bulkUpdate'])->name('assignment.bulk.update');
     Route::delete('assignment/bulk', [AssignmentController::class, 'bulkDelete'])->name('assignment.bulk.destroy');

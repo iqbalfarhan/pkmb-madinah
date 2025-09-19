@@ -14,7 +14,7 @@ type Props = {
 };
 
 const LessonMaterialsTab: FC<Props> = ({ materials }) => {
-  const { lesson, permissions } = usePage<SharedData & { lesson: Lesson }>().props;
+  const { permissions } = usePage<SharedData & { lesson: Lesson }>().props;
   return (
     <div className="space-y-6">
       <HeadingSmall
@@ -25,7 +25,7 @@ const LessonMaterialsTab: FC<Props> = ({ materials }) => {
             {permissions?.canAdd && (
               <div className="flex items-center gap-2">
                 <Input placeholder="Cari materi" />
-                <MaterialFormSheet purpose="create" lessonId={lesson.id}>
+                <MaterialFormSheet purpose="create">
                   <Button>Tambah materi baru</Button>
                 </MaterialFormSheet>
               </div>

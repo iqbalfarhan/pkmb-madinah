@@ -93,7 +93,8 @@ const AssignmentList: FC<Props> = ({ assignments, query }) => {
                 </Label>
               </Button>
             </TableHead>
-            <TableHead>Pelajaran - kelas</TableHead>
+            <TableHead>Kelas</TableHead>
+            <TableHead>Pelajaran</TableHead>
             <TableHead>Judul tugas</TableHead>
             <TableHead>Bobot nilai</TableHead>
             <TableHead>Actions</TableHead>
@@ -120,15 +121,11 @@ const AssignmentList: FC<Props> = ({ assignments, query }) => {
                     </Label>
                   </Button>
                 </TableCell>
+                <TableCell>{assignment.lesson.classroom.name}</TableCell>
                 <TableCell>
                   <Link href={route('lesson.show', assignment.lesson_id)}>{assignment.lesson.name}</Link>
                 </TableCell>
-                <TableCell>
-                  <div className="flex flex-col">
-                    <h4>{strLimit(assignment.name)}</h4>
-                    <span className="text-muted-foreground">{strLimit(assignment.description)}</span>
-                  </div>
-                </TableCell>
+                <TableCell>{strLimit(assignment.name)}</TableCell>
                 <TableCell>{assignment.rate}%</TableCell>
                 <TableCell>
                   {permissions?.canShow && (

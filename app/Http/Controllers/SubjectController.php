@@ -17,7 +17,10 @@ class SubjectController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Subject::query()->when($request->name, fn ($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = Subject::query()
+            ->when($request->group, function ($q, $v) {
+                $q->where('group', $v);
+            });
 
         return Inertia::render('subject/index', [
             'subjects' => $data->get(),
