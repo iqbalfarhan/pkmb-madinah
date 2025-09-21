@@ -27,7 +27,7 @@ class AssignmentController extends Controller
                 });
             })
             ->when($request->lesson_id, function ($q, $v) {
-                $q->where('lesson_id',  $v);
+                $q->where('lesson_id', $v);
             });
 
         return Inertia::render('assignment/index', [

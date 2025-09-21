@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
@@ -185,7 +185,7 @@ class ReportController extends Controller
         });
 
         $report->update([
-            'data' => $mockup
+            'data' => $mockup,
         ]);
     }
 

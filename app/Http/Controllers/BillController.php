@@ -21,7 +21,7 @@ class BillController extends Controller
     {
         $data = Bill::query()
             ->with(['student', 'payment_type'])
-            ->whereHas('student', function($q){
+            ->whereHas('student', function ($q) {
                 $q->where('status', 'aktif');
             })
             ->orderBy('id', 'desc')

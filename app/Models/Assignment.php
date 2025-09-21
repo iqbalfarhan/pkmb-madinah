@@ -28,7 +28,7 @@ class Assignment extends Model
     ];
 
     public $casts = [
-        'uploadable' => 'boolean'
+        'uploadable' => 'boolean',
     ];
 
     public function lesson()

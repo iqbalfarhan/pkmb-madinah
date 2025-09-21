@@ -1,12 +1,12 @@
 <?php
 
 use App\Http\Controllers\AbsentController;
-use App\Http\Controllers\ReportController;
-use App\Http\Controllers\StudentController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\PpdbController;
 use App\Http\Controllers\PrevschoolController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\StudentController;
 use App\Http\Middleware\PpdbMiddleware;
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -47,7 +47,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('prevschool/bulk', [PrevschoolController::class, 'bulkUpdate'])->name('prevschool.bulk.update');
     Route::delete('prevschool/bulk', [PrevschoolController::class, 'bulkDelete'])->name('prevschool.bulk.destroy');
     Route::apiResource('prevschool', PrevschoolController::class);
-    
+
     Route::put('bill/bulk', [BillController::class, 'bulkUpdate'])->name('bill.bulk.update');
     Route::delete('bill/bulk', [BillController::class, 'bulkDelete'])->name('bill.bulk.destroy');
     Route::apiResource('bill', BillController::class);

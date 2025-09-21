@@ -99,7 +99,7 @@ class ScoreController extends Controller
     public function uploadAnswer(UploadScoreRequest $request)
     {
         $data = $request->validated();
-        
+
         $lesson = Assignment::find($data['assignment_id'])->lesson;
         $data['lesson_id'] = $lesson->id;
         $score = Score::create($data);

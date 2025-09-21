@@ -23,7 +23,7 @@ class PpdbController extends Controller
         $data = Student::query()
             ->with(['grade', 'prevschool'])
             ->whereIn('status', ['draft', 'ppdb'])
-            ->when($request->status, function($q, $v) {
+            ->when($request->status, function ($q, $v) {
                 $q->where('status', $v);
             }, function ($q) {
                 $q->where('status', 'ppdb');
@@ -132,7 +132,7 @@ class PpdbController extends Controller
     public function download(Student $ppdb)
     {
         return Pdf::loadView('pdf.pendaftaran', [
-            'ppdb' => $ppdb->load(['family', 'prevschool', 'media'])
+            'ppdb' => $ppdb->load(['family', 'prevschool', 'media']),
         ])->stream();
     }
 }

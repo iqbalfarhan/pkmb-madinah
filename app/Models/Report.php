@@ -33,7 +33,7 @@ class Report extends Model
     ];
 
     public $appends = [
-        'name'
+        'name',
     ];
 
     public static $reportTypes = [
@@ -60,13 +60,13 @@ class Report extends Model
 
     public function getNameAttribute()
     {
-        $filename = implode(" ", [
+        $filename = implode(' ', [
             $this->created_at->format('ymdhis'),
             'rapor',
             $this->report_type,
             $this->student->name,
             $this->classroom->name,
-            $this->academic_year->label
+            $this->academic_year->label,
         ]);
 
         return Str::slug($filename);

@@ -59,8 +59,8 @@ class NewsController extends Controller
         return Inertia::render('news/show', [
             'news' => $news->load(['user', 'media']),
             'permissions' => [
-                "canUpdate" => $this->user->can('update news')
-            ]
+                'canUpdate' => $this->user->can('update news'),
+            ],
         ]);
     }
 
@@ -72,8 +72,8 @@ class NewsController extends Controller
         return Inertia::render('news/edit', [
             'news' => $news->load(['user', 'media']),
             'permissions' => [
-                "canUpdate" => $this->user->can('update news')
-            ]
+                'canUpdate' => $this->user->can('update news'),
+            ],
         ]);
     }
 

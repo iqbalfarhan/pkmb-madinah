@@ -79,8 +79,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('material/bulk', [MaterialController::class, 'bulkDelete'])->name('material.bulk.destroy');
     Route::apiResource('material', MaterialController::class);
 
-    
-
     Route::put('assignment/bulk', [AssignmentController::class, 'bulkUpdate'])->name('assignment.bulk.update');
     Route::delete('assignment/bulk', [AssignmentController::class, 'bulkDelete'])->name('assignment.bulk.destroy');
     Route::apiResource('assignment', AssignmentController::class);

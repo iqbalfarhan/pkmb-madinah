@@ -24,13 +24,13 @@ class LessonController extends Controller
     public function index(Request $request)
     {
         $data = Lesson::query()
-        ->with(['classroom', 'subject', 'user'])
-        ->when($request->classroom_id, function ($q, $v) {
-            $q->where('classroom_id', $v);
-        })
-        ->when($request->subject_id, function ($q, $v) {
-            $q->where('subject_id', $v);
-        });
+            ->with(['classroom', 'subject', 'user'])
+            ->when($request->classroom_id, function ($q, $v) {
+                $q->where('classroom_id', $v);
+            })
+            ->when($request->subject_id, function ($q, $v) {
+                $q->where('subject_id', $v);
+            });
 
         return Inertia::render('lesson/index', [
             'lessons' => $data->get(),

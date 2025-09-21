@@ -22,7 +22,7 @@ class RefreshNilaiReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => 'required|in:nilai'
+            'type' => 'required|in:nilai',
         ];
     }
 }
