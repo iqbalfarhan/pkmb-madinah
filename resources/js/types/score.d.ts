@@ -1,3 +1,4 @@
+import { Media } from '.';
 import { Student } from './student';
 
 export type Score = {
@@ -6,6 +7,7 @@ export type Score = {
   lesson_id: number;
   assignment_id: number;
   score: number;
+  answer: string;
   remark: string;
   student: Student;
   lesson: Lesson;

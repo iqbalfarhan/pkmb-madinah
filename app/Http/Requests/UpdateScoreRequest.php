@@ -16,6 +16,7 @@ class UpdateScoreRequest extends FormRequest
         return [
             'score' => 'required|numeric',
             'remark' => 'nullable|string|max:255',
+            'answer' => 'nullable|string|max:255',
         ];
     }
 }

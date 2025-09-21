@@ -8,6 +8,7 @@ use App\Http\Requests\StoreBillRequest;
 use App\Http\Requests\UpdateBillRequest;
 use App\Models\Bill;
 use App\Models\PaymentType;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -18,18 +19,19 @@ class BillController extends Controller
      */
     public function index(Request $request)
     {
-        $student_ids = $this->user->students->pluck('id')->toArray();
         $data = Bill::query()
             ->with(['student', 'payment_type'])
+            ->whereHas('student', function($q){
+                $q->where('status', 'aktif');
+            })
             ->orderBy('id', 'desc')
-            ->whereIn('id', $student_ids)
             ->when($request->student_id, fn ($q, $v) => $q->where('student_id', $v))
             ->when($request->status, fn ($q, $v) => $q->where('status', $v));
 
         return Inertia::render('bill/index', [
             'bills' => $data->get(),
             'query' => $request->input(),
-            'students' => $this->user->students,
+            'students' => Student::aktif()->get(),
             'paymentTypes' => PaymentType::get(),
             'statusLists' => Bill::$statusLists,
             'permissions' => [

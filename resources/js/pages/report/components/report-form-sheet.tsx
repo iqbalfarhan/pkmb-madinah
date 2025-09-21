@@ -39,7 +39,7 @@ const ReportFormSheet: FC<Props> = ({ children, report, purpose }) => {
   >().props;
 
   const { data, setData, put, post, reset, processing } = useForm({
-    student_id: report?.student_id ?? students[0].id ?? '',
+    student_id: report?.student_id ?? students[0]?.id ?? '',
     academic_year_id: report?.academic_year_id ?? activeAcademicYear?.id.toString() ?? academicYears[0].id ?? 0,
     classroom_id: report?.classroom_id ?? classrooms[0].id ?? '',
     report_type: report?.report_type ?? '',

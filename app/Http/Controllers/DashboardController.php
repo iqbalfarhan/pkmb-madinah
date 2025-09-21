@@ -41,7 +41,11 @@ class DashboardController extends Controller
     {
         return Inertia::render('documentation', [
             'title' => 'App documentation',
-            'content' => file_get_contents(base_path('README.md')),
+            'superadmin' => file_get_contents(base_path('README.md')),
+            'admin' => file_get_contents(storage_path('manual/admin.md')),
+            'guru' => file_get_contents(storage_path('manual/teacher.md')),
+            'walikelas' => file_get_contents(storage_path('manual/walikelas.md')),
+            'orangtua' => file_get_contents(storage_path('manual/parent.md')),
         ]);
     }
 
@@ -49,16 +53,20 @@ class DashboardController extends Controller
     {
         $students = Student::where('user_id', auth()->id())->get();
         $data = Bill::query()
-            ->whereIn('student_id', $students->pluck('id')->toArray())
-            ->with(['student', 'payment_type']);
+            ->with(['student', 'payment_type'])
+            ->orderBy('id', 'desc')
+            ->whereIn('student_id', $students->pluck('id'))
+            ->when($request->student_id, fn ($q, $v) => $q->where('student_id', $v))
+            ->when($request->status, fn ($q, $v) => $q->where('status', $v));
 
         return Inertia::render('bill/index', [
             'bills' => $data->get(),
             'query' => $request->input(),
             'students' => $students,
             'paymentTypes' => PaymentType::get(),
+            'statusLists' => Bill::$statusLists,
             'permissions' => [
-                'canAdd' => $this->user->can('create bill'),
+                'canAdd' => false,
                 'canUpdate' => $this->user->can('update bill'),
                 'canDelete' => $this->user->can('delete bill'),
                 'canShow' => $this->user->can('show bill'),

@@ -6,6 +6,7 @@ use App\Http\Requests\BulkDeleteScoreRequest;
 use App\Http\Requests\BulkUpdateScoreRequest;
 use App\Http\Requests\StoreScoreRequest;
 use App\Http\Requests\UpdateScoreRequest;
+use App\Http\Requests\UploadScoreRequest;
 use App\Models\Assignment;
 use App\Models\Lesson;
 use App\Models\Score;
@@ -93,5 +94,16 @@ class ScoreController extends Controller
     {
         $data = $request->validated();
         Score::whereIn('id', $data['score_ids'])->delete();
+    }
+
+    public function uploadAnswer(UploadScoreRequest $request)
+    {
+        $data = $request->validated();
+        
+        $lesson = Assignment::find($data['assignment_id'])->lesson;
+        $data['lesson_id'] = $lesson->id;
+        $score = Score::create($data);
+
+        $score->addMedia($data['file'])->toMediaCollection();
     }
 }

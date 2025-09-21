@@ -1,15 +1,17 @@
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 import { Student } from '@/types/student';
 import { FC } from 'react';
 
 type Props = {
   students?: Student[];
+  className?: string;
 };
 
-const ClassroomStudentWidget: FC<Props> = ({ students }) => {
+const ClassroomStudentWidget: FC<Props> = ({ students, className }) => {
   return (
-    <Card>
+    <Card className={cn(className)}>
       <CardHeader>
         <CardTitle>Anggota kelas</CardTitle>
         <CardDescription>{students?.length} students enrolled</CardDescription>

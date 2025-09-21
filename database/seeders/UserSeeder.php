@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'username' => 'superadmin',
             'password' => 'password',
         ]);
-        $superadmin->assignRole('superadmin');
+        $superadmin->assignRole(['superadmin', 'guru', 'admin', 'orangtua']);
 
         // buat akun admin
 

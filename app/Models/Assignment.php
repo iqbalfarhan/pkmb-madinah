@@ -16,6 +16,7 @@ class Assignment extends Model
         'lesson_id',
         'name',
         'description',
+        'uploadable',
         'rate'
     ];
     */
@@ -24,6 +25,10 @@ class Assignment extends Model
         'id',
         'created_at',
         'updated_at',
+    ];
+
+    public $casts = [
+        'uploadable' => 'boolean'
     ];
 
     public function lesson()

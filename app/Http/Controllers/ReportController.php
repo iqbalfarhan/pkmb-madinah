@@ -223,19 +223,19 @@ class ReportController extends Controller
                 'data' => $data,
                 'settings' => Setting::pluck('value', 'key'),
                 'report' => $report,
-            ])->stream();
+            ])->stream($report->name);
         } elseif ($report->report_type == 'nilai') {
             return Pdf::setOption('paper', 'a4')->loadView('pdf.nilai', [
                 'data' => $data,
                 'settings' => Setting::pluck('value', 'key'),
                 'report' => $report,
-            ])->stream();
+            ])->stream($report->name);
         } elseif ($report->report_type == 'tahfidz') {
             return Pdf::setOption('paper', 'a4')->loadView('pdf.tahfidz', [
                 'data' => $data,
                 'settings' => Setting::pluck('value', 'key'),
                 'report' => $report,
-            ])->stream();
+            ])->stream($report->name);
         }
 
         return abort(404);

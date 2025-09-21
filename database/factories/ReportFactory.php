@@ -17,7 +17,7 @@ class ReportFactory extends Factory
         return [
             'classroom_id' => Classroom::pluck('id')->random(),
             'academic_year_id' => AcademicYear::pluck('id')->random(),
-            'student_id' => Student::pluck('id')->random(),
+            'student_id' => Student::aktif()->pluck('id')->random(),
             'report_type' => fake()->randomElement(Report::$reportTypes),
             'data' => null,
         ];

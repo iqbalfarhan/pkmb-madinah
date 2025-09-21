@@ -16,7 +16,7 @@ class ActivityFactory extends Factory
     {
         return [
             'extracurricular_id' => Extracurricular::pluck('id')->random(),
-            'student_id' => Student::pluck('id')->random(),
+            'student_id' => Student::aktif()->pluck('id')->random(),
             'academic_year_id' => AcademicYear::pluck('id')->random(),
             'description' => fake()->sentence(),
         ];

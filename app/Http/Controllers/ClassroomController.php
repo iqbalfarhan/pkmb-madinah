@@ -67,10 +67,12 @@ class ClassroomController extends Controller
         return Inertia::render('classroom/show', [
             'classroom' => $classroom->load('grade', 'students', 'students.absents', 'user', 'lessons', 'academic_year'),
             'tabname' => 'show',
+            'assignments' => $classroom->assignments->load(['lesson']),
             'users' => [$classroom->user],
             'grades' => [$classroom->grade],
             'permissions' => [
                 'canUpdate' => $this->user->can('update classroom'),
+                'canUpdateLesson' => $this->user->can('update lesson'),
             ],
         ]);
     }

@@ -15,7 +15,7 @@ class ScoreFactory extends Factory
     public function definition(): array
     {
         return [
-            'student_id' => Student::pluck('id')->random(),
+            'student_id' => Student::aktif()->pluck('id')->random(),
             'lesson_id' => Lesson::pluck('id')->random(),
             'assignment_id' => Assignment::pluck('id')->random(),
             'score' => fake()->randomFloat(2, 0, 100),

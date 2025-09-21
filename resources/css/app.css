@@ -192,4 +192,7 @@
   .grid-responsive {
     @apply md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
   }
+  .masonry {
+    @apply gap-6 sm:columns-2 md:columns-3 lg:columns-4;
+  }
 }

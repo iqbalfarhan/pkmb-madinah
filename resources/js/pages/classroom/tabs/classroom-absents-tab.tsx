@@ -7,8 +7,8 @@ import AbsentDeleteDialog from '@/pages/absent/components/absent-delete-dialog';
 import AbsentFormSheet from '@/pages/absent/components/absent-form-sheet';
 import { SharedData } from '@/types';
 import { Absent } from '@/types/absent';
-import { Link, usePage } from '@inertiajs/react';
-import { Edit, Folder, Plus, Trash2 } from 'lucide-react';
+import { usePage } from '@inertiajs/react';
+import { Edit, Plus, Trash2 } from 'lucide-react';
 import { FC } from 'react';
 import ClassroomLayout from '../layout/classroom-layout';
 
@@ -54,21 +54,14 @@ const ClassroomAbsentsTab: FC<Props> = ({ absents }) => {
               <TableCell>
                 <div className="flex items-center gap-2">
                   <Avatar className="size-6">
-                    <AvatarImage src={absent.student.avatar} />
+                    <AvatarImage src={absent.student?.avatar} />
                   </Avatar>
-                  <span>{absent.student.name}</span>
+                  <span>{absent.student?.name}</span>
                 </div>
               </TableCell>
               <TableCell>{absent.reason}</TableCell>
               <TableCell>{strLimit(absent.description, 40)}</TableCell>
               <TableCell>
-                {permissions?.canShow && (
-                  <Button variant={'ghost'} size={'icon'}>
-                    <Link href={route('absent.show', absent.id)}>
-                      <Folder />
-                    </Link>
-                  </Button>
-                )}
                 {permissions?.canUpdate && (
                   <AbsentFormSheet purpose="edit" absent={absent}>
                     <Button variant={'ghost'} size={'icon'}>

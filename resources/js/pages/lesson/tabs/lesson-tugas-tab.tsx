@@ -26,7 +26,7 @@ const LessonTugasTab = () => {
               <AssignmentFormSheet purpose="create">
                 <Button>
                   <Plus />
-                  Create new assignment
+                  Buat tugas baru
                 </Button>
               </AssignmentFormSheet>
             )}

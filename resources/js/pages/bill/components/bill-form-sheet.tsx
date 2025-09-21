@@ -24,7 +24,7 @@ type Props = PropsWithChildren & {
 const BillFormSheet: FC<Props> = ({ children, bill, purpose }) => {
   const [open, setOpen] = useState(false);
 
-  const { student, students, paymentTypes = [] } = usePage<{ student: Student; students: Student[]; paymentTypes: Paymenttype[] }>().props;
+  const { student, students = [], paymentTypes = [] } = usePage<{ student: Student; students: Student[]; paymentTypes: Paymenttype[] }>().props;
 
   const { data, setData, put, post, reset, processing } = useForm({
     student_id: bill?.student_id ?? student?.id ?? '',

@@ -2,7 +2,9 @@ import FormControl from '@/components/form-control';
 import SubmitButton from '@/components/submit-button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
@@ -12,6 +14,7 @@ import { FormPurpose } from '@/types';
 import { Assignment } from '@/types/assignment';
 import { Lesson } from '@/types/lesson';
 import { useForm, usePage } from '@inertiajs/react';
+import { CheckedState } from '@radix-ui/react-checkbox';
 import { AlertCircle, X } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
@@ -31,6 +34,7 @@ const AssignmentFormSheet: FC<Props> = ({ children, assignment, purpose }) => {
     name: assignment?.name ?? '',
     description: assignment?.description ?? '',
     rate: assignment?.rate ?? '',
+    uploadable: assignment?.uploadable as CheckedState,
   });
 
   const handleSubmit = () => {
@@ -96,6 +100,12 @@ const AssignmentFormSheet: FC<Props> = ({ children, assignment, purpose }) => {
             </FormControl>
             <FormControl label="Bobot nilai (dalam persen)">
               <Input type="number" step={0.01} placeholder="Rate" value={data.rate} onChange={(e) => setData('rate', e.target.value)} />
+            </FormControl>
+            <FormControl label="Peserta dapat upload jawaban">
+              <Label className="flex h-8 items-center gap-2">
+                <Checkbox checked={data.uploadable} onCheckedChange={(c) => setData('uploadable', c)} />
+                {data.uploadable ? 'Bisa upload jawaban' : 'Tidak bisa upload jawaban'}
+              </Label>
             </FormControl>
           </form>
         </ScrollArea>

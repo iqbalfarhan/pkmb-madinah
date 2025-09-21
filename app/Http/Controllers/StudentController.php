@@ -173,16 +173,21 @@ class StudentController extends Controller
         $data = Report::query()
             ->whereStudentId($student->id)
             ->with(['academic_year', 'classroom', 'student'])
+            ->when($request->academic_year_id, function ($q, $v) {
+                $q->where('academic_year_id', $v);
+            })
+            ->when($request->classroom_id, function ($q, $v) {
+                $q->where('classroom_id', $v);
+            })
             ->when($request->report_type, function ($q, $v) {
                 $q->where('report_type', $v);
             });
 
-        return Inertia::render('report/index', [
+        return Inertia::render('student/rapor', [
             'reports' => $data->get(),
             'query' => $request->input(),
-            // 'academicYears' => AcademicYear::get(),
             'academicYears' => [AcademicYear::active()],
-            'classrooms' => [$student->classroom],
+            'classrooms' => Classroom::whereIn('id', $data->get()->pluck('classroom_id'))->get(),
             'students' => [$student],
             'reportTypes' => Report::$reportTypes,
             'permissions' => [
@@ -207,12 +212,13 @@ class StudentController extends Controller
                 $q->where('reason', $v);
             });
 
-        return Inertia::render('absent/index', [
+        return Inertia::render('student/absent', [
             'absents' => $data->get(),
             'query' => $request->input(),
             'reasonLists' => Absent::$reasonLists,
+            'student' => $student,
             'students' => [$student],
-            'academic_years' => AcademicYear::get(),
+            'academicYears' => AcademicYear::get(),
             'permissions' => [
                 'canFilter' => false,
                 'canAdd' => $this->user->can('create absent'),
@@ -232,11 +238,12 @@ class StudentController extends Controller
                 $q->where('name', $v);
             });
 
-        return Inertia::render('activity/index', [
+        return Inertia::render('student/extracurricular', [
             'activities' => $data->get(),
             'query' => $request->input(),
             'students' => [$student],
-            'extracurriculars' => Extracurricular::get(),
+            'student' => $student,
+            'extracurriculars' => Extracurricular::with(['user'])->get(),
             'academicYears' => [AcademicYear::active()->first()],
             'permissions' => [
                 'canAdd' => $this->user->can('create activity'),
@@ -250,18 +257,22 @@ class StudentController extends Controller
     public function nilai(Request $request, Student $student)
     {
         $data = Score::query()
+            ->orderBy('lesson_id')
             ->with(['student', 'lesson', 'assignment'])
             ->whereStudentId($student->id)
             ->when($request->name, function ($q, $v) {
                 $q->where('name', $v);
             });
 
-        return Inertia::render('score/index', [
+        $lessons = Lesson::whereClassroomId($student->classroom_id)->get();
+
+        return Inertia::render('student/nilai', [
             'scores' => $data->get(),
             'query' => $request->input(),
             'students' => [$student],
-            'lessons' => Lesson::get(),
-            'assignments' => Assignment::get(),
+            'student' => $student,
+            'lessons' => $lessons,
+            'assignments' => Assignment::whereIn('lesson_id', $lessons->pluck('id'))->get(),
             'permissions' => [
                 'canAdd' => false,
                 'canUpdate' => $this->user->can('update score'),
@@ -277,10 +288,11 @@ class StudentController extends Controller
             ->with(['student', 'payment_type'])
             ->whereStudentId($student->id);
 
-        return Inertia::render('bill/index', [
+        return Inertia::render('student/bill', [
             'bills' => $data->get(),
             'student' => $student,
             'students' => [$student],
+            'statusLists' => Bill::$statusLists,
             'query' => $request->input(),
             'paymentTypes' => PaymentType::get(),
             'permissions' => [

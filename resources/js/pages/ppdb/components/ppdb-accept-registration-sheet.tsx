@@ -1,3 +1,4 @@
+import FormControl from '@/components/form-control';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,9 +10,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { em } from '@/lib/utils';
+import { Classroom } from '@/types/classroom';
 import { Student } from '@/types/student';
-import { router } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import { CheckCheck } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
@@ -22,12 +25,16 @@ type Props = PropsWithChildren & {
 
 const PpdbAcceptRegistrationSheet: FC<Props> = ({ children, ppdb }) => {
   const [open, setOpen] = useState(false);
+  const [classroomId, setClassroomId] = useState<Classroom['id'] | undefined>(undefined);
+
+  const { classrooms = [] } = usePage<{ classrooms: Classroom[] }>().props;
 
   const handleDelete = () => {
     router.put(
       route('student.update', ppdb.id),
       {
         status: 'aktif',
+        classroom_id: classroomId,
       },
       {
         preserveScroll: true,
@@ -50,6 +57,20 @@ const PpdbAcceptRegistrationSheet: FC<Props> = ({ children, ppdb }) => {
             This action cannot be undone. This will permanently delete ppdb and remove your data from our servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
+        <FormControl label="Pilih kelas untuk siswa baru">
+          <Select value={classroomId?.toString()} onValueChange={(value) => setClassroomId(Number(value))}>
+            <SelectTrigger>
+              <SelectValue placeholder="Pilih kelas" />
+            </SelectTrigger>
+            <SelectContent>
+              {classrooms.map((cl) => (
+                <SelectItem key={cl.id} value={cl.id.toString()}>
+                  {cl.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </FormControl>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={handleDelete}>

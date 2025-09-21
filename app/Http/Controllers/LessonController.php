@@ -65,7 +65,7 @@ class LessonController extends Controller
         $scores = Score::where('lesson_id', $lesson->id)->whereIn('student_id', $students->pluck('id'))->get();
 
         return Inertia::render('lesson/show', [
-            'lesson' => $lesson->load('materials', 'classroom', 'subject', 'user'),
+            'lesson' => $lesson->load('materials.media', 'classroom', 'subject', 'user'),
             'assignments' => $lesson->assignments,
             'lessons' => [$lesson],
             'students' => $students,
@@ -75,10 +75,13 @@ class LessonController extends Controller
             'classrooms' => [$lesson->classroom],
             'academicYears' => [AcademicYear::active()],
             'permissions' => [
-                'canAdd' => $this->user->can('create assignment'),
+                'canAdd' => $this->user->id === $lesson->user_id && $this->user->can('create assignment'),
+                'canUpload' => $this->user->id === $lesson->user_id && $this->user->can('create assignment'),
                 'canUpdate' => $this->user->can('update assignment'),
                 'canDelete' => $this->user->can('delete assignment'),
                 'canShow' => $this->user->can('show assignment'),
+
+                'canUpdateMaterial' => $this->user->can('update material'),
             ],
             'query' => $request->input(),
         ]);

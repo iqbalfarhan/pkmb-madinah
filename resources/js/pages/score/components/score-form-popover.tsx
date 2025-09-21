@@ -5,8 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
 import { em } from '@/lib/utils';
+import { SharedData } from '@/types';
 import { Score } from '@/types/score';
-import { useForm } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -21,6 +22,8 @@ type Props = PropsWithChildren & {
 
 const ScoreFormPopup: FC<Props> = ({ children, score, options }) => {
   const [open, setOpen] = useState(false);
+
+  const { permissions } = usePage<SharedData>().props;
 
   const { data, setData, post, put } = useForm({
     student_id: options?.student_id,
@@ -63,24 +66,26 @@ const ScoreFormPopup: FC<Props> = ({ children, score, options }) => {
           </Button>
         </PopoverTrigger>
       )}
-      <PopoverContent>
-        <form
-          className="space-y-6"
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit();
-          }}
-        >
-          <FormControl label="Nilai siswa">
-            <Input value={data.score} onChange={(e) => setData('score', e.target.value)} />
-          </FormControl>
-          <FormControl label="Komentar guru">
-            <Textarea placeholder="tulis komentar guru disini" value={data.remark} onChange={(e) => setData('remark', e.target.value)} />
-          </FormControl>
+      {permissions?.canUpdate && (
+        <PopoverContent>
+          <form
+            className="space-y-6"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit();
+            }}
+          >
+            <FormControl label="Nilai siswa">
+              <Input value={data.score} onChange={(e) => setData('score', e.target.value)} />
+            </FormControl>
+            <FormControl label="Komentar guru">
+              <Textarea placeholder="tulis komentar guru disini" value={data.remark} onChange={(e) => setData('remark', e.target.value)} />
+            </FormControl>
 
-          <SubmitButton />
-        </form>
-      </PopoverContent>
+            <SubmitButton />
+          </form>
+        </PopoverContent>
+      )}
     </Popover>
   );
 };

@@ -20,6 +20,7 @@ class Score extends Model implements HasMedia
     protected $fillable = [
         'student_id',
         'lesson_id',
+        'answer',
         'assignment_id',
         'score',
         'remark'

@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Textarea } from '@/components/ui/textarea';
 import { capitalizeWords, em } from '@/lib/utils';
-import { FormPurpose } from '@/types';
+import { FormPurpose, SharedData } from '@/types';
 import { Classroom } from '@/types/classroom';
 import { Lesson } from '@/types/lesson';
 import { Material } from '@/types/material';
@@ -25,14 +25,17 @@ const MaterialFormSheet: FC<Props> = ({ children, material, purpose }) => {
   const [open, setOpen] = useState(false);
 
   const {
+    permissions,
     lesson,
     lessons = [],
     classrooms = [],
-  } = usePage<{
-    lesson?: Lesson;
-    lessons: Lesson[];
-    classrooms: Classroom[];
-  }>().props;
+  } = usePage<
+    SharedData & {
+      lesson?: Lesson;
+      lessons: Lesson[];
+      classrooms: Classroom[];
+    }
+  >().props;
 
   const { data, setData, put, post, reset, processing } = useForm({
     classroom_id: material?.lesson?.classroom_id ?? classrooms[0]?.id ?? '',
@@ -41,6 +44,8 @@ const MaterialFormSheet: FC<Props> = ({ children, material, purpose }) => {
     description: material?.description ?? '',
     url: material?.url ?? '',
   });
+
+  if (!permissions?.canUpdateMaterial) return null;
 
   const handleSubmit = () => {
     if (purpose === 'create' || purpose === 'duplicate') {

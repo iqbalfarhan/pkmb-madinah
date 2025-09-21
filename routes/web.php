@@ -85,6 +85,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('assignment/bulk', [AssignmentController::class, 'bulkDelete'])->name('assignment.bulk.destroy');
     Route::apiResource('assignment', AssignmentController::class);
 
+    Route::post('score/upload-answer', [ScoreController::class, 'uploadAnswer'])->name('score.upload-answer');
     Route::put('score/bulk', [ScoreController::class, 'bulkUpdate'])->name('score.bulk.update');
     Route::delete('score/bulk', [ScoreController::class, 'bulkDelete'])->name('score.bulk.destroy');
     Route::apiResource('score', ScoreController::class);

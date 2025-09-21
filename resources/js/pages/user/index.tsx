@@ -27,8 +27,8 @@ const UserList: FC<Props> = ({ users, query }) => {
 
   return (
     <AppLayout
-      title="Users"
-      description="Manage your users"
+      title="Pengguna aplikasi"
+      description="Pengaturan user"
       actions={
         <>
           <UserFormSheet purpose="create">

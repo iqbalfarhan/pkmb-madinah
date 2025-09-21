@@ -2,11 +2,12 @@ import HeadingSmall from '@/components/heading-small';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import LessonDeleteDialog from '@/pages/lesson/components/lesson-delete-dialog';
 import LessonFormSheet from '@/pages/lesson/components/lesson-form-sheet';
 import LessonItemCard from '@/pages/lesson/components/lesson-item-card';
 import { SharedData } from '@/types';
 import { Lesson } from '@/types/lesson';
-import { usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { Edit, Folder, Grid2X2, Plus, TableIcon, Trash2 } from 'lucide-react';
 import { FC, useState } from 'react';
 import ClassroomLayout from '../layout/classroom-layout';
@@ -66,18 +67,24 @@ const ClassroomLessonsTab: FC<Props> = ({ lessons }) => {
                 <TableCell className="text-center">
                   {permissions?.canShowLesson && (
                     <Button size={'icon'} variant={'ghost'}>
-                      <Folder />
+                      <Link href={route('lesson.show', lesson.id)}>
+                        <Folder />
+                      </Link>
                     </Button>
                   )}
                   {permissions?.canUpdateLesson && (
-                    <Button size={'icon'} variant={'ghost'}>
-                      <Edit />
-                    </Button>
+                    <LessonFormSheet purpose="edit" lesson={lesson}>
+                      <Button size={'icon'} variant={'ghost'}>
+                        <Edit />
+                      </Button>
+                    </LessonFormSheet>
                   )}
                   {permissions?.canDeleteLesson && (
-                    <Button size={'icon'} variant={'ghost'}>
-                      <Trash2 />
-                    </Button>
+                    <LessonDeleteDialog lesson={lesson}>
+                      <Button size={'icon'} variant={'ghost'}>
+                        <Trash2 />
+                      </Button>
+                    </LessonDeleteDialog>
                   )}
                 </TableCell>
               </TableRow>

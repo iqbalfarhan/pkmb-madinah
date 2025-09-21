@@ -10,7 +10,7 @@ export function AppSidebarHeader({ breadcrumbs = [] }: { breadcrumbs?: Breadcrum
   const { activeAcademicYear } = usePage<SharedData>().props;
 
   return (
-    <header className="m-2 flex h-16 shrink-0 items-center gap-2 rounded-lg border-b border-border bg-card px-6 shadow-sm transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 md:px-4">
+    <header className="flex h-16 shrink-0 items-center gap-2 border-b border-border bg-card px-6 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 md:m-2 md:rounded-lg md:px-4 md:shadow-sm">
       <div className="flex w-full items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <SidebarTrigger icon={PanelLeftClose} />

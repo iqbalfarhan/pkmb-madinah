@@ -7,6 +7,7 @@ export type Assignment = {
   name: string;
   description: string;
   rate: number;
+  uploadable: boolean;
   lesson: Lesson;
   scores: Score[];
   created_at: string;

@@ -7,6 +7,7 @@ export type ReportType = 'nilai' | 'perkembangan' | 'tahsin' | 'tahfidz';
 export type Report = {
   id: number;
   classroom_id: number;
+  name: string;
   academic_year_id: number;
   student_id: number;
   report_type: ReportType;

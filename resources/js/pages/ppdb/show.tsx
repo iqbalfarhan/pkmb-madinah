@@ -1,4 +1,3 @@
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,8 +6,8 @@ import AppLayout from '@/layouts/app-layout';
 import { dateDFY, numberPad } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Student } from '@/types/student';
-import { router, usePage } from '@inertiajs/react';
-import { ArrowRight, Download, Wallet } from 'lucide-react';
+import { Link, router, usePage } from '@inertiajs/react';
+import { ArrowRight, Clock, Download, RefreshCw, Wallet } from 'lucide-react';
 import { FC } from 'react';
 import FamilyCardContent from '../family/components/family-card-content';
 import StudentMediaTable from '../student/components/student-media-table';
@@ -52,10 +51,31 @@ const ShowPpdb: FC<Props> = ({ ppdb }) => {
         </>
       }
     >
-      <Alert variant={'warning'}>
-        <AlertTitle>Menunggu persetujuan admin</AlertTitle>
-        <AlertDescription>Saat ini status siswa masih menunggu verifikasi dari pihak sekolah</AlertDescription>
-      </Alert>
+      <Card className="text-center">
+        <CardHeader>
+          <Clock className="mx-auto" />
+        </CardHeader>
+        <CardHeader className="mx-auto max-w-sm">
+          <CardTitle>Menunggu persetujuan admin</CardTitle>
+          <CardDescription>
+            Saat ini status siswa masih menunggu verifikasi dari pihak sekolah. dan menunggu pembuatan tagihan pendaftaran.
+          </CardDescription>
+        </CardHeader>
+        <CardFooter className="justify-center gap-2">
+          <Button asChild>
+            <Link href={route('ppdb.show', ppdb.id)}>
+              <RefreshCw />
+              Reload halaman
+            </Link>
+          </Button>
+          <Button asChild>
+            <Link href={route('bills')}>
+              <Wallet />
+              Lihat tagihan
+            </Link>
+          </Button>
+        </CardFooter>
+      </Card>
       <div className="grid grid-cols-2 gap-6">
         <Card className="col-span-2">
           <div className="flex justify-between">
@@ -71,7 +91,7 @@ const ShowPpdb: FC<Props> = ({ ppdb }) => {
             <CardFooter>{/* <StudentStatusBadge status={ppdb.status} /> */}</CardFooter>
           </div>
           <Separator />
-          <div className="grid grid-cols-4 gap-6">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <CardHeader>
               <CardDescription>Nama siswa</CardDescription>
               <CardTitle>{ppdb.name}</CardTitle>
@@ -116,7 +136,7 @@ const ShowPpdb: FC<Props> = ({ ppdb }) => {
               <CardDescription>Alamat email</CardDescription>
               <CardTitle>{ppdb.email}</CardTitle>
             </CardHeader>
-            <CardHeader className="col-span-4">
+            <CardHeader className="md:col-span-full">
               <CardDescription>Alamat tempat tinggal</CardDescription>
               <CardTitle>{ppdb.address}</CardTitle>
             </CardHeader>

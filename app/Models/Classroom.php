@@ -50,6 +50,11 @@ class Classroom extends Model
         return $this->hasMany(Student::class);
     }
 
+    public function assignments()
+    {
+        return $this->hasManyThrough(Assignment::class, Lesson::class);
+    }
+
     public function lessons()
     {
         return $this->hasMany(Lesson::class);

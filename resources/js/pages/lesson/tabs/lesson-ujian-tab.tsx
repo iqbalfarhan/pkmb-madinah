@@ -19,6 +19,7 @@ const LessonUjianTab = () => {
     students = [],
     exams = [],
     examscores,
+    permissions,
   } = usePage<SharedData & { lesson: Lesson; students: Student[]; exams: Exam[]; examscores: Examscore[] }>().props;
 
   return (
@@ -28,12 +29,14 @@ const LessonUjianTab = () => {
         description="Daftar nilai siswa untuk setiap tugas"
         actions={
           <>
-            <ExamFormSheet purpose="create" lessonId={lesson.id}>
-              <Button>
-                <Plus />
-                Tambah ujian baru
-              </Button>
-            </ExamFormSheet>
+            {permissions?.canAdd && (
+              <ExamFormSheet purpose="create" lessonId={lesson.id}>
+                <Button>
+                  <Plus />
+                  Tambah ujian baru
+                </Button>
+              </ExamFormSheet>
+            )}
           </>
         }
       />

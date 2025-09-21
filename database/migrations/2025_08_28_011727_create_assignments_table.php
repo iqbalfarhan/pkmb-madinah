@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->integer('rate')->default(0);
+            $table->boolean('uploadable')->default(false);
             $table->timestamps();
         });
     }

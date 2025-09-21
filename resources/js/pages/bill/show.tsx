@@ -9,7 +9,7 @@ import { dateDFYHIS, formatRupiah } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Bill } from '@/types/bill';
 import { Link, router, usePage } from '@inertiajs/react';
-import { CheckSquare, Edit, Image, Plus, Square, Trash2 } from 'lucide-react';
+import { Check, Edit, FileWarning, Image, Plus, Trash2 } from 'lucide-react';
 import { FC } from 'react';
 import { toast } from 'sonner';
 import PaymentDeleteDialog from '../payment/components/payment-delete-dialog';
@@ -71,7 +71,7 @@ const ShowBill: FC<Props> = ({ bill }) => {
                 <PaymentFormSheet purpose="create" billId={bill.id}>
                   <Button>
                     <Plus />
-                    Create new payment
+                    Buat pembayaran
                   </Button>
                 </PaymentFormSheet>
               )}
@@ -107,9 +107,9 @@ const ShowBill: FC<Props> = ({ bill }) => {
                   )}
                 </TableCell>
                 <TableCell>
-                  {permissions?.canApprove ? (
+                  {permissions?.canApprove && (
                     <Button
-                      variant={pay.verified ? 'success' : 'ghost'}
+                      variant={pay.verified ? 'success' : 'warning'}
                       size={'sm'}
                       onClick={() => {
                         const checked = !pay.verified;
@@ -123,10 +123,12 @@ const ShowBill: FC<Props> = ({ bill }) => {
                         );
                       }}
                     >
-                      {pay.verified == true ? <CheckSquare /> : <Square />}
+                      {pay.verified == true ? <Check /> : <FileWarning />}
                       Verifikasi
                     </Button>
-                  ) : (
+                  )}
+
+                  {!permissions?.canApprove && (
                     <>{pay.verified ? <Badge variant={'success'}>Terverifikasi</Badge> : <Badge variant={'warning'}>Belum diverifikasi</Badge>}</>
                   )}
                 </TableCell>

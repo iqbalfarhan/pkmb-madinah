@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePpdbRequest;
 use App\Http\Requests\UpdatePpdbRequest;
+use App\Models\Classroom;
 use App\Models\Family;
 use App\Models\Grade;
 use App\Models\Setting;
@@ -37,6 +38,7 @@ class PpdbController extends Controller
                 'draft' => Student::draft()->count(),
                 'ppdb' => Student::ppdb()->count(),
             ],
+            'classrooms' => Classroom::get(),
             'permissions' => [
                 'canAdd' => $this->user->can('create ppdb'),
                 'canUpdate' => $this->user->can('update ppdb'),

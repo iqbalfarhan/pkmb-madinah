@@ -17,6 +17,7 @@ class UpdateAssignmentRequest extends FormRequest
             'name' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'rate' => 'nullable|numeric|max:100',
+            'uploadable' => 'nullable|boolean',
         ];
     }
 }

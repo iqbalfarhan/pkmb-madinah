@@ -1,15 +1,17 @@
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 import { Lesson } from '@/types/lesson';
 import { FC } from 'react';
 
 type Props = {
   lessons?: Lesson[];
+  className?: string;
 };
 
-const ClassroomLessonsWidget: FC<Props> = ({ lessons }) => {
+const ClassroomLessonsWidget: FC<Props> = ({ lessons, className }) => {
   return (
-    <Card>
+    <Card className={cn(className)}>
       <CardHeader>
         <CardTitle>Pengajar matapelajaran</CardTitle>
         <CardDescription>Mengajar di {lessons?.length} Pelajaran</CardDescription>

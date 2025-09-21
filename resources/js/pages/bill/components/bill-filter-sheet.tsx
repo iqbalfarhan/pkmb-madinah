@@ -27,7 +27,7 @@ const BillFilterSheet: FC<Props> = ({ children, query }) => {
   });
 
   const applyFilter = () => {
-    get(route('bill.index'), {
+    get('', {
       preserveScroll: true,
       preserveState: true,
       replace: true,
@@ -42,7 +42,7 @@ const BillFilterSheet: FC<Props> = ({ children, query }) => {
     setData('student_id', '');
     setData('status', '');
     router.get(
-      route('bill.index'),
+      '',
       {
         student_id: '',
         status: '',

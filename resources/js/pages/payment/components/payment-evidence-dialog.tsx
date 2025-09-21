@@ -20,7 +20,7 @@ const PaymentEvidenceDialog: FC<Props> = ({ children, media }) => {
           <CarouselContent>
             {media.map((m) => (
               <CarouselItem>
-                <img src={m.original_url} className="h-full" />
+                <img src={m.original_url} className="mx-auto h-full max-h-96" />
               </CarouselItem>
             ))}
           </CarouselContent>

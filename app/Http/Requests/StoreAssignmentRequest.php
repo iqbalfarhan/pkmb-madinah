@@ -16,8 +16,9 @@ class StoreAssignmentRequest extends FormRequest
         return [
             'lesson_id' => 'required|exists:lessons,id',
             'name' => 'required|string|max:255',
-            'description' => 'required|string',
+            'description' => 'nullable|string',
             'rate' => 'required|numeric',
+            'uploadable' => 'nullable|boolean',
         ];
     }
 }

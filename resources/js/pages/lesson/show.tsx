@@ -1,4 +1,4 @@
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AppLayout from '@/layouts/app-layout';
 import { Lesson } from '@/types/lesson';
@@ -17,20 +17,18 @@ type Props = {
 const ShowLesson: FC<Props> = ({ lesson, query }) => {
   const [active] = useState(query.tab ?? 'material');
   return (
-    <AppLayout title="Detail Lesson" description="Detail lesson">
-      <Card>
-        <CardHeader>
-          <CardTitle>{lesson.name}</CardTitle>
-          <CardDescription>{lesson.description}</CardDescription>
-        </CardHeader>
-      </Card>
+    <AppLayout title={lesson.name} description={lesson.description}>
       <Tabs value={active} onValueChange={(v) => router.get('', { tab: v })} className="space-y-6">
-        <TabsList>
-          <TabsTrigger value="material">Materi belajar</TabsTrigger>
-          <TabsTrigger value="tugas">Daftar tugas</TabsTrigger>
-          <TabsTrigger value="nilai">Nilai tugas</TabsTrigger>
-          <TabsTrigger value="ujian">Nilai ujian</TabsTrigger>
-        </TabsList>
+        <Card>
+          <CardContent>
+            <TabsList>
+              <TabsTrigger value="material">Materi belajar</TabsTrigger>
+              <TabsTrigger value="tugas">Daftar tugas</TabsTrigger>
+              <TabsTrigger value="nilai">Nilai tugas</TabsTrigger>
+              <TabsTrigger value="ujian">Nilai ujian</TabsTrigger>
+            </TabsList>
+          </CardContent>
+        </Card>
 
         <TabsContent value="material">
           <LessonMaterialsTab materials={lesson.materials} />

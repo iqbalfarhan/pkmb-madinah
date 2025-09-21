@@ -102,10 +102,9 @@ const BillList: FC<Props> = ({ bills, query }) => {
                 </Label>
               </Button>
             </TableHead>
-            <TableHead>Student name</TableHead>
-            <TableHead>Payment type</TableHead>
-            <TableHead>Payment cycle</TableHead>
-            <TableHead>Total amount</TableHead>
+            <TableHead>Nama siswa</TableHead>
+            <TableHead>Untuk pembayaran</TableHead>
+            <TableHead>Total Nominal</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
@@ -132,8 +131,12 @@ const BillList: FC<Props> = ({ bills, query }) => {
                   </Button>
                 </TableCell>
                 <TableCell>{bill.student.name}</TableCell>
-                <TableCell>{bill.payment_type.name}</TableCell>
-                <TableCell>{bill.payment_type.billing_cycle}</TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-1">
+                    <Badge variant="outline">{bill.payment_type.billing_cycle}</Badge>
+                    <span>{bill.payment_type.name}</span>
+                  </div>
+                </TableCell>
                 <TableCell>{formatRupiah(bill.total_amount)}</TableCell>
                 <TableCell>
                   <BillStatusBadge status={bill.status} />
