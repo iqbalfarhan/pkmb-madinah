@@ -39,7 +39,7 @@ const PpdbInformationForm = () => {
     <PpdbFormWrapper title="Informasi Siswa" description="Lengkapi informasi siswa baru. Apabila tidak memiliki NISN atau NIS, bisa diisi dengan 0">
       <Card>
         <CardContent>
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid gap-6 md:grid-cols-2">
             <FormControl label="Pendaftaran untuk tingkat" required>
               <Select value={data.grade_id.toString()} onValueChange={(value) => setData('grade_id', parseInt(value))}>
                 <SelectTrigger>
@@ -58,7 +58,7 @@ const PpdbInformationForm = () => {
         </CardContent>
         <Separator />
         <CardContent>
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid gap-6 md:grid-cols-2">
             <FormControl label="Nama lengkap" required>
               <Input placeholder="Nama lengkap siswa" value={data.name} onChange={(e) => setData('name', e.target.value)} />
             </FormControl>

@@ -32,14 +32,16 @@ const EditPpdbStudent: FC<Props> = ({ student, query }) => {
       }
     >
       <Tabs className="space-y-6" value={tab} onValueChange={(v) => router.get('', { tab: v })}>
-        <TabsList>
-          <TabsTrigger value="information">Data Siswa</TabsTrigger>
-          <TabsTrigger value="contact">Kontak Siswa</TabsTrigger>
-          <TabsTrigger value="family">Orang tua</TabsTrigger>
-          <TabsTrigger value="prevschool">Sekolah</TabsTrigger>
-          <TabsTrigger value="document">Dokumen</TabsTrigger>
-          <TabsTrigger value="complete">Selesai</TabsTrigger>
-        </TabsList>
+        <div>
+          <TabsList>
+            <TabsTrigger value="information">Data Siswa</TabsTrigger>
+            <TabsTrigger value="contact">Kontak Siswa</TabsTrigger>
+            <TabsTrigger value="family">Orang tua</TabsTrigger>
+            <TabsTrigger value="prevschool">Sekolah</TabsTrigger>
+            <TabsTrigger value="document">Dokumen</TabsTrigger>
+            <TabsTrigger value="complete">Selesai</TabsTrigger>
+          </TabsList>
+        </div>
         <TabsContent value="information">
           <PpdbInformationForm />
         </TabsContent>

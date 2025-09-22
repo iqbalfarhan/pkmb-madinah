@@ -69,15 +69,15 @@ const ClassroomLayout: FC<Props> = ({ children }) => {
         </CardHeader>
         <Separator />
         <CardFooter>
-          <div className="flex flex-wrap gap-1 md:hidden">
+          {/* <div className="flex flex-wrap gap-1 md:hidden">
             {menuLists.map((ml) => (
               <Button size={'sm'} variant={tabname === ml.value ? 'default' : 'outline'} key={ml.value} onClick={() => handleNavigate(ml.value)}>
                 {ml.label}
               </Button>
             ))}
-          </div>
-          <Tabs defaultValue={tabname} onValueChange={(v) => handleNavigate(v)} className="hidden h-fit md:flex">
-            <TabsList className="flex flex-wrap">
+          </div> */}
+          <Tabs defaultValue={tabname} onValueChange={(v) => handleNavigate(v)}>
+            <TabsList>
               {menuLists.map((ml) => (
                 <TabsTrigger value={ml.value} key={ml.value}>
                   {ml.label}

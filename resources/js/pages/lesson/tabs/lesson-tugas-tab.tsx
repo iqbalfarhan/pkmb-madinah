@@ -54,7 +54,7 @@ const LessonTugasTab = () => {
               <TableCell>{dateDFY(assignment.created_at)}</TableCell>
               <TableCell>
                 {permissions?.canShow && (
-                  <Button variant={'ghost'} size={'icon'}>
+                  <Button variant={'ghost'} size={'icon'} asChild>
                     <Link href={route('assignment.show', assignment.id)}>
                       <Folder />
                     </Link>

@@ -13,7 +13,7 @@ const DraftStudentsGrid = () => {
   return (
     <div className="space-y-6">
       <HeadingSmall title="Lanjut pendaftaran siswa" description="lanjutkan mengisi keterangan peserta didik baru" />
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid-responsive gap-6">
         {students.map((student) => (
           <PpdbItemCard ppdb={student} key={student.id} href={route(student.status == 'draft' ? 'ppdb.edit' : 'ppdb.show', student.id)} />
         ))}
