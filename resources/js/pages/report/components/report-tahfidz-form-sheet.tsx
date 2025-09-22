@@ -89,6 +89,7 @@ const ReportTahfidzFormSheet: FC<Props> = ({ children, data, onSubmit, purpose }
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="belum berkembang">Belum Berkembang</SelectItem>
+                  <SelectItem value="mulai berkembang">Mulai Berkembang</SelectItem>
                   <SelectItem value="berkembang">Berkembang</SelectItem>
                   <SelectItem value="sangat berkembang">Sangat Berkembang</SelectItem>
                 </SelectContent>

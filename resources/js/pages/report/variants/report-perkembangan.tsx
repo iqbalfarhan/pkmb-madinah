@@ -4,7 +4,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
-import { capitalizeWords, em, hariNumberDescription } from '@/lib/utils';
+import { capitalizeWords, em } from '@/lib/utils';
 import { PointMark, Report, ReportPerkembanganData } from '@/types/report';
 import { Student } from '@/types/student';
 import { useForm, usePage } from '@inertiajs/react';
@@ -154,9 +154,11 @@ const ReportPerkambangan: FC<Props> = ({ data }) => {
         <CardHeader>
           <CardTitle>{Object.entries(formData.data.sikap).length ?? 0} dari 18 Sikap yang dibangun di Sekolah Al – Madinah.</CardTitle>
           <CardDescription>
-            <li>I (membutuhkan motivasi)</li>
-            <li>II (menunjukkan perbaikan)</li>
-            <li>III (memiliki kompetensi)</li>
+            <div className="flex flex-col">
+              <span>★ (membutuhkan motivasi)</span>
+              <span>★★ (menunjukkan perbaikan)</span>
+              <span>★★★ (memiliki kompetensi)</span>
+            </div>
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -165,9 +167,9 @@ const ReportPerkambangan: FC<Props> = ({ data }) => {
               <TableRow>
                 <TableHead>No.</TableHead>
                 <TableHead className="w-full">Sikap yang dikembangkan</TableHead>
-                <TableHead className="text-center">I</TableHead>
-                <TableHead className="text-center">II</TableHead>
-                <TableHead className="text-center">III</TableHead>
+                <TableHead className="text-center">★</TableHead>
+                <TableHead className="text-center">★★</TableHead>
+                <TableHead className="text-center">★★★</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -175,17 +177,17 @@ const ReportPerkambangan: FC<Props> = ({ data }) => {
                 <TableRow>
                   <TableCell>{index + 1}.</TableCell>
                   <TableCell>{item}</TableCell>
-                  <TableCell>
+                  <TableCell className="text-center">
                     <Button variant={'ghost'} size={'icon'}>
                       <Checkbox checked={value === 1} onCheckedChange={(c) => setData(`data.sikap.${item}`, c ? 1 : null)} />
                     </Button>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="text-center">
                     <Button variant={'ghost'} size={'icon'}>
                       <Checkbox checked={value === 2} onCheckedChange={(c) => setData(`data.sikap.${item}`, c ? 2 : null)} />
                     </Button>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="text-center">
                     <Button variant={'ghost'} size={'icon'}>
                       <Checkbox checked={value === 3} onCheckedChange={(c) => setData(`data.sikap.${item}`, c ? 3 : null)} />
                     </Button>
@@ -239,7 +241,7 @@ const ReportPerkambangan: FC<Props> = ({ data }) => {
                 <TableRow>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{capitalizeWords(item)}</TableCell>
-                  <TableCell>{hariNumberDescription(formData.data.ketidakhadiran[item])}</TableCell>
+                  <TableCell>{formData.data.ketidakhadiran[item]}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

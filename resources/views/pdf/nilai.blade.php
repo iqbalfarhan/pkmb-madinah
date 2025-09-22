@@ -8,6 +8,7 @@
   <style>
 
     @page {
+      size: 210mm 330mm; /* Atur ukuran ke F4 */
       margin: 0cm;
     }
     @font-face {
@@ -38,7 +39,7 @@
       font-family: 'Noto Serif';
     }
     body {
-      font-size: 10pt;
+      font-size: 9pt;
       margin: 0.5in;
     }
     h1, h2, h3, h4{

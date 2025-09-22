@@ -7,68 +7,69 @@
 	<title>Document</title>
 
 	<style>
-	@page {
-		margin: 0cm;
-	}
-	@font-face {
-		font-family: 'Noto Serif';
-		src: url('{{ storage_path('fonts/NotoSerif-Regular.ttf') }}') format('truetype');
-		font-weight: normal;
-		font-style: normal;
-	}
-	@font-face {
-		font-family: 'Noto Serif Bold';
-		src: url('{{ storage_path('fonts/NotoSerif-Bold.ttf') }}') format('truetype');
-		font-weight: bold;
-		font-style: normal;
-	}
-	@font-face {
-		font-family: 'Noto Sans';
-		src: url('{{ storage_path('fonts/NotoSans-Regular.ttf') }}') format('truetype');
-		font-weight: normal;
-		font-style: normal;
-	}
-	@font-face {
-		font-family: 'Noto Sans Bold';
-		src: url('{{ storage_path('fonts/NotoSans-Bold.ttf') }}') format('truetype');
-		font-weight: bold;
-		font-style: normal;
-	}
-	*{
-		font-family: 'Noto Serif';
-	}
-	body {
-		font-size: 10pt;
-		margin: 0.5in;
-	}
-	h1, h2, h3, h4{
-		text-align: center;
-		font-family: 'Noto Serif Bold';
-	}
-	strong, b {
-		font-family: 'Noto Serif Bold';
-	}
+		@page {
+			size: 210mm 330mm; /* Atur ukuran ke F4 */
+			margin: 0cm;
+		}
+		@font-face {
+			font-family: 'Noto Serif';
+			src: url('{{ storage_path('fonts/NotoSerif-Regular.ttf') }}') format('truetype');
+			font-weight: normal;
+			font-style: normal;
+		}
+		@font-face {
+			font-family: 'Noto Serif Bold';
+			src: url('{{ storage_path('fonts/NotoSerif-Bold.ttf') }}') format('truetype');
+			font-weight: bold;
+			font-style: normal;
+		}
+		@font-face {
+			font-family: 'Noto Sans';
+			src: url('{{ storage_path('fonts/NotoSans-Regular.ttf') }}') format('truetype');
+			font-weight: normal;
+			font-style: normal;
+		}
+		@font-face {
+			font-family: 'Noto Sans Bold';
+			src: url('{{ storage_path('fonts/NotoSans-Bold.ttf') }}') format('truetype');
+			font-weight: bold;
+			font-style: normal;
+		}
+		*{
+			font-family: 'Noto Serif';
+		}
+		body {
+			font-size: 10pt;
+			margin: 0.5in;
+		}
+		h1, h2, h3, h4{
+			text-align: center;
+			font-family: 'Noto Serif Bold';
+		}
+		strong, b {
+			font-family: 'Noto Serif Bold';
+		}
 
-	.content table{
-		width: 100%;
-		border-collapse: collapse;
-		border: 1px solid black;
-	}
-	.content table th, .content table td {
-		padding: 2px 7px;
-		padding-bottom: 7px;
-	}
-	.content table tr th {
-		font-family: 'Noto Serif Bold';
-		line-height: 1
-	}
+		.content table{
+			width: 100%;
+			border-collapse: collapse;
+			border: 1px solid black;
+		}
+		.content table th, .content table td {
+			padding: 2px 7px;
+			padding-bottom: 7px;
+		}
+		.content table tr th {
+			font-family: 'Noto Serif Bold';
+			line-height: 1
+		}
 
-	.text-center{
-		text-align: center
-	}
-	.text-left{
-		text-align: left
-	}
+		.text-center{
+			text-align: center
+		}
+		.text-left{
+			text-align: left
+		}
 	</style>
 </head>
 <body>

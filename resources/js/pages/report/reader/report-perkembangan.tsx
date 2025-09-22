@@ -1,13 +1,14 @@
 import SubmitButton from '@/components/submit-button';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
-import { capitalizeWords, em, hariNumberDescription } from '@/lib/utils';
+import { capitalizeWords, em } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Report, ReportPerkembanganData } from '@/types/report';
 import { useForm, usePage } from '@inertiajs/react';
+import { Check } from 'lucide-react';
 import { FC } from 'react';
 import { toast } from 'sonner';
 import ReportHeader from '../components/report-header';
@@ -71,7 +72,11 @@ const ReportPerkembanganReader: FC<Props> = ({ data }) => {
                     </TableCell>
                     {['A', 'B', 'C'].map((mark) => (
                       <TableCell key={mark}>
-                        <Checkbox checked={item.mark === mark} />
+                        {item.mark === mark && (
+                          <Button size={'icon'} variant={'ghost'} disabled>
+                            <Check className="size-5" />
+                          </Button>
+                        )}
                       </TableCell>
                     ))}
                   </TableRow>
@@ -88,9 +93,11 @@ const ReportPerkembanganReader: FC<Props> = ({ data }) => {
         <CardHeader>
           <CardTitle>{Object.entries(data.sikap).length ?? 0} dari 18 Sikap yang dibangun di Sekolah Al – Madinah.</CardTitle>
           <CardDescription>
-            <li>I (membutuhkan motivasi)</li>
-            <li>II (menunjukkan perbaikan)</li>
-            <li>III (memiliki kompetensi)</li>
+            <div className="flex flex-col">
+              <span>★ (membutuhkan motivasi)</span>
+              <span>★★ (menunjukkan perbaikan)</span>
+              <span>★★★ (memiliki kompetensi)</span>
+            </div>
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -99,9 +106,9 @@ const ReportPerkembanganReader: FC<Props> = ({ data }) => {
               <TableRow>
                 <TableHead>No.</TableHead>
                 <TableHead>Sikap yang dikembangkan</TableHead>
-                <TableHead className="w-[50px] text-center">I</TableHead>
-                <TableHead className="w-[50px] text-center">II</TableHead>
-                <TableHead className="w-[50px] text-center">III</TableHead>
+                <TableHead className="w-[50px] text-center">★</TableHead>
+                <TableHead className="w-[50px] text-center">★★</TableHead>
+                <TableHead className="w-[50px] text-center">★★★</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -110,13 +117,25 @@ const ReportPerkembanganReader: FC<Props> = ({ data }) => {
                   <TableCell>{index + 1}.</TableCell>
                   <TableCell>{item}</TableCell>
                   <TableCell className="text-center">
-                    <Checkbox checked={value === 1} />
+                    {value === 1 && (
+                      <Button size={'icon'} variant={'ghost'} disabled>
+                        <Check className="size-5" />
+                      </Button>
+                    )}
                   </TableCell>
                   <TableCell className="text-center">
-                    <Checkbox checked={value === 2} />
+                    {value === 2 && (
+                      <Button size={'icon'} variant={'ghost'} disabled>
+                        <Check className="size-5" />
+                      </Button>
+                    )}
                   </TableCell>
                   <TableCell className="text-center">
-                    <Checkbox checked={value === 3} />
+                    {value === 3 && (
+                      <Button size={'icon'} variant={'ghost'} disabled>
+                        <Check className="size-5" />
+                      </Button>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}
@@ -174,7 +193,7 @@ const ReportPerkembanganReader: FC<Props> = ({ data }) => {
                 <TableRow>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{capitalizeWords(item)}</TableCell>
-                  <TableCell>{hariNumberDescription(data.ketidakhadiran[item])}</TableCell>
+                  <TableCell>{data.ketidakhadiran[item]}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -94,8 +94,9 @@
       width: 30px;
       text-align: center
     }
-
+    
     @page {
+      size: 210mm 330mm; /* Atur ukuran ke F4 */
       margin: 0cm;
     }
 
@@ -147,7 +148,7 @@
       <td>
         <h2 class="judul-rapor">
           LAPORAN PERKEMBANGAN SISWA<br>
-          {{ $settings['SCHOOL_NAME'] }}<br>
+          {{ strtoupper($settings['SCHOOL_NAME']) }}<br>
           SEMESTER {{ strtoupper($data['semester']) }}<br>
           TAHUN AJARAN {{ $data['tahunajaran'] }}
         </h2>
@@ -341,13 +342,17 @@
         <th>KOMENTAR SISWA</th>
       </tr>
       <tr>
-        <td>{!! str()->markdown($data['komentar_siswa'] ?? "") !!}</td>
+        <td>
+          {!! str()->markdown($data['komentar_siswa'] ?? "<br><br><br><br>") !!}
+        </td>
       </tr>
       <tr style="background-color: black; color: white;">
         <th>KOMENTAR ORANGTUA/WALI</th>
       </tr>
       <tr>
-        <td>{!! str()->markdown($data['komentar_wali'] ?? "") !!}</td>
+        <td>
+          {!! str()->markdown($data['komentar_wali'] ?? "<br><br><br><br>") !!}
+        </td>
       </tr>
     </table>
     <br>

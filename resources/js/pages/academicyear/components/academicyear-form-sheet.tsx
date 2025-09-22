@@ -96,7 +96,7 @@ const AcademicyearFormSheet: FC<Props> = ({ children, academicyear, purpose }) =
                 </Label>
                 <Label className="flex h-8 items-center gap-2">
                   <Checkbox checked={data.detach_students} onCheckedChange={(c) => setData('detach_students', c)} />
-                  <span>Lepaskan semua siswa dari kelasnya</span>
+                  <span>Sinkronisasi kelas siswa (setelah naik atau tinggal kelas dari rapor)</span>
                 </Label>
                 <Label className="flex h-8 items-center gap-2">
                   <Checkbox checked={data.active} onCheckedChange={(c) => setData('active', c)} />

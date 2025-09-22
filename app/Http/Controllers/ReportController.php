@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AnyFormatter;
 use App\Http\Requests\BulkDeleteReportRequest;
 use App\Http\Requests\BulkUpdateReportRequest;
 use App\Http\Requests\RefreshNilaiReportRequest;
@@ -15,6 +16,7 @@ use App\Models\Report;
 use App\Models\Score;
 use App\Models\Setting;
 use App\Models\Student;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -75,9 +77,13 @@ class ReportController extends Controller
         if ($data['report_type'] == 'perkembangan') {
             $mockup['tanggal'] = $settings['SCHOOL_CITY'].', '.now()->format('d F Y');
 
-            $mockup['ketidakhadiran']['sakit'] = $student->absents->where('reason', 'sakit')->count() ?? 0;
-            $mockup['ketidakhadiran']['izin'] = $student->absents->where('reason', 'izin')->count() ?? 0;
-            $mockup['ketidakhadiran']['tanpa keterangan'] = $student->absents->where('reason', 'tanpa keterangan')->count() ?? 0;
+            $sakit = $student->absents->where('reason', 'sakit')->count() ?? 0;
+            $izin = $student->absents->where('reason', 'izin')->count() ?? 0;
+            $alpa = $student->absents->where('reason', 'tanpa keterangan')->count() ?? 0;
+
+            $mockup['ketidakhadiran']['sakit'] = AnyFormatter::hariNumberDescription($sakit);
+            $mockup['ketidakhadiran']['izin'] = AnyFormatter::hariNumberDescription($izin);
+            $mockup['ketidakhadiran']['tanpa keterangan'] = AnyFormatter::hariNumberDescription($alpa);
 
             $mockup['ekskul'] = $student->activities->load(['extracurricular'])->map(function ($ekskul) {
                 return [
@@ -114,7 +120,7 @@ class ReportController extends Controller
             });
         } elseif ($data['report_type'] == 'tahfidz') {
             $mockup['tanggal'] = $settings['SCHOOL_CITY'].', '.now()->format('d F Y');
-            $mockup['pembimbing'] = $settings['PEMBIMBING_TAHFIDZ'];
+            // $mockup['pembimbing'] = $settings['PEMBIMBING_TAHFIDZ'];
             $mockup['koordinator'] = $settings['KOORDINATOR_Al-MUYASSAR'];
             $mockup['catatan'] = "Semoga ananda {$student->name} tetap rajin muroja'ah di rumah agar hafalan Surah Al Qur'an-nya tetap terjaga";
         } elseif ($data['report_type'] == 'tahsin') {
@@ -130,7 +136,7 @@ class ReportController extends Controller
      * Display the specified resource.
      */
     public function show(Report $report)
-    {
+    {   
         return Inertia::render('report/show', [
             'report' => $report->load('student', 'classroom', 'academic_year'),
             'student' => $report->student->load('activities', 'activities.extracurricular', 'absents'),
@@ -149,6 +155,7 @@ class ReportController extends Controller
             'report' => $report->load('student', 'classroom', 'academic_year'),
             'student' => $report->student->load('activities', 'activities.extracurricular', 'absents'),
             'classroom' => $report->classroom,
+            'teachers' => User::role('guru')->get(),
             'grades' => Grade::get(),
         ]);
     }

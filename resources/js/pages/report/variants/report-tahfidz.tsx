@@ -1,10 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
 import { em, groupBy } from '@/lib/utils';
-import { SharedData } from '@/types';
+import { SharedData, User } from '@/types';
 import { PenilaianTahfidz, Report, ReportTahfidzData } from '@/types/report';
 import { useForm, usePage } from '@inertiajs/react';
 import { Check, Edit, Plus, Trash2 } from 'lucide-react';
@@ -19,7 +20,7 @@ type Props = {
 };
 
 const ReportTahfidz: FC<Props> = ({ data }) => {
-  const { report } = usePage<SharedData & { report: Report }>().props;
+  const { report, teachers = [] } = usePage<SharedData & { report: Report; teachers: User[] }>().props;
 
   const {
     data: formData,
@@ -135,8 +136,22 @@ const ReportTahfidz: FC<Props> = ({ data }) => {
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Catatan</CardTitle>
-          <CardDescription>Catatan dari pembina tahfidz {data.pembimbing}</CardDescription>
+          <div className="flex justify-between">
+            <div className="flex flex-col space-y-1.5">
+              <CardTitle>Catatan</CardTitle>
+              <CardDescription>Catatan dari pembina tahfidz {data.pembimbing}</CardDescription>
+            </div>
+            <Select defaultValue={data.pembimbing} onValueChange={(value) => setData('data.pembimbing', value)}>
+              <SelectTrigger className="w-xs">
+                <SelectValue placeholder="Pilih pembina" />
+              </SelectTrigger>
+              <SelectContent>
+                {teachers.map((user) => (
+                  <SelectItem value={user.name}>{user.name}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </CardHeader>
         <Separator />
         <CardContent>
