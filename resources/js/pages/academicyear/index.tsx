@@ -4,7 +4,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AppLayout from '@/layouts/app-layout';
 import { em } from '@/lib/utils';
 import { SharedData } from '@/types';
@@ -30,6 +29,19 @@ const AcademicyearList: FC<Props> = ({ academicyears, query }) => {
   const [cari, setCari] = useState('');
 
   const { permissions } = usePage<SharedData>().props;
+
+  const handleChangeSemester = (academicyear: Academicyear, semester: string) => {
+    router.put(
+      route('academicyear.update', academicyear.id),
+      {
+        semester: semester,
+      },
+      {
+        onSuccess: () => toast.success('updated'),
+        onError: (e) => toast.error(em(e)),
+      },
+    );
+  };
 
   return (
     <AppLayout
@@ -125,26 +137,22 @@ const AcademicyearList: FC<Props> = ({ academicyears, query }) => {
                 </TableCell>
                 <TableCell>{academicyear.year}</TableCell>
                 <TableCell>
-                  <Tabs
-                    value={academicyear.semester}
-                    onValueChange={(value) =>
-                      router.put(
-                        route('academicyear.update', academicyear.id),
-                        {
-                          semester: value,
-                        },
-                        {
-                          onSuccess: () => toast.success('updated'),
-                          onError: (e) => toast.error(em(e)),
-                        },
-                      )
-                    }
+                  <Button
+                    disabled={!academicyear.active}
+                    size={'sm'}
+                    variant={academicyear.semester === 'ganjil' ? 'default' : 'secondary'}
+                    onClick={() => handleChangeSemester(academicyear, 'ganjil')}
                   >
-                    <TabsList>
-                      <TabsTrigger value="ganjil">Ganjil</TabsTrigger>
-                      <TabsTrigger value="genap">Genap</TabsTrigger>
-                    </TabsList>
-                  </Tabs>
+                    Ganjil
+                  </Button>
+                  <Button
+                    disabled={!academicyear.active}
+                    size={'sm'}
+                    variant={academicyear.semester === 'genap' ? 'default' : 'secondary'}
+                    onClick={() => handleChangeSemester(academicyear, 'genap')}
+                  >
+                    Genap
+                  </Button>
                 </TableCell>
                 <TableCell>{academicyear.active && <Badge>Active</Badge>}</TableCell>
                 <TableCell>

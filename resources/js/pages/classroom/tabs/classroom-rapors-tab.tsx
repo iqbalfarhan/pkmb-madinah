@@ -44,15 +44,17 @@ const ClassroomRarporsTab: FC<Props> = ({ reports, reportTypes, query }) => {
         }
       />
 
-      <div className="flex gap-2">
+      <div className="flex flex-col gap-2 sm:flex-row">
         <Input placeholder="Cari dengan nama siswa" value={cari} onChange={(e) => setCari(e.target.value)} />
         <Tabs value={tab} onValueChange={(v) => router.get('', { tab: v })}>
-          <TabsList>
-            <TabsTrigger value="all">Semua</TabsTrigger>
-            {reportTypes.map((type) => (
-              <TabsTrigger value={type}>{type}</TabsTrigger>
-            ))}
-          </TabsList>
+          <div>
+            <TabsList>
+              <TabsTrigger value="all">Semua rapor</TabsTrigger>
+              {reportTypes.map((type) => (
+                <TabsTrigger value={type}>E-rapor {type}</TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
         </Tabs>
       </div>
 
