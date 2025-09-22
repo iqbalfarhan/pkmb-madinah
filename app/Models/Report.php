@@ -39,8 +39,10 @@ class Report extends Model
     public static $reportTypes = [
         'nilai',
         'perkembangan',
-        'tahsin',
         'tahfidz',
+        'tahsin',
+        'doa-hadist',
+        'praktik',
     ];
 
     public function academic_year()

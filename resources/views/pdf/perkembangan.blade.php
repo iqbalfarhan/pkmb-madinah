@@ -224,7 +224,7 @@
     <table border="1">
       <tr>
         <td colspan="5">
-          4 dari 18 sikap yang dibangun di Sekolah Al-Madinah<br>
+          {{ count($data['sikap']) ?? 0 }} dari 18 sikap yang dibangun di Sekolah Al-Madinah<br>
           <table border="0" class="table-condensed">
             @foreach (["Membutuhkan motivasi", "Menunjukkan perbaikan", "Memiliki kompetensi"] as $key => $item)
               <tr>

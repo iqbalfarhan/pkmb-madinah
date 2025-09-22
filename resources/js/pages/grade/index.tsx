@@ -94,6 +94,7 @@ const GradeList: FC<Props> = ({ grades, query }) => {
             </TableHead>
             <TableHead>Grade</TableHead>
             <TableHead>Name</TableHead>
+            <TableHead>Pengembangan karakter</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -120,6 +121,7 @@ const GradeList: FC<Props> = ({ grades, query }) => {
                 </TableCell>
                 <TableCell>{grade.group}</TableCell>
                 <TableCell>{grade.name}</TableCell>
+                <TableCell>{grade.characters?.join(', ')}</TableCell>
                 <TableCell>
                   {permissions?.canShow && (
                     <Button variant={'ghost'} size={'icon'}>

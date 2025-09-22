@@ -14,7 +14,8 @@ class Grade extends Model
     /*
     protected $fillable = [
         'group',
-        'name'
+        'name',
+        'characters'
     ];
     */
 
@@ -31,6 +32,10 @@ class Grade extends Model
         'SMA',
     ];
 
+    public $casts = [
+        'characters' => 'array'
+    ];
+
     /*
     public function registerMediaConversions(?Media $media = null): void
     {
@@ -39,4 +44,6 @@ class Grade extends Model
             ->nonQueued();
     }
     */
+
+
 }

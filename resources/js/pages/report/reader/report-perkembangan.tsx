@@ -86,7 +86,7 @@ const ReportPerkembanganReader: FC<Props> = ({ data }) => {
 
       <Card>
         <CardHeader>
-          <CardTitle>4 dari 18 Sikap yang dibangun di Sekolah Al – Madinah.</CardTitle>
+          <CardTitle>{Object.entries(data.sikap).length ?? 0} dari 18 Sikap yang dibangun di Sekolah Al – Madinah.</CardTitle>
           <CardDescription>
             <li>I (membutuhkan motivasi)</li>
             <li>II (menunjukkan perbaikan)</li>

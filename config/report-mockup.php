@@ -182,12 +182,7 @@ return [
                 ],
             ],
         ],
-        'sikap' => [
-            'istiqomah' => 1,
-            'rendah diri' => 1,
-            'berpikir positif' => 1,
-            'mutu' => 1,
-        ],
+        'sikap' => [], // isinya [[string => number]],
         'ekskul' => [
             [
                 'nama' => '',

@@ -1,5 +1,6 @@
 import FormControl from '@/components/form-control';
 import SubmitButton from '@/components/submit-button';
+import TagsInput from '@/components/tags-input';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -25,6 +26,7 @@ const GradeFormSheet: FC<Props> = ({ children, grade, purpose }) => {
   const { data, setData, put, post, reset, processing } = useForm({
     group: grade?.group ?? '',
     name: grade?.name ?? '',
+    characters: grade?.characters ?? [],
   });
 
   const handleSubmit = () => {
@@ -80,6 +82,9 @@ const GradeFormSheet: FC<Props> = ({ children, grade, purpose }) => {
             </FormControl>
             <FormControl label="Nama grade">
               <Input type="text" placeholder="Name" value={data.name} onChange={(e) => setData('name', e.target.value)} />
+            </FormControl>
+            <FormControl asDiv label="Pengembangan karakter" hint="Tulis karakter dan tekan enter">
+              <TagsInput value={data.characters} onValueChange={(value) => setData('characters', value)} />
             </FormControl>
           </form>
         </ScrollArea>

@@ -16,6 +16,8 @@ class UpdateGradeRequest extends FormRequest
         return [
             'group' => 'required|string|max:255',
             'name' => 'required|string|max:255',
+            'characters' => 'nullable|array',
+            'characters.*' => 'string',
         ];
     }
 }

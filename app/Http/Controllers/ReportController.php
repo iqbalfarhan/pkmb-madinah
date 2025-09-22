@@ -59,6 +59,9 @@ class ReportController extends Controller
         $academicYear = AcademicYear::find($data['academic_year_id']);
         // $classroom = Classroom::find($data['classroom_id']);
         $classroom = Classroom::find($data['classroom_id']);
+        $characters = collect($classroom->grade->characters);
+
+        // dd($characters);
 
         $mockup = config('report-mockup')[$data['report_type']];
         $mockup['tahunajaran'] = $academicYear->year;
@@ -82,6 +85,11 @@ class ReportController extends Controller
                     'kegiatan' => $ekskul->description,
                 ];
             });
+
+            foreach ($characters as $sikap) {
+                $mockup["sikap"][$sikap] = 1;
+            }
+
         } elseif ($data['report_type'] == 'nilai') {
             $mockup['tanggal'] = $settings['SCHOOL_CITY'].', '.now()->format('d F Y');
             $mockup['rapor_kenaikan_kelas'] = $academicYear->semester === 'ganjil' ? false : true;

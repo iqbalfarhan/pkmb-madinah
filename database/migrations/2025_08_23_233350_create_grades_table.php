@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->enum('group', ['TK', 'SD', 'SMP', 'SMA'])->default('SD');
             $table->string('name')->unique();
+            $table->json('characters')->nullable();
             $table->timestamps();
         });
     }

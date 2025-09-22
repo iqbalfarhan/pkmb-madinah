@@ -1,29 +1,46 @@
 import { cn } from '@/lib/utils';
-import { PropsWithChildren, ReactNode } from 'react';
+import { FC, PropsWithChildren, ReactNode } from 'react';
 import { Label } from './ui/label';
 
-type FormControlProps = PropsWithChildren & {
+type Props = PropsWithChildren & {
   label?: string;
   hint?: string;
   className?: string;
   required?: boolean;
   action?: ReactNode;
+  asDiv?: boolean;
 };
 
-const FormControl = ({ label, children, className, required, hint, action }: FormControlProps) => {
+const FormControl: FC<Props> = ({ className, asDiv = false, ...other }) => {
+  if (asDiv) {
+    return (
+      <div className={cn('flex flex-col space-y-2', className)}>
+        <FormControlContent {...other} />
+      </div>
+    );
+  }
+
   return (
     <Label className={cn('flex flex-col space-y-2', className)}>
+      <FormControlContent {...other} />
+    </Label>
+  );
+};
+
+const FormControlContent: FC<Props> = ({ label, required, action, children, hint }) => {
+  return (
+    <>
       {label && (
         <div className="flex items-end justify-between">
           <label>
             {label} {required && <span className="text-destructive">*</span>}
           </label>
-          {action && action}
+          {action}
         </div>
       )}
       {children}
       {hint && <p className="flex gap-1 text-xs text-muted-foreground">{hint}</p>}
-    </Label>
+    </>
   );
 };
 
