@@ -1,1 +1,0 @@
-import{j as e}from"./app-DcIBRsLW.js";import{C as a,a as s,b as t,e as i}from"./card-Bkhz9P0c.js";/* empty css            */import"./utils-C5ZhllyX.js";const n=({user:r})=>e.jsx(a,{className:"flex flex-col justify-between",children:e.jsxs(s,{children:[e.jsx(t,{children:r.name}),e.jsx(i,{children:r.email})]})});export{n as default};
