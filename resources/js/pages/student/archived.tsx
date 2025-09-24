@@ -8,7 +8,7 @@ import AppLayout from '@/layouts/app-layout';
 import { em } from '@/lib/utils';
 import { Student } from '@/types/student';
 import { Link, router } from '@inertiajs/react';
-import { ArrowLeft, Trash2, Undo2 } from 'lucide-react';
+import { ArrowLeft, Folder, Trash2, Undo2 } from 'lucide-react';
 import { FC, useState } from 'react';
 import { toast } from 'sonner';
 import StudentStatusBadge from './components/student-status-badge';
@@ -65,12 +65,14 @@ const ArchivedStudentList: FC<Props> = ({ students }) => {
           </>
         )}
         <Tabs value={status} onValueChange={setStatus}>
-          <TabsList>
-            <TabsTrigger value="all">Semua</TabsTrigger>
-            <TabsTrigger value="lulus">Lulus</TabsTrigger>
-            <TabsTrigger value="dikeluarkan">Dikeluarkan</TabsTrigger>
-            <TabsTrigger value="pindah">Pindah</TabsTrigger>
-          </TabsList>
+          <div>
+            <TabsList>
+              <TabsTrigger value="all">Semua</TabsTrigger>
+              <TabsTrigger value="lulus">Lulus</TabsTrigger>
+              <TabsTrigger value="dikeluarkan">Dikeluarkan</TabsTrigger>
+              <TabsTrigger value="pindah">Pindah</TabsTrigger>
+            </TabsList>
+          </div>
         </Tabs>
       </div>
       <Table>
@@ -128,6 +130,11 @@ const ArchivedStudentList: FC<Props> = ({ students }) => {
                   <StudentStatusBadge status={student.status} />
                 </TableCell>
                 <TableCell>
+                  <Button asChild variant={'ghost'} size={'icon'}>
+                    <Link href={route('student.show', student.id)}>
+                      <Folder />
+                    </Link>
+                  </Button>
                   <Button variant={'ghost'} size={'icon'} onClick={() => handleRestore(student.id)}>
                     <Undo2 />
                   </Button>

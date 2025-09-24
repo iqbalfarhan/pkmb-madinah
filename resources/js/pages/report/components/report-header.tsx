@@ -9,7 +9,8 @@ const ReportHeader = () => {
     perkembangan: 'LAPORAN PERKEMBANGAN SISWA',
     nilai: 'LAPORAN HASIL AKHIR',
     tahfidz: 'LAPORAN PERKEMBANGAN HAFALAN AL-QURAN',
-    tahsin: 'LAPORAN HASIL HAFALAN DOA',
+    tahsin: 'LAPORAN PERKEMBANGAN TAHSIN AL-MUYASSAR',
+    'doa-hadist': 'LAPORAN HASIL HAFALAN DOA',
   } as const;
 
   const data = report.data as {

@@ -101,7 +101,43 @@ export type ReportNilaiData = {
 // batas rapor nilai
 
 export type ReportTahsinData = {
-  name: string;
+  tahunajaran: string;
+  semester: string;
+  nama: string;
+  kelas: string;
+  usia: string;
+  nisn: string;
+
+  jilid: string;
+  hal: string;
+  nilai_kkm: string;
+  nilai_rapor: string;
+  nilai_rentang: string;
+  titik_kuat: string;
+  titik_lemah: string;
+  koordinator: string;
+  komentar_guru: string;
+  pembimbing: string;
 };
 
-// batas rapor doa
+// batas rapor tahsin
+
+export type PenilaianDoaHadist = {
+  judul: string;
+  pencapaian: string;
+  keterangan: string;
+};
+
+export type ReportTahsinData = {
+  tahunajaran: string;
+  semester: string;
+  nama: string;
+  kelas: string;
+  usia: string;
+  nisn: string;
+
+  doa: PenilaianDoaHadist[];
+  hadist: PenilaianDoaHadist[];
+};
+
+// batas rapor tahsin

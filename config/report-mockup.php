@@ -241,6 +241,49 @@ return [
         'kelas' => '',
         'usia' => '',
         'nisn' => '',
+        //
+        'jilid' => '',
+        'hal' => '',
+        'nilai_kkm' => '',
+        'nilai_rapor' => '',
+        'nilai_rentang' => '',
+        'titik_kuat' => '',
+        'titik_lemah' => '',
+        'komentar_guru' => '',
+        'tanggal' => '',
+        'pembimbing' => '',
+        'koordinator' => '',
+    ],
+    'doa-hadist' => [
+        'tahunajaran' => '',
+        'semester' => '',
+        'nama' => '',
+        'kelas' => '',
+        'usia' => '',
+        'nisn' => '',
+        'walikelas' => '',
+        'doa' => [
+            [
+                "judul" => "",
+                "pencapaian" => "",
+                "keterangan" => "",
+            ]
+        ],
+        'hadist' => [
+            [
+                "judul" => "",
+                "pencapaian" => "",
+                "keterangan" => "",
+            ]
+        ],
+    ],
+    'praktik' => [
+        'tahunajaran' => '',
+        'semester' => '',
+        'nama' => '',
+        'kelas' => '',
+        'usia' => '',
+        'nisn' => '',
         'walikelas' => '',
         'nilai' => [],
     ],

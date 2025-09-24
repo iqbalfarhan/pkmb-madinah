@@ -22,6 +22,8 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DoahadistController;
+
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
 Route::get('/berita', [WelcomeController::class, 'berita'])->name('berita');
@@ -103,6 +105,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('exam/bulk', [ExamController::class, 'bulkUpdate'])->name('exam.bulk.update');
     Route::delete('exam/bulk', [ExamController::class, 'bulkDelete'])->name('exam.bulk.destroy');
     Route::apiResource('exam', ExamController::class);
+    
     Route::put('examscore/bulk', [ExamscoreController::class, 'bulkUpdate'])->name('examscore.bulk.update');
     Route::delete('examscore/bulk', [ExamscoreController::class, 'bulkDelete'])->name('examscore.bulk.destroy');
     Route::apiResource('examscore', ExamscoreController::class);

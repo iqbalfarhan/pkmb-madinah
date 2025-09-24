@@ -1,7 +1,7 @@
 import HeadingSmall from '@/components/heading-small';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import ReportFormSheet from '@/pages/report/components/report-form-sheet';
 import ReportItemCard from '@/pages/report/components/report-item-card';
 import { SharedData } from '@/types';
@@ -46,16 +46,17 @@ const ClassroomRarporsTab: FC<Props> = ({ reports, reportTypes, query }) => {
 
       <div className="flex flex-col gap-2 sm:flex-row">
         <Input placeholder="Cari dengan nama siswa" value={cari} onChange={(e) => setCari(e.target.value)} />
-        <Tabs value={tab} onValueChange={(v) => router.get('', { tab: v })}>
-          <div>
-            <TabsList>
-              <TabsTrigger value="all">Semua rapor</TabsTrigger>
-              {reportTypes.map((type) => (
-                <TabsTrigger value={type}>E-rapor {type}</TabsTrigger>
-              ))}
-            </TabsList>
-          </div>
-        </Tabs>
+        <Select value={tab} onValueChange={(v) => router.get('', { tab: v })}>
+          <SelectTrigger className="w-full md:w-fit">
+            <SelectValue placeholder={'Pilih jenis rapor'} />
+          </SelectTrigger>
+          <SelectContent align="end">
+            <SelectItem value="all">Semua rapor</SelectItem>
+            {reportTypes.map((type) => (
+              <SelectItem value={type}>E-rapor {type}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       <div className="grid-responsive grid gap-4">

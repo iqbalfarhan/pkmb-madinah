@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\AnyFormatter;
+use App\Helpers\ReportHelper;
 use App\Http\Requests\BulkDeleteReportRequest;
 use App\Http\Requests\BulkUpdateReportRequest;
 use App\Http\Requests\RefreshNilaiReportRequest;
@@ -59,74 +60,9 @@ class ReportController extends Controller
         $settings = Setting::pluck('value', 'key');
         $student = Student::find($data['student_id']);
         $academicYear = AcademicYear::find($data['academic_year_id']);
-        // $classroom = Classroom::find($data['classroom_id']);
         $classroom = Classroom::find($data['classroom_id']);
-        $characters = collect($classroom->grade->characters);
 
-        // dd($characters);
-
-        $mockup = config('report-mockup')[$data['report_type']];
-        $mockup['tahunajaran'] = $academicYear->year;
-        $mockup['semester'] = $academicYear->semester;
-        $mockup['nama'] = $student->name;
-        $mockup['kelas'] = $classroom->name;
-        $mockup['walikelas'] = $classroom->user->name ?? '';
-        $mockup['usia'] = $student->umur;
-        $mockup['nisn'] = $student->nisn;
-
-        if ($data['report_type'] == 'perkembangan') {
-            $mockup['tanggal'] = $settings['SCHOOL_CITY'].', '.now()->format('d F Y');
-
-            $sakit = $student->absents->where('reason', 'sakit')->count() ?? 0;
-            $izin = $student->absents->where('reason', 'izin')->count() ?? 0;
-            $alpa = $student->absents->where('reason', 'tanpa keterangan')->count() ?? 0;
-
-            $mockup['ketidakhadiran']['sakit'] = AnyFormatter::hariNumberDescription($sakit);
-            $mockup['ketidakhadiran']['izin'] = AnyFormatter::hariNumberDescription($izin);
-            $mockup['ketidakhadiran']['tanpa keterangan'] = AnyFormatter::hariNumberDescription($alpa);
-
-            $mockup['ekskul'] = $student->activities->load(['extracurricular'])->map(function ($ekskul) {
-                return [
-                    'nama' => $ekskul->extracurricular->name,
-                    'kegiatan' => $ekskul->description,
-                ];
-            });
-
-            foreach ($characters as $sikap) {
-                $mockup["sikap"][$sikap] = 1;
-            }
-
-        } elseif ($data['report_type'] == 'nilai') {
-            $mockup['tanggal'] = $settings['SCHOOL_CITY'].', '.now()->format('d F Y');
-            $mockup['rapor_kenaikan_kelas'] = $academicYear->semester === 'ganjil' ? false : true;
-            $mockup['naik_kelas'] = null;
-            $mockup['ke_kelas'] = '';
-
-            $mockup['nilai'] = $classroom->lessons?->map(function ($lesson) use ($student) {
-
-                $lesson = $lesson->load('exams.examscores', 'assignments.scores');
-                $subject = $lesson->subject;
-
-                $score = Score::whereStudentId($student->id)->whereLessonId($lesson->id)->get()->sum('rated_score') ?? 0;
-                $examscore = Examscore::whereStudentId($student->id)->whereLessonId($lesson->id)->get()->sum('rated_score') ?? 0;
-
-                return [
-                    'name' => $subject->name,
-                    'type' => $subject->group,
-                    'nilai_tugas' => $score,
-                    'evaluasi' => $examscore,
-                    'rata_rata' => ($score + $examscore) / 2,
-                ];
-            });
-        } elseif ($data['report_type'] == 'tahfidz') {
-            $mockup['tanggal'] = $settings['SCHOOL_CITY'].', '.now()->format('d F Y');
-            // $mockup['pembimbing'] = $settings['PEMBIMBING_TAHFIDZ'];
-            $mockup['koordinator'] = $settings['KOORDINATOR_Al-MUYASSAR'];
-            $mockup['catatan'] = "Semoga ananda {$student->name} tetap rajin muroja'ah di rumah agar hafalan Surah Al Qur'an-nya tetap terjaga";
-        } elseif ($data['report_type'] == 'tahsin') {
-
-        }
-
+        $mockup = ReportHelper::generateReportData($data, $student, $academicYear, $classroom, $settings);
         $data['data'] = $mockup;
 
         Report::create($data);
@@ -178,26 +114,12 @@ class ReportController extends Controller
     {
         $request->validated();
 
-        $classroom = $report->classroom;
-        $student = $report->student;
+        $report->load(['classroom', 'student']);
+        $student = Student::find($report->student_id);
+        $classroom = Classroom::find($report->student_id);
 
         $mockup = $report->data;
-
-        $mockup['nilai'] = $classroom->lessons?->map(function ($lesson) use ($student) {
-            $lesson = $lesson->load('exams.examscores', 'assignments.scores');
-            $subject = $lesson->subject;
-
-            $score = Score::whereStudentId($student->id)->whereLessonId($lesson->id)->get()->sum('rated_score') ?? 0;
-            $examscore = Examscore::whereStudentId($student->id)->whereLessonId($lesson->id)->get()->sum('rated_score') ?? 0;
-
-            return [
-                'name' => $subject->name,
-                'type' => $subject->group,
-                'nilai_tugas' => $score,
-                'evaluasi' => $examscore,
-                'rata_rata' => ($score + $examscore) / 2,
-            ];
-        });
+        $mockup['nilai'] = ReportHelper::generateLessonScores( $student, $classroom);
 
         $report->update([
             'data' => $mockup,
@@ -247,6 +169,12 @@ class ReportController extends Controller
             ])->stream($report->name);
         } elseif ($report->report_type == 'tahfidz') {
             return Pdf::setOption('paper', 'a4')->loadView('pdf.tahfidz', [
+                'data' => $data,
+                'settings' => Setting::pluck('value', 'key'),
+                'report' => $report,
+            ])->stream($report->name);
+        } elseif ($report->report_type == 'tahsin') {
+            return Pdf::setOption('paper', 'a4')->loadView('pdf.tahsin', [
                 'data' => $data,
                 'settings' => Setting::pluck('value', 'key'),
                 'report' => $report,

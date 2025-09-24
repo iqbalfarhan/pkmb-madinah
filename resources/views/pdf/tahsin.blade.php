@@ -56,8 +56,8 @@
 			border: 1px solid black;
 		}
 		.content table th, .content table td {
-			padding: 2px 7px;
-			padding-bottom: 7px;
+			padding: 4px 10px;
+			padding-bottom: 10px;
 		}
 		.content table tr th {
 			font-family: 'Noto Serif Bold';
@@ -80,7 +80,7 @@
 			</td>
 			<td>
 			<h3 class="judul-rapor">
-				LAPORAN PERKEMBANGAN HAFALAN AL-QUR'AN<br>
+				LAPORAN PERKEMBANGAN TAHSIN AL-MUYASSAR<br>
 				{{ strtoupper($settings['SCHOOL_NAME']) }}<br>
 				SEMESTER {{ strtoupper($data['semester']) }}<br>
 				TAHUN AJARAN {{ $data['tahunajaran'] }}
@@ -92,50 +92,70 @@
 	<hr>
 
 	<div style="margin: 20px 0cm;">
-		<table>
-			<tr><td style="width: 100px"><strong>Nama siswa</strong></td><td><strong>:</strong></td><td><strong>{{ $data['nama'] }}</strong></td></tr>
-			<tr><td style="width: 100px"><strong>Kelas</strong></td><td><strong>:</strong></td><td><strong>{{ $data['kelas'] }}</strong></td></tr>
-			<tr><td style="width: 100px"><strong>Usia</strong></td><td><strong>:</strong></td><td><strong>{{ $data['usia'] }}</strong></td></tr>
-			<tr><td style="width: 100px"><strong>NIS/NISN</strong></td><td><strong>:</strong></td><td><strong>{{ $data['nisn'] }}</strong></td></tr>
+		<table style="width: 100%">
+			<tr>
+				<td>
+					<table style="width: 100%">
+						<tr><td style="width: 120px"><strong>Nama siswa</strong></td><td><strong>:</strong></td><td><strong>{{ $data['nama'] }}</strong></td></tr>
+						<tr><td style="width: 120px"><strong>NISN</strong></td><td><strong>:</strong></td><td><strong>{{ $data['nisn'] }}</strong></td></tr>
+						<tr><td style="width: 120px"><strong>Kelas</strong></td><td><strong>:</strong></td><td><strong>{{ $data['kelas'] }}</strong></td></tr>
+						<tr><td style="width: 120px"><strong>Mata pelajaran</strong></td><td><strong>:</strong></td><td><strong>TAHSIN</strong></td></tr>
+					</table>
+		
+				</td>
+				<td>
+					<table style="width: 100%">
+						<tr><td style="width: 120px"><strong>Semester</strong></td><td><strong>:</strong></td><td><strong>{{ $data['semester'] }}</strong></td></tr>
+						<tr><td style="width: 120px"><strong>Periode</strong></td><td><strong>:</strong></td><td><strong>{{ $data['periode'] ?? "" }}</strong></td></tr>
+						<tr><td style="width: 120px"><strong>Tahun ajaran</strong></td><td><strong>:</strong></td><td><strong>{{ $data['tahunajaran'] }}</strong></td></tr>
+						<tr><td>&nbsp;</td></tr>
+					</table>
+				</td>
+			</tr>
 		</table>
 	</div>
-
-	@php
-		$grouped = [];
-
-		foreach ($data['nilai'] as $item) {
-			$grouped[$item['juz']][] = $item;
-		}
-	@endphp
 
 	<div class="content">
 		<table class="table" border="1">
 			<tr>
-				<th>No</th>
-				<th>Nama surah</th>
-				<th>Kemampuan yang dicapai</th>
-				<th>Keterangan ayat</th>
+				<td style="width: 150px">Al Muyassar/Jilid</td>
+				<td>:</td>
+				<td>{{ $data['jilid'] }}</td>
 			</tr>
-			@foreach ($grouped as $juz => $nilais)	
-				<tr style="background-color: lightgrey">
-					<th colspan="4">Hafalan juz {{ $juz }}</th>
-				</tr>
-				@foreach ($nilais as $nilai)
-					<tr>
-						<td style="width: 15px" class="text-center">{{ $loop->iteration }}</td>
-						<th>{{ $nilai['surah'] }}</th>
-						<td class="text-center">{{ ucwords($nilai['pencapaian']) }}</td>
-						<td>{{ $nilai['keterangan'] }}</td>
-					</tr>
-				@endforeach
-			@endforeach
 			<tr>
-				<td colspan="4">
-					<div>
-						<strong>Catatan:</strong><br>
-						{{ $data['catatan'] }}
-					</div>
-				</td>
+				<td>Hal</td>
+				<td>:</td>
+				<td>{{ $data['hal'] }}</td>
+			</tr>
+			<tr>
+				<td>Nilai KKM</td>
+				<td>:</td>
+				<td>{{ $data['nilai_kkm'] }}</td>
+			</tr>
+			<tr>
+				<td>Nilai Rapor</td>
+				<td>:</td>
+				<td>{{ $data['nilai_rapor'] }}</td>
+			</tr>
+			<tr>
+				<td>Nilai Rentang</td>
+				<td>:</td>
+				<td>{{ $data['nilai_rentang'] }}</td>
+			</tr>
+			<tr>
+				<td>Titik Kuat</td>
+				<td>:</td>
+				<td>{{ $data['titik_kuat'] }}</td>
+			</tr>
+			<tr>
+				<td>Titik Lemah</td>
+				<td>:</td>
+				<td>{{ $data['titik_lemah'] }}</td>
+			</tr>
+			<tr>
+				<td>Komentar Guru</td>
+				<td>:</td>
+				<td>{{ $data['komentar_guru'] }}</td>
 			</tr>
 		</table>
 		<br>

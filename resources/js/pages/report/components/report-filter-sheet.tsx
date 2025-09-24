@@ -1,4 +1,3 @@
-import DDump from '@/components/d-dump';
 import FormControl from '@/components/form-control';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -71,7 +70,6 @@ const ReportFilterSheet: FC<Props> = ({ children }) => {
           <SheetDescription>Filter data report</SheetDescription>
         </SheetHeader>
         <ScrollArea className="flex-1 overflow-y-auto">
-          <DDump content={data} />
           <form
             method="get"
             className="space-y-6 px-4"

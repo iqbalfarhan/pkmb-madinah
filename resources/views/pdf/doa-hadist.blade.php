@@ -80,7 +80,8 @@
 			</td>
 			<td>
 			<h3 class="judul-rapor">
-				LAPORAN PERKEMBANGAN HAFALAN AL-QUR'AN<br>
+				LAPORAN PERKEMBANGAN HAFALAN <br>
+				BACAAN DO'A HARIAN DAN HADITS<br>
 				{{ strtoupper($settings['SCHOOL_NAME']) }}<br>
 				SEMESTER {{ strtoupper($data['semester']) }}<br>
 				TAHUN AJARAN {{ $data['tahunajaran'] }}
