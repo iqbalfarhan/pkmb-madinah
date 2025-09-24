@@ -72,6 +72,7 @@ class HandleInertiaRequests extends Middleware
                 'grade' => $user?->can('menu grade'),
                 'subject' => $user?->can('menu subject'),
                 'extracurricular' => $user?->can('menu extracurricular'),
+                'assessment' => $user?->can('menu assessment'),
 
                 // list pengaturan kelas
                 'classroom' => $user?->can('menu classroom'),

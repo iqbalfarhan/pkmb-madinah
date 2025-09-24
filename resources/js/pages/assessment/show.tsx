@@ -1,29 +1,26 @@
-import DDump from '@/components/d-dump';
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
-import { Grade } from '@/types/grade';
+import { Assessment } from '@/types/assessment';
 import { FC } from 'react';
 
 type Props = {
-  grade: Grade;
+  assessment: Assessment;
 };
 
-const ShowGrade: FC<Props> = ({ grade }) => {
+const ShowAssessment: FC<Props> = ({ assessment }) => {
   return (
-    <AppLayout title="Detail Grade" description="Detail grade">
+    <AppLayout title="Detail Assessment" description="Detail assessment">
       <Card>
         <CardHeader>
-          <CardTitle>{grade.name}</CardTitle>
+          <CardTitle>{ assessment.name }</CardTitle>
           <CardDescription>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, quo impedit cupiditate voluptas culpa magnam itaque distinctio at ullam,
             beatae perferendis doloremque facilis mollitia, quod corporis. Autem voluptatum ipsum placeat.
           </CardDescription>
-
-          <DDump content={grade} />
         </CardHeader>
       </Card>
     </AppLayout>
   );
 };
 
-export default ShowGrade;
+export default ShowAssessment;

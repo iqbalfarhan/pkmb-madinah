@@ -60,6 +60,16 @@ class SettingSeeder extends Seeder
                 'hint' => 'Nama kepala sekolah',
                 'value' => 'Semi Hidayati, A.Md., S.Pd',
             ],
+            [
+                'key' => 'PERIODE_GANJIL',
+                'hint' => 'Periode bulan untuk semester ganjil',
+                'value' => 'Juli - November',
+            ],
+            [
+                'key' => 'PERIODE_GENAP',
+                'hint' => 'Periode bulan untuk semester genap',
+                'value' => 'Januari - Mei',
+            ],
         ];
 
         foreach ($settings as $setting) {

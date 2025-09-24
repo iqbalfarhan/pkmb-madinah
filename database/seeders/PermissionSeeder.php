@@ -204,6 +204,14 @@ class PermissionSeeder extends Seeder
                 'restore user' => ['admin'],
                 'force delete user' => ['admin'],
             ],
+            'assessment' => [
+                "menu assessment" => ["admin"],
+                "index assessment" => ["admin"],
+                "show assessment" => ["admin"],
+                "create assessment" => ["admin"],
+                "update assessment" => ["admin"],
+                "delete assessment" => ["admin"],
+            ]
         ];
 
         foreach ($permissionGroups as $group => $permissions) {

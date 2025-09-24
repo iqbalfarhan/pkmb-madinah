@@ -45,5 +45,10 @@ class Grade extends Model
     }
     */
 
+    public function assessments()
+    {
+        return $this->hasMany(Assessment::class);
+    }
+
 
 }

@@ -47,7 +47,7 @@ class GradeController extends Controller
     public function show(Grade $grade)
     {
         return Inertia::render('grade/show', [
-            'grade' => $grade,
+            'grade' => $grade->load('assessments'),
         ]);
     }
 

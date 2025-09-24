@@ -23,6 +23,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoahadistController;
+use App\Http\Controllers\AssessmentController;
+
 
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
@@ -109,6 +111,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('examscore/bulk', [ExamscoreController::class, 'bulkUpdate'])->name('examscore.bulk.update');
     Route::delete('examscore/bulk', [ExamscoreController::class, 'bulkDelete'])->name('examscore.bulk.destroy');
     Route::apiResource('examscore', ExamscoreController::class);
+    
+    Route::put('assessment/bulk', [AssessmentController::class, 'bulkUpdate'])->name('assessment.bulk.update');
+    Route::delete('assessment/bulk', [AssessmentController::class, 'bulkDelete'])->name('assessment.bulk.destroy');
+    Route::apiResource('assessment', AssessmentController::class);
 });
 
 require __DIR__.'/classroom.php';
