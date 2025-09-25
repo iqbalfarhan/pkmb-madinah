@@ -5,7 +5,7 @@ import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
 import { capitalizeWords, em } from '@/lib/utils';
-import { PointMark, Report, ReportPerkembanganData } from '@/types/report';
+import { PointMark, Report, ReportDataMeta, ReportPerkembanganData } from '@/types/report';
 import { Student } from '@/types/student';
 import { useForm, usePage } from '@inertiajs/react';
 import { Check, Download, FileJson } from 'lucide-react';
@@ -65,12 +65,7 @@ const ReportPerkambangan: FC<Props> = ({ data }) => {
   return (
     <>
       <ReportHeader />
-      <ReportStudentCard
-        student_name={formData.data.nama}
-        student_age={formData.data.usia}
-        student_nisn={formData.data.nisn}
-        classroom_name={formData.data.kelas}
-      />
+      <ReportStudentCard meta={data as ReportDataMeta} />
       <div className="fixed right-6 -bottom-2 z-50">
         <div className="flex flex-col gap-2">
           <Button asChild variant={'secondary'}>

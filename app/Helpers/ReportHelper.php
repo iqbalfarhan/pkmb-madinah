@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Assessment;
 use App\AnyFormatter;
 use App\Models\AcademicYear;
 use App\Models\Classroom;
@@ -10,13 +11,14 @@ use App\Models\Report;
 use App\Models\Score;
 use App\Models\Setting;
 use App\Models\Student;
+use Illuminate\Support\Collection;
 
 class ReportHelper
 {
     /**
      * Generate report data based on report type
      */
-    public static function generateReportData(array $data, Student $student, AcademicYear $academicYear, Classroom $classroom, $settings): array
+    public static function generateReportData(array $data, Student $student, AcademicYear $academicYear, Classroom $classroom, Collection $assessments, $settings): array
     {
         $mockup = config('report-mockup')[$data['report_type']];
         
@@ -38,7 +40,7 @@ class ReportHelper
                 $mockup = self::setTahsinData($mockup, $student, $settings);
                 break;
             case 'doa-hadist':
-                $mockup = self::setDoaHadistData($mockup);
+                $mockup = self::setDoaHadistData($mockup, $assessments, $settings);
                 break;
             case 'praktik':
                 $mockup = self::setPraktikData($mockup);
@@ -141,6 +143,7 @@ class ReportHelper
     private static function setTahsinData(array $mockup, Student $student, $settings): array
     {
         $mockup['jilid'] = '';
+        $mockup['periode'] = '';
         $mockup['hal'] = '';
         $mockup['nilai_kkm'] = '';
         $mockup['nilai_rapor'] = '';
@@ -157,9 +160,24 @@ class ReportHelper
     /**
      * Set data specific to doa-hadist report type
      */
-    private static function setDoaHadistData(array $mockup): array
+    private static function setDoaHadistData(array $mockup, Collection $assessments, $settings ): array
     {
-        $mockup['nilai'] = [];
+        $mockup['koordinator'] = $settings['KOORDINATOR_Al-MUYASSAR'];
+
+        $mockup['doa'] = $assessments->where('group', 'doa harian')->map(function($doa){
+            return [
+                "judul" => $doa['name'],
+                "pencapaian" => "Berkembang",
+                "keterangan" => "",
+            ];
+        })->values();
+        $mockup['hadist'] = $assessments->where('group', 'hadist')->map(function($doa){
+            return [
+                "judul" => $doa['name'],
+                "pencapaian" => "Berkembang",
+                "keterangan" => "",
+            ];
+        })->values();
         
         return $mockup;
     }

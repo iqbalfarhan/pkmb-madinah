@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
-import { Report, ReportNilaiData, ReportPerkembanganData, ReportTahfidzData, ReportTahsinData } from '@/types/report';
+import { Report, ReportDoaHadistData, ReportNilaiData, ReportPerkembanganData, ReportTahfidzData, ReportTahsinData } from '@/types/report';
 import { Link } from '@inertiajs/react';
 import { Download, Edit } from 'lucide-react';
 import { FC } from 'react';
+import ReportDoaHadistReader from './reader/report-doa-hadist';
 import ReportNilaiReader from './reader/report-nilai';
 import ReportPerkembanganReader from './reader/report-perkembangan';
 import ReportTahfidzReader from './reader/report-tahfidz';
@@ -40,6 +41,7 @@ const ShowReport: FC<Props> = ({ report }) => {
         {report.report_type === 'nilai' && <ReportNilaiReader data={report.data as ReportNilaiData} />}
         {report.report_type === 'tahfidz' && <ReportTahfidzReader data={report.data as ReportTahfidzData} />}
         {report.report_type === 'tahsin' && <ReportTahsinReader data={report.data as ReportTahsinData} />}
+        {report.report_type === 'doa-hadist' && <ReportDoaHadistReader data={report.data as ReportDoaHadistData} />}
       </div>
     </AppLayout>
   );

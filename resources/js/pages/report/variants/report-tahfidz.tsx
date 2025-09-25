@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { em, groupBy } from '@/lib/utils';
 import { SharedData, User } from '@/types';
-import { PenilaianTahfidz, Report, ReportTahfidzData } from '@/types/report';
+import { PenilaianTahfidz, Report, ReportDataMeta, ReportTahfidzData } from '@/types/report';
 import { useForm, usePage } from '@inertiajs/react';
 import { Check, Edit, Plus, Trash2 } from 'lucide-react';
 import { FC, useCallback } from 'react';
@@ -74,7 +74,7 @@ const ReportTahfidz: FC<Props> = ({ data }) => {
         <Check />
         Simpan
       </Button>
-      <ReportStudentCard student_name={data.nama} student_age={data.usia} student_nisn={data.nisn} classroom_name={data.kelas} />
+      <ReportStudentCard meta={data as ReportDataMeta} />
       <Card>
         <CardHeader>
           <CardTitle>List hafalan</CardTitle>

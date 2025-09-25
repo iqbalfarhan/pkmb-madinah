@@ -10,6 +10,7 @@ use App\Http\Requests\RefreshNilaiReportRequest;
 use App\Http\Requests\StoreReportRequest;
 use App\Http\Requests\UpdateReportRequest;
 use App\Models\AcademicYear;
+use App\Models\Assessment;
 use App\Models\Classroom;
 use App\Models\Examscore;
 use App\Models\Grade;
@@ -57,15 +58,25 @@ class ReportController extends Controller
     {
         $data = $request->validated();
 
+        $activeAcademicYearSemester = AcademicYear::active()->semester;
         $settings = Setting::pluck('value', 'key');
         $student = Student::find($data['student_id']);
         $academicYear = AcademicYear::find($data['academic_year_id']);
         $classroom = Classroom::find($data['classroom_id']);
+        $assessments = Assessment::query()
+            ->whereIn('group', ["doa harian", "hadist"])
+            ->where('grade_id', $classroom->grade_id)
+            ->where('semester', $activeAcademicYearSemester)
+            ->get();
 
-        $mockup = ReportHelper::generateReportData($data, $student, $academicYear, $classroom, $settings);
+        // dd($classroom->grade_id, $assessments->toArray(), $activeAcademicYearSemester);
+
+        $mockup = ReportHelper::generateReportData($data, $student, $academicYear, $classroom, $assessments, $settings);
         $data['data'] = $mockup;
 
-        Report::create($data);
+        $report = Report::create($data);
+
+        return redirect()->route('report.show', $report->id);
     }
 
     /**
@@ -155,26 +166,17 @@ class ReportController extends Controller
     public function download(Report $report)
     {
         $data = collect($report->data);
-        if ($report->report_type == 'perkembangan') {
-            return Pdf::setOption('paper', 'a4')->loadView('pdf.perkembangan', [
-                'data' => $data,
-                'settings' => Setting::pluck('value', 'key'),
-                'report' => $report,
-            ])->stream($report->name);
-        } elseif ($report->report_type == 'nilai') {
-            return Pdf::setOption('paper', 'a4')->loadView('pdf.nilai', [
-                'data' => $data,
-                'settings' => Setting::pluck('value', 'key'),
-                'report' => $report,
-            ])->stream($report->name);
-        } elseif ($report->report_type == 'tahfidz') {
-            return Pdf::setOption('paper', 'a4')->loadView('pdf.tahfidz', [
-                'data' => $data,
-                'settings' => Setting::pluck('value', 'key'),
-                'report' => $report,
-            ])->stream($report->name);
-        } elseif ($report->report_type == 'tahsin') {
-            return Pdf::setOption('paper', 'a4')->loadView('pdf.tahsin', [
+        $reportType = $report->report_type;
+        $allowed = [
+            "perkembangan",
+            "nilai",
+            "tahfidz",
+            "tahsin",
+            "doa-hadist",
+        ];
+
+        if (in_array($reportType, $allowed)) {
+            return Pdf::setOption('paper', 'a4')->loadView("pdf.{$reportType}", [
                 'data' => $data,
                 'settings' => Setting::pluck('value', 'key'),
                 'report' => $report,

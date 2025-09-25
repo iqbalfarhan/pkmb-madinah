@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, Table
 import { Textarea } from '@/components/ui/textarea';
 import { em, groupBy } from '@/lib/utils';
 import { Grade } from '@/types/grade';
-import { Report, ReportNilaiData } from '@/types/report';
+import { Report, ReportDataMeta, ReportNilaiData } from '@/types/report';
 import { Student } from '@/types/student';
 import { router, useForm, usePage } from '@inertiajs/react';
 import { Check, RefreshCcw } from 'lucide-react';
@@ -62,12 +62,7 @@ const ReportNilai: FC<Props> = ({ data }) => {
   return (
     <>
       <ReportHeader />
-      <ReportStudentCard
-        student_name={formData.data.nama}
-        student_age={formData.data.usia}
-        student_nisn={formData.data.nisn}
-        classroom_name={formData.data.kelas}
-      />
+      <ReportStudentCard meta={data as ReportDataMeta} />
       <Button onClick={handleUpdate} className="fixed right-6 bottom-6">
         <Check />
         Simpan

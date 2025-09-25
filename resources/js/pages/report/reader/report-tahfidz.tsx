@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { groupBy } from '@/lib/utils';
-import { ReportTahfidzData } from '@/types/report';
+import { ReportDataMeta, ReportTahfidzData } from '@/types/report';
 import { FC } from 'react';
 import ReportHeader from '../components/report-header';
 import ReportStudentCard from '../components/report-student-card';
@@ -18,7 +18,7 @@ const ReportTahfidzReader: FC<Props> = ({ data }) => {
     <>
       <ReportHeader />
 
-      <ReportStudentCard student_name={data.nama} student_age={data.usia} student_nisn={data.nisn} classroom_name={data.kelas} />
+      <ReportStudentCard meta={data as ReportDataMeta} />
       <Card>
         <CardHeader>
           <CardTitle>List hafalan</CardTitle>

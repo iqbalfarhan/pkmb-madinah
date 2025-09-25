@@ -7,7 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from '@/components/u
 import { Textarea } from '@/components/ui/textarea';
 import { em } from '@/lib/utils';
 import { SharedData, User } from '@/types';
-import { Report, ReportTahsinData } from '@/types/report';
+import { Report, ReportDataMeta, ReportTahsinData } from '@/types/report';
 import { useForm, usePage } from '@inertiajs/react';
 import { Check } from 'lucide-react';
 import { FC, useCallback } from 'react';
@@ -46,7 +46,7 @@ const ReportTahsin: FC<Props> = ({ data }) => {
         <Check />
         Simpan
       </Button>
-      <ReportStudentCard student_name={data.nama} student_age={data.usia} student_nisn={data.nisn} classroom_name={data.kelas} />
+      <ReportStudentCard meta={data as ReportDataMeta} />
       <Card>
         <CardContent>
           <Table>

@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@/components/ui/table';
-import { ReportTahsinData } from '@/types/report';
+import { ReportDataMeta, ReportTahsinData } from '@/types/report';
 import { FC } from 'react';
 import ReportHeader from '../components/report-header';
 import ReportStudentCard from '../components/report-student-card';
@@ -13,7 +13,7 @@ const ReportTahsinReader: FC<Props> = ({ data }) => {
   return (
     <>
       <ReportHeader />
-      <ReportStudentCard student_name={data.nama} student_age={data.usia} student_nisn={data.nisn} classroom_name={data.kelas} />
+      <ReportStudentCard meta={data as ReportDataMeta} />
       <Card>
         <CardContent>
           <Table>

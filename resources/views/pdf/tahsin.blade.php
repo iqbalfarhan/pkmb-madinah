@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Document</title>
+	<title>{{ $report->name }}</title>
 
 	<style>
 		@page {
@@ -184,7 +184,7 @@
 				<br>
 				<br>
 				<br>
-				<strong>{{ $data['pembimbing'] ?? "" }}</strong>
+				<strong>{{ $data['pembimbing'] ?? "_______________" }}</strong>
 			</td>
 			</tr>
 			<tr>
@@ -197,7 +197,7 @@
 				<br>
 				<br>
 				<br>
-				<strong>{{ $data['koordinator'] }}</strong>
+				<strong>{{ $data['koordinator'] ?? "_______________" }}</strong>
 			</td>
 			</tr>
 		</table>

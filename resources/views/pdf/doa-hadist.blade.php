@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Document</title>
+	<title>{{ $report->name }}</title>
 
 	<style>
 		@page {
@@ -101,46 +101,30 @@
 		</table>
 	</div>
 
-	@php
-		$grouped = [];
-
-		foreach ($data['nilai'] as $item) {
-			$grouped[$item['juz']][] = $item;
-		}
-	@endphp
-
-	<div class="content">
-		<table class="table" border="1">
-			<tr>
-				<th>No</th>
-				<th>Nama surah</th>
-				<th>Kemampuan yang dicapai</th>
-				<th>Keterangan ayat</th>
-			</tr>
-			@foreach ($grouped as $juz => $nilais)	
-				<tr style="background-color: lightgrey">
-					<th colspan="4">Hafalan juz {{ $juz }}</th>
+	@foreach (['doa', 'hadist'] as $group)
+		<div class="content">
+			<table class="table" border="1">
+				<tr>
+					<th style="width: 20px">No</th>
+					<th style="width: 250px">Kemampuan yang dilakukan</th>
+					<th style="width: 250px">Kemampuan yang dicapai</th>
+					<th>Keterangan</th>
 				</tr>
-				@foreach ($nilais as $nilai)
+				<tr style="background-color: lightgrey">
+					<th colspan="4">{{ $group == "doa" ? "Do'a Do'a Harian" : "Bacaan Hadist" }}</th>
+				</tr>
+				@foreach ($data[$group] as $item)
 					<tr>
 						<td style="width: 15px" class="text-center">{{ $loop->iteration }}</td>
-						<th>{{ $nilai['surah'] }}</th>
-						<td class="text-center">{{ ucwords($nilai['pencapaian']) }}</td>
-						<td>{{ $nilai['keterangan'] }}</td>
+						<td class="text-center">{{ $item['judul'] }}</td>
+						<td class="text-center">{{ ucwords($item['pencapaian']) }}</td>
+						<td>{{ $item['keterangan'] }}</td>
 					</tr>
 				@endforeach
-			@endforeach
-			<tr>
-				<td colspan="4">
-					<div>
-						<strong>Catatan:</strong><br>
-						{{ $data['catatan'] }}
-					</div>
-				</td>
-			</tr>
-		</table>
-		<br>
-	</div>
+			</table>
+			<br>
+		</div>
+	@endforeach
 
 	<div>
 		<table border="0" style="width: 100%">
@@ -150,36 +134,36 @@
 				<td style="width: 40%; text-align: center;">{{ $data['tanggal'] ?? "" }}</td>
 			</tr>
 			<tr>
-			<td style="width: 40%; text-align: center;">
-				Orangtua/Wali
-				<br>
-				<br>
-				<br>
-				<br>
-				_______________
-			</td>
-			<td style="width: 30%; text-align: center;"></td>
-			<td style="width: 40%; text-align: center;">
-				Guru pembimbing,
-				<br>
-				<br>
-				<br>
-				<br>
-				<strong>{{ $data['pembimbing'] ?? "" }}</strong>
-			</td>
+				<td style="width: 40%; text-align: center;">
+					Orangtua/Wali
+					<br>
+					<br>
+					<br>
+					<br>
+					_______________
+				</td>
+				<td style="width: 30%; text-align: center;"></td>
+				<td style="width: 40%; text-align: center;">
+					Guru pembimbing,
+					<br>
+					<br>
+					<br>
+					<br>
+					<strong>{{ $data['pembimbing'] ?? "_______________" }}</strong>
+				</td>
 			</tr>
 			<tr>
-			<td>&nbsp;</td>
+				<td>&nbsp;</td>
 			</tr>
 			<tr>
-			<td style="text-align: center;" colspan="3">
-				Mengetahui,<br>
-				Koordinator Al-Muyassar<br>
-				<br>
-				<br>
-				<br>
-				<strong>{{ $data['koordinator'] }}</strong>
-			</td>
+				<td style="text-align: center;" colspan="3">
+					Mengetahui,<br>
+					Koordinator Al-Muyassar<br>
+					<br>
+					<br>
+					<br>
+					<strong>{{ $data['koordinator'] ?? "_______________" }}</strong>
+				</td>
 			</tr>
 		</table>
 	</div>

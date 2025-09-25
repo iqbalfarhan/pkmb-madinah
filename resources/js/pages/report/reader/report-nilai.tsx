@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { groupBy } from '@/lib/utils';
-import { ReportNilaiData } from '@/types/report';
+import { ReportDataMeta, ReportNilaiData } from '@/types/report';
 import { FC } from 'react';
 import ReportHeader from '../components/report-header';
 import ReportStudentCard from '../components/report-student-card';
@@ -18,7 +18,7 @@ const ReportNilaiReader: FC<Props> = ({ data }) => {
   return (
     <>
       <ReportHeader />
-      <ReportStudentCard student_name={data.nama} student_age={data.usia} student_nisn={data.nisn} classroom_name={data.kelas} />
+      <ReportStudentCard meta={data as ReportDataMeta} />
       <Card>
         <CardHeader>
           <CardTitle>Hasil rekap nilai siswa.</CardTitle>

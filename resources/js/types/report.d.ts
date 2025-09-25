@@ -2,7 +2,7 @@ import { Academicyear } from './academicyear';
 import { Classroom } from './classroom';
 import { Student } from './student';
 
-export type ReportType = 'nilai' | 'perkembangan' | 'tahsin' | 'tahfidz';
+export type ReportType = 'nilai' | 'perkembangan' | 'tahsin' | 'tahfidz' | 'doa-hadist';
 
 export type Report = {
   id: number;
@@ -19,6 +19,15 @@ export type Report = {
   updated_at?: string;
 };
 
+export type ReportDataMeta = {
+  tahunajaran: string;
+  semester: string;
+  nama: string;
+  kelas: string;
+  usia: string;
+  nisn: string;
+};
+
 export type PointMark = 'A' | 'B' | 'C';
 
 export type Penilaian = {
@@ -31,13 +40,7 @@ export type Penilaian = {
   }[];
 };
 
-export type ReportPerkembanganData = {
-  tahunajaran: string;
-  semester: string;
-  nama: string;
-  kelas: string;
-  usia: string;
-  nisn: string;
+export type ReportPerkembanganData = ReportDataMeta & {
   curricular_domain: Penilaian[];
   sikap: Record<string, number | null>;
   ekskul: {
@@ -53,13 +56,7 @@ export type ReportPerkembanganData = {
 
 // batas rapor perkembangan
 
-export type ReportTahfidzData = {
-  tahunajaran: string;
-  semester: string;
-  nama: string;
-  kelas: string;
-  usia: string;
-  nisn: string;
+export type ReportTahfidzData = ReportDataMeta & {
   catatan: string;
   nilai: PenilaianTahfidz[];
   tanggal: string;
@@ -76,13 +73,7 @@ export type PenilaianTahfidz = {
 
 // batas rapor tahfidz
 
-export type ReportNilaiData = {
-  tahunajaran: string;
-  semester: string;
-  nama: string;
-  kelas: string;
-  usia: string;
-  nisn: string;
+export type ReportNilaiData = ReportDataMeta & {
   rapor_kenaikan_kelas: boolean;
   naik_kelas: boolean | null;
   ke_kelas: string;
@@ -100,14 +91,7 @@ export type ReportNilaiData = {
 
 // batas rapor nilai
 
-export type ReportTahsinData = {
-  tahunajaran: string;
-  semester: string;
-  nama: string;
-  kelas: string;
-  usia: string;
-  nisn: string;
-
+export type ReportTahsinData = ReportDataMeta & {
   jilid: string;
   hal: string;
   nilai_kkm: string;
@@ -128,16 +112,11 @@ export type PenilaianDoaHadist = {
   keterangan: string;
 };
 
-export type ReportTahsinData = {
-  tahunajaran: string;
-  semester: string;
-  nama: string;
-  kelas: string;
-  usia: string;
-  nisn: string;
-
+export type ReportDoaHadistData = ReportDataMeta & {
+  koordinator: string;
+  pembimbing: string;
   doa: PenilaianDoaHadist[];
   hadist: PenilaianDoaHadist[];
 };
 
-// batas rapor tahsin
+// batas rapor doa hadist

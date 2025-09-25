@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { capitalizeWords, em } from '@/lib/utils';
 import { SharedData } from '@/types';
-import { Report, ReportPerkembanganData } from '@/types/report';
+import { Report, ReportDataMeta, ReportPerkembanganData } from '@/types/report';
 import { useForm, usePage } from '@inertiajs/react';
 import { Check } from 'lucide-react';
 import { FC } from 'react';
@@ -40,7 +40,7 @@ const ReportPerkembanganReader: FC<Props> = ({ data }) => {
   return (
     <>
       <ReportHeader />
-      <ReportStudentCard student_name={data.nama} student_age={data.usia} student_nisn={data.nisn} classroom_name={data.kelas} />
+      <ReportStudentCard meta={data as ReportDataMeta} />
 
       <h2 className="text-center text-xl font-bold">CURRICULAR DOMAIN</h2>
       {data.curricular_domain.map((nilai, nilaiIndex) => (
