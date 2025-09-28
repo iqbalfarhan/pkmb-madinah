@@ -42,7 +42,7 @@ const ExamFormSheet: FC<Props> = ({ children, lessonId, exam, purpose }) => {
     lesson_id: exam?.lesson_id ?? lessonId ?? '',
     classroom_id: exam?.classroom_id ?? classrooms[0].id ?? '',
     academic_year_id: exam?.academic_year_id ?? academicYears[0].id ?? '',
-    rate: exam?.rate ?? 100,
+    // rate: exam?.rate ?? 100,
   });
 
   const handleSubmit = () => {
@@ -136,9 +136,9 @@ const ExamFormSheet: FC<Props> = ({ children, lessonId, exam, purpose }) => {
             <FormControl label="Deskripsi">
               <Textarea placeholder="Name" value={data.description} onChange={(e) => setData('description', e.target.value)} />
             </FormControl>
-            <FormControl label="Bobot">
+            {/* <FormControl label="Bobot">
               <Input type="text" placeholder="Bobot nilai" value={data.rate} onChange={(e) => setData('rate', Number(e.target.value))} />
-            </FormControl>
+            </FormControl> */}
           </form>
         </ScrollArea>
         <SheetFooter>

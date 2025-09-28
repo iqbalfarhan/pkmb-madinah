@@ -2,7 +2,7 @@ import HeadingSmall from '@/components/heading-small';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { strLimit } from '@/lib/utils';
+import ExamDeleteDialog from '@/pages/exam/components/exam-delete-dialog';
 import ExamFormSheet from '@/pages/exam/components/exam-form-sheet';
 import ExamscoreFormPopup from '@/pages/examscore/components/examscore-form-popup';
 import { SharedData } from '@/types';
@@ -11,14 +11,14 @@ import { Examscore } from '@/types/examscore';
 import { Lesson } from '@/types/lesson';
 import { Student } from '@/types/student';
 import { usePage } from '@inertiajs/react';
-import { Plus } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 
 const LessonUjianTab = () => {
   const {
     lesson,
     students = [],
     exams = [],
-    examscores,
+    examscores = [],
     permissions,
   } = usePage<SharedData & { lesson: Lesson; students: Student[]; exams: Exam[]; examscores: Examscore[] }>().props;
 
@@ -33,7 +33,7 @@ const LessonUjianTab = () => {
               <ExamFormSheet purpose="create" lessonId={lesson.id}>
                 <Button>
                   <Plus />
-                  Tambah ujian baru
+                  Tambah evaluasi baru
                 </Button>
               </ExamFormSheet>
             )}
@@ -44,10 +44,12 @@ const LessonUjianTab = () => {
         <TableHeader>
           <TableRow>
             <TableHead className="border-r-2 border-border">Nama siswa</TableHead>
-            {exams.map((ex) => (
+            {exams.map((ex, index) => (
               <TableHead className="text-center">
                 <ExamFormSheet purpose="edit" exam={ex} lessonId={lesson.id}>
-                  <div>{strLimit(ex.name, 10)}</div>
+                  <Button variant={'ghost'} size={'icon'}>
+                    E{index + 1}
+                  </Button>
                 </ExamFormSheet>
               </TableHead>
             ))}
@@ -56,6 +58,15 @@ const LessonUjianTab = () => {
         </TableHeader>
         <TableBody>
           {students.map((student) => {
+            const studentScores = examscores.filter((examscore) => examscore.student_id === student.id);
+
+            let studentAvgScore = 0;
+
+            if (studentScores.length > 0) {
+              const total = studentScores.reduce((sum, s) => sum + Number(s.score), 0);
+              studentAvgScore = total / studentScores.length;
+            }
+
             return (
               <TableRow key={student.id}>
                 <TableCell className="border-r-2 border-border">
@@ -76,12 +87,29 @@ const LessonUjianTab = () => {
                 })}
                 <TableCell className="w-fit border-l-2 border-border text-center">
                   <Button variant={'ghost'} size={'icon'}>
-                    {0}
+                    {studentAvgScore.toFixed(2)}
                   </Button>
                 </TableCell>
               </TableRow>
             );
           })}
+          <TableRow>
+            <TableCell />
+            {exams.map((ex) => {
+              return (
+                <TableCell className="text-center">
+                  {permissions?.canDelete && (
+                    <ExamDeleteDialog exam={ex}>
+                      <Button className="text-destructive" variant={'ghost'} size={'icon'}>
+                        <Trash2 />
+                      </Button>
+                    </ExamDeleteDialog>
+                  )}
+                </TableCell>
+              );
+            })}
+            <TableCell />
+          </TableRow>
         </TableBody>
       </Table>
     </div>

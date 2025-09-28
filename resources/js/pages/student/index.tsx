@@ -134,8 +134,12 @@ const StudentList: FC<Props> = ({ students, query }) => {
                 <TableCell>{student.gender ? 'Laki-laki' : 'Perempuan'}</TableCell>
                 <TableCell>{student.kelahiran}</TableCell>
                 <TableCell title={`Tingkat ${student.grade?.name}`}>
-                  <Badge>{student.grade_id}</Badge>
-                  {student.classroom?.name}
+                  <div className="group flex flex-row gap-2">
+                    <span>{student.classroom?.name}</span>
+                    <Badge variant={'secondary'} className="opacity-0 group-hover:opacity-100">
+                      grade {student.grade_id}
+                    </Badge>
+                  </div>
                 </TableCell>
                 <TableCell>
                   <StudentStatusBadge status={student.status} />

@@ -141,7 +141,7 @@ class ReportController extends Controller
 
         $report->load(['classroom', 'student']);
         $student = Student::find($report->student_id);
-        $classroom = Classroom::find($report->student_id);
+        $classroom = Classroom::find($report->classroom_id);
 
         $mockup = $report->data;
         $mockup['nilai'] = ReportHelper::generateLessonScores( $student, $classroom);

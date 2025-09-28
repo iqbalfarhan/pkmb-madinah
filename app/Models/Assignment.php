@@ -17,6 +17,7 @@ class Assignment extends Model
         'name',
         'description',
         'uploadable',
+        'type',
         'rate'
     ];
     */
@@ -25,6 +26,11 @@ class Assignment extends Model
         'id',
         'created_at',
         'updated_at',
+    ];
+
+    public static $typeLists = [
+        'jurnal',
+        'prakarya',
     ];
 
     public $casts = [

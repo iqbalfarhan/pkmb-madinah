@@ -1,32 +1,36 @@
 import HeadingSmall from '@/components/heading-small';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { dateDFY, strLimit } from '@/lib/utils';
+import { capitalizeWords, dateDFY, strLimit } from '@/lib/utils';
 import AssignmentDeleteDialog from '@/pages/assignment/components/assignment-delete-dialog';
 import AssignmentFormSheet from '@/pages/assignment/components/assignment-form-sheet';
-import AssignmentRateFormPopover from '@/pages/assignment/components/assignment-rate-form-popover';
 import { SharedData } from '@/types';
-import { Assignment } from '@/types/assignment';
+import { Assignment, AssignmentType } from '@/types/assignment';
 import { Link, usePage } from '@inertiajs/react';
 import { Edit, Folder, Plus, Trash2 } from 'lucide-react';
+import { FC } from 'react';
 
-const LessonTugasTab = () => {
-  const { assignments, permissions } = usePage<SharedData & { assignments: Assignment[] }>().props;
-  const totalRate = assignments.reduce((acc, curr) => acc + curr.rate, 0);
-  const isRateFix = totalRate === 100;
+type Props = {
+  type: AssignmentType;
+};
+
+const LessonTugasTab: FC<Props> = ({ type }) => {
+  const { assignments = [], permissions } = usePage<SharedData & { assignments: Assignment[] }>().props;
+  // const totalRate = assignments.reduce((acc, curr) => acc + curr.rate, 0);
+  // const isRateFix = totalRate === 100;
 
   return (
     <div className="space-y-6">
       <HeadingSmall
-        title="Daftar Tugas"
-        description="daftar tugas untuk peljaran ini"
+        title={`Daftar ${type}`}
+        description={`daftar ${type} untuk peljaran ini`}
         actions={
           <>
             {permissions?.canAdd && (
-              <AssignmentFormSheet purpose="create">
+              <AssignmentFormSheet purpose="create" type={type}>
                 <Button>
                   <Plus />
-                  Buat tugas baru
+                  Buat {type} baru
                 </Button>
               </AssignmentFormSheet>
             )}
@@ -36,48 +40,57 @@ const LessonTugasTab = () => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Assignment</TableHead>
+            <TableHead className="text-center">Kode</TableHead>
+            <TableHead>Judul {type}</TableHead>
             <TableHead>Deskripsi</TableHead>
-            <TableHead className="text-center">Bobot %</TableHead>
+            {/* <TableHead className="text-center">Bobot %</TableHead> */}
             <TableHead>Created at</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {assignments.map((assignment) => (
-            <TableRow key={assignment.id}>
-              <TableCell>{assignment.name}</TableCell>
-              <TableCell>{strLimit(assignment.description)}</TableCell>
-              <TableCell className="text-center">
-                <AssignmentRateFormPopover assignment={assignment} />
-              </TableCell>
-              <TableCell>{dateDFY(assignment.created_at)}</TableCell>
-              <TableCell>
-                {permissions?.canShow && (
-                  <Button variant={'ghost'} size={'icon'} asChild>
-                    <Link href={route('assignment.show', assignment.id)}>
-                      <Folder />
-                    </Link>
+          {assignments
+            .filter((assignment) => assignment.type === type)
+            .map((assignment, index) => (
+              <TableRow key={assignment.id}>
+                <TableCell className="text-center">
+                  <Button variant={'ghost'} size={'icon'}>
+                    {capitalizeWords(type.charAt(0))}
+                    {index + 1}
                   </Button>
-                )}
-                {permissions?.canUpdate && (
-                  <AssignmentFormSheet purpose="edit" assignment={assignment}>
-                    <Button variant={'ghost'} size={'icon'}>
-                      <Edit />
+                </TableCell>
+                <TableCell>{assignment.name}</TableCell>
+                <TableCell>{strLimit(assignment.description ?? '')}</TableCell>
+                {/* <TableCell className="text-center">
+                  <AssignmentRateFormPopover assignment={assignment} />
+                </TableCell> */}
+                <TableCell>{dateDFY(assignment.created_at)}</TableCell>
+                <TableCell>
+                  {permissions?.canShow && (
+                    <Button variant={'ghost'} size={'icon'} asChild>
+                      <Link href={route('assignment.show', assignment.id)}>
+                        <Folder />
+                      </Link>
                     </Button>
-                  </AssignmentFormSheet>
-                )}
-                {permissions?.canDelete && (
-                  <AssignmentDeleteDialog assignment={assignment}>
-                    <Button variant={'ghost'} size={'icon'}>
-                      <Trash2 />
-                    </Button>
-                  </AssignmentDeleteDialog>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-          <TableRow>
+                  )}
+                  {permissions?.canUpdate && (
+                    <AssignmentFormSheet purpose="edit" assignment={assignment}>
+                      <Button variant={'ghost'} size={'icon'}>
+                        <Edit />
+                      </Button>
+                    </AssignmentFormSheet>
+                  )}
+                  {permissions?.canDelete && (
+                    <AssignmentDeleteDialog assignment={assignment}>
+                      <Button variant={'ghost'} size={'icon'}>
+                        <Trash2 />
+                      </Button>
+                    </AssignmentDeleteDialog>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          {/* <TableRow>
             <TableCell className="text-right" colSpan={2}>
               Total bobot :
             </TableCell>
@@ -86,7 +99,7 @@ const LessonTugasTab = () => {
             </TableCell>
             <TableCell></TableCell>
             <TableCell></TableCell>
-          </TableRow>
+          </TableRow> */}
         </TableBody>
       </Table>
     </div>

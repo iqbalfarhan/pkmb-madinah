@@ -31,8 +31,12 @@ const ShowLesson: FC<Props> = ({ lesson, query }) => {
               href: 'material',
             },
             {
-              title: 'Daftar tugas',
-              href: 'tugas',
+              title: 'Jurnal',
+              href: 'jurnal',
+            },
+            {
+              title: 'Prakarya',
+              href: 'prakarya',
             },
             {
               title: 'Nilai tugas',
@@ -48,8 +52,11 @@ const ShowLesson: FC<Props> = ({ lesson, query }) => {
         <TabsContent value="material">
           <LessonMaterialsTab materials={lesson.materials} />
         </TabsContent>
-        <TabsContent value="tugas">
-          <LessonTugasTab />
+        <TabsContent value="jurnal">
+          <LessonTugasTab type="jurnal" />
+        </TabsContent>
+        <TabsContent value="prakarya">
+          <LessonTugasTab type="prakarya" />
         </TabsContent>
         <TabsContent value="nilai">
           <LessonNilaiTab />

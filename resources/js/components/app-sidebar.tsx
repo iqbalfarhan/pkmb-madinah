@@ -207,13 +207,13 @@ export function AppSidebar() {
               available: menus.classroom,
               items: [
                 {
-                  title: 'Kelas',
+                  title: 'Daftar Kelas',
                   href: route('classroom.index'),
                   icon: KeySquare,
                   available: menus.classroom,
                 },
                 {
-                  title: 'Pelajaran',
+                  title: 'Sesi pelajaran',
                   href: route('lesson.index'),
                   icon: RemoveFormatting,
                   available: menus.lesson,
@@ -225,13 +225,13 @@ export function AppSidebar() {
                   available: menus.material,
                 },
                 {
-                  title: 'Tugas',
+                  title: 'Jurnal & Prakarya',
                   href: route('assignment.index'),
                   icon: Pencil,
                   available: menus.assignment,
                 },
                 {
-                  title: 'Ujian',
+                  title: 'Evaluasi',
                   href: route('exam.index'),
                   icon: Badge,
                   available: menus.exam,

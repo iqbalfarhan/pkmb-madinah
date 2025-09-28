@@ -11,6 +11,7 @@ import { Lesson } from '@/types/lesson';
 import { Score } from '@/types/score';
 import { Student } from '@/types/student';
 import { usePage } from '@inertiajs/react';
+import { Plus } from 'lucide-react';
 
 const LessonNilaiTab = () => {
   const {
@@ -20,38 +21,74 @@ const LessonNilaiTab = () => {
     assignments = [],
   } = usePage<SharedData & { lesson: Lesson; students: Student[]; scores: Score[]; assignments: Assignment[] }>().props;
 
-  const totalRate = assignments.reduce((acc, curr) => acc + curr.rate, 0);
-  const isRateFix = totalRate === 100;
-
   return (
     <div className="space-y-6">
-      <HeadingSmall title="Daftar Nilai" description="Daftar nilai siswa untuk setiap tugas" />
+      <HeadingSmall
+        title="Daftar Nilai"
+        description="Daftar nilai siswa untuk setiap tugas"
+        actions={
+          <>
+            <AssignmentFormSheet purpose="create">
+              <Button>
+                <Plus />
+                Tambah tugas baru
+              </Button>
+            </AssignmentFormSheet>
+          </>
+        }
+      />
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="border-r-2 border-border">Nama siswa</TableHead>
-            {assignments.map((assignment) => (
-              <TableHead className="text-center" key={assignment.id}>
-                <AssignmentFormSheet purpose="edit" assignment={assignment}>
-                  <Button size={'icon'} variant={'ghost'}>
-                    {assignment.rate}%
-                  </Button>
-                </AssignmentFormSheet>
-              </TableHead>
-            ))}
-            <TableHead
-              className={cn(
-                'border-l-2 border-border text-center',
-                isRateFix ? 'bg-success/10 text-center text-success' : 'bg-destructive/10 text-center text-destructive',
-              )}
-            >
+            <TableHead rowSpan={2} className="border-r-2 border-border">
+              Nama siswa
+            </TableHead>
+            <TableHead colSpan={assignments.filter((a) => a.type === 'jurnal').length} className="bg-yellow-300/10 text-center">
+              Nilai jurnal
+            </TableHead>
+            <TableHead colSpan={assignments.filter((a) => a.type === 'prakarya').length} className="bg-green-300/10 text-center">
+              Nilai prakarya
+            </TableHead>
+            <TableHead rowSpan={2} className={cn('border-l-2 border-border text-center')}>
               Total
             </TableHead>
+          </TableRow>
+          <TableRow>
+            {assignments
+              .filter((jurnal) => jurnal.type === 'jurnal')
+              .map((jurnal, index) => (
+                <TableHead className="bg-yellow-500/10 text-center" key={jurnal.id}>
+                  <AssignmentFormSheet purpose="edit" assignment={jurnal} type="jurnal">
+                    <Button size={'icon'} variant={'ghost'}>
+                      J{index + 1}
+                    </Button>
+                  </AssignmentFormSheet>
+                </TableHead>
+              ))}
+            {assignments
+              .filter((prakarya) => prakarya.type === 'prakarya')
+              .map((prakarya, index) => (
+                <TableHead className="bg-green-500/10 text-center" key={prakarya.id}>
+                  <AssignmentFormSheet purpose="edit" assignment={prakarya} type={'prakarya'}>
+                    <Button size={'icon'} variant={'ghost'}>
+                      P{index + 1}
+                    </Button>
+                  </AssignmentFormSheet>
+                </TableHead>
+              ))}
           </TableRow>
         </TableHeader>
         <TableBody>
           {students.map((student) => {
-            let ratedScore = 0;
+            const studentScores = scores.filter((score) => score.student_id === student.id);
+
+            let studentAvgScore = 0;
+
+            if (studentScores.length > 0) {
+              const total = studentScores.reduce((sum, s) => sum + Number(s.score), 0);
+              studentAvgScore = total / studentScores.length;
+            }
+            // let ratedScore = 0;
             return (
               <TableRow key={student.id}>
                 <TableCell className="border-r-2 border-border">
@@ -62,18 +99,33 @@ const LessonNilaiTab = () => {
                     <span>{student.name}</span>
                   </div>
                 </TableCell>
-                {assignments.map((assignment) => {
-                  const nilai = scores.find((score) => score.assignment_id === assignment.id && score.student_id === student.id);
-                  ratedScore += nilai?.rated_score ?? 0;
-                  return (
-                    <TableCell key={assignment.id} className="w-fit text-center">
-                      <ScoreFormPopup score={nilai} options={{ student_id: student.id, lesson_id: lesson.id, assignment_id: assignment.id }} />
-                    </TableCell>
-                  );
-                })}
+                {assignments
+                  .filter((assignment) => assignment.type === 'jurnal')
+                  .map((assignment) => {
+                    const nilai = scores.find((score) => score.assignment_id === assignment.id && score.student_id === student.id);
+                    // ratedScore += nilai?.rated_score ?? 0;
+                    return (
+                      <TableCell key={assignment.id} className="w-fit bg-yellow-700/10 text-center">
+                        <ScoreFormPopup score={nilai} options={{ student_id: student.id, lesson_id: lesson.id, assignment_id: assignment.id }} />
+                      </TableCell>
+                    );
+                  })}
+                {assignments
+                  .filter((assignment) => assignment.type === 'prakarya')
+                  .map((assignment) => {
+                    const nilai = scores.find((score) => score.assignment_id === assignment.id && score.student_id === student.id);
+                    // ratedScore += nilai?.rated_score ?? 0;
+                    return (
+                      <TableCell key={assignment.id} className="w-fit bg-green-700/10 text-center">
+                        <ScoreFormPopup score={nilai} options={{ student_id: student.id, lesson_id: lesson.id, assignment_id: assignment.id }} />
+                      </TableCell>
+                    );
+                  })}
                 <TableCell className="w-fit border-l-2 border-border text-center">
                   <Button variant={'ghost'} size={'icon'}>
-                    {Math.round(ratedScore)}
+                    {/* {Math.round(ratedScore)} */}
+                    {/* {Math.round(studentAvgScore)} */}
+                    {studentAvgScore.toFixed(2)}
                   </Button>
                 </TableCell>
               </TableRow>

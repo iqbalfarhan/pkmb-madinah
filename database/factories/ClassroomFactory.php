@@ -14,9 +14,11 @@ class ClassroomFactory extends Factory
 
     public function definition(): array
     {
+        $active = AcademicYear::active();
+
         return [
             'name' => fake()->sentence(),
-            'academic_year_id' => AcademicYear::pluck('id')->random(),
+            'academic_year_id' => $active->id,
             'user_id' => User::role('walikelas')->pluck('id')->random(),
             'grade_id' => Grade::pluck('id')->random(),
         ];

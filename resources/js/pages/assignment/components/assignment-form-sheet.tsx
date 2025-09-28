@@ -12,7 +12,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { capitalizeWords, em } from '@/lib/utils';
 import { FormPurpose } from '@/types';
-import { Assignment } from '@/types/assignment';
+import { Assignment, AssignmentType } from '@/types/assignment';
 import { Lesson } from '@/types/lesson';
 import { useForm, usePage } from '@inertiajs/react';
 import { CheckedState } from '@radix-ui/react-checkbox';
@@ -23,19 +23,21 @@ import { toast } from 'sonner';
 type Props = PropsWithChildren & {
   assignment?: Assignment;
   purpose: FormPurpose;
+  type?: AssignmentType;
 };
 
-const AssignmentFormSheet: FC<Props> = ({ children, assignment, purpose }) => {
+const AssignmentFormSheet: FC<Props> = ({ children, assignment, purpose, type }) => {
   const [open, setOpen] = useState(false);
   const mobile = useIsMobile();
 
-  const { lessons = [] } = usePage<{ lessons: Lesson[] }>().props;
+  const { lessons = [], typeLists = [] } = usePage<{ lessons: Lesson[]; typeLists: AssignmentType[] }>().props;
 
   const { data, setData, put, post, reset, processing } = useForm({
     lesson_id: assignment?.lesson_id ?? lessons[0].id ?? '',
     name: assignment?.name ?? '',
+    type: assignment?.type ?? type ?? '',
     description: assignment?.description ?? '',
-    rate: assignment?.rate ?? '',
+    // rate: assignment?.rate ?? '',
     uploadable: assignment?.uploadable as CheckedState,
   });
 
@@ -67,7 +69,9 @@ const AssignmentFormSheet: FC<Props> = ({ children, assignment, purpose }) => {
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent side={mobile ? 'bottom' : 'right'}>
         <SheetHeader>
-          <SheetTitle>{capitalizeWords(purpose)} data assignment</SheetTitle>
+          <SheetTitle>
+            {capitalizeWords(purpose)} tugas {data.type}
+          </SheetTitle>
           <SheetDescription>Form untuk {purpose} data assignment</SheetDescription>
         </SheetHeader>
         <ScrollArea className="flex-1 overflow-y-auto">
@@ -88,15 +92,31 @@ const AssignmentFormSheet: FC<Props> = ({ children, assignment, purpose }) => {
                 </Select>
               </FormControl>
             )}
-            <FormControl label="Judul tugas">
+            {!type && (
+              <FormControl label="Jenis assignment">
+                <Select value={data.type} onValueChange={(value) => setData('type', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih Jenis tugas" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {typeLists.map((item) => (
+                      <SelectItem key={item} value={item}>
+                        {item}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            )}
+            <FormControl label={`Judul ${data.type}`}>
               <Input type="text" placeholder="Name" value={data.name} onChange={(e) => setData('name', e.target.value)} />
             </FormControl>
             <FormControl label="Deskripsi">
               <Textarea placeholder="Description" value={data.description} onChange={(e) => setData('description', e.target.value)} />
             </FormControl>
-            <FormControl label="Bobot nilai (dalam persen)">
+            {/* <FormControl label="Bobot nilai (dalam persen)">
               <Input type="number" step={0.01} placeholder="Rate" value={data.rate} onChange={(e) => setData('rate', e.target.value)} />
-            </FormControl>
+            </FormControl> */}
             <FormControl label="Peserta dapat upload jawaban">
               <Label className="flex h-8 items-center gap-2">
                 <Checkbox checked={data.uploadable} onCheckedChange={(c) => setData('uploadable', c)} />

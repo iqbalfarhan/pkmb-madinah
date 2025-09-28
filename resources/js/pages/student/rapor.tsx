@@ -47,10 +47,10 @@ const StudentRaporPage: FC<Props> = ({ reports, student }) => {
       <Card>
         <CardContent>
           <div className="grid gap-6 md:grid-cols-3">
-            <FormControl label="Pelajaran">
+            <FormControl label="Tahun ajaran">
               <Select value={data.academic_year_id} onValueChange={(value) => setData('academic_year_id', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder={'Pilih pelajaran'} />
+                  <SelectValue placeholder={'Pilih tahunajaran'} />
                 </SelectTrigger>
                 <SelectContent>
                   {academicYears.map((academic_year) => (
@@ -61,7 +61,7 @@ const StudentRaporPage: FC<Props> = ({ reports, student }) => {
                 </SelectContent>
               </Select>
             </FormControl>
-            <FormControl label="Judul jenis">
+            <FormControl label="Jenis rapor">
               <Select value={data.report_type} onValueChange={(value) => setData('report_type', value)}>
                 <SelectTrigger>
                   <SelectValue placeholder={'Pilih pelajaran'} />
@@ -129,7 +129,7 @@ const StudentRaporPage: FC<Props> = ({ reports, student }) => {
                 <TableCell>{report.classroom.name}</TableCell>
                 <TableCell>{strLimit(report.name)}</TableCell>
                 <TableCell>
-                  <Button size={'icon'} variant={'ghost'}>
+                  <Button size={'icon'} variant={'ghost'} disabled={!report.published}>
                     <a href={route('report.download', report.id)}>
                       <Download />
                     </a>

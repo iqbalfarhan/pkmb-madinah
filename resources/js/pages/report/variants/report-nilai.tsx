@@ -119,9 +119,9 @@ const ReportNilai: FC<Props> = ({ data }) => {
                       <TableCell>
                         <p className="text-wrap">{nilai.name}</p>
                       </TableCell>
-                      <TableCell className="text-center">{nilai.nilai_tugas}</TableCell>
-                      <TableCell className="text-center">{nilai.evaluasi}</TableCell>
-                      <TableCell className="text-center">{nilai.rata_rata}</TableCell>
+                      <TableCell className="text-center">{nilai.nilai_tugas.toFixed(2)}</TableCell>
+                      <TableCell className="text-center">{nilai.evaluasi.toFixed(2)}</TableCell>
+                      <TableCell className="text-center">{nilai.rata_rata.toFixed(2)}</TableCell>
                     </TableRow>
                   ))}
                 </>

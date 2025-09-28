@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { capitalizeWords, em } from '@/lib/utils';
 import { FormPurpose } from '@/types';
 import { Assignment } from '@/types/assignment';
+import { Classroom } from '@/types/classroom';
 import { Lesson } from '@/types/lesson';
 import { Score } from '@/types/score';
 import { Student } from '@/types/student';
@@ -25,10 +26,16 @@ type Props = PropsWithChildren & {
 const ScoreFormSheet: FC<Props> = ({ children, score, purpose }) => {
   const [open, setOpen] = useState(false);
 
-  const { students = [], lessons = [], assignments = [] } = usePage<{ students: Student[]; lessons: Lesson[]; assignments: Assignment[] }>().props;
+  const {
+    classrooms = [],
+    students = [],
+    lessons = [],
+    assignments = [],
+  } = usePage<{ classrooms: Classroom[]; students: Student[]; lessons: Lesson[]; assignments: Assignment[] }>().props;
 
   const { data, setData, put, post, reset, processing } = useForm({
     student_id: score?.student_id ?? '',
+    classroom_id: '',
     lesson_id: score?.lesson_id ?? '',
     assignment_id: score?.assignment_id ?? '',
     score: score?.score ?? '',
@@ -68,23 +75,39 @@ const ScoreFormSheet: FC<Props> = ({ children, score, purpose }) => {
         </SheetHeader>
         <ScrollArea className="flex-1 overflow-y-auto">
           <form
-            className="space-y-6 px-4"
+            className="space-y-4 px-4"
             onSubmit={(e) => {
               e.preventDefault();
               handleSubmit();
             }}
           >
+            <FormControl label="Kelas">
+              <Select value={data.classroom_id.toString()} onValueChange={(value) => setData('classroom_id', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Pilih kelas" />
+                </SelectTrigger>
+                <SelectContent>
+                  {classrooms.map((classroom) => (
+                    <SelectItem key={classroom.id} value={classroom.id.toString()}>
+                      {classroom.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormControl>
             <FormControl label="Nama siswa">
               <Select value={data.student_id.toString()} onValueChange={(value) => setData('student_id', value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih siswa" />
                 </SelectTrigger>
                 <SelectContent>
-                  {students.map((student) => (
-                    <SelectItem key={student.id} value={student.id.toString()}>
-                      {student.name}
-                    </SelectItem>
-                  ))}
+                  {students
+                    .filter((student) => (data?.classroom_id ? data?.classroom_id.toString() === student?.classroom_id?.toString() : false))
+                    .map((student) => (
+                      <SelectItem key={student.id} value={student.id.toString()}>
+                        {student.name}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
             </FormControl>
@@ -94,11 +117,13 @@ const ScoreFormSheet: FC<Props> = ({ children, score, purpose }) => {
                   <SelectValue placeholder="Pilih pelajaran" />
                 </SelectTrigger>
                 <SelectContent>
-                  {lessons.map((lesson) => (
-                    <SelectItem key={lesson.id} value={lesson.id.toString()}>
-                      {lesson.name}
-                    </SelectItem>
-                  ))}
+                  {lessons
+                    .filter((lesson) => (data?.classroom_id ? data?.classroom_id.toString() === lesson?.classroom_id?.toString() : false))
+                    .map((lesson) => (
+                      <SelectItem key={lesson.id} value={lesson.id.toString()}>
+                        {lesson.name}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
             </FormControl>
@@ -108,15 +133,17 @@ const ScoreFormSheet: FC<Props> = ({ children, score, purpose }) => {
                   <SelectValue placeholder="Pilih assignment" />
                 </SelectTrigger>
                 <SelectContent>
-                  {assignments.map((assignment) => (
-                    <SelectItem key={assignment.id} value={assignment.id.toString()}>
-                      {assignment.name}
-                    </SelectItem>
-                  ))}
+                  {assignments
+                    .filter((assignment) => (data.lesson_id ? data.lesson_id.toString() === assignment.lesson_id.toString() : false))
+                    .map((assignment) => (
+                      <SelectItem key={assignment.id} value={assignment.id.toString()}>
+                        <span className="line-clamp-1 w-full">{assignment.name}</span>
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
             </FormControl>
-            <FormControl label="Nama score">
+            <FormControl label="Nilai">
               <Input type="number" step={0.01} placeholder="Nilai" value={data.score} onChange={(e) => setData('score', e.target.value)} />
             </FormControl>
             <FormControl label="Keterangan">

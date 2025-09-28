@@ -28,17 +28,18 @@ class ClassroomController extends Controller
     public function index(Request $request)
     {
         $activeAcademicYear = AcademicYear::active();
+        $academicYearId = $request->academic_year_id ?: $activeAcademicYear->id;
 
         $data = Classroom::query()
-            ->with(['academic_year', 'user', 'grade', 'students', 'lessons'])
-            ->whereAcademicYearId($activeAcademicYear->id)
-            ->when($request->name, fn ($q, $v) => $q->where('name', 'like', "%$v%"));
+            ->with(relations: ['academic_year', 'user', 'grade', 'students', 'lessons'])
+            ->whereAcademicYearId($academicYearId);
 
         return Inertia::render('classroom/index', [
             'classrooms' => $data->get(),
             'query' => $request->input(),
             'users' => User::role('walikelas')->get(),
             'grades' => Grade::get(),
+            'academicyears' => AcademicYear::get(),
             'permissions' => [
                 'canAdd' => $this->user->can('create classroom'),
                 'canUpdate' => $this->user->can('update classroom'),
@@ -68,7 +69,7 @@ class ClassroomController extends Controller
             'classroom' => $classroom->load('grade', 'students', 'students.absents', 'user', 'lessons', 'academic_year'),
             'tabname' => 'show',
             'assignments' => $classroom->assignments->load(['lesson']),
-            'users' => [$classroom->user],
+            'users' => User::role('walikelas')->get(),
             'grades' => [$classroom->grade],
             'permissions' => [
                 'canUpdate' => $this->user->can('update classroom'),

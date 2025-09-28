@@ -9,6 +9,7 @@ import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHe
 import { capitalizeWords, em } from '@/lib/utils';
 import { FormPurpose, User } from '@/types';
 import { Classroom } from '@/types/classroom';
+import { Grade } from '@/types/grade';
 import { Student } from '@/types/student';
 import { useForm, usePage } from '@inertiajs/react';
 import dayjs from 'dayjs';
@@ -23,14 +24,16 @@ type Props = PropsWithChildren & {
 
 const StudentFormSheet: FC<Props> = ({ children, student, purpose }) => {
   const [open, setOpen] = useState(false);
+  const [showGrades, setShowGrades] = useState(false);
 
-  const { classrooms = [], users = [] } = usePage<{ classrooms: Classroom[]; users: User[] }>().props;
+  const { classrooms = [], users = [], grades = [] } = usePage<{ classrooms: Classroom[]; users: User[]; grades: Grade[] }>().props;
 
   const { data, setData, put, post, reset, processing } = useForm({
     nisn: student?.nisn ?? '',
     nis: student?.nis ?? '',
     name: student?.name ?? '',
     user_id: student?.user_id ?? '',
+    grade_id: student?.grade_id ?? '',
     gender: student?.gender ? '1' : '0',
     pob: student?.pob ?? '',
     dob: student?.dob ?? '',
@@ -109,15 +112,43 @@ const StudentFormSheet: FC<Props> = ({ children, student, purpose }) => {
                 />
               </FormControl>
             </div>
-            <FormControl label="Kelas siswa">
+            {showGrades && (
+              <FormControl label="Tingkat kelas">
+                <Select value={data.grade_id.toString()} onValueChange={(value) => setData('grade_id', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih tingkat siswa" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {grades.map((grade) => (
+                      <SelectItem key={grade.id} value={grade.id.toString()}>
+                        {grade.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            )}
+            <FormControl
+              asDiv
+              label="Pilih kelas"
+              action={
+                <>
+                  <span className="cursor-pointer text-xs" onClick={() => setShowGrades(!showGrades)}>
+                    Edit tingkat siswa
+                  </span>
+                </>
+              }
+            >
               <Select value={data.classroom_id.toString()} onValueChange={(e) => setData('classroom_id', e)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih kelas" />
                 </SelectTrigger>
                 <SelectContent>
-                  {classrooms.map((classroom) => (
-                    <SelectItem value={classroom.id.toString()}>{classroom.name}</SelectItem>
-                  ))}
+                  {classrooms
+                    .filter((classroom) => (data?.grade_id ? classroom.grade_id.toString() === data?.grade_id.toString() : true))
+                    .map((classroom) => (
+                      <SelectItem value={classroom.id.toString()}>{classroom.name}</SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
             </FormControl>

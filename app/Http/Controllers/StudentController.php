@@ -15,6 +15,7 @@ use App\Models\Bill;
 use App\Models\Classroom;
 use App\Models\Extracurricular;
 use App\Models\Family;
+use App\Models\Grade;
 use App\Models\Lesson;
 use App\Models\PaymentType;
 use App\Models\Report;
@@ -43,6 +44,7 @@ class StudentController extends Controller
             'students' => $data->aktif()->get(),
             'query' => $request->input(),
             'users' => User::role('orangtua')->get(),
+            'grades' => Grade::get(),
             'classrooms' => Classroom::active()->get(),
             'statusLists' => Student::$statusLists,
             'permissions' => [
@@ -113,7 +115,7 @@ class StudentController extends Controller
         ]);
         $student->update($data);
 
-        $student->delete();
+        // $student->delete();
     }
 
     /**
@@ -147,7 +149,8 @@ class StudentController extends Controller
     public function archived()
     {
         return Inertia::render('student/archived', [
-            'students' => Student::onlyTrashed()->get(),
+            // 'students' => Student::onlyTrashed()->get(),
+            "students" => Student::whereIn('status', ['lulus', 'dikeluarkan', 'pindah'])->get()
         ]);
     }
 
@@ -178,7 +181,6 @@ class StudentController extends Controller
         $data = Report::query()
             ->whereStudentId($student->id)
             ->with(['academic_year', 'classroom', 'student'])
-            ->where('published', true)
             ->when($request->academic_year_id, function ($q, $v) {
                 $q->where('academic_year_id', $v);
             })

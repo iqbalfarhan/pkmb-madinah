@@ -35,6 +35,7 @@ class AssignmentController extends Controller
             'query' => $request->input(),
             'lessons' => Lesson::get(),
             'classrooms' => Classroom::get(),
+            'typeLists' => Assignment::$typeLists,
             'permissions' => [
                 'canAdd' => $this->user->can('create assignment'),
                 'canUpdate' => $this->user->can('update assignment'),

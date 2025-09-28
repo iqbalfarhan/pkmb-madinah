@@ -47,7 +47,7 @@ const ClassroomLayout: FC<Props> = ({ children }) => {
   return (
     <AppLayout
       title={classroom.name}
-      description="Detail classroom"
+      description={classroom.user?.name ?? 'Belum pilih walikelas'}
       actions={
         <>
           {permissions?.canUpdate && (

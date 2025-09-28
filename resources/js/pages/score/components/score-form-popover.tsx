@@ -7,7 +7,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { em } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Score } from '@/types/score';
-import { useForm, usePage } from '@inertiajs/react';
+import { router, useForm, usePage } from '@inertiajs/react';
+import { Trash2 } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -29,7 +30,7 @@ const ScoreFormPopup: FC<Props> = ({ children, score, options }) => {
     student_id: options?.student_id,
     lesson_id: options?.lesson_id,
     assignment_id: options?.assignment_id,
-    score: score?.score ?? '0',
+    score: score?.score ?? '-',
     remark: score?.remark ?? '',
   });
 
@@ -53,6 +54,18 @@ const ScoreFormPopup: FC<Props> = ({ children, score, options }) => {
         onError: (e) => toast.error(em(e)),
       });
     }
+  };
+
+  const handleDelete = () => {
+    router.delete(route('score.destroy', score?.id), {
+      preserveScroll: true,
+      onSuccess: () => {
+        toast.success('berhasil dihapus');
+        setData('score', '-');
+        setOpen(false);
+      },
+      onError: (e) => toast.error(em(e)),
+    });
   };
 
   return (
@@ -82,7 +95,14 @@ const ScoreFormPopup: FC<Props> = ({ children, score, options }) => {
               <Textarea placeholder="tulis komentar guru disini" value={data.remark} onChange={(e) => setData('remark', e.target.value)} />
             </FormControl>
 
-            <SubmitButton />
+            <div className="flex w-full justify-between">
+              <SubmitButton />
+              {score && (
+                <Button type="button" size={'icon'} variant={'ghost'} onClick={handleDelete}>
+                  <Trash2 />
+                </Button>
+              )}
+            </div>
           </form>
         </PopoverContent>
       )}

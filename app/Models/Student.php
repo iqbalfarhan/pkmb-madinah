@@ -73,6 +73,21 @@ class Student extends Model implements HasMedia
         return $query->where('status', 'draft');
     }
 
+    public function scopeLulus($query)
+    {
+        return $query->where('status', 'lulus');
+    }
+    
+    public function scopeDikeluarkan($query)
+    {
+        return $query->where('status', 'dikeluarkan');
+    }
+
+    public function scopePindah($query)
+    {
+        return $query->where('status', 'pindah');
+    }
+
     public function scopePpdb($query)
     {
         return $query->where('status', 'ppdb');

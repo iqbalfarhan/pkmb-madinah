@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Assignment;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreAssignmentRequest extends FormRequest
 {
@@ -17,7 +19,8 @@ class StoreAssignmentRequest extends FormRequest
             'lesson_id' => 'required|exists:lessons,id',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'rate' => 'required|numeric',
+            'rate' => 'nullable|numeric',
+            'type' => ['required', Rule::in(Assignment::$typeLists)],
             'uploadable' => 'nullable|boolean',
         ];
     }

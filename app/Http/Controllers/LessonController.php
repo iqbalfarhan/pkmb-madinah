@@ -7,6 +7,7 @@ use App\Http\Requests\BulkUpdateLessonRequest;
 use App\Http\Requests\StoreLessonRequest;
 use App\Http\Requests\UpdateLessonRequest;
 use App\Models\AcademicYear;
+use App\Models\Assignment;
 use App\Models\Classroom;
 use App\Models\Examscore;
 use App\Models\Lesson;
@@ -74,6 +75,7 @@ class LessonController extends Controller
             'examscores' => Examscore::whereIn('exam_id', $lesson->exams->pluck('id'))->get(),
             'classrooms' => [$lesson->classroom],
             'academicYears' => [AcademicYear::active()],
+            'typeLists' => Assignment::$typeLists,
             'permissions' => [
                 'canAdd' => $this->user->id === $lesson->user_id && $this->user->can('create assignment'),
                 'canUpload' => $this->user->id === $lesson->user_id && $this->user->can('create assignment'),

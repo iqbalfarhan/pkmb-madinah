@@ -6,7 +6,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Textarea } from '@/components/ui/textarea';
 import { em } from '@/lib/utils';
 import { Examscore } from '@/types/examscore';
-import { useForm } from '@inertiajs/react';
+import { router, useForm } from '@inertiajs/react';
+import { Trash2 } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -26,7 +27,7 @@ const ExamscoreFormPopup: FC<Props> = ({ children, examscore, options }) => {
     student_id: options?.student_id,
     lesson_id: options?.lesson_id,
     exam_id: options?.exam_id,
-    score: examscore?.score ?? '0',
+    score: examscore?.score ?? '-',
     remark: examscore?.remark ?? '',
   });
 
@@ -48,6 +49,18 @@ const ExamscoreFormPopup: FC<Props> = ({ children, examscore, options }) => {
         onError: (e) => toast.error(em(e)),
       });
     }
+  };
+
+  const handleDelete = () => {
+    router.delete(route('examscore.destroy', examscore?.id), {
+      preserveScroll: true,
+      onSuccess: () => {
+        toast.success('berhasil dihapus');
+        setData('score', '-');
+        setOpen(false);
+      },
+      onError: (e) => toast.error(em(e)),
+    });
   };
 
   return (
@@ -76,7 +89,14 @@ const ExamscoreFormPopup: FC<Props> = ({ children, examscore, options }) => {
             <Textarea placeholder="tulis komentar guru disini" value={data.remark} onChange={(e) => setData('remark', e.target.value)} />
           </FormControl>
 
-          <SubmitButton />
+          <div className="flex w-full justify-between">
+            <SubmitButton />
+            {examscore && (
+              <Button type="button" size={'icon'} variant={'ghost'} onClick={handleDelete}>
+                <Trash2 />
+              </Button>
+            )}
+          </div>
         </form>
       </PopoverContent>
     </Popover>

@@ -43,7 +43,7 @@ const ReportFormSheet: FC<Props> = ({ children, report, purpose }) => {
 
   const { data, setData, put, post, processing } = useForm({
     student_id: (report?.student_id ?? students[0]?.id ?? undefined) as number | undefined,
-    academic_year_id: report?.academic_year_id ?? activeAcademicYear?.id.toString() ?? academicYears[0].id ?? 0,
+    academic_year_id: report?.academic_year_id ?? activeAcademicYear?.id ?? academicYears[0].id ?? 0,
     classroom_id: report?.classroom_id ?? students[0]?.classroom_id ?? '',
     report_type: report?.report_type ?? '',
   });
@@ -115,11 +115,13 @@ const ReportFormSheet: FC<Props> = ({ children, report, purpose }) => {
                     <SelectValue placeholder="Pilih kelas" />
                   </SelectTrigger>
                   <SelectContent>
-                    {classrooms.map((c) => (
-                      <SelectItem key={c.id} value={c.id.toString()}>
-                        {c.name}
-                      </SelectItem>
-                    ))}
+                    {classrooms
+                      .filter((c) => (data.academic_year_id ? data.academic_year_id.toString() === c.academic_year.toString() : false))
+                      .map((c) => (
+                        <SelectItem key={c.id} value={c.id.toString()}>
+                          {c.name}
+                        </SelectItem>
+                      ))}
                   </SelectContent>
                 </Select>
               </FormControl>

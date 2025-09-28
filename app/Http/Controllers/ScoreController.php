@@ -8,6 +8,7 @@ use App\Http\Requests\StoreScoreRequest;
 use App\Http\Requests\UpdateScoreRequest;
 use App\Http\Requests\UploadScoreRequest;
 use App\Models\Assignment;
+use App\Models\Classroom;
 use App\Models\Lesson;
 use App\Models\Score;
 use App\Models\Student;
@@ -23,14 +24,18 @@ class ScoreController extends Controller
     {
         $data = Score::query()
             ->with(['student', 'lesson', 'assignment'])
-            ->when($request->name, function ($q, $v) {
-                $q->where('name', $v);
+            ->when($request->lesson_id, function ($q, $v) {
+                $q->where('lesson_id', $v);
+            })
+            ->when($request->assignment_id, function ($q, $v) {
+                $q->where('assignment_id', $v);
             });
 
         return Inertia::render('score/index', [
             'scores' => $data->get(),
             'query' => $request->input(),
             'students' => Student::get(),
+            'classrooms' => Classroom::get(),
             'lessons' => Lesson::get(),
             'assignments' => Assignment::get(),
             'permissions' => [

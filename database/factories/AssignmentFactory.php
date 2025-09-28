@@ -15,6 +15,7 @@ class AssignmentFactory extends Factory
         return [
             'lesson_id' => Lesson::pluck('id')->random(),
             'name' => fake()->sentence(),
+            'type' => fake()->randomElement(Assignment::$typeLists),
             'description' => fake()->paragraph(),
             'rate' => fake()->numberBetween(0, 100),
         ];

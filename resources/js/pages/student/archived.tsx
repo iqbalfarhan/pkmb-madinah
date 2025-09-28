@@ -1,9 +1,9 @@
+import SelectTab from '@/components/select-tab';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AppLayout from '@/layouts/app-layout';
 import { em } from '@/lib/utils';
 import { Student } from '@/types/student';
@@ -55,6 +55,16 @@ const ArchivedStudentList: FC<Props> = ({ students }) => {
         </Button>
       }
     >
+      <SelectTab
+        value={status}
+        onValueChange={setStatus}
+        options={[
+          { title: 'Semua', href: 'all' },
+          { title: 'Lulus', href: 'lulus' },
+          { title: 'Di keluarkan', href: 'dikeluarkan' },
+          { title: 'Pindah', href: 'pindah' },
+        ]}
+      />
       <div className="flex gap-2">
         <Input placeholder="Search students..." value={cari} onChange={(e) => setCari(e.target.value)} />
         {ids.length > 0 && (
@@ -64,16 +74,6 @@ const ArchivedStudentList: FC<Props> = ({ students }) => {
             </Button>
           </>
         )}
-        <Tabs value={status} onValueChange={setStatus}>
-          <div>
-            <TabsList>
-              <TabsTrigger value="all">Semua</TabsTrigger>
-              <TabsTrigger value="lulus">Lulus</TabsTrigger>
-              <TabsTrigger value="dikeluarkan">Dikeluarkan</TabsTrigger>
-              <TabsTrigger value="pindah">Pindah</TabsTrigger>
-            </TabsList>
-          </div>
-        </Tabs>
       </div>
       <Table>
         <TableHeader>

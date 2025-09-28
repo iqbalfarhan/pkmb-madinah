@@ -230,8 +230,8 @@ class ReportHelper
             $lesson = $lesson->load('exams.examscores', 'assignments.scores');
             $subject = $lesson->subject;
 
-            $score = Score::whereStudentId($student->id)->whereLessonId($lesson->id)->get()->sum('rated_score') ?? 0;
-            $examscore = Examscore::whereStudentId($student->id)->whereLessonId($lesson->id)->get()->sum('rated_score') ?? 0;
+            $score = Score::whereStudentId($student->id)->whereLessonId($lesson->id)->get()->average('score') ?? 0;
+            $examscore = Examscore::whereStudentId($student->id)->whereLessonId($lesson->id)->get()->average('score') ?? 0;
 
             return [
                 'name' => $subject->name,

@@ -95,6 +95,7 @@ const AssignmentList: FC<Props> = ({ assignments, query }) => {
             </TableHead>
             <TableHead>Kelas</TableHead>
             <TableHead>Pelajaran</TableHead>
+            <TableHead>Tipe</TableHead>
             <TableHead>Judul tugas</TableHead>
             <TableHead>Bobot nilai</TableHead>
             <TableHead>Actions</TableHead>
@@ -125,6 +126,7 @@ const AssignmentList: FC<Props> = ({ assignments, query }) => {
                 <TableCell>
                   <Link href={route('lesson.show', assignment.lesson_id)}>{assignment.lesson.name}</Link>
                 </TableCell>
+                <TableCell>{assignment.type}</TableCell>
                 <TableCell>{strLimit(assignment.name)}</TableCell>
                 <TableCell>{assignment.rate}%</TableCell>
                 <TableCell>
