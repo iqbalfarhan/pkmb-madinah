@@ -81,7 +81,7 @@
 			<td>
 			<h3 class="judul-rapor">
 				LAPORAN PERKEMBANGAN HAFALAN <br>
-				BACAAN DO'A HARIAN DAN HADITS<br>
+				PRAKTEK ADZAN DAN TATA CARA WUDHU<br>
 				{{ strtoupper($settings['SCHOOL_NAME']) }}<br>
 				SEMESTER {{ strtoupper($data['semester']) }}<br>
 				TAHUN AJARAN {{ $data['tahunajaran'] }}
@@ -101,7 +101,7 @@
 		</table>
 	</div>
 
-	@foreach (["gerakan sholat", "bacaan sholat", "adzan", "tata cara wudhu"] as $group)
+	@foreach (['adzan', 'wudhu'] as $group)
 		<div class="content">
 			<table class="table" border="1">
 				<tr>
@@ -111,7 +111,7 @@
 					<th>Keterangan</th>
 				</tr>
 				<tr style="background-color: lightgrey">
-					<th colspan="4">{{ $group }}</th>
+					<th colspan="4">{{ $group == "adzan" ? "Adzan" : "Tata Cara Wudhu" }}</th>
 				</tr>
 				@foreach ($data[$group] as $item)
 					<tr>

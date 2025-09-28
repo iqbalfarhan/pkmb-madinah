@@ -13,6 +13,28 @@ class AssessmentSeeder extends Seeder
         $datas = [
             "doa harian" => [
                 [
+                    "name" => "Bacaan shalat",
+                    "grade_id" => 1,
+                    "semester" => "ganjil"
+                ],
+                [
+                    "name" => "Bacaan dan tata cara wudhu'",
+                    "grade_id" => 1,
+                    "semester" => "ganjil"
+                ],
+                [
+                    "name" => "Bacaan shalat",
+                    "grade_id" => 1,
+                    "semester" => "genap"
+                ],
+                [
+                    "name" => "Bacaan dan tata cara wudhu'",
+                    "grade_id" => 1,
+                    "semester" => "genap"
+                ],
+
+                // kelas 2
+                [
                     "name" => "Berdo'a Sebelum belajar",
                     "grade_id" => 2,
                     "semester" => "ganjil"
@@ -267,10 +289,174 @@ class AssessmentSeeder extends Seeder
                     "semester" => "genap"
                 ],
             ],
-            "gerakan sholat" => [],
-            "bacaan sholat" => [],
-            "adzan" => [],
-            "tata cara wudhu" => [],
+            "gerakan sholat" => [
+                [
+                    "name" => "Berdiri Tegak",
+                    "grade_id" => 5,
+                    "semester" => "genap"
+                ],
+                [
+                    "name" => "Takbirotul Ihram",
+                    "grade_id" => 5,
+                    "semester" => "genap"
+                ],
+                [
+                    "name" => "Bersedekap",
+                    "grade_id" => 5,
+                    "semester" => "genap"
+                ],
+                [
+                    "name" => "Ruku'",
+                    "grade_id" => 5,
+                    "semester" => "genap"
+                ],
+                [
+                    "name" => "I'tidal (Bangkit dari Ruku')",
+                    "grade_id" => 5,
+                    "semester" => "genap"
+                ],
+                [
+                    "name" => "Sujud",
+                    "grade_id" => 5,
+                    "semester" => "genap"
+                ],
+                [
+                    "name" => "Duduk Di Antara Dua Sujud",
+                    "grade_id" => 5,
+                    "semester" => "genap"
+                ],
+                [
+                    "name" => "Duduk Tahiyat Awal",
+                    "grade_id" => 5,
+                    "semester" => "genap"
+                ],
+                [
+                    "name" => "Duduk Tahiyat Akhir",
+                    "grade_id" => 5,
+                    "semester" => "genap"
+                ],
+                [
+                    "name" => "Salam",
+                    "grade_id" => 5,
+                    "semester" => "genap"
+                ],
+            ],
+            "bacaan sholat" => [
+                [
+                    "name" => "Takbirotul Ihram",
+                    "grade_id" => 5,
+                    "semester" => "genap",
+                ],
+                [
+                    "name" => "Do'a Iftitah",
+                    "grade_id" => 5,
+                    "semester" => "genap",
+                ],
+                [
+                    "name" => "Al-Fatihah",
+                    "grade_id" => 5,
+                    "semester" => "genap",
+                ],
+                [
+                    "name" => "Bacaan Ruku'",
+                    "grade_id" => 5,
+                    "semester" => "genap",
+                ],
+                [
+                    "name" => "Bacaan I'tidal",
+                    "grade_id" => 5,
+                    "semester" => "genap",
+                ],
+                [
+                    "name" => "Bacaan Sujud",
+                    "grade_id" => 5,
+                    "semester" => "genap",
+                ],
+                [
+                    "name" => "Bacaan Duduk Diantara Dua Sujud",
+                    "grade_id" => 5,
+                    "semester" => "genap",
+                ],
+                [
+                    "name" => "Bacaan Tasyahud",
+                    "grade_id" => 5,
+                    "semester" => "genap",
+                ],
+                [
+                    "name" => "Shalawat Setelah Tasyahud",
+                    "grade_id" => 5,
+                    "semester" => "genap",
+                ],
+                [
+                    "name" => "Do'a Sebelum Salam",
+                    "grade_id" => 5,
+                    "semester" => "genap",
+                ],
+            ],
+            "adzan" => [
+                [
+                    "name" => "Jawaban Bacaan Adzan",
+                    "grade_id" => 5,
+                    "semester" => 'genap'
+                ],
+                [
+                    "name" => "Doa Setelah Mendengar Adzan",
+                    "grade_id" => 5,
+                    "semester" => 'genap'
+                ],
+                [
+                    "name" => "Bacaan Iqomah",
+                    "grade_id" => 5,
+                    "semester" => 'genap'
+                ],
+            ],
+            "tata cara wudhu" => [
+                [
+                    "name" => "Mencuci Kedua Tangan",
+                    "grade_id" => 5,
+                    "semester" => "genap"
+                ],
+                [
+                    "name" => "Berkumur-kumur",
+                    "grade_id" => 5,
+                    "semester" => "genap"
+                ],
+                [
+                    "name" => "Istinsyaq",
+                    "grade_id" => 5,
+                    "semester" => "genap"
+                ],
+                [
+                    "name" => "Membasuh Muka",
+                    "grade_id" => 5,
+                    "semester" => "genap"
+                ],
+                [
+                    "name" => "Membasuh Tangan Sampai Sikut",
+                    "grade_id" => 5,
+                    "semester" => "genap"
+                ],
+                [
+                    "name" => "Membasuh Sebagian Kepala",
+                    "grade_id" => 5,
+                    "semester" => "genap"
+                ],
+                [
+                    "name" => "Membasuh Telinga",
+                    "grade_id" => 5,
+                    "semester" => "genap"
+                ],
+                [
+                    "name" => "Membasuh Kaki hingga Mata Kaki",
+                    "grade_id" => 5,
+                    "semester" => "genap"
+                ],
+                [
+                    "name" => "Doa Setelah Wudhu",
+                    "grade_id" => 5,
+                    "semester" => "genap"
+                ],
+            ],
         ];
 
         foreach ($datas as $group => $names) {

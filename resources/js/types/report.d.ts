@@ -2,7 +2,7 @@ import { Academicyear } from './academicyear';
 import { Classroom } from './classroom';
 import { Student } from './student';
 
-export type ReportType = 'nilai' | 'perkembangan' | 'tahsin' | 'tahfidz' | 'doa-hadist';
+export type ReportType = 'nilai' | 'perkembangan' | 'tahsin' | 'tahfidz' | 'doa-hadist' | 'praktik-sholat' | 'adzan-wudhu';
 
 export type Report = {
   id: number;
@@ -12,6 +12,7 @@ export type Report = {
   student_id: number;
   report_type: ReportType;
   data: unknown;
+  published: boolean;
   academic_year: Academicyear;
   student: Student;
   classroom: Classroom;
@@ -120,3 +121,21 @@ export type ReportDoaHadistData = ReportDataMeta & {
 };
 
 // batas rapor doa hadist
+
+export type ReportPraktikSholatData = ReportDataMeta & {
+  koordinator: string;
+  pembimbing: string;
+  bacaan: PenilaianDoaHadist[];
+  gerakan: PenilaianDoaHadist[];
+};
+
+// batas rapor praktik sholat
+
+export type ReportAdzanWudhuData = ReportDataMeta & {
+  koordinator: string;
+  pembimbing: string;
+  adzan: PenilaianDoaHadist[];
+  wudhu: PenilaianDoaHadist[];
+};
+
+// batas rapor adzan wudhu

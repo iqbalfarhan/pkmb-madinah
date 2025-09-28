@@ -1,27 +1,23 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import WidgetCard from '@/components/widget-card';
+import { SharedData } from '@/types';
 import { Bill } from '@/types/bill';
-import { router, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
+import { HandCoins } from 'lucide-react';
 
 const BillWidget = () => {
-  const { bills = [] } = usePage<{ bills: Bill[] }>().props;
+  const { bills = [], permissions } = usePage<SharedData & { bills: Bill[] }>().props;
 
-  if (bills.length === 0) return null;
+  if (!permissions?.canOpenStudentBill) return null;
 
   return (
-    <Card onClick={() => router.visit(route('bills'))}>
-      <div className="flex justify-between">
-        <CardHeader>
-          <CardTitle>Tagihan pembayaran</CardTitle>
-          <CardDescription>Tagihan pembayaran contoh data</CardDescription>
-        </CardHeader>
-        <CardFooter>
-          <Button size={'icon'} variant={'warning'}>
-            {bills.length}
-          </Button>
-        </CardFooter>
-      </div>
-    </Card>
+    <WidgetCard
+      href={route('bills')}
+      variant={'success'}
+      icon={HandCoins}
+      count={`${bills.length.toString()} tagihan`}
+      title="Tagihan pembayaran"
+      description="Tagihan biaya sekolah untuk siswa"
+    />
   );
 };
 

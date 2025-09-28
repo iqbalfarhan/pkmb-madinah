@@ -12,7 +12,14 @@ class GuruSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->count(3)->create()->each(function ($user) {
+        $user = User::factory()->create([
+            'email' => 'guru@gmail.com',
+            'username' => 'guru',
+        ]);
+
+        $user->assignRole('guru');
+
+        User::factory()->count(2)->create()->each(function ($user) {
             $user->assignRole('guru');
         });
     }

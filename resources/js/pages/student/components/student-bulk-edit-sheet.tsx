@@ -8,14 +8,15 @@ import { Classroom } from '@/types/classroom';
 import { Student } from '@/types/student';
 import { useForm, usePage } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
-import { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, useEffect } from 'react';
 import { toast } from 'sonner';
 
 type Props = PropsWithChildren & {
   studentIds: Student['id'][];
+  onSuccess?: () => void;
 };
 
-const StudentBulkEditSheet: FC<Props> = ({ children, studentIds }) => {
+const StudentBulkEditSheet: FC<Props> = ({ children, studentIds, onSuccess }) => {
   const { classrooms } = usePage<{ classrooms: Classroom[] }>().props;
 
   const { data, setData, put } = useForm({
@@ -23,11 +24,16 @@ const StudentBulkEditSheet: FC<Props> = ({ children, studentIds }) => {
     classroom_id: '',
   });
 
+  useEffect(() => {
+    setData('student_ids', studentIds);
+  }, [studentIds, setData]);
+
   const handleSubmit = () => {
     put(route('student.bulk.update'), {
       preserveScroll: true,
       onSuccess: () => {
         toast.success('Student updated successfully');
+        onSuccess?.();
       },
       onError: (e) => toast.error(em(e)),
     });

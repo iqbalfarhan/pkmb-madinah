@@ -31,22 +31,22 @@ const BillList: FC<Props> = ({ bills, query }) => {
 
   return (
     <AppLayout
-      title="Bills"
+      title="Tagihan siswa"
       description="Manage your bills"
       actions={
         <>
           {permissions?.canAdd && (
             <>
-              <BillFormSheet purpose="create">
-                <Button>
+              <Button asChild>
+                <Link href={route('bill.bulk.create')}>
                   <PlusCircle />
-                  Create bulk
-                </Button>
-              </BillFormSheet>
+                  Buat sekaligus
+                </Link>
+              </Button>
               <BillFormSheet purpose="create">
                 <Button>
                   <Plus />
-                  Create new bill
+                  Buat tagihan
                 </Button>
               </BillFormSheet>
             </>
@@ -75,7 +75,7 @@ const BillList: FC<Props> = ({ bills, query }) => {
                 <Edit /> Edit selected
               </Button>
             </BillBulkEditSheet>
-            <BillBulkDeleteDialog billIds={ids}>
+            <BillBulkDeleteDialog billIds={ids} onSuccess={() => setIds([])}>
               <Button variant={'destructive'}>
                 <Trash2 /> Delete selected
               </Button>

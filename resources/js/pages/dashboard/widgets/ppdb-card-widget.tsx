@@ -8,9 +8,7 @@ import { ChevronRight } from 'lucide-react';
 const PpdbCardWidget = () => {
   const { settings } = usePage<SharedData>().props;
 
-  if (settings?.PPDB_OPEN !== 'true') {
-    return null;
-  }
+  if (settings?.PPDB_OPEN !== 'true') return null;
 
   return (
     <Card>

@@ -17,10 +17,13 @@ class SettingController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Setting::query()->when($request->name, fn ($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = Setting::query()
+            ->when($request->name, function ($q, $v) {
+                $q->where('name',  $v);
+            });
 
         return Inertia::render('setting/index', [
-            'settings' => $data->get(),
+            'items' => $data->get(),
             'query' => $request->input(),
             'permissions' => [
                 'canAdd' => false,

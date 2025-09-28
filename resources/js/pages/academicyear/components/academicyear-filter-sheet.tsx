@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { router, useForm } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
@@ -14,6 +15,7 @@ type Props = PropsWithChildren & {
 
 const AcademicyearFilterSheet: FC<Props> = ({ children }) => {
   const [open, setOpen] = useState(false);
+  const mobile = useIsMobile();
 
   const { data, setData, get } = useForm({
     name: '',
@@ -49,7 +51,7 @@ const AcademicyearFilterSheet: FC<Props> = ({ children }) => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent>
+      <SheetContent side={mobile ? 'bottom' : 'right'}>
         <SheetHeader>
           <SheetTitle>Filter academicyear</SheetTitle>
           <SheetDescription>Filter data academicyear</SheetDescription>

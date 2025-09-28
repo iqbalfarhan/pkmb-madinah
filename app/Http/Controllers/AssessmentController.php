@@ -22,6 +22,12 @@ class AssessmentController extends Controller
             ->with(['grade'])
             ->when($request->group, function($q, $v) {
                 $q->where('group', $v);
+            })
+            ->when($request->grade_id, function($q, $v) {
+                $q->where('grade_id', $v);
+            })
+            ->when($request->semester, function($q, $v) {
+                $q->where('semester', $v);
             });
 
         return Inertia::render('assessment/index', [

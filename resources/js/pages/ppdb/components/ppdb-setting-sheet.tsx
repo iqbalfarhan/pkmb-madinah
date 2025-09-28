@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { capitalizeWords, em } from '@/lib/utils';
 import { FormPurpose } from '@/types';
 import { Setting } from '@/types/setting';
@@ -25,6 +26,8 @@ const PpdbSettingSheet: FC<Props> = ({ children, setting, purpose }) => {
     key: setting?.key ?? '',
     value: setting?.value ?? '',
   });
+
+  const isMobile = useIsMobile();
 
   const handleSubmit = () => {
     if (purpose === 'create' || purpose === 'duplicate') {
@@ -52,7 +55,7 @@ const PpdbSettingSheet: FC<Props> = ({ children, setting, purpose }) => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent>
+      <SheetContent side={isMobile ? 'bottom' : 'right'}>
         <SheetHeader>
           <SheetTitle>{capitalizeWords(purpose)} data setting</SheetTitle>
           <SheetDescription>Form untuk {purpose} data setting</SheetDescription>

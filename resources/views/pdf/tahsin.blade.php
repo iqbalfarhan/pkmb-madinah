@@ -92,18 +92,23 @@
 	<hr>
 
 	<div style="margin: 20px 0cm;">
+		{{-- <table>
+			<tr><td style="width: 100px"><strong>Nama siswa</strong></td><td><strong>:</strong></td><td><strong>{{ $data['nama'] }}</strong></td></tr>
+			<tr><td style="width: 100px"><strong>Kelas</strong></td><td><strong>:</strong></td><td><strong>{{ $data['kelas'] }}</strong></td></tr>
+			<tr><td style="width: 100px"><strong>Usia</strong></td><td><strong>:</strong></td><td><strong>{{ $data['usia'] }}</strong></td></tr>
+			<tr><td style="width: 100px"><strong>NIS/NISN</strong></td><td><strong>:</strong></td><td><strong>{{ $data['nisn'] }}</strong></td></tr>
+		</table> --}}
 		<table style="width: 100%">
 			<tr>
-				<td>
+				<td style="padding: 0px; margin: 0px;">
 					<table style="width: 100%">
 						<tr><td style="width: 120px"><strong>Nama siswa</strong></td><td><strong>:</strong></td><td><strong>{{ $data['nama'] }}</strong></td></tr>
 						<tr><td style="width: 120px"><strong>NISN</strong></td><td><strong>:</strong></td><td><strong>{{ $data['nisn'] }}</strong></td></tr>
 						<tr><td style="width: 120px"><strong>Kelas</strong></td><td><strong>:</strong></td><td><strong>{{ $data['kelas'] }}</strong></td></tr>
 						<tr><td style="width: 120px"><strong>Mata pelajaran</strong></td><td><strong>:</strong></td><td><strong>TAHSIN</strong></td></tr>
 					</table>
-		
 				</td>
-				<td>
+				<td style="padding: 0px; margin: 0px;">
 					<table style="width: 100%">
 						<tr><td style="width: 120px"><strong>Semester</strong></td><td><strong>:</strong></td><td><strong>{{ $data['semester'] }}</strong></td></tr>
 						<tr><td style="width: 120px"><strong>Periode</strong></td><td><strong>:</strong></td><td><strong>{{ $data['periode'] ?? "" }}</strong></td></tr>

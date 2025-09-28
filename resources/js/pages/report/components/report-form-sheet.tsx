@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { capitalizeWords, em } from '@/lib/utils';
 import { FormPurpose, SharedData } from '@/types';
 import { Academicyear } from '@/types/academicyear';
@@ -23,6 +24,8 @@ type Props = PropsWithChildren & {
 const ReportFormSheet: FC<Props> = ({ children, report, purpose }) => {
   const [open, setOpen] = useState(false);
 
+  const mobile = useIsMobile();
+
   const {
     students = [],
     academicYears = [],
@@ -38,10 +41,10 @@ const ReportFormSheet: FC<Props> = ({ children, report, purpose }) => {
     }
   >().props;
 
-  const { data, setData, put, post, reset, processing } = useForm({
-    student_id: report?.student_id ?? students[0]?.id ?? '',
+  const { data, setData, put, post, processing } = useForm({
+    student_id: (report?.student_id ?? students[0]?.id ?? undefined) as number | undefined,
     academic_year_id: report?.academic_year_id ?? activeAcademicYear?.id.toString() ?? academicYears[0].id ?? 0,
-    classroom_id: report?.classroom_id ?? students[0].classroom_id ?? '',
+    classroom_id: report?.classroom_id ?? students[0]?.classroom_id ?? '',
     report_type: report?.report_type ?? '',
   });
 
@@ -51,7 +54,6 @@ const ReportFormSheet: FC<Props> = ({ children, report, purpose }) => {
         preserveScroll: true,
         onSuccess: () => {
           toast.success('Report created successfully');
-          reset();
           setOpen(false);
         },
         onError: (e) => toast.error(em(e)),
@@ -71,14 +73,14 @@ const ReportFormSheet: FC<Props> = ({ children, report, purpose }) => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent>
+      <SheetContent side={mobile ? 'bottom' : 'right'}>
         <SheetHeader>
           <SheetTitle>{capitalizeWords(purpose)} data report</SheetTitle>
           <SheetDescription>Form untuk {purpose} data report</SheetDescription>
         </SheetHeader>
         <ScrollArea className="flex-1 overflow-y-auto">
           <form
-            className="space-y-6 px-4"
+            className="space-y-4 px-4"
             onSubmit={(e) => {
               e.preventDefault();
               handleSubmit();
@@ -100,32 +102,15 @@ const ReportFormSheet: FC<Props> = ({ children, report, purpose }) => {
                 </Select>
               </FormControl>
             )}
-            {students.length > 1 && (
-              <FormControl label="Pilih siswa">
-                <Select
-                  value={data.student_id.toString()}
-                  onValueChange={(e) => {
-                    setData('student_id', Number(e));
-                    const classroomId = students.find((s) => s.id === Number(e))?.classroom_id;
-                    setData('classroom_id', Number(classroomId));
-                  }}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Pilih siswa" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {students.map((s) => (
-                      <SelectItem key={s.id} value={s.id.toString()}>
-                        {s.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormControl>
-            )}
+
             {classrooms.length > 1 && (
               <FormControl label="Kelas">
-                <Select value={data.classroom_id.toString()} onValueChange={(e) => setData('classroom_id', Number(e))}>
+                <Select
+                  value={data.classroom_id.toString()}
+                  onValueChange={(e) => {
+                    setData('classroom_id', Number(e));
+                  }}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih kelas" />
                   </SelectTrigger>
@@ -139,6 +124,31 @@ const ReportFormSheet: FC<Props> = ({ children, report, purpose }) => {
                 </Select>
               </FormControl>
             )}
+
+            <FormControl label="Pilih siswa">
+              <Select
+                value={data.student_id?.toString()}
+                onValueChange={(e) => {
+                  setData('student_id', Number(e));
+                  const classroomId = students.find((s) => s.id === Number(e))?.classroom_id;
+                  setData('classroom_id', Number(classroomId));
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Pilih siswa" />
+                </SelectTrigger>
+                <SelectContent>
+                  {students
+                    .filter((s) => (data.classroom_id ? Number(data.classroom_id) === Number(s.classroom_id) : false))
+                    .map((s) => (
+                      <SelectItem key={s.id} value={s.id.toString()}>
+                        {s.name}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+            </FormControl>
+
             <FormControl label="Jenis rapor">
               <Select value={data.report_type} onValueChange={(e) => setData('report_type', e)}>
                 <SelectTrigger>

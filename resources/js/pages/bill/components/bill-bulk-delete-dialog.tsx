@@ -18,9 +18,10 @@ import { toast } from 'sonner';
 
 type Props = PropsWithChildren & {
   billIds: Bill['id'][];
+  onSuccess?: () => void;
 };
 
-const BillBulkDeleteDialog: FC<Props> = ({ children, billIds }) => {
+const BillBulkDeleteDialog: FC<Props> = ({ children, billIds, onSuccess }) => {
   const [open, setOpen] = useState(false);
 
   const handleDelete = () => {
@@ -30,6 +31,7 @@ const BillBulkDeleteDialog: FC<Props> = ({ children, billIds }) => {
       onSuccess: () => {
         toast.success('Bill deleted successfully');
         setOpen(false);
+        onSuccess?.();
       },
       onError: (e) => toast.error(em(e)),
     });

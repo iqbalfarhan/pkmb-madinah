@@ -2,18 +2,17 @@ import FormControl from '@/components/form-control';
 import SubmitButton from '@/components/submit-button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { capitalizeWords, em } from '@/lib/utils';
 import { FormPurpose } from '@/types';
 import { Academicyear } from '@/types/academicyear';
 import { useForm } from '@inertiajs/react';
 import { CheckedState } from '@radix-ui/react-checkbox';
-import { Info, X } from 'lucide-react';
+import { Check, Minus, X } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -24,12 +23,13 @@ type Props = PropsWithChildren & {
 
 const AcademicyearFormSheet: FC<Props> = ({ children, academicyear, purpose }) => {
   const [open, setOpen] = useState(false);
+  const mobile = useIsMobile();
 
   const { data, setData, put, post, reset, processing } = useForm({
     year: academicyear?.year ?? '',
     semester: academicyear?.semester ?? 'ganjil',
     new_classroom: true as CheckedState,
-    detach_students: true as CheckedState,
+    sync_student_classroom: true as CheckedState,
     active: true as CheckedState,
   });
 
@@ -59,7 +59,7 @@ const AcademicyearFormSheet: FC<Props> = ({ children, academicyear, purpose }) =
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent>
+      <SheetContent side={mobile ? 'bottom' : 'right'}>
         <SheetHeader>
           <SheetTitle>{capitalizeWords(purpose)} data academicyear</SheetTitle>
           <SheetDescription>Form untuk {purpose} data academicyear</SheetDescription>
@@ -72,8 +72,8 @@ const AcademicyearFormSheet: FC<Props> = ({ children, academicyear, purpose }) =
               handleSubmit();
             }}
           >
-            <FormControl label="Tahun" hint="format penulisan: 20xx/20xx">
-              <Input type="text" placeholder="Name" value={data.year} onChange={(e) => setData('year', e.target.value)} />
+            <FormControl label="Tahun ajaran" hint="format penulisan: 20xx/20xx">
+              <Input type="text" placeholder="20xx/20xx" value={data.year} onChange={(e) => setData('year', e.target.value)} />
             </FormControl>
             {purpose === 'edit' && (
               <FormControl label="Semester">
@@ -88,35 +88,34 @@ const AcademicyearFormSheet: FC<Props> = ({ children, academicyear, purpose }) =
                 </Select>
               </FormControl>
             )}
-            <FormControl label="Pengaturan kelas">
-              <div className="grid">
-                <Label className="flex h-8 items-center gap-2">
-                  <Checkbox checked={data.new_classroom} onCheckedChange={(c) => setData('new_classroom', c)} />
-                  <span>Buat kelas baru (duplicate dari sebelumnya)</span>
-                </Label>
-                <Label className="flex h-8 items-center gap-2">
-                  <Checkbox checked={data.detach_students} onCheckedChange={(c) => setData('detach_students', c)} />
-                  <span>Sinkronisasi kelas siswa (setelah naik atau tinggal kelas dari rapor)</span>
-                </Label>
-                <Label className="flex h-8 items-center gap-2">
-                  <Checkbox checked={data.active} onCheckedChange={(c) => setData('active', c)} />
-                  <span>Jadikan tahun ajaran sebagai aktif</span>
-                </Label>
-              </div>
+            <FormControl label="Opsi tahun ajaran baru" asDiv className="grid space-y-1">
+              <Alert
+                className="cursor-pointer"
+                variant={data.new_classroom ? 'success' : 'default'}
+                onClick={() => setData('new_classroom', !data.new_classroom)}
+              >
+                {data.new_classroom ? <Check /> : <Minus />}
+                <AlertTitle>Buat kelas baru</AlertTitle>
+                <AlertDescription>Duplikat data kelas dari tahun ajaran sebelumnya</AlertDescription>
+              </Alert>
+              <Alert
+                className="cursor-pointer"
+                variant={data.sync_student_classroom ? 'success' : 'default'}
+                onClick={() => setData('sync_student_classroom', !data.sync_student_classroom)}
+              >
+                {data.sync_student_classroom ? <Check /> : <Minus />}
+                <AlertTitle>Sinkronisasi kelas siswa</AlertTitle>
+                <AlertDescription>Sesuaikan kelas siswa berdasarkan naik kelas atau tinggal kelas dari rapor nilai terakhir.</AlertDescription>
+              </Alert>
+              <Alert className="cursor-pointer" variant={data.active ? 'success' : 'default'} onClick={() => setData('active', !data.active)}>
+                {data.active ? <Check /> : <Minus />}
+                <AlertTitle>Jadikan tahun ajaran sebagai aktif</AlertTitle>
+                <AlertDescription>Jadikan tahun ajaran baru ini sebgai tahun ajaran yang aktif.</AlertDescription>
+              </Alert>
             </FormControl>
           </form>
         </ScrollArea>
         <SheetFooter>
-          {purpose === 'create' && (
-            <Alert variant={'success'}>
-              <Info />
-              <AlertTitle>Harap diperhatikan</AlertTitle>
-              <AlertDescription>
-                Mengubah tahun ajaran harus dilakukan apabila semua kegiatan yang berhubungan dengan tahun ajaran berakhir, data yang tahun ajaran
-                yang sudah tidak berlaku tidak bisa diubah kembali
-              </AlertDescription>
-            </Alert>
-          )}
           <SubmitButton onClick={handleSubmit} label={`${capitalizeWords(purpose)} academicyear`} loading={processing} disabled={processing} />
           <SheetClose asChild>
             <Button variant={'outline'}>

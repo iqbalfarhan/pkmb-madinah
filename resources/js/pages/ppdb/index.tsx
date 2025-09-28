@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { cn } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Setting } from '@/types/setting';
 import { Student } from '@/types/student';
@@ -48,22 +47,7 @@ const PpdbList: FC<Props> = ({
   const { permissions } = usePage<SharedData>().props;
 
   return (
-    <AppLayout
-      title="Ppdbs"
-      description="Manage your ppdbs"
-      actions={
-        <>
-          {permissions?.canAdd && (
-            <Button asChild>
-              <Link href={route('ppdb.create')}>
-                <Plus />
-                Pendaftaran siswa baru
-              </Link>
-            </Button>
-          )}
-        </>
-      }
-    >
+    <AppLayout title="Pendaftaran siswa baru" description="Pengaturan siswa baru">
       <div className="grid-responsive grid gap-4">
         <PpdbSettingSheet purpose="edit" setting={ppdbSetting}>
           <Card className={ppdbSetting.value === 'true' ? 'border border-success bg-success/10 text-success shadow-2xl shadow-success' : ''}>
@@ -80,7 +64,7 @@ const PpdbList: FC<Props> = ({
             </CardHeader>
           </Card>
         </PpdbSettingSheet>
-        <Card className={cn('cursor-pointer opacity-60', status === 'ppdb' ? 'opacity-100' : '')} onClick={() => router.get('', { status: 'ppdb' })}>
+        <Card onClick={() => router.get('', { status: 'ppdb' })}>
           <CardHeader className="flex flex-row space-y-5 space-x-4">
             <div className="size-5">
               <BookCheck />
@@ -91,10 +75,7 @@ const PpdbList: FC<Props> = ({
             </div>
           </CardHeader>
         </Card>
-        <Card
-          className={cn('cursor-pointer opacity-60', status === 'draft' ? 'opacity-100' : '')}
-          onClick={() => router.get('', { status: 'draft' })}
-        >
+        <Card onClick={() => router.get('', { status: 'draft' })}>
           <CardHeader className="flex flex-row space-y-5 space-x-4">
             <div className="size-5">
               <PencilRuler />
@@ -105,32 +86,56 @@ const PpdbList: FC<Props> = ({
             </div>
           </CardHeader>
         </Card>
+        <Card onClick={() => router.visit(route('ppdb.create'))}>
+          <CardHeader className="flex flex-row space-y-5 space-x-4">
+            <div className="size-5">
+              <Plus />
+            </div>
+            <div className="space-y-1.5">
+              <CardTitle className="line-clamp-1">Pendaftaran baru</CardTitle>
+              <CardDescription className="line-clamp-2">{counts.draft} siswa dalam proses pengisian data siswa baru.</CardDescription>
+            </div>
+          </CardHeader>
+        </Card>
       </div>
       {status === 'ppdb' ? (
-        <HeadingSmall title="Siap diverfikasi" description="List calon siswa yang siap untuk diverifikasi" />
+        <HeadingSmall
+          title="Siap diverfikasi"
+          description="List calon siswa yang siap untuk diverifikasi"
+          actions={
+            <>
+              <Input placeholder="Search ppdbs..." value={cari} onChange={(e) => setCari(e.target.value)} />
+            </>
+          }
+        />
       ) : (
-        <HeadingSmall title="Proses pendaftaran" description="List calon siswa dalam proses pengisian data pendaftaran" />
+        <HeadingSmall
+          title="Proses pendaftaran"
+          description="List calon siswa dalam proses pengisian data pendaftaran"
+          actions={
+            <>
+              <Input placeholder="Search ppdbs..." value={cari} onChange={(e) => setCari(e.target.value)} />
+            </>
+          }
+        />
       )}
-      <div className="flex gap-2">
-        <Input placeholder="Search ppdbs..." value={cari} onChange={(e) => setCari(e.target.value)} />
-        {ids.length > 0 && (
-          <>
-            <Button variant={'ghost'} disabled>
-              {ids.length} item selected
+      {ids.length > 0 && (
+        <div className="flex gap-2">
+          <Button variant={'ghost'} disabled>
+            {ids.length} item selected
+          </Button>
+          <PpdbBulkEditSheet ppdbIds={ids}>
+            <Button>
+              <Edit /> Edit selected
             </Button>
-            <PpdbBulkEditSheet ppdbIds={ids}>
-              <Button>
-                <Edit /> Edit selected
-              </Button>
-            </PpdbBulkEditSheet>
-            <PpdbBulkDeleteDialog ppdbIds={ids}>
-              <Button variant={'destructive'}>
-                <Trash2 /> Delete selected
-              </Button>
-            </PpdbBulkDeleteDialog>
-          </>
-        )}
-      </div>
+          </PpdbBulkEditSheet>
+          <PpdbBulkDeleteDialog ppdbIds={ids}>
+            <Button variant={'destructive'}>
+              <Trash2 /> Delete selected
+            </Button>
+          </PpdbBulkDeleteDialog>
+        </div>
+      )}
       <Table>
         <TableHeader>
           <TableRow>

@@ -8,6 +8,8 @@ import SectionContainer from '../layout/section-container';
 const NewsSection = () => {
   const { news } = usePage<{ news: News[] }>().props;
 
+  if (news.length === 0) return null;
+
   return (
     <SectionContainer title="Kegiatan terbaru" description="Berita kegiatan sekolah terbaru">
       <div className="grid gap-6 md:grid-cols-3">

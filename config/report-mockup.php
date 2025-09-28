@@ -277,7 +277,7 @@ return [
             ]
         ],
     ],
-    'praktik' => [
+    'praktik-sholat' => [
         'tahunajaran' => '',
         'semester' => '',
         'nama' => '',
@@ -285,6 +285,18 @@ return [
         'usia' => '',
         'nisn' => '',
         'walikelas' => '',
-        'nilai' => [],
+        'bacaan' => [],
+        'gerakan' => [],
+    ],
+    'adzan-wudhu' => [
+        'tahunajaran' => '',
+        'semester' => '',
+        'nama' => '',
+        'kelas' => '',
+        'usia' => '',
+        'nisn' => '',
+        'walikelas' => '',
+        'adzan' => [],
+        'wudhu' => [],
     ],
 ];

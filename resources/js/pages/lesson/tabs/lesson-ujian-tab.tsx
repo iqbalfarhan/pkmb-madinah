@@ -45,12 +45,13 @@ const LessonUjianTab = () => {
           <TableRow>
             <TableHead className="border-r-2 border-border">Nama siswa</TableHead>
             {exams.map((ex) => (
-              <TableHead className="border-l-2 border-border text-center">
+              <TableHead className="text-center">
                 <ExamFormSheet purpose="edit" exam={ex} lessonId={lesson.id}>
                   <div>{strLimit(ex.name, 10)}</div>
                 </ExamFormSheet>
               </TableHead>
             ))}
+            <TableHead className="border-l-2 border-border text-center">Total</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -68,11 +69,16 @@ const LessonUjianTab = () => {
                 {exams.map((ex) => {
                   const score = examscores.find((es) => es.student_id == student.id && es.exam_id === ex.id);
                   return (
-                    <TableCell className="w-fit border-l-2 border-border text-center">
+                    <TableCell className="text-center">
                       <ExamscoreFormPopup examscore={score} options={{ student_id: student.id, lesson_id: lesson.id, exam_id: ex.id }} />
                     </TableCell>
                   );
                 })}
+                <TableCell className="w-fit border-l-2 border-border text-center">
+                  <Button variant={'ghost'} size={'icon'}>
+                    {0}
+                  </Button>
+                </TableCell>
               </TableRow>
             );
           })}

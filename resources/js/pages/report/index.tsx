@@ -1,15 +1,18 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
+import { em } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Report } from '@/types/report';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import { Download, Edit, Filter, Folder, Plus, Trash2 } from 'lucide-react';
 import { FC, useState } from 'react';
+import { toast } from 'sonner';
 import ReportBulkDeleteDialog from './components/report-bulk-delete-dialog';
 import ReportBulkEditSheet from './components/report-bulk-edit-sheet';
 import ReportDeleteDialog from './components/report-delete-dialog';
@@ -26,6 +29,20 @@ const ReportList: FC<Props> = ({ reports, query }) => {
   const [cari, setCari] = useState('');
 
   const { permissions } = usePage<SharedData>().props;
+
+  const setPublish = (report: Report, published: boolean) => {
+    router.put(
+      route('report.update', report.id),
+      {
+        published,
+      },
+      {
+        preserveScroll: true,
+        onSuccess: () => toast.success('published update successfully'),
+        onError: (e) => toast.success(em(e)),
+      },
+    );
+  };
 
   return (
     <AppLayout
@@ -97,6 +114,7 @@ const ReportList: FC<Props> = ({ reports, query }) => {
             <TableHead>Jenis rapor</TableHead>
             <TableHead>Classroom</TableHead>
             <TableHead>Academic year</TableHead>
+            <TableHead>Publish</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -126,6 +144,19 @@ const ReportList: FC<Props> = ({ reports, query }) => {
                 <TableCell>{report.report_type}</TableCell>
                 <TableCell>{report.classroom.name}</TableCell>
                 <TableCell>{report.academic_year.label}</TableCell>
+                <TableCell>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Badge variant={report.published ? 'default' : 'secondary'}>{report.published ? 'Published' : 'Not published'}</Badge>
+                    </DropdownMenuTrigger>
+                    {permissions?.canUpdate && (
+                      <DropdownMenuContent>
+                        <DropdownMenuItem onSelect={() => setPublish(report, true)}>Publish</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => setPublish(report, false)}>Not publish</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    )}
+                  </DropdownMenu>
+                </TableCell>
                 <TableCell>
                   {permissions?.canShow && (
                     <>

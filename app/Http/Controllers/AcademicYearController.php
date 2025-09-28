@@ -48,32 +48,56 @@ class AcademicYearController extends Controller
         $data = $request->validated();
 
         DB::transaction(function () use ($data) {
+            $newAcademicYear = AcademicYear::create($data);
 
-            $newClassroom = $data['new_classroom'];
-            $detachStudents = $data['detach_students'];
+            // Clone classroom kalau diminta
+            if (!empty($data['new_classroom']) && $data['new_classroom']) {
+                $activeAcademicYear = AcademicYear::active();
 
-            if ($detachStudents) {
-                Student::query()->update(['classroom_id' => null]);
-            }
+                if ($activeAcademicYear) {
+                    $classrooms = Classroom::where('academic_year_id', $activeAcademicYear->id)->get();
 
-            $newAcadmicYear = AcademicYear::create($data);
-
-            if ($newClassroom) {
-                $academicYear = AcademicYear::active();
-                $classrooms = Classroom::whereAcademicYearId($academicYear->id)->get();
-
-                foreach ($classrooms as $classroom) {
-                    Classroom::create([
-                        'academic_year_id' => $newAcadmicYear->id,
-                        'name' => $classroom->name,
-                        'grade_id' => $classroom->grade_id,
-                    ]);
+                    foreach ($classrooms as $classroom) {
+                        Classroom::create([
+                            'academic_year_id' => $newAcademicYear->id,
+                            'name'             => $classroom->name,
+                            'grade_id'         => $classroom->grade_id,
+                        ]);
+                    }
                 }
             }
 
-            $newAcadmicYear->setActive();
+            // Set active cuma kalau diminta
+            if (!empty($data['active']) && $data['active']) {
+                $newAcademicYear->setActive();
+            }
+
+            // Sync student ke classroom baru
+            if (!empty($data['sync_student_classroom']) && $data['sync_student_classroom']) {
+                $activeAcademicYear = AcademicYear::active();
+
+                if ($activeAcademicYear) {
+                    // Ambil semua student, update classroom_id sesuai grade
+                    Student::with('grade.classrooms') // eager load biar gak N+1
+                        ->get()
+                        ->each(function ($student) use ($activeAcademicYear) {
+                            $classroom = $student->grade
+                                ? $student->grade->classrooms()
+                                    ->where('academic_year_id', $activeAcademicYear->id)
+                                    ->first()
+                                : null;
+
+                            if ($classroom) {
+                                $student->update([
+                                    'classroom_id' => $classroom->id,
+                                ]);
+                            }
+                        });
+                }
+            }
         });
     }
+
 
     /**
      * Display the specified resource.

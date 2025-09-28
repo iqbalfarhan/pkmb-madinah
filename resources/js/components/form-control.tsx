@@ -31,7 +31,7 @@ const FormControlContent: FC<Props> = ({ label, required, action, children, hint
   return (
     <>
       {label && (
-        <div className="flex items-end justify-between">
+        <div className="flex items-end justify-between text-sm">
           <label>
             {label} {required && <span className="text-destructive">*</span>}
           </label>

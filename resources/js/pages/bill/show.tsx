@@ -9,7 +9,7 @@ import { dateDFYHIS, formatRupiah } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Bill } from '@/types/bill';
 import { Link, router, usePage } from '@inertiajs/react';
-import { Check, Edit, FileWarning, Image, Plus, Trash2 } from 'lucide-react';
+import { Check, Edit, FileWarning, Image, Plus, Trash2, UserIcon } from 'lucide-react';
 import { FC } from 'react';
 import { toast } from 'sonner';
 import PaymentDeleteDialog from '../payment/components/payment-delete-dialog';
@@ -25,7 +25,20 @@ const ShowBill: FC<Props> = ({ bill }) => {
   const { permissions } = usePage<SharedData>().props;
 
   return (
-    <AppLayout title="Detail Bill" description="Detail bill">
+    <AppLayout
+      title="Detail Bill"
+      description="Detail bill"
+      actions={
+        <>
+          <Button asChild>
+            <Link href={route(bill.student.status == 'ppdb' ? 'ppdb.show' : 'student.show', bill.student_id)}>
+              <UserIcon />
+              Lihat detail siswa
+            </Link>
+          </Button>
+        </>
+      }
+    >
       <Card>
         <div className="flex flex-col md:flex-row">
           <CardHeader className="flex-1">
@@ -55,9 +68,6 @@ const ShowBill: FC<Props> = ({ bill }) => {
         <Separator />
         <CardFooter className="flex justify-between">
           <BillStatusBadge status={bill.status} />
-          <Button asChild>
-            <Link href={route(bill.student.status == 'ppdb' ? 'ppdb.show' : 'student.show', bill.student_id)}>Lihat detail siswa</Link>
-          </Button>
         </CardFooter>
       </Card>
 

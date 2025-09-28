@@ -17,8 +17,8 @@ class StudentFactory extends Factory
         $status = fake()->randomElement(Student::$statusLists);
 
         return [
-            'nisn' => fake()->numerify('#######'),
-            'nis' => fake()->numerify('#######'),
+            'nisn' => fake()->numerify('###'),
+            'nis' => fake()->numerify('###'),
             'name' => fake()->name(),
             'gender' => fake()->boolean(),
             'status' => $status,
@@ -29,7 +29,7 @@ class StudentFactory extends Factory
             'email' => fake()->email(),
             'pob' => fake()->city(),
             'dob' => fake()->date('Y-m-d', 'now'),
-            'deleted_at' => in_array($status, ['lulus', 'pindah', 'dikeluarkan']) ? now() : null,
+            // 'deleted_at' => in_array($status, ['lulus', 'pindah', 'dikeluarkan']) ? now() : null,
             'user_id' => User::role('orangtua')->pluck('id')->random(),
         ];
     }

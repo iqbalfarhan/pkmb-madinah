@@ -32,12 +32,17 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Student::query()->with(['user', 'grade', 'classroom'])->when($request->name, fn ($q, $v) => $q->where('name', 'like', "%$v%"));
+        $data = Student::query()
+            ->with(['user', 'grade', 'classroom'])
+            ->orderBy('grade_id')
+            ->when($request->grade_id, function ($q, $v) {
+                $q->where('grade_id',  $v);
+            });
 
         return Inertia::render('student/index', [
             'students' => $data->aktif()->get(),
             'query' => $request->input(),
-            'users' => User::get(),
+            'users' => User::role('orangtua')->get(),
             'classrooms' => Classroom::active()->get(),
             'statusLists' => Student::$statusLists,
             'permissions' => [
@@ -173,6 +178,7 @@ class StudentController extends Controller
         $data = Report::query()
             ->whereStudentId($student->id)
             ->with(['academic_year', 'classroom', 'student'])
+            ->where('published', true)
             ->when($request->academic_year_id, function ($q, $v) {
                 $q->where('academic_year_id', $v);
             })

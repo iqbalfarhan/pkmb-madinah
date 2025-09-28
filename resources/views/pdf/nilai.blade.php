@@ -81,7 +81,7 @@
       <td>&nbsp;</td>
       <td class="text-center">
         <h1 style="margin-bottom: 0; padding-bottom: 0;">
-          {{ $settings['SCHOOL_NAME'] }}
+          {{ strtoupper($settings['SCHOOL_NAME']) }}
         </h1>
         <div style="width: 90%; margin:0px auto;">{{ $settings['SCHOOL_ADDRESS'] }} Hp. {{ $settings['SCHOOL_PHONE'] }} email : {{ $settings['SCHOOL_EMAIL'] }}</div>
       </td>

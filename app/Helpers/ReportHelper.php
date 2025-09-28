@@ -2,14 +2,11 @@
 
 namespace App\Helpers;
 
-use App\Models\Assessment;
 use App\AnyFormatter;
 use App\Models\AcademicYear;
 use App\Models\Classroom;
 use App\Models\Examscore;
-use App\Models\Report;
 use App\Models\Score;
-use App\Models\Setting;
 use App\Models\Student;
 use Illuminate\Support\Collection;
 
@@ -40,10 +37,13 @@ class ReportHelper
                 $mockup = self::setTahsinData($mockup, $student, $settings);
                 break;
             case 'doa-hadist':
-                $mockup = self::setDoaHadistData($mockup, $assessments, $settings);
+                $mockup = self::setAssessmentData($mockup, "doa-hadist", $assessments, $settings);
                 break;
-            case 'praktik':
-                $mockup = self::setPraktikData($mockup);
+            case 'praktik-sholat':
+                $mockup = self::setAssessmentData($mockup, "praktik-sholat", $assessments, $settings);
+                break;
+            case 'adzan-wudhu':
+                $mockup = self::setAssessmentData($mockup, "adzan-wudhu", $assessments, $settings);
                 break;
         }
         
@@ -160,34 +160,63 @@ class ReportHelper
     /**
      * Set data specific to doa-hadist report type
      */
-    private static function setDoaHadistData(array $mockup, Collection $assessments, $settings ): array
+    private static function setAssessmentData(array $mockup, string $type, Collection $assessments, $settings ): array
     {
+
         $mockup['koordinator'] = $settings['KOORDINATOR_Al-MUYASSAR'];
 
-        $mockup['doa'] = $assessments->where('group', 'doa harian')->map(function($doa){
-            return [
-                "judul" => $doa['name'],
-                "pencapaian" => "Berkembang",
-                "keterangan" => "",
-            ];
-        })->values();
-        $mockup['hadist'] = $assessments->where('group', 'hadist')->map(function($doa){
-            return [
-                "judul" => $doa['name'],
-                "pencapaian" => "Berkembang",
-                "keterangan" => "",
-            ];
-        })->values();
-        
-        return $mockup;
-    }
-
-    /**
-     * Set data specific to praktik report type
-     */
-    private static function setPraktikData(array $mockup): array
-    {
-        $mockup['nilai'] = [];
+        if ($type === "doa-hadist") {
+            $mockup['doa'] = $assessments->where('group', 'doa harian')->map(function($doa){
+                return [
+                    "judul" => $doa['name'],
+                    "pencapaian" => "Berkembang",
+                    "keterangan" => "",
+                ];
+            })->values() ?? [];
+    
+            $mockup['hadist'] = $assessments->where('group', 'hadist')->map(function($doa){
+                return [
+                    "judul" => $doa['name'],
+                    "pencapaian" => "Berkembang",
+                    "keterangan" => "",
+                ];
+            })->values() ?? [];
+        }
+        elseif ($type === "praktik-sholat") {
+            $mockup['gerakan'] = $assessments->where('group', 'gerakan sholat')->map(function($doa){
+                return [
+                    "judul" => $doa['name'],
+                    "pencapaian" => "Berkembang",
+                    "keterangan" => "",
+                ];
+            })->values() ?? [];
+    
+            $mockup['bacaan'] = $assessments->where('group', 'bacaan sholat')->map(function($doa){
+                return [
+                    "judul" => $doa['name'],
+                    "pencapaian" => "Berkembang",
+                    "keterangan" => "",
+                ];
+            })->values() ?? [];
+            
+        }
+        elseif ($type === "adzan-wudhu") {
+            $mockup['adzan'] = $assessments->where('group', 'adzan')->map(function($doa){
+                return [
+                    "judul" => $doa['name'],
+                    "pencapaian" => "Berkembang",
+                    "keterangan" => "",
+                ];
+            })->values() ?? [];
+    
+            $mockup['wudhu'] = $assessments->where('group', 'tata cara wudhu')->map(function($doa){
+                return [
+                    "judul" => $doa['name'],
+                    "pencapaian" => "Berkembang",
+                    "keterangan" => "",
+                ];
+            })->values() ?? [];
+        }
         
         return $mockup;
     }

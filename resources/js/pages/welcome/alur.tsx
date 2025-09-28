@@ -1,14 +1,10 @@
 import WelcomeLayout from './layout/welcome-layout';
-import AlurSection from './partials/alur-section';
-import PpdbSection from './partials/ppdb-section';
-import SyaratSection from './partials/syarat-section';
+import TimelineSection from './partials/timelin-section';
 
 const Alur = () => {
   return (
     <WelcomeLayout>
-      <AlurSection />
-      <SyaratSection />
-      <PpdbSection />
+      <TimelineSection />
     </WelcomeLayout>
   );
 };

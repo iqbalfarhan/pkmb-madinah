@@ -12,6 +12,13 @@ class OrangtuaSeeder extends Seeder
      */
     public function run(): void
     {
+        $user = User::factory()->create([
+            'email' => 'orangtua@gmail.com',
+            'username' => 'orangtua',
+        ]);
+
+        $user->assignRole('orangtua');
+
         User::factory()->count(3)->create()->each(function ($user) {
             $user->assignRole('orangtua');
         });

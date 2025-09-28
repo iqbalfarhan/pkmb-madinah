@@ -53,7 +53,9 @@ const ClassroomRarporsTab: FC<Props> = ({ reports, reportTypes, query }) => {
           <SelectContent align="end">
             <SelectItem value="all">Semua rapor</SelectItem>
             {reportTypes.map((type) => (
-              <SelectItem value={type}>E-rapor {type}</SelectItem>
+              <SelectItem key={type} value={type}>
+                E-rapor {type}
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -64,7 +66,7 @@ const ClassroomRarporsTab: FC<Props> = ({ reports, reportTypes, query }) => {
           .filter((r) => (tab === 'all' ? true : r.report_type === tab))
           .filter((report) => JSON.stringify(report).toLowerCase().includes(cari.toLowerCase()))
           .map((report) => (
-            <ReportItemCard report={report} />
+            <ReportItemCard key={report.id} report={report} />
           ))}
       </div>
     </ClassroomLayout>

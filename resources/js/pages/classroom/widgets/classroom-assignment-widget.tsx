@@ -36,7 +36,7 @@ const ClassroomAssignmentWidget: FC<Props> = ({ assignments, className }) => {
               <SheetDescription>Tugas yang tersedia dikelas</SheetDescription>
             </SheetHeader>
             <ScrollArea className="h-full flex-1 overflow-x-auto px-4">
-              <div className="space-y-4">
+              <div className="space-y-2">
                 {assignments?.map((a) => (
                   <AssignmentItemCard key={a.id} assignment={a} />
                 ))}

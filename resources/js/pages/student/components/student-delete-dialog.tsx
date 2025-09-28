@@ -12,7 +12,7 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { em } from '@/lib/utils';
 import { Student } from '@/types/student';
-import { router, usePage } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { Trash2 } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
@@ -25,7 +25,7 @@ const StudentDeleteDialog: FC<Props> = ({ children, student }) => {
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState('');
 
-  const { statusLists = [] } = usePage<{ statusLists: string[] }>().props;
+  // const { statusLists = [] } = usePage<{ statusLists: string[] }>().props;
 
   const handleDelete = () => {
     router.delete(route('student.destroy', student.id), {
@@ -54,7 +54,7 @@ const StudentDeleteDialog: FC<Props> = ({ children, student }) => {
             <SelectValue placeholder="Pilih status siswa" />
           </SelectTrigger>
           <SelectContent>
-            {statusLists.map((s) => (
+            {['lulus', 'dikeluarkan', 'pindah'].map((s) => (
               <SelectItem key={s} value={s}>
                 {s}
               </SelectItem>

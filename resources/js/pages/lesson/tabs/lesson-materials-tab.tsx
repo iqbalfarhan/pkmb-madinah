@@ -34,7 +34,7 @@ const LessonMaterialsTab: FC<Props> = ({ materials }) => {
         }
       />
 
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid-responsive grid gap-4">
         {materials.map((m) => (
           <MaterialItemCard material={m} key={m.id} />
         ))}

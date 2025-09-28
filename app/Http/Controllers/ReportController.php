@@ -32,6 +32,8 @@ class ReportController extends Controller
     {
         $data = Report::query()
             ->with(['academic_year', 'classroom', 'student'])
+            ->when($request->academic_year_id, fn ($q, $v) => $q->where('academic_year_id', $v))
+            ->when($request->classroom_id, fn ($q, $v) => $q->where('classroom_id', $v))
             ->when($request->report_type, fn ($q, $v) => $q->where('report_type', $v))
             ->when($request->student_id, fn ($q, $v) => $q->where('student_id', $v));
 
@@ -40,7 +42,7 @@ class ReportController extends Controller
             'query' => $request->input(),
             'academicYears' => AcademicYear::get(),
             'classrooms' => Classroom::get(),
-            'students' => Student::get(),
+            'students' => Student::aktif()->get(),
             'reportTypes' => Report::$reportTypes,
             'permissions' => [
                 'canAdd' => $this->user->can('create report'),
@@ -64,19 +66,14 @@ class ReportController extends Controller
         $academicYear = AcademicYear::find($data['academic_year_id']);
         $classroom = Classroom::find($data['classroom_id']);
         $assessments = Assessment::query()
-            ->whereIn('group', ["doa harian", "hadist"])
             ->where('grade_id', $classroom->grade_id)
             ->where('semester', $activeAcademicYearSemester)
             ->get();
 
-        // dd($classroom->grade_id, $assessments->toArray(), $activeAcademicYearSemester);
-
         $mockup = ReportHelper::generateReportData($data, $student, $academicYear, $classroom, $assessments, $settings);
         $data['data'] = $mockup;
 
-        $report = Report::create($data);
-
-        return redirect()->route('report.show', $report->id);
+        Report::create($data);
     }
 
     /**
@@ -119,6 +116,23 @@ class ReportController extends Controller
     {
         $data = $request->validated();
         $report->update($data);
+
+        if ($report->report_type === "nilai") {
+            $data = $report->data;
+
+            $is_kenaikan_kelas = $data['rapor_kenaikan_kelas'];
+            $ke_kelas = $data['ke_kelas'];
+
+            if ($is_kenaikan_kelas) {
+                $grade_id = Grade::where('name', $ke_kelas)->first()->id ?? null;
+    
+                if ($grade_id) {
+                    $report->student->update([
+                        'grade_id' => $grade_id
+                    ]);
+                }
+            }
+        }
     }
 
     public function refreshNilai(RefreshNilaiReportRequest $request, Report $report)
@@ -163,26 +177,34 @@ class ReportController extends Controller
         Report::whereIn('id', $data['report_ids'])->delete();
     }
 
-    public function download(Report $report)
+    public function download(Report $report, string $type = "stream")
     {
         $data = collect($report->data);
         $reportType = $report->report_type;
         $allowed = [
-            "perkembangan",
-            "nilai",
-            "tahfidz",
-            "tahsin",
-            "doa-hadist",
+            "perkembangan" => "pdf.perkembangan",
+            "nilai" => "pdf.nilai",
+            "tahfidz" => "pdf.tahfidz",
+            "tahsin" => "pdf.tahsin",
+            "doa-hadist" => "pdf.doa-hadist",
+            "praktik-sholat" => "pdf.praktik-sholat",
+            "adzan-wudhu" => "pdf.adzan-wudhu",
         ];
 
-        if (in_array($reportType, $allowed)) {
-            return Pdf::setOption('paper', 'a4')->loadView("pdf.{$reportType}", [
-                'data' => $data,
-                'settings' => Setting::pluck('value', 'key'),
-                'report' => $report,
-            ])->stream($report->name);
+        if (! array_key_exists($reportType, $allowed)) {
+            return abort(404, 'Report type not supported');
         }
 
-        return abort(404);
+        $pdf = Pdf::setOption('paper', 'a4')->loadView($allowed[$reportType], [
+            'data'     => $data,
+            'settings' => Setting::pluck('value', 'key'),
+            'report'   => $report,
+        ]);
+
+        return match ($type) {
+            'download' => $pdf->download($report->name . '.pdf'),
+            'stream'   => $pdf->stream($report->name . '.pdf'),
+            default    => abort(404, 'Invalid download type'),
+        };
     }
 }

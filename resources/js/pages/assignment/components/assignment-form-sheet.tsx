@@ -9,6 +9,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Textarea } from '@/components/ui/textarea';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { capitalizeWords, em } from '@/lib/utils';
 import { FormPurpose } from '@/types';
 import { Assignment } from '@/types/assignment';
@@ -26,6 +27,7 @@ type Props = PropsWithChildren & {
 
 const AssignmentFormSheet: FC<Props> = ({ children, assignment, purpose }) => {
   const [open, setOpen] = useState(false);
+  const mobile = useIsMobile();
 
   const { lessons = [] } = usePage<{ lessons: Lesson[] }>().props;
 
@@ -63,19 +65,13 @@ const AssignmentFormSheet: FC<Props> = ({ children, assignment, purpose }) => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent>
+      <SheetContent side={mobile ? 'bottom' : 'right'}>
         <SheetHeader>
           <SheetTitle>{capitalizeWords(purpose)} data assignment</SheetTitle>
           <SheetDescription>Form untuk {purpose} data assignment</SheetDescription>
         </SheetHeader>
         <ScrollArea className="flex-1 overflow-y-auto">
-          <form
-            className="space-y-6 px-4"
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmit();
-            }}
-          >
+          <div className="space-y-4 px-4">
             {lessons.length > 1 && (
               <FormControl label="Pelajaran">
                 <Select value={data.lesson_id.toString()} onValueChange={(value) => setData('lesson_id', Number(value))}>
@@ -107,7 +103,7 @@ const AssignmentFormSheet: FC<Props> = ({ children, assignment, purpose }) => {
                 {data.uploadable ? 'Bisa upload jawaban' : 'Tidak bisa upload jawaban'}
               </Label>
             </FormControl>
-          </form>
+          </div>
         </ScrollArea>
         <SheetFooter>
           <Alert>

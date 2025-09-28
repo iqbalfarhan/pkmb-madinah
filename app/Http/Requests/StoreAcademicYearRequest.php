@@ -18,7 +18,7 @@ class StoreAcademicYearRequest extends FormRequest
             'year' => ['required', new AcademicYearFormatRule, 'unique:academic_years,year'],
             'semester' => 'required|string|max:255',
             'new_classroom' => 'nullable|boolean',
-            'detach_students' => 'nullable|boolean',
+            'sync_student_classroom' => 'nullable|boolean',
             'active' => 'nullable|boolean',
         ];
     }

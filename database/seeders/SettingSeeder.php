@@ -13,7 +13,7 @@ class SettingSeeder extends Seeder
             [
                 'key' => 'SCHOOL_NAME',
                 'hint' => 'Nama sekolah. ini akan ditampilkan diprofile sekolah',
-                'value' => 'PKBM Al-Madinah',
+                'value' => 'PKBM AL-MADINAH',
             ],
             [
                 'key' => 'SCHOOL_ADDRESS',

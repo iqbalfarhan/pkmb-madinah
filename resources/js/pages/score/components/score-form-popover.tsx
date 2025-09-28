@@ -60,7 +60,7 @@ const ScoreFormPopup: FC<Props> = ({ children, score, options }) => {
       {children ? (
         <PopoverTrigger asChild>{children}</PopoverTrigger>
       ) : (
-        <PopoverTrigger>
+        <PopoverTrigger asChild>
           <Button variant={'ghost'} size={'icon'}>
             {data.score}
           </Button>

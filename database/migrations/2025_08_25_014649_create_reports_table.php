@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained('students')->cascadeOnDelete();
             $table->enum('report_type', Report::$reportTypes)->default('perkembangan');
             $table->json('data')->nullable()->default(null);
+            $table->boolean('published')->default(false);
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { SharedData } from '@/types';
 import { Academicyear } from '@/types/academicyear';
+import { Classroom } from '@/types/classroom';
 import { Student } from '@/types/student';
 import { router, useForm, usePage } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
@@ -20,18 +21,20 @@ const ReportFilterSheet: FC<Props> = ({ children }) => {
   const {
     reportTypes = [],
     students = [],
+    classrooms = [],
     academicYears = [],
     activeAcademicYear,
-  } = usePage<SharedData & { reportTypes: string[]; students: Student[]; academicYears: Academicyear[] }>().props;
+  } = usePage<SharedData & { classrooms: Classroom[]; reportTypes: string[]; students: Student[]; academicYears: Academicyear[] }>().props;
 
   const { data, setData, get } = useForm({
-    report_type: '',
-    student_id: students.length === 1 ? students[0].id.toString() : '',
-    academic_year_id: activeAcademicYear.id ?? '',
+    report_type: '' as string | undefined,
+    classroom_id: '' as string | undefined,
+    student_id: students.length === 1 ? students[0].id.toString() : ('' as string | undefined),
+    academic_year_id: activeAcademicYear.id ?? ('' as string | undefined),
   });
 
   const applyFilter = () => {
-    get(route(''), {
+    get('', {
       preserveScroll: true,
       preserveState: true,
       replace: true,
@@ -43,14 +46,17 @@ const ReportFilterSheet: FC<Props> = ({ children }) => {
   };
 
   const resetFilter = () => {
-    setData('report_type', '');
-    setData('student_id', students.length === 1 ? students[0].id.toString() : '');
+    setData('report_type', undefined);
+    setData('classroom_id', undefined);
+    setData('student_id', students.length === 1 ? students[0].id.toString() : undefined);
     setData('academic_year_id', activeAcademicYear.id);
+
     router.get(
-      route(''),
+      '',
       {
         report_type: '',
         student_id: '',
+        classroom_id: '',
         academic_year_id: '',
       },
       {
@@ -72,7 +78,7 @@ const ReportFilterSheet: FC<Props> = ({ children }) => {
         <ScrollArea className="flex-1 overflow-y-auto">
           <form
             method="get"
-            className="space-y-6 px-4"
+            className="space-y-4 px-4"
             onSubmit={(e) => {
               e.preventDefault();
               applyFilter();
@@ -92,18 +98,36 @@ const ReportFilterSheet: FC<Props> = ({ children }) => {
                 </SelectContent>
               </Select>
             </FormControl>
-            {students.length > 1 && (
-              <FormControl label="Pilih siswa">
-                <Select value={data.student_id.toString()} onValueChange={(e) => setData('student_id', e)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Pilih siswa" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {students.map((s) => (
+            <FormControl label="Kelas">
+              <Select value={data.classroom_id?.toString()} onValueChange={(e) => setData('classroom_id', e)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Pilih siswa" />
+                </SelectTrigger>
+                <SelectContent>
+                  {classrooms
+                    .filter((cl) => (data.academic_year_id ? Number(data.academic_year_id) === Number(cl.academic_year_id) : false))
+                    .map((s) => (
                       <SelectItem key={s.id} value={s.id.toString()}>
                         {s.name}
                       </SelectItem>
                     ))}
+                </SelectContent>
+              </Select>
+            </FormControl>
+            {students.length > 1 && (
+              <FormControl label="Pilih siswa">
+                <Select value={data.student_id?.toString()} onValueChange={(e) => setData('student_id', e)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih siswa" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {students
+                      .filter((student) => (data.classroom_id ? Number(data.classroom_id) === Number(student.classroom_id) : false))
+                      .map((s) => (
+                        <SelectItem key={s.id} value={s.id.toString()}>
+                          {s.name}
+                        </SelectItem>
+                      ))}
                   </SelectContent>
                 </Select>
               </FormControl>

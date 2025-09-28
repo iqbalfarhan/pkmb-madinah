@@ -1,7 +1,5 @@
+import SelectTab from '@/components/select-tab';
 import { Button } from '@/components/ui/button';
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AppLayout from '@/layouts/app-layout';
 import { SharedData } from '@/types';
 import { Classroom } from '@/types/classroom';
@@ -48,7 +46,7 @@ const ClassroomLayout: FC<Props> = ({ children }) => {
 
   return (
     <AppLayout
-      title="Detail Classroom"
+      title={classroom.name}
       description="Detail classroom"
       actions={
         <>
@@ -62,31 +60,14 @@ const ClassroomLayout: FC<Props> = ({ children }) => {
         </>
       }
     >
-      <Card>
-        <CardHeader>
-          <CardTitle>{classroom.name}</CardTitle>
-          <CardDescription>Walikelas: {classroom.user?.name}</CardDescription>
-        </CardHeader>
-        <Separator />
-        <CardFooter>
-          {/* <div className="flex flex-wrap gap-1 md:hidden">
-            {menuLists.map((ml) => (
-              <Button size={'sm'} variant={tabname === ml.value ? 'default' : 'outline'} key={ml.value} onClick={() => handleNavigate(ml.value)}>
-                {ml.label}
-              </Button>
-            ))}
-          </div> */}
-          <Tabs defaultValue={tabname} onValueChange={(v) => handleNavigate(v)}>
-            <TabsList>
-              {menuLists.map((ml) => (
-                <TabsTrigger value={ml.value} key={ml.value}>
-                  {ml.label}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
-        </CardFooter>
-      </Card>
+      <SelectTab
+        value={tabname}
+        onValueChange={(v) => handleNavigate(v)}
+        options={menuLists.map((item) => ({
+          title: item.label,
+          href: item.value,
+        }))}
+      />
       {children}
     </AppLayout>
   );

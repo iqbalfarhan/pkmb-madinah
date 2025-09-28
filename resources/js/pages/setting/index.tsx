@@ -10,16 +10,16 @@ import SettingDeleteDialog from './components/setting-delete-dialog';
 import SettingFormSheet from './components/setting-form-sheet';
 
 type Props = {
-  settings: Setting[];
+  items: Setting[];
 };
 
-const SettingList: FC<Props> = ({ settings }) => {
+const SettingList: FC<Props> = ({ items }) => {
   const { permissions } = usePage<SharedData>().props;
 
   return (
     <AppLayout
       title="Settings"
-      description="Manage your settings"
+      description="Manage your items"
       actions={
         <>
           {permissions?.canAdd && (
@@ -42,7 +42,7 @@ const SettingList: FC<Props> = ({ settings }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {settings.map((setting) => (
+          {items.map((setting) => (
             <TableRow key={setting.id}>
               <TableCell>{setting.key}</TableCell>
               <TableCell>{setting.value}</TableCell>

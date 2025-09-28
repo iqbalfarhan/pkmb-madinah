@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { capitalizeWords, em } from '@/lib/utils';
 import { FormPurpose, User } from '@/types';
 import { Classroom } from '@/types/classroom';
@@ -21,6 +22,7 @@ type Props = PropsWithChildren & {
 
 const ClassroomFormSheet: FC<Props> = ({ children, classroom, purpose }) => {
   const [open, setOpen] = useState(false);
+  const mobile = useIsMobile();
 
   const { users = [], grades = [] } = usePage<{
     users: User[];
@@ -59,7 +61,7 @@ const ClassroomFormSheet: FC<Props> = ({ children, classroom, purpose }) => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent>
+      <SheetContent side={mobile ? 'bottom' : 'right'}>
         <SheetHeader>
           <SheetTitle>{capitalizeWords(purpose)} data classroom</SheetTitle>
           <SheetDescription>Form untuk {purpose} data classroom</SheetDescription>

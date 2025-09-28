@@ -24,6 +24,7 @@ class UpdateReportRequest extends FormRequest
                 Rule::in(Report::$reportTypes),
             ],
             'data' => 'nullable',
+            'published' => 'nullable|boolean',
         ];
     }
 }

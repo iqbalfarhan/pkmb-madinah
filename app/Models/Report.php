@@ -30,6 +30,7 @@ class Report extends Model
 
     public $casts = [
         'data' => 'array',
+        'published' => 'boolean'
     ];
 
     public $appends = [
@@ -42,7 +43,8 @@ class Report extends Model
         'tahfidz',
         'tahsin',
         'doa-hadist',
-        'praktik',
+        'praktik-sholat',
+        'adzan-wudhu',
     ];
 
     public function academic_year()

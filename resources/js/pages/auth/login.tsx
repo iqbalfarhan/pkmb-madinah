@@ -15,9 +15,9 @@ interface LoginProps {
 
 export default function Login({ status, canResetPassword }: LoginProps) {
   const { data, setData, post, processing } = useForm({
-    email: '',
+    email: 'admin',
     password: 'password',
-    remember: false,
+    remember: true,
   });
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -32,8 +32,8 @@ export default function Login({ status, canResetPassword }: LoginProps) {
       <form className="flex flex-col gap-6" onSubmit={submit}>
         <>
           <div className="grid gap-6">
-            <FormControl label="Username atau email">
-              <Input type="text" value={data.email} required placeholder="email@example.com" onChange={(e) => setData('email', e.target.value)} />
+            <FormControl label="Username/email">
+              <Input type="text" value={data.email} required placeholder="email atau username" onChange={(e) => setData('email', e.target.value)} />
             </FormControl>
             <FormControl
               label="Password"
@@ -47,7 +47,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                 </>
               }
             >
-              <Input type="password" required placeholder="Password" value={data.password} onChange={(e) => setData('password', e.target.value)} />
+              <Input type="password" required placeholder="kata sandi" value={data.password} onChange={(e) => setData('password', e.target.value)} />
             </FormControl>
 
             <div className="flex items-center space-x-3">
@@ -61,8 +61,8 @@ export default function Login({ status, canResetPassword }: LoginProps) {
             </Button>
           </div>
 
-          <div className="text-center text-sm text-muted-foreground">
-            Belum punya akun?{' '}
+          <div className="flex flex-col text-center text-sm text-muted-foreground">
+            <span>Belum punya akun?</span>
             <TextLink href={route('register')} tabIndex={5}>
               Daftar akun orangtua
             </TextLink>

@@ -53,7 +53,7 @@ const AcademicyearList: FC<Props> = ({ academicyears, query }) => {
             <AcademicyearFormSheet purpose="create">
               <Button>
                 <Plus />
-                Create new academicyear
+                Buat tahun ajaran
               </Button>
             </AcademicyearFormSheet>
           )}

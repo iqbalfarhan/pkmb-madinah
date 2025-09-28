@@ -26,7 +26,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('student', StudentController::class);
 
-    Route::get('report/{report}/download', [ReportController::class, 'download'])->name('report.download');
+    Route::get('report/{report}/download/{type?}', [ReportController::class, 'download'])->where('type', 'stream|download')->name('report.download');
     Route::get('report/{report}/raw', [ReportController::class, 'raw'])->name('report.raw');
     Route::put('report/{report}/refres-nilai', [ReportController::class, 'refreshNilai'])->name('report.refresh-nilai');
     Route::put('report/bulk', [ReportController::class, 'bulkUpdate'])->name('report.bulk.update');
@@ -48,6 +48,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('prevschool/bulk', [PrevschoolController::class, 'bulkDelete'])->name('prevschool.bulk.destroy');
     Route::apiResource('prevschool', PrevschoolController::class);
 
+    Route::get('bill/create-bulk', [BillController::class, 'bulkCreate'])->name('bill.bulk.create');
+    Route::post('bill/create-bulk', [BillController::class, 'bulkStore'])->name('bill.bulk.store');
     Route::put('bill/bulk', [BillController::class, 'bulkUpdate'])->name('bill.bulk.update');
     Route::delete('bill/bulk', [BillController::class, 'bulkDelete'])->name('bill.bulk.destroy');
     Route::apiResource('bill', BillController::class);

@@ -22,7 +22,6 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DoahadistController;
 use App\Http\Controllers\AssessmentController;
 
 

@@ -1,9 +1,9 @@
+import SelectTab from '@/components/select-tab';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { SharedData } from '@/types';
@@ -49,7 +49,7 @@ const AssessmentList: FC<Props> = ({ assessments, query, groupLists = [] }) => {
     >
       <div className="flex gap-2">
         <Input placeholder="Search assessments..." value={cari} onChange={(e) => setCari(e.target.value)} />
-        <Select
+        <SelectTab
           value={group}
           onValueChange={(value) => {
             setGroup(value);
@@ -65,19 +65,8 @@ const AssessmentList: FC<Props> = ({ assessments, query, groupLists = [] }) => {
               },
             );
           }}
-        >
-          <SelectTrigger className="w-full md:w-fit">
-            <SelectValue placeholder={'Pilih group'} />
-          </SelectTrigger>
-          <SelectContent align="end">
-            <SelectItem value="all">Semua group penilaian</SelectItem>
-            {groupLists.map((group) => (
-              <SelectItem key={group} value={group}>
-                {group}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+          options={groupLists.map((group) => ({ title: group, href: group }))}
+        />
         <AssessmentFilterSheet query={query}>
           <Button>
             <Filter />

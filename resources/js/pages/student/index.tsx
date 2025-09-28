@@ -42,9 +42,10 @@ const StudentList: FC<Props> = ({ students, query }) => {
               </Button>
             </StudentFormSheet>
           )}
-          <Button variant={'destructive'} size={'icon'} asChild>
+          <Button variant={'destructive'} asChild>
             <Link href={route('student.archived')}>
               <FolderArchive />
+              Arsip
             </Link>
           </Button>
         </>
@@ -66,12 +67,12 @@ const StudentList: FC<Props> = ({ students, query }) => {
             <Button variant={'ghost'} disabled>
               {ids.length} item selected
             </Button>
-            <StudentBulkEditSheet studentIds={ids}>
+            <StudentBulkEditSheet studentIds={ids} onSuccess={() => setIds([])}>
               <Button>
                 <Edit /> Edit selected
               </Button>
             </StudentBulkEditSheet>
-            <StudentBulkDeleteDialog studentIds={ids}>
+            <StudentBulkDeleteDialog studentIds={ids} onSuccess={() => setIds([])}>
               <Button variant={'destructive'}>
                 <Trash2 /> Delete selected
               </Button>
@@ -132,7 +133,10 @@ const StudentList: FC<Props> = ({ students, query }) => {
                 <TableCell>{student.name}</TableCell>
                 <TableCell>{student.gender ? 'Laki-laki' : 'Perempuan'}</TableCell>
                 <TableCell>{student.kelahiran}</TableCell>
-                <TableCell>{student.classroom?.name}</TableCell>
+                <TableCell title={`Tingkat ${student.grade?.name}`}>
+                  <Badge>{student.grade_id}</Badge>
+                  {student.classroom?.name}
+                </TableCell>
                 <TableCell>
                   <StudentStatusBadge status={student.status} />
                 </TableCell>

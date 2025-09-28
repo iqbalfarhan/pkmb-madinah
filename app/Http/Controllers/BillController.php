@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BulkDeleteBillRequest;
+use App\Http\Requests\BulkStoreBillRequest;
 use App\Http\Requests\BulkUpdateBillRequest;
 use App\Http\Requests\StoreBillRequest;
 use App\Http\Requests\UpdateBillRequest;
 use App\Models\Bill;
+use App\Models\Classroom;
 use App\Models\PaymentType;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class BillController extends Controller
@@ -103,5 +106,35 @@ class BillController extends Controller
     {
         $data = $request->validated();
         Bill::whereIn('id', $data['bill_ids'])->delete();
+    }
+
+    public function bulkCreate()
+    {
+        return Inertia::render('bill/bulk-create', [
+            "students" => Student::aktif()->get(),
+            'classrooms' => Classroom::get(),
+            'paymenttypes' => PaymentType::get()
+        ]);
+    }
+
+    public function bulkStore(BulkStoreBillRequest $request)
+    {
+        $data = $request->validated();
+
+        $ids = $data['student_ids'];
+        unset($data['student_ids']);
+
+        DB::transaction(function() use($ids, $data){
+            foreach ($ids as $student_id) {
+                Bill::create([
+                    'student_id' => $student_id,
+                    'payment_type_id' => $data['payment_type_id'],
+                    'total_amount' => $data['amount'],
+                    'description' => $data['description'],
+                ]);
+            }
+        });
+
+        return redirect()->route('bill.index');
     }
 }

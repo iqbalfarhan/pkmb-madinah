@@ -1,9 +1,20 @@
 import BackButton from '@/components/back-button';
 import AppLayout from '@/layouts/app-layout';
-import { Report, ReportDoaHadistData, ReportNilaiData, ReportPerkembanganData, ReportTahfidzData, ReportTahsinData } from '@/types/report';
+import {
+  Report,
+  ReportAdzanWudhuData,
+  ReportDoaHadistData,
+  ReportNilaiData,
+  ReportPerkembanganData,
+  ReportPraktikSholatData,
+  ReportTahfidzData,
+  ReportTahsinData,
+} from '@/types/report';
 import { FC } from 'react';
+import ReportAdzanWudhu from './variants/report-adzan-wudhu';
 import ReportNilai from './variants/report-nilai';
 import ReportPerkambangan from './variants/report-perkembangan';
+import ReportPraktikSholat from './variants/report-praktik-sholat';
 import ReportTahfidz from './variants/report-tahfidz';
 import ReportTahsin from './variants/report-tahsin';
 import ReportDoaHadist from './variants/repot-doa-hadist';
@@ -29,6 +40,8 @@ const EditReport: FC<Props> = ({ report }) => {
         {report.report_type == 'tahsin' && <ReportTahsin data={report.data as ReportTahsinData} />}
         {report.report_type == 'tahfidz' && <ReportTahfidz data={report.data as ReportTahfidzData} />}
         {report.report_type == 'doa-hadist' && <ReportDoaHadist data={report.data as ReportDoaHadistData} />}
+        {report.report_type == 'praktik-sholat' && <ReportPraktikSholat data={report.data as ReportPraktikSholatData} />}
+        {report.report_type == 'adzan-wudhu' && <ReportAdzanWudhu data={report.data as ReportAdzanWudhuData} />}
       </div>
     </AppLayout>
   );

@@ -1,14 +1,17 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Card, CardContent } from '@/components/ui/card';
+import { CheckCheck, Edit, HandCoins, Home, LucideIcon, Wallet } from 'lucide-react';
 import SectionContainer from '../layout/section-container';
 
 export const dataAlurPendaftaran: {
   index: number;
   title: string;
+  icon: LucideIcon;
   description: string[];
 }[] = [
   {
     index: 1,
+    icon: Home,
     title: 'Orangtua membuat akun baru untuk pendaftaran',
     description: [
       'Orang tua wajib melakukan registrasi untuk membuat akun baru sebelum melakukan pendaftaran siswa.',
@@ -17,6 +20,7 @@ export const dataAlurPendaftaran: {
   },
   {
     index: 2,
+    icon: Edit,
     title: 'Mengisi data siswa yang akan didaftarkan',
     description: [
       'Pada tahap ini, orang tua diminta untuk mengisi formulir pendaftaran dengan data lengkap siswa. Data yang perlu dilengkapi meliputi informasi data diri siswa seperti nama lengkap, NISN, tempat dan tanggal lahir, serta jenis kelamin',
@@ -26,6 +30,7 @@ export const dataAlurPendaftaran: {
   },
   {
     index: 3,
+    icon: Wallet,
     title: 'Melakukan pembayaran biaya pendaftaran',
     description: [
       'Setelah mengisi data siswa secara lengkap, langkah selanjutnya adalah melakukan pembayaran biaya pendaftaran. Informasi mengenai jumlah biaya, metode pembayaran, dan petunjuk transfer akan ditampilkan pada sistem.',
@@ -34,6 +39,7 @@ export const dataAlurPendaftaran: {
   },
   {
     index: 4,
+    icon: CheckCheck,
     title: 'Verifikasi dan Penerimaan Siswa Baru.',
     description: [
       'Setelah seluruh data dan dokumen terisi lengkap serta pembayaran berhasil dikonfirmasi, pihak sekolah akan melakukan proses verifikasi. Admin sekolah akan meninjau data pendaftaran, memeriksa kelengkapan dokumen, dan melakukan validasi.',
@@ -42,6 +48,7 @@ export const dataAlurPendaftaran: {
   },
   {
     index: 5,
+    icon: HandCoins,
     title: 'Pembayaran biaya pendaftaran.',
     description: [
       'Orangtua membayaran biaya pendaftaran siswa. Informasi tagihan dapat dilihat pada menu tagihan siswa yang dapat diakses setelah orangtua login ke sistem',

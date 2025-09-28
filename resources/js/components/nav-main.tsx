@@ -32,8 +32,8 @@ export function NavMain({ items = [], label }: Props) {
         return url === base || url.startsWith(base + '/');
       }
 
-      // default exact match
-      return url === path;
+      // fallback: kalau href exact atau url mulai dengan path + "/"
+      return url === path || url.startsWith(path + '/');
     } catch {
       return false;
     }
