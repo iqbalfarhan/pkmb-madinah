@@ -1,0 +1,6 @@
+import{j as r}from"./app-Bpa_YDlY.js";import{B as t}from"./button-6Pd4Zu-o.js";import{P as s,a,b as p}from"./popover-BiCnx_4X.js";import{c as m}from"./createLucideIcon-BwDbyExl.js";/* empty css            */import"./index-D68k3ZL9.js";import"./index-CjjRZxbJ.js";import"./utils-DvQfBo-e.js";import"./index-B-QNahUQ.js";import"./index-aIMhGQvB.js";import"./index-DGBzMh4Z.js";import"./index-BUwb6qWJ.js";import"./index-B0kGulgo.js";import"./index-C_G-EQID.js";import"./index-Dqg3hzof.js";import"./index-BKjnfJAn.js";import"./index-BnzKGVMr.js";/**
+ * @license lucide-react v0.475.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const n=[["path",{d:"M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z",key:"1rqfz7"}],["path",{d:"M14 2v4a2 2 0 0 0 2 2h4",key:"tnqrlb"}]],l=m("File",n),q=({children:i,score:o})=>r.jsxs(s,{children:[r.jsx(a,{asChild:!0,children:i}),r.jsxs(p,{className:"space-y-6",children:[r.jsx("p",{children:o.answer}),o.media.map(e=>r.jsx(t,{className:"w-full",asChild:!0,children:r.jsxs("a",{href:e.original_url,children:[r.jsx(l,{}),r.jsx("span",{className:"line-clamp-1",children:e.file_name})]})}))]})]});export{q as default};
