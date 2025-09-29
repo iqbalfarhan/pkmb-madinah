@@ -80,7 +80,7 @@ const ClassroomList: FC<Props> = ({ classrooms, query }) => {
         )}
       </div>
       {view === 'grid' && (
-        <div className="grid-responsive grid gap-4">
+        <div className="grid-responsive grid gap-6">
           {classrooms.map((kelas) => (
             <ClassroomItemCard key={kelas.id} classroom={kelas} href={route('classroom.show', kelas.id)} />
           ))}

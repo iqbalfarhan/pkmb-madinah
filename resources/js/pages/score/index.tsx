@@ -1,3 +1,4 @@
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -8,8 +9,8 @@ import AppLayout from '@/layouts/app-layout';
 import { strLimit } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Score } from '@/types/score';
-import { Link, usePage } from '@inertiajs/react';
-import { Edit, Filter, Folder, Plus, Trash2 } from 'lucide-react';
+import { usePage } from '@inertiajs/react';
+import { Edit, Filter, Plus, Trash2 } from 'lucide-react';
 import { FC, useState } from 'react';
 import ScoreBulkDeleteDialog from './components/score-bulk-delete-dialog';
 import ScoreBulkEditSheet from './components/score-bulk-edit-sheet';
@@ -30,7 +31,7 @@ const ScoreList: FC<Props> = ({ scores, query }) => {
 
   return (
     <AppLayout
-      title="Scores"
+      title="Nilai tugas jurnal dan prakarya"
       description="Manage your scores"
       actions={
         <>
@@ -46,7 +47,7 @@ const ScoreList: FC<Props> = ({ scores, query }) => {
       }
     >
       <div className="flex gap-2">
-        <Input placeholder="Search scores..." value={cari} onChange={(e) => setCari(e.target.value)} />
+        <Input type="search" placeholder="Search scores..." value={cari} onChange={(e) => setCari(e.target.value)} />
         <ScoreFilterSheet query={query}>
           <Button>
             <Filter />
@@ -94,7 +95,9 @@ const ScoreList: FC<Props> = ({ scores, query }) => {
               </Button>
             </TableHead>
             <TableHead>Student name</TableHead>
-            <TableHead>Lesson label</TableHead>
+            <TableHead>Jenis tugas</TableHead>
+            <TableHead>Pelajaran</TableHead>
+            <TableHead>Judul tugas</TableHead>
             <TableHead>Nilai</TableHead>
             <TableHead>Catatan</TableHead>
             <TableHead>Actions</TableHead>
@@ -121,18 +124,24 @@ const ScoreList: FC<Props> = ({ scores, query }) => {
                     </Label>
                   </Button>
                 </TableCell>
-                <TableCell>{score.student.name}</TableCell>
-                <TableCell>{score.lesson.name}</TableCell>
-                <TableCell>{score.score}</TableCell>
-                <TableCell>{strLimit(score.remark ?? '')}</TableCell>
                 <TableCell>
-                  {permissions?.canShow && (
-                    <Button variant={'ghost'} size={'icon'}>
-                      <Link href={route('score.show', score.id)}>
-                        <Folder />
-                      </Link>
-                    </Button>
-                  )}
+                  <div className="flex items-center gap-2" onClick={() => setCari(score.student.name)}>
+                    <Avatar className="size-6">
+                      <AvatarImage src={score.student.avatar} />
+                    </Avatar>
+                    {score.student.name}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <Badge onClick={() => setCari(score.assignment.type)} variant={score.assignment.type === 'prakarya' ? 'success' : 'default'}>
+                    {score.assignment.type}
+                  </Badge>
+                </TableCell>
+                <TableCell onClick={() => setCari(score.lesson.name)}>{strLimit(score.lesson.name, 30)}</TableCell>
+                <TableCell>{strLimit(score.assignment.name, 30)}</TableCell>
+                <TableCell>{score.score}</TableCell>
+                <TableCell>{strLimit(score.remark ?? '', 30)}</TableCell>
+                <TableCell>
                   {permissions?.canUpdate && (
                     <ScoreFormSheet purpose="edit" score={score}>
                       <Button variant={'ghost'} size={'icon'}>

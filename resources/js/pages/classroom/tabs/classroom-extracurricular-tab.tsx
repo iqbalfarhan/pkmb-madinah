@@ -30,7 +30,10 @@ const ActivityList: FC<Props> = ({ activities }) => {
         description="Manage your activities"
         actions={
           <>
-            {permissions?.canAdd && (
+            <div>
+              <Input placeholder="Search activities..." value={cari} onChange={(e) => setCari(e.target.value)} />
+            </div>
+            {permissions?.canActivityAdd && (
               <ActivityFormSheet purpose="create">
                 <Button>
                   <Plus />
@@ -38,9 +41,6 @@ const ActivityList: FC<Props> = ({ activities }) => {
                 </Button>
               </ActivityFormSheet>
             )}
-            <div>
-              <Input placeholder="Search activities..." value={cari} onChange={(e) => setCari(e.target.value)} />
-            </div>
           </>
         }
       />
@@ -94,21 +94,21 @@ const ActivityList: FC<Props> = ({ activities }) => {
                 <TableCell>{activity.extracurricular.name}</TableCell>
                 <TableCell>{activity.description}</TableCell>
                 <TableCell>
-                  {permissions?.canShow && (
+                  {permissions?.canActivityShow && (
                     <Button variant={'ghost'} size={'icon'}>
                       <Link href={route('activity.show', activity.id)}>
                         <Folder />
                       </Link>
                     </Button>
                   )}
-                  {permissions?.canUpdate && (
+                  {permissions?.canActivityUpdate && (
                     <ActivityFormSheet purpose="edit" activity={activity}>
                       <Button variant={'ghost'} size={'icon'}>
                         <Edit />
                       </Button>
                     </ActivityFormSheet>
                   )}
-                  {permissions?.canDelete && (
+                  {permissions?.canActivityDelete && (
                     <ActivityDeleteDialog activity={activity}>
                       <Button variant={'ghost'} size={'icon'}>
                         <Trash2 />

@@ -7,6 +7,7 @@ use App\Http\Requests\BulkUpdateScoreRequest;
 use App\Http\Requests\StoreScoreRequest;
 use App\Http\Requests\UpdateScoreRequest;
 use App\Http\Requests\UploadScoreRequest;
+use App\Models\AcademicYear;
 use App\Models\Assignment;
 use App\Models\Classroom;
 use App\Models\Lesson;
@@ -31,11 +32,13 @@ class ScoreController extends Controller
                 $q->where('assignment_id', $v);
             });
 
+        $active = AcademicYear::active();
+
         return Inertia::render('score/index', [
             'scores' => $data->get(),
             'query' => $request->input(),
-            'students' => Student::get(),
-            'classrooms' => Classroom::get(),
+            'students' => Student::aktif()->get(),
+            'classrooms' => Classroom::whereAcademicYearId($active->id)->get(),
             'lessons' => Lesson::get(),
             'assignments' => Assignment::get(),
             'permissions' => [

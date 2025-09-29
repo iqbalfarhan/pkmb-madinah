@@ -185,6 +185,14 @@ class PermissionSeeder extends Seeder
                 'update examscore' => ['admin', 'guru'],
                 'delete examscore' => ['admin', 'guru'],
             ],
+            'activity' => [
+                'menu activity' => ['admin'],
+                'index activity' => ['admin'],
+                'show activity' => ['admin', 'walikelas'],
+                'create activity' => ['admin', 'walikelas'],
+                'update activity' => ['admin', 'walikelas'],
+                'delete activity' => ['admin', 'walikelas'],
+            ],
             'role' => [
                 'menu role' => ['superadmin'],
                 'index role' => ['superadmin'],

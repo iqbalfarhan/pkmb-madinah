@@ -24,7 +24,7 @@ const ClassroomStudentsTab: FC<Props> = ({ students }) => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>NISN</TableHead>
+            <TableHead className="text-center">NISN</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Nomor telepon</TableHead>
             <TableHead>Ketidakhadiran</TableHead>
@@ -34,7 +34,7 @@ const ClassroomStudentsTab: FC<Props> = ({ students }) => {
         <TableBody>
           {students.map((student) => (
             <TableRow key={student.id}>
-              <TableCell>
+              <TableCell className="text-center">
                 <Button variant={'ghost'}>{student.nisn}</Button>
               </TableCell>
               <TableCell>

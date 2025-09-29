@@ -1,3 +1,4 @@
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -45,7 +46,7 @@ const ActivityList: FC<Props> = ({ activities, query }) => {
       }
     >
       <div className="flex gap-2">
-        <Input placeholder="Search activities..." value={cari} onChange={(e) => setCari(e.target.value)} />
+        <Input type="search" placeholder="Search activities..." value={cari} onChange={(e) => setCari(e.target.value)} />
         <ActivityFilterSheet query={query}>
           <Button>
             <Filter />
@@ -92,6 +93,7 @@ const ActivityList: FC<Props> = ({ activities, query }) => {
                 </Label>
               </Button>
             </TableHead>
+            <TableHead>Tahun ajaran</TableHead>
             <TableHead>Student name</TableHead>
             <TableHead>Extracurricular</TableHead>
             <TableHead>Activities</TableHead>
@@ -119,8 +121,16 @@ const ActivityList: FC<Props> = ({ activities, query }) => {
                     </Label>
                   </Button>
                 </TableCell>
-                <TableCell>{activity.student.name}</TableCell>
-                <TableCell>{activity.extracurricular.name}</TableCell>
+                <TableCell>{activity.academic_year.year}</TableCell>
+                <TableCell onClick={() => setCari(activity.student.name)}>
+                  <div className="flex items-center gap-2">
+                    <Avatar className="size-6">
+                      <AvatarImage src={activity.student.avatar} />
+                    </Avatar>
+                    <span>{activity.student.name}</span>
+                  </div>
+                </TableCell>
+                <TableCell onClick={() => setCari(activity.extracurricular.name)}>{activity.extracurricular.name}</TableCell>
                 <TableCell>{activity.description}</TableCell>
                 <TableCell>
                   {permissions?.canShow && (

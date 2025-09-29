@@ -20,16 +20,25 @@ class ActivityController extends Controller
      */
     public function index(Request $request)
     {
+        $active = AcademicYear::active();
         $data = Activity::query()
             ->with(['academic_year', 'student', 'extracurricular'])
-            ->when($request->name, function ($q, $v) {
-                $q->where('name', $v);
+            ->when($request->academic_year_id, function ($q, $v) {
+                $q->where('academic_year_id', $v);
+            }, function($q) use($active){
+                $q->where('academic_year_id', $active->id);
+            })
+            ->when($request->extracurricular_id, function ($q, $v) {
+                $q->where('extracurricular_id', $v);
+            })
+            ->when($request->student_id, function ($q, $v) {
+                $q->where('student_id', $v);
             });
 
         return Inertia::render('activity/index', [
             'activities' => $data->get(),
             'query' => $request->input(),
-            'students' => Student::get(),
+            'students' => Student::aktif()->get(),
             'extracurriculars' => Extracurricular::get(),
             'academicYears' => AcademicYear::get(),
             'permissions' => [

@@ -115,9 +115,16 @@ class ClassroomController extends Controller
 
     public function students(Classroom $classroom)
     {
+        $students = Student::query()
+            ->with(['absents'])
+            ->orderBy('name')
+            ->whereClassroomId($classroom->id)
+            ->aktif()
+            ->get();
+
         return Inertia::render('classroom/tabs/classroom-students-tab', [
             'classroom' => $classroom,
-            'students' => Student::whereClassroomId($classroom->id)->with(['absents'])->aktif()->get(),
+            'students' => $students,
             'tabname' => 'students',
             'permissions' => [
                 'canAdd' => $this->user->can('create student'),
@@ -138,6 +145,7 @@ class ClassroomController extends Controller
             'classrooms' => [$classroom],
             'tabname' => 'lessons',
             'permissions' => [
+                'canUpdate' => $this->user->can('update classroom'),
                 'canAddLesson' => $this->user->can('create lesson'),
                 'canShowLesson' => $this->user->can('show lesson'),
                 'canUpdateLesson' => $this->user->can('update lesson'),
@@ -198,14 +206,17 @@ class ClassroomController extends Controller
             'query' => $request->input(),
             'tabname' => 'extracurricular',
             'classroom' => $classroom,
+            'users' => User::role('walikelas')->get(),
+            'grades' => Grade::get(),
             'students' => $classroom->students,
             'extracurriculars' => Extracurricular::get(),
             'academicYears' => [AcademicYear::active()->first()],
             'permissions' => [
-                'canAdd' => $this->user->can('create activity'),
-                'canUpdate' => $this->user->can('update activity'),
-                'canDelete' => $this->user->can('delete activity'),
-                'canShow' => $this->user->can('show activity'),
+                'canUpdate' => $this->user->can('update classroom'),
+                'canActivityAdd' => $this->user->can('create activity'),
+                'canActivityUpdate' => $this->user->can('update activity'),
+                'canActivityDelete' => $this->user->can('delete activity'),
+                'canActivityShow' => $this->user->can('show activity'),
             ],
         ]);
     }
