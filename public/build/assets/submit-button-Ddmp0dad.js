@@ -1,0 +1,1 @@
+import{j as s}from"./app-DX5FfcIb.js";import{B as o}from"./button-NemV_oMY.js";import{L as e}from"./loader-circle-gh3Nd9A4.js";import{C as a}from"./check-DswkwETr.js";const j=({label:m,icon:t,loading:r,...i})=>s.jsxs(o,{type:"submit",disabled:r,...i,children:[r?s.jsx(e,{className:"animate-spin"}):t?s.jsx(t,{}):s.jsx(a,{}),m??"Submit"]});export{j as S};
