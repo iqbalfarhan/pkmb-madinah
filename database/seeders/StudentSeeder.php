@@ -15,7 +15,7 @@ class StudentSeeder extends Seeder
     public function run(): void
     {
         $activeYear = AcademicYear::active();
-        Student::factory()->count(10)->create([
+        Student::factory()->count(50)->create([
             'status' => fake()->randomElement(['aktif'])
         ])->each(function ($student) use($activeYear) {
             Family::factory()->create([

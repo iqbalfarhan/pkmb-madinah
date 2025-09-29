@@ -45,7 +45,7 @@ class StudentController extends Controller
             });
 
         return Inertia::render('student/index', [
-            'students' => $data->aktif()->get(),
+            'students' => $data->aktif()->paginate(10),
             'query' => $request->input(),
             'users' => User::role('orangtua')->get(),
             'grades' => Grade::get(),

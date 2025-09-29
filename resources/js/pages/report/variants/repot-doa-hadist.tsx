@@ -1,16 +1,18 @@
-import DDump from '@/components/d-dump';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
-import { em } from '@/lib/utils';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { defaultPencapaianItem } from '@/lib/enums';
+import { em, removeAtIndexMutable } from '@/lib/utils';
 import { SharedData, User } from '@/types';
 import { Report, ReportDataMeta, ReportDoaHadistData } from '@/types/report';
 import { useForm, usePage } from '@inertiajs/react';
-import { Check } from 'lucide-react';
+import { Check, Edit, Plus, Trash2 } from 'lucide-react';
 import { FC, useCallback } from 'react';
 import { toast } from 'sonner';
 import ReportHeader from '../components/report-header';
+import ReportPencapaianFormSheet from '../components/report-pencapaian-form-sheet';
 import ReportStudentCard from '../components/report-student-card';
 
 type Props = {
@@ -37,6 +39,16 @@ const ReportDoaHadist: FC<Props> = ({ data }) => {
     });
   }, [put, report.id]);
 
+  const handleAddBaris = (field: 'doa' | 'hadist') => {
+    const updatedNilai = [...formData.data.doa, defaultPencapaianItem];
+    setData(`data.${field}`, updatedNilai);
+  };
+
+  const handleRemoveBaris = (field: 'doa' | 'hadist', index: number) => {
+    const newarray = removeAtIndexMutable(formData.data[field], index);
+    setData(`data.${field}`, newarray);
+  };
+
   return (
     <>
       <ReportHeader />
@@ -46,11 +58,104 @@ const ReportDoaHadist: FC<Props> = ({ data }) => {
       </Button>
       <ReportStudentCard meta={data as ReportDataMeta} />
       <Card>
+        <CardHeader>
+          <CardTitle>Hafalan doa</CardTitle>
+          <CardDescription>List hafalan doa yang sudah dihafal</CardDescription>
+        </CardHeader>
         <CardContent>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia, dolorum. Perferendis ad temporibus saepe sit sed, cumque dolorem
-          repellendus error adipisci quam quia dolore est recusandae. Id molestias fuga vel!
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>No</TableHead>
+                <TableHead>Kemampuan yang dilakukan</TableHead>
+                <TableHead>Kemampuan yang Dicapai</TableHead>
+                <TableHead>Keterangan</TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {formData.data.doa.map((doa, index) => (
+                <TableRow key={index}>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{doa.judul}</TableCell>
+                  <TableCell>{doa.pencapaian}</TableCell>
+                  <TableCell>{doa.keterangan}</TableCell>
+                  <TableCell>
+                    <ReportPencapaianFormSheet
+                      penilaian={doa}
+                      onSave={(data) => {
+                        setData(`data.doa.${index}`, data);
+                      }}
+                    >
+                      <Button variant={'ghost'} size={'icon'}>
+                        <Edit />
+                      </Button>
+                    </ReportPencapaianFormSheet>
+                    <Button variant={'ghost'} size={'icon'} onClick={() => handleRemoveBaris('doa', index)}>
+                      <Trash2 />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </CardContent>
-        <DDump content={formData} />
+        <CardFooter>
+          <Button onClick={() => handleAddBaris('doa')}>
+            <Plus />
+            Tambah baris
+          </Button>
+        </CardFooter>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Hafalan hadist</CardTitle>
+          <CardDescription>List hafalan hadist yang sudah dihafal</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>No</TableHead>
+                <TableHead>Kemampuan yang dilakukan</TableHead>
+                <TableHead>Kemampuan yang Dicapai</TableHead>
+                <TableHead>Keterangan</TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {formData.data.hadist.map((hadist, index) => (
+                <TableRow key={index}>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{hadist.judul}</TableCell>
+                  <TableCell>{hadist.pencapaian}</TableCell>
+                  <TableCell>{hadist.keterangan}</TableCell>
+                  <TableCell>
+                    <ReportPencapaianFormSheet
+                      penilaian={hadist}
+                      onSave={(data) => {
+                        setData(`data.hadist.${index}`, data);
+                      }}
+                    >
+                      <Button variant={'ghost'} size={'icon'}>
+                        <Edit />
+                      </Button>
+                    </ReportPencapaianFormSheet>
+                    <Button variant={'ghost'} size={'icon'} onClick={() => handleRemoveBaris('hadist', index)}>
+                      <Trash2 />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+        <CardFooter>
+          <Button onClick={() => handleAddBaris('hadist')}>
+            <Plus />
+            Tambah baris
+          </Button>
+        </CardFooter>
       </Card>
       <Card>
         <CardHeader>
@@ -64,7 +169,9 @@ const ReportDoaHadist: FC<Props> = ({ data }) => {
             </SelectTrigger>
             <SelectContent>
               {teachers.map((user) => (
-                <SelectItem value={user.name}>{user.name}</SelectItem>
+                <SelectItem key={user.id} value={user.name}>
+                  {user.name}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>

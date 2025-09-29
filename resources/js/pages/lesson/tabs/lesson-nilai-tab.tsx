@@ -1,8 +1,9 @@
 import HeadingSmall from '@/components/heading-small';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { cn } from '@/lib/utils';
+import { cn, safeAverage } from '@/lib/utils';
 import AssignmentFormSheet from '@/pages/assignment/components/assignment-form-sheet';
 import ScoreFormPopup from '@/pages/score/components/score-form-popover';
 import { SharedData } from '@/types';
@@ -50,7 +51,12 @@ const LessonNilaiTab = () => {
               Nilai prakarya
             </TableHead>
             <TableHead rowSpan={2} className={cn('border-l-2 border-border text-center')}>
-              Total
+              <Popover>
+                <PopoverTrigger>
+                  <div>Total</div>
+                </PopoverTrigger>
+                <PopoverContent>avg(jurnal) + avg(prakarya) / 2</PopoverContent>
+              </Popover>
             </TableHead>
           </TableRow>
           <TableRow>
@@ -82,12 +88,13 @@ const LessonNilaiTab = () => {
           {students.map((student) => {
             const studentScores = scores.filter((score) => score.student_id === student.id);
 
-            let studentAvgScore = 0;
+            const jurnalScores = studentScores.filter((s) => s.assignment.type === 'jurnal');
+            const avgJurnal = safeAverage(jurnalScores, (s) => Number(s.score));
 
-            if (studentScores.length > 0) {
-              const total = studentScores.reduce((sum, s) => sum + Number(s.score), 0);
-              studentAvgScore = total / studentScores.length;
-            }
+            const prakaryaScores = studentScores.filter((s) => s.assignment.type === 'prakarya');
+            const avgPrakarya = safeAverage(prakaryaScores, (s) => Number(s.score));
+
+            const totalAvg = (avgJurnal + avgPrakarya) / 2;
             // let ratedScore = 0;
             return (
               <TableRow key={student.id}>
@@ -125,7 +132,7 @@ const LessonNilaiTab = () => {
                   <Button variant={'ghost'} size={'icon'}>
                     {/* {Math.round(ratedScore)} */}
                     {/* {Math.round(studentAvgScore)} */}
-                    {studentAvgScore.toFixed(2)}
+                    {totalAvg.toFixed(2)}
                   </Button>
                 </TableCell>
               </TableRow>

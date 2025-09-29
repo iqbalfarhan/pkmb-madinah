@@ -16,6 +16,7 @@ class Report extends Model
     protected $fillable = [
         'classroom_id',
         'academic_year_id',
+        'semester',
         'student_id',
         'report_type',
         'data'
@@ -45,6 +46,14 @@ class Report extends Model
         'doa-hadist',
         'praktik-sholat',
         'adzan-wudhu',
+    ];
+
+    public static $perkembanganStatusList = [
+        "Belum Berkembang",
+        "Mulai Berkembang",
+        "Cukup Berkembang",
+        "Berkembang",
+        "Sangat Berkembang",
     ];
 
     public function academic_year()

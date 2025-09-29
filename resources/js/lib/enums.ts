@@ -1,4 +1,5 @@
 import { Surah } from '@/types';
+import { PenilaianDoaHadist } from '@/types/report';
 
 export const addressData = [
   // Balikpapan Selatan (7 kelurahan)
@@ -164,3 +165,9 @@ export const surahList: Surah[] = [
   { id: 113, surah: 'Al Falaq (113)', ayat: 5, jenis: 'Makiyah', juz: 30 },
   { id: 114, surah: 'An Nas (114)', ayat: 6, jenis: 'Makiyah', juz: 30 },
 ];
+
+export const defaultPencapaianItem: PenilaianDoaHadist = {
+  judul: '',
+  pencapaian: 'Berkembang',
+  keterangan: '',
+};

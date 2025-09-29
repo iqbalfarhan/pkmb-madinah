@@ -1,13 +1,14 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { em } from '@/lib/utils';
+import { defaultPencapaianItem } from '@/lib/enums';
+import { em, removeAtIndexMutable } from '@/lib/utils';
 import { SharedData, User } from '@/types';
 import { Report, ReportDataMeta, ReportPraktikSholatData } from '@/types/report';
 import { useForm, usePage } from '@inertiajs/react';
-import { Check, Edit, Trash2 } from 'lucide-react';
+import { Check, Edit, Plus, Trash2 } from 'lucide-react';
 import { FC, useCallback } from 'react';
 import { toast } from 'sonner';
 import ReportHeader from '../components/report-header';
@@ -39,6 +40,16 @@ const ReportPraktikSholat: FC<Props> = ({ data }) => {
     });
   }, [put, report.id]);
 
+  const handleAddBaris = (field: 'gerakan' | 'bacaan') => {
+    const updatedNilai = [...formData.data.gerakan, defaultPencapaianItem];
+    setData(`data.${field}`, updatedNilai);
+  };
+
+  const handleRemoveBaris = (field: 'gerakan' | 'bacaan', index: number) => {
+    const newarray = removeAtIndexMutable(formData.data[field], index);
+    setData(`data.${field}`, newarray);
+  };
+
   return (
     <>
       <ReportHeader />
@@ -66,7 +77,7 @@ const ReportPraktikSholat: FC<Props> = ({ data }) => {
             </TableHeader>
             <TableBody>
               {formData.data.bacaan.map((bacaan, index) => (
-                <TableRow>
+                <TableRow key={index}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{bacaan.judul}</TableCell>
                   <TableCell>{bacaan.pencapaian}</TableCell>
@@ -74,7 +85,6 @@ const ReportPraktikSholat: FC<Props> = ({ data }) => {
                   <TableCell className="text-center">
                     <ReportPencapaianFormSheet
                       penilaian={bacaan}
-                      index={index}
                       onSave={(data) => {
                         setData(`data.bacaan.${index}`, data);
                       }}
@@ -83,7 +93,7 @@ const ReportPraktikSholat: FC<Props> = ({ data }) => {
                         <Edit />
                       </Button>
                     </ReportPencapaianFormSheet>
-                    <Button variant={'ghost'} size={'icon'}>
+                    <Button variant={'ghost'} size={'icon'} onClick={() => handleRemoveBaris('bacaan', index)}>
                       <Trash2 />
                     </Button>
                   </TableCell>
@@ -92,6 +102,12 @@ const ReportPraktikSholat: FC<Props> = ({ data }) => {
             </TableBody>
           </Table>
         </CardContent>
+        <CardFooter>
+          <Button onClick={() => handleAddBaris('bacaan')}>
+            <Plus />
+            Tambah baris
+          </Button>
+        </CardFooter>
       </Card>
 
       <Card>
@@ -113,7 +129,7 @@ const ReportPraktikSholat: FC<Props> = ({ data }) => {
             </TableHeader>
             <TableBody>
               {formData.data.gerakan.map((gerakan, index) => (
-                <TableRow>
+                <TableRow key={index}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{gerakan.judul}</TableCell>
                   <TableCell>{gerakan.pencapaian}</TableCell>
@@ -121,7 +137,6 @@ const ReportPraktikSholat: FC<Props> = ({ data }) => {
                   <TableCell className="text-center">
                     <ReportPencapaianFormSheet
                       penilaian={gerakan}
-                      index={index}
                       onSave={(data) => {
                         setData(`data.gerakan.${index}`, data);
                       }}
@@ -130,7 +145,7 @@ const ReportPraktikSholat: FC<Props> = ({ data }) => {
                         <Edit />
                       </Button>
                     </ReportPencapaianFormSheet>
-                    <Button variant={'ghost'} size={'icon'}>
+                    <Button variant={'ghost'} size={'icon'} onClick={() => handleRemoveBaris('gerakan', index)}>
                       <Trash2 />
                     </Button>
                   </TableCell>
@@ -139,6 +154,12 @@ const ReportPraktikSholat: FC<Props> = ({ data }) => {
             </TableBody>
           </Table>
         </CardContent>
+        <CardFooter>
+          <Button onClick={() => handleAddBaris('gerakan')}>
+            <Plus />
+            Tambah baris
+          </Button>
+        </CardFooter>
       </Card>
 
       <Card>
@@ -153,7 +174,9 @@ const ReportPraktikSholat: FC<Props> = ({ data }) => {
             </SelectTrigger>
             <SelectContent>
               {teachers.map((user) => (
-                <SelectItem value={user.name}>{user.name}</SelectItem>
+                <SelectItem key={user.id} value={user.name}>
+                  {user.name}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>

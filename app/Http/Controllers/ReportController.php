@@ -72,6 +72,10 @@ class ReportController extends Controller
 
         $mockup = ReportHelper::generateReportData($data, $student, $academicYear, $classroom, $assessments, $settings);
         $data['data'] = $mockup;
+        
+        if (!isset($data['semester'])) {
+            $data['semester'] = $activeAcademicYearSemester;
+        }
 
         Report::create($data);
     }
@@ -100,13 +104,18 @@ class ReportController extends Controller
             'student' => $report->student->load('activities', 'activities.extracurricular', 'absents'),
             'classroom' => $report->classroom,
             'teachers' => User::role('guru')->get(),
+            'perkembanganStatusList' => Report::$perkembanganStatusList,
             'grades' => Grade::get(),
         ]);
     }
 
     public function raw(Report $report)
     {
-        return response()->json($report, 200);
+        $propmt = "Anggaplah dirimu wali kelas dan buatkan komentar guru yang formal, sopan, serta membangun dalam 1 paragraf (4–6 kalimat). Awali dengan Assalamualaikum lengkap (huruf indonesia saja), dan setiap kali menyebut nama murid gunakan format 'Ananda {nama}'. Sertakan apresiasi pada aspek yang sudah baik, lalu sampaikan catatan sopan tentang hal yang perlu ditingkatkan, dan akhiri dengan kalimat motivasi. Tulis jawaban dalam format markdown agar bisa langsung dicopas.";
+        return response()->json([
+            "prompt" => $propmt,
+            "data" => $report->data
+        ], 200);
     }
 
     /**

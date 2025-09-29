@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
-import { em, groupBy } from '@/lib/utils';
+import { em, groupBy, safeAverage } from '@/lib/utils';
 import { Grade } from '@/types/grade';
 import { Report, ReportDataMeta, ReportNilaiData } from '@/types/report';
 import { Student } from '@/types/student';
@@ -59,6 +59,10 @@ const ReportNilai: FC<Props> = ({ data }) => {
     );
   };
 
+  const avgTugas = safeAverage(formData.data.nilai, (s) => Number(s.nilai_tugas));
+  const avgEval = safeAverage(formData.data.nilai, (s) => Number(s.evaluasi));
+  const avgRata = safeAverage(formData.data.nilai, (s) => Number(s.rata_rata));
+
   return (
     <>
       <ReportHeader />
@@ -102,30 +106,32 @@ const ReportNilai: FC<Props> = ({ data }) => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {Object.entries(groupMapel).map(([group, mapel]) => (
-                <>
-                  {group !== 'Pelajaran dasar' && (
-                    <TableRow>
-                      <TableCell colSpan={5}>{group}</TableCell>
-                    </TableRow>
-                  )}
-                  {mapel.map((nilai, index) => (
-                    <TableRow>
-                      <TableCell>
-                        <Button size={'icon'} variant={'ghost'} disabled>
-                          {index + 1}
-                        </Button>
-                      </TableCell>
-                      <TableCell>
-                        <p className="text-wrap">{nilai.name}</p>
-                      </TableCell>
-                      <TableCell className="text-center">{nilai.nilai_tugas.toFixed(2)}</TableCell>
-                      <TableCell className="text-center">{nilai.evaluasi.toFixed(2)}</TableCell>
-                      <TableCell className="text-center">{nilai.rata_rata.toFixed(2)}</TableCell>
-                    </TableRow>
-                  ))}
-                </>
-              ))}
+              {Object.entries(groupMapel).map(([group, mapel]) => {
+                return (
+                  <>
+                    {group !== 'Pelajaran dasar' && (
+                      <TableRow>
+                        <TableCell colSpan={5}>{group}</TableCell>
+                      </TableRow>
+                    )}
+                    {mapel.map((nilai, index) => (
+                      <TableRow>
+                        <TableCell>
+                          <Button size={'icon'} variant={'ghost'} disabled>
+                            {index + 1}
+                          </Button>
+                        </TableCell>
+                        <TableCell>
+                          <p className="text-wrap">{nilai.name}</p>
+                        </TableCell>
+                        <TableCell className="text-center">{nilai.nilai_tugas.toFixed(2)}</TableCell>
+                        <TableCell className="text-center">{nilai.evaluasi.toFixed(2)}</TableCell>
+                        <TableCell className="text-center">{nilai.rata_rata.toFixed(2)}</TableCell>
+                      </TableRow>
+                    ))}
+                  </>
+                );
+              })}
             </TableBody>
             <TableFooter>
               <TableRow>
@@ -134,17 +140,17 @@ const ReportNilai: FC<Props> = ({ data }) => {
                 </TableCell>
                 <TableCell className="text-center">
                   <Button variant={'ghost'} disabled size={'icon'}>
-                    100.00
+                    {avgTugas.toFixed(2)}
                   </Button>
                 </TableCell>
                 <TableCell className="text-center">
                   <Button variant={'ghost'} disabled size={'icon'}>
-                    100.00
+                    {avgEval.toFixed(2)}
                   </Button>
                 </TableCell>
                 <TableCell className="text-center">
                   <Button variant={'ghost'} disabled size={'icon'}>
-                    100.00
+                    {avgRata.toFixed(2)}
                   </Button>
                 </TableCell>
               </TableRow>

@@ -87,7 +87,7 @@
     }
 
     .domain-value {
-      text-align: justify;
+      text-align: left;
     }
 
     .domain-checkbox {
@@ -336,14 +336,14 @@
         <th>KOMENTAR GURU</th>
       </tr>
       <tr>
-        <td>{!! str()->markdown($data['komentar_guru'] ?? "") !!}</td>
+        <td>{!! $data['komentar_guru'] != "" ? str()->markdown($data['komentar_guru']) : "<br><br><br><br>" !!}</td>
       </tr>
       <tr style="background-color: black; color: white;">
         <th>KOMENTAR SISWA</th>
       </tr>
       <tr>
         <td>
-          {!! str()->markdown($data['komentar_siswa'] ?? "<br><br><br><br>") !!}
+          {!! $data['komentar_siswa'] != "" ? str()->markdown($data['komentar_siswa']) : "<br><br><br><br>" !!}
         </td>
       </tr>
       <tr style="background-color: black; color: white;">
@@ -351,7 +351,7 @@
       </tr>
       <tr>
         <td>
-          {!! str()->markdown($data['komentar_wali'] ?? "<br><br><br><br>") !!}
+          {!! $data['komentar_wali'] != "" ? str()->markdown($data['komentar_wali'] ): "<br><br><br><br>" !!}
         </td>
       </tr>
     </table>

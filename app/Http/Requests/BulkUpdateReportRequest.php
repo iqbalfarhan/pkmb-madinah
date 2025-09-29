@@ -24,6 +24,7 @@ class BulkUpdateReportRequest extends FormRequest
         return [
             'report_ids' => 'required|array',
             'report_ids.*' => 'exists:reports,id',
+            'published' => 'nullable|boolean',
         ];
     }
 }

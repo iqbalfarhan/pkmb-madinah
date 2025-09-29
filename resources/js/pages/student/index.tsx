@@ -1,3 +1,4 @@
+import DataPagination from '@/components/data-pagination';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -5,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { SharedData } from '@/types';
+import { Pagination, SharedData } from '@/types';
 import { Student } from '@/types/student';
 import { Link, usePage } from '@inertiajs/react';
 import { Edit, Filter, Folder, FolderArchive, Plus, Trash2 } from 'lucide-react';
@@ -18,7 +19,7 @@ import StudentFormSheet from './components/student-form-sheet';
 import StudentStatusBadge from './components/student-status-badge';
 
 type Props = {
-  students: Student[];
+  students: Pagination<Student>;
   query: { [key: string]: string };
 };
 
@@ -87,10 +88,10 @@ const StudentList: FC<Props> = ({ students, query }) => {
               <Button variant={'ghost'} size={'icon'} asChild>
                 <Label>
                   <Checkbox
-                    checked={ids.length === students.length}
+                    checked={ids.length === students.data.length}
                     onCheckedChange={(checked) => {
                       if (checked) {
-                        setIds(students.map((student) => student.id));
+                        setIds(students.data.map((student) => student.id));
                       } else {
                         setIds([]);
                       }
@@ -109,7 +110,7 @@ const StudentList: FC<Props> = ({ students, query }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {students
+          {students.data
             .filter((student) => JSON.stringify(student).toLowerCase().includes(cari.toLowerCase()))
             .map((student) => (
               <TableRow key={student.id}>
@@ -171,6 +172,8 @@ const StudentList: FC<Props> = ({ students, query }) => {
             ))}
         </TableBody>
       </Table>
+
+      <DataPagination links={students.links} />
     </AppLayout>
   );
 };

@@ -24,16 +24,20 @@ export function NavMain({ items = [], label }: Props) {
 
   const isActive = (href: string) => {
     try {
-      const path = new URL(href).pathname;
+      const hrefUrl = new URL(href);
+      const hrefPath = hrefUrl.pathname;
+
+      // Extract pathname from current URL (remove query params and hash)
+      const currentPath = url.split('?')[0].split('#')[0];
 
       // kalau ada wildcard "*"
-      if (path.endsWith('/*')) {
-        const base = path.replace('/*', '');
-        return url === base || url.startsWith(base + '/');
+      if (hrefPath.endsWith('/*')) {
+        const base = hrefPath.replace('/*', '');
+        return currentPath === base || currentPath.startsWith(base + '/');
       }
 
       // fallback: kalau href exact atau url mulai dengan path + "/"
-      return url === path || url.startsWith(path + '/');
+      return currentPath === hrefPath || currentPath.startsWith(hrefPath + '/');
     } catch {
       return false;
     }

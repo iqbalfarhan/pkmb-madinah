@@ -16,22 +16,22 @@ return [
                 'points' => [
                     [
                         'name' => 'Enjoyment',
-                        'description' => '',
+                        'description' => 'Anak terlihat antusias dan gembira saat mengikuti kegiatan seni dan musik.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Stimulation',
-                        'description' => '',
+                        'description' => 'Anak mampu merespon rangsangan warna dan suara dengan baik dalam aktivitas kreatif.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Insight',
-                        'description' => '',
+                        'description' => 'Anak mulai mampu menghubungkan pengalaman estetis dengan perasaan pribadinya.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Satisfaction',
-                        'description' => '',
+                        'description' => 'Anak menunjukkan rasa bangga dan puas setelah menyelesaikan karya seni.',
                         'mark' => 'A',
                     ],
                 ],
@@ -42,32 +42,32 @@ return [
                 'points' => [
                     [
                         'name' => 'Trust',
-                        'description' => '',
+                        'description' => 'Anak dapat mempercayai guru dan teman-temannya dalam berbagai kegiatan.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Autonomy',
-                        'description' => '',
+                        'description' => 'Anak mulai berani mencoba menyelesaikan tugas sederhana secara mandiri.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Initiative',
-                        'description' => '',
+                        'description' => 'Anak aktif mengajukan ide dan bersemangat memulai kegiatan.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Industry',
-                        'description' => '',
+                        'description' => 'Anak berusaha menyelesaikan tugas dengan tekun meskipun menemui kesulitan.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Self Concept',
-                        'description' => '',
+                        'description' => 'Anak semakin memahami dirinya dan menunjukkan identitas positif.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Self Esteem',
-                        'description' => '',
+                        'description' => 'Anak menunjukkan rasa percaya diri ketika tampil di depan kelas.',
                         'mark' => 'A',
                     ],
                 ],
@@ -78,32 +78,32 @@ return [
                 'points' => [
                     [
                         'name' => 'Perception',
-                        'description' => '',
+                        'description' => 'Anak mampu mengenali benda dan situasi di sekitarnya dengan baik.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Physical Knowledge',
-                        'description' => '',
+                        'description' => 'Anak dapat memahami hubungan sebab-akibat melalui percobaan sederhana.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Logic-Math Knowledge',
-                        'description' => '',
+                        'description' => 'Anak mampu menghitung dan menggunakan logika sederhana dalam kegiatan sehari-hari.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Representational Knowledge',
-                        'description' => '',
+                        'description' => 'Anak dapat menggambarkan ide dengan simbol atau gambar sederhana.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Critical Thinking',
-                        'description' => '',
+                        'description' => 'Anak mulai mampu bertanya kritis dan mencari solusi atas masalah kecil.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Conventional Social Knowledge',
-                        'description' => '',
+                        'description' => 'Anak memahami aturan kelas dan berusaha mematuhinya dengan baik.',
                         'mark' => 'A',
                     ],
                 ],
@@ -114,27 +114,27 @@ return [
                 'points' => [
                     [
                         'name' => 'Listening',
-                        'description' => '',
+                        'description' => 'Anak dapat mendengarkan penjelasan guru dengan baik dan penuh perhatian.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Receptive',
-                        'description' => '',
+                        'description' => 'Anak mampu memahami instruksi sederhana dan melaksanakannya dengan benar.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Expressive',
-                        'description' => '',
+                        'description' => 'Anak mampu menyampaikan pendapat dan perasaan dengan jelas.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Writing',
-                        'description' => '',
+                        'description' => 'Anak mulai menulis kata dan kalimat sederhana dengan rapi.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Reading',
-                        'description' => '',
+                        'description' => 'Anak mampu membaca kata sederhana dan memahami isi bacaan singkat.',
                         'mark' => 'A',
                     ],
                 ],
@@ -145,22 +145,22 @@ return [
                 'points' => [
                     [
                         'name' => 'Body Awarness',
-                        'description' => '',
+                        'description' => 'Anak menyadari fungsi anggota tubuhnya dan menggunakannya dengan tepat.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Gross Motor',
-                        'description' => '',
+                        'description' => 'Anak menunjukkan kemampuan motorik kasar seperti berlari dan melompat dengan baik.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Fine Motor',
-                        'description' => '',
+                        'description' => 'Anak mampu menggunakan jari tangan dengan terampil saat menulis dan menggambar.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Physical Health',
-                        'description' => '',
+                        'description' => 'Anak menjaga kebersihan diri dan menunjukkan kebiasaan hidup sehat.',
                         'mark' => 'A',
                     ],
                 ],
@@ -171,12 +171,12 @@ return [
                 'points' => [
                     [
                         'name' => 'Social Skill',
-                        'description' => '',
+                        'description' => 'Anak mampu bekerja sama dengan teman dan menghargai pendapat orang lain.',
                         'mark' => 'A',
                     ],
                     [
                         'name' => 'Socialization',
-                        'description' => '',
+                        'description' => 'Anak menunjukkan sikap ramah, mudah bergaul, dan mampu beradaptasi di lingkungan kelas.',
                         'mark' => 'A',
                     ],
                 ],

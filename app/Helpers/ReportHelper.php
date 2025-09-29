@@ -9,6 +9,7 @@ use App\Models\Examscore;
 use App\Models\Score;
 use App\Models\Student;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Number;
 
 class ReportHelper
 {
@@ -230,15 +231,22 @@ class ReportHelper
             $lesson = $lesson->load('exams.examscores', 'assignments.scores');
             $subject = $lesson->subject;
 
-            $score = Score::whereStudentId($student->id)->whereLessonId($lesson->id)->get()->average('score') ?? 0;
+            $tugas = Score::whereStudentId($student->id)
+                ->whereLessonId($lesson->id)
+                ->with('assignment') // eager load assignment
+                ->get()
+                ->groupBy(fn($score) => $score->assignment->type)
+                ->map(fn($group) => $group->avg('score') ?? 0);
+
+            $finalTugas = collect([$tugas['jurnal'] ?? 0, $tugas['prakarya'] ?? 0])->avg();
             $examscore = Examscore::whereStudentId($student->id)->whereLessonId($lesson->id)->get()->average('score') ?? 0;
 
             return [
                 'name' => $subject->name,
                 'type' => $subject->group,
-                'nilai_tugas' => $score,
+                'nilai_tugas' => $finalTugas,
                 'evaluasi' => $examscore,
-                'rata_rata' => ($score + $examscore) / 2,
+                'rata_rata' => ($finalTugas + $examscore) / 2,
             ];
         })->toArray() ?? [];
     }

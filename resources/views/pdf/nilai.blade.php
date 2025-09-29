@@ -73,6 +73,24 @@
   </style>
 </head>
 <body>
+  @php
+  function safeAverage(array $arr, callable $fn): float
+  {
+      $count = count($arr);
+      if ($count === 0) {
+          return 0;
+      }
+
+      $sum = 0;
+      foreach ($arr as $item) {
+          $sum += $fn($item);
+      }
+
+      return $sum / $count;
+  }
+
+  @endphp
+
   <table style="width: 100%;">
     <tr>
       <td>
@@ -106,6 +124,10 @@
 		foreach ($data['nilai'] as $item) {
 			$grouped[$item['type']][] = $item;
 		}
+
+    $avgTugas = safeAverage($data['nilai'], fn($s) => $s['nilai_tugas']);
+    $avgEval  = safeAverage($data['nilai'], fn($s) => $s['evaluasi']);
+    $avgRata  = safeAverage($data['nilai'], fn($s) => $s['rata_rata']);
 	@endphp
 
 	<div class="content">
@@ -133,9 +155,9 @@
 						<tr>
 							<td class="text-center">{{ $no++ }}</td>
 							<td>{{ $nilai['name'] }}</td>
-							<td class="text-center">{{ round($nilai['nilai_tugas'], 2) }}</td>
-							<td class="text-center">{{ round($nilai['evaluasi'], 2) }}</td>
-							<td class="text-center">{{ round($nilai['rata_rata'], 2) }}</td>
+							<td class="text-center">{{ number_format($nilai['nilai_tugas'], 2) }}</td>
+							<td class="text-center">{{ number_format($nilai['evaluasi'], 2) }}</td>
+							<td class="text-center">{{ number_format($nilai['rata_rata'], 2) }}</td>
 						</tr>
 					@endforeach
 				@endforeach
@@ -143,9 +165,9 @@
 			<tfoot>
 				<tr>
 				<th colspan="2">Rata-rata</th>
-				<th>0.00</th>
-				<th>0.00</th>
-				<th>0.00</th>
+				<th>{{ number_format($avgTugas, 2) }}</th>
+				<th>{{ number_format($avgEval, 2) }}</th>
+				<th>{{ number_format($avgRata, 2) }}</th>
 				</tr>
 			</tfoot>
 		</table>

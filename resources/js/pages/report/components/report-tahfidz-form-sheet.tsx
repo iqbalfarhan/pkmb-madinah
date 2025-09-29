@@ -9,7 +9,7 @@ import { surahList } from '@/lib/enums';
 import { capitalizeWords, groupBy } from '@/lib/utils';
 import { FormPurpose, Surah } from '@/types';
 import { PenilaianTahfidz } from '@/types/report';
-import { useForm } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import { X } from 'lucide-react';
 import { FC, PropsWithChildren, useState } from 'react';
 
@@ -21,6 +21,7 @@ type Props = PropsWithChildren & {
 
 const ReportTahfidzFormSheet: FC<Props> = ({ children, data, onSubmit, purpose }) => {
   const [open, setOpen] = useState(false);
+  const { perkembanganStatusList = [] } = usePage<{ perkembanganStatusList: string[] }>().props;
   const {
     data: formData,
     setData,
@@ -88,10 +89,11 @@ const ReportTahfidzFormSheet: FC<Props> = ({ children, data, onSubmit, purpose }
                   <SelectValue placeholder="Pilih pencapaian" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="belum berkembang">Belum Berkembang</SelectItem>
-                  <SelectItem value="mulai berkembang">Mulai Berkembang</SelectItem>
-                  <SelectItem value="berkembang">Berkembang</SelectItem>
-                  <SelectItem value="sangat berkembang">Sangat Berkembang</SelectItem>
+                  {perkembanganStatusList.map((status) => (
+                    <SelectItem key={status} value={status}>
+                      {status}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </FormControl>

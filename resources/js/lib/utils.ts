@@ -230,3 +230,15 @@ export function hariNumberDescription(num: number): string {
   if (num == 0) return '-';
   return `${num} (${numberToWords(num)}) Hari`;
 }
+
+export function safeAverage<T>(arr: T[], fn: (item: T) => number): number {
+  if (arr.length === 0) return 0;
+  const sum = arr.reduce((acc, item) => acc + fn(item), 0);
+  return sum / arr.length;
+}
+
+export function removeAtIndexMutable<T>(arr: T[], index: number): T[] {
+  if (index < 0 || index >= arr.length) return arr; // biar aman
+  arr.splice(index, 1);
+  return arr;
+}

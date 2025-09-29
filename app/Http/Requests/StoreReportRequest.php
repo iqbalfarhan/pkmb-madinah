@@ -18,6 +18,7 @@ class StoreReportRequest extends FormRequest
         return [
             'classroom_id' => 'required|exists:classrooms,id',
             'academic_year_id' => 'required|exists:academic_years,id',
+            'semester' => 'nullable|in:genap,ganjil',
             'student_id' => 'required|exists:students,id',
             'report_type' => [
                 'required',
