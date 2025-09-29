@@ -24,7 +24,7 @@ const ClassroomFilterSheet: FC<Props> = ({ children, query }) => {
   });
 
   const applyFilter = () => {
-    get(route('classroom.index'), {
+    get('', {
       preserveScroll: true,
       preserveState: true,
       replace: true,
@@ -38,7 +38,7 @@ const ClassroomFilterSheet: FC<Props> = ({ children, query }) => {
   const resetFilter = () => {
     setData('academic_year_id', '');
     router.get(
-      route('classroom.index'),
+      '',
       {
         academic_year_id: '',
       },

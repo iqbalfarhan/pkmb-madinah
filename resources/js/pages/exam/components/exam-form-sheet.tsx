@@ -18,7 +18,7 @@ import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
 
 type Props = PropsWithChildren & {
-  lessonId: Lesson['id'];
+  lessonId?: Lesson['id'];
   exam?: Exam;
   purpose: FormPurpose;
 };

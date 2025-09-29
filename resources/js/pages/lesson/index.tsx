@@ -29,7 +29,7 @@ const LessonList: FC<Props> = ({ lessons, query }) => {
 
   return (
     <AppLayout
-      title="Lessons"
+      title="Sesi pelajaran"
       description="Manage your lessons"
       actions={
         <>

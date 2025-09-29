@@ -45,7 +45,7 @@ const AcademicyearList: FC<Props> = ({ academicyears, query }) => {
 
   return (
     <AppLayout
-      title="Academicyears"
+      title="Tahun ajaran"
       description="Manage your academicyears"
       actions={
         <>

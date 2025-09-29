@@ -29,7 +29,7 @@ const SubjectList: FC<Props> = ({ subjects, query }) => {
 
   return (
     <AppLayout
-      title="Subjects"
+      title="Mata pelajaran"
       description="Manage your subjects"
       actions={
         <>

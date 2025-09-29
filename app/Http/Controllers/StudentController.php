@@ -36,8 +36,12 @@ class StudentController extends Controller
         $data = Student::query()
             ->with(['user', 'grade', 'classroom'])
             ->orderBy('grade_id')
+            ->orderBy('name')
             ->when($request->grade_id, function ($q, $v) {
                 $q->where('grade_id',  $v);
+            })
+            ->when($request->classroom_id, function ($q, $v) {
+                $q->where('classroom_id',  $v);
             });
 
         return Inertia::render('student/index', [

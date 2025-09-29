@@ -31,7 +31,7 @@ const PaymentList: FC<Props> = ({ payments, query }) => {
   const { permissions } = usePage<SharedData>().props;
 
   return (
-    <AppLayout title="Payments" description="Manage your payments">
+    <AppLayout title="Validasi pembayaran siswa" description="Manage your payments">
       <div className="flex gap-2">
         <Input placeholder="Search payments..." value={cari} onChange={(e) => setCari(e.target.value)} />
         <PaymentFilterSheet query={query}>

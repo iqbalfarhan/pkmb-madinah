@@ -29,7 +29,7 @@ const MaterialList: FC<Props> = ({ materials, query }) => {
 
   return (
     <AppLayout
-      title="Materials"
+      title="Materi belajar"
       description="Manage your materials"
       actions={
         <>

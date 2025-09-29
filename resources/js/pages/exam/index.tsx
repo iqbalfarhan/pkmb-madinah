@@ -29,7 +29,7 @@ const ExamList: FC<Props> = ({ exams, query }) => {
 
   return (
     <AppLayout
-      title="Exams"
+      title="Evaluasi"
       description="Manage your exams"
       actions={
         <>

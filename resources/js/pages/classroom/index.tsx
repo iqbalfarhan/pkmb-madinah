@@ -31,7 +31,7 @@ const ClassroomList: FC<Props> = ({ classrooms, query }) => {
 
   return (
     <AppLayout
-      title="Classrooms"
+      title="Daftar kelas"
       description="Manage your classrooms"
       actions={
         <>

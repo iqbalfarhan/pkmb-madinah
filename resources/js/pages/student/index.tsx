@@ -30,7 +30,7 @@ const StudentList: FC<Props> = ({ students, query }) => {
 
   return (
     <AppLayout
-      title="Students"
+      title="Daftar siswa aktif"
       description="Manage your students"
       actions={
         <>

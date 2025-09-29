@@ -30,7 +30,7 @@ const ActivityList: FC<Props> = ({ activities, query }) => {
 
   return (
     <AppLayout
-      title="Activitys"
+      title="Kegiatan ekskul siswa"
       description="Manage your activities"
       actions={
         <>

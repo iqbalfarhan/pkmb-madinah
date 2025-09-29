@@ -29,7 +29,7 @@ const GradeList: FC<Props> = ({ grades, query }) => {
 
   return (
     <AppLayout
-      title="Grades"
+      title="Tingkat kelas"
       description="Manage your grades"
       actions={
         <>

@@ -30,7 +30,7 @@ const AssignmentList: FC<Props> = ({ assignments, query }) => {
 
   return (
     <AppLayout
-      title="Assignments"
+      title="Daftar tugas jurnal dan prakarya"
       description="Manage your assignments"
       actions={
         <>
