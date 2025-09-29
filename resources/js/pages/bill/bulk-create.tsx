@@ -1,5 +1,4 @@
 import BackButton from '@/components/back-button';
-import DDump from '@/components/d-dump';
 import FormControl from '@/components/form-control';
 import MoneyInput from '@/components/money-input';
 import SubmitButton from '@/components/submit-button';
@@ -148,8 +147,6 @@ const BillBulkCreate: FC<Props> = ({ students = [], paymenttypes = [], classroom
                 <Textarea value={data.description} onChange={(e) => setData('description', e.target.value)} />
               </FormControl>
             </div>
-
-            <DDump content={data} />
           </CardContent>
           <CardFooter>
             <SubmitButton icon={ArrowRight} onClick={handleCreateBills} label="Buat tagihan" loading={processing} />

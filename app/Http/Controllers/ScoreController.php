@@ -35,7 +35,7 @@ class ScoreController extends Controller
         $active = AcademicYear::active();
 
         return Inertia::render('score/index', [
-            'scores' => $data->get(),
+            'scores' => $data->paginate(10),
             'query' => $request->input(),
             'students' => Student::aktif()->get(),
             'classrooms' => Classroom::whereAcademicYearId($active->id)->get(),

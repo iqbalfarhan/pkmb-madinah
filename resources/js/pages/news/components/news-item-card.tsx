@@ -1,7 +1,8 @@
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
 import { News } from '@/types/news';
 import { router } from '@inertiajs/react';
+import dayjs from 'dayjs';
 import { FC } from 'react';
 
 type Props = {
@@ -11,17 +12,17 @@ type Props = {
 
 const NewsItemCard: FC<Props> = ({ news, href }) => {
   return (
-    <Card className="flex flex-col justify-between" onClick={() => router.visit(href ?? route('baca', news.slug))}>
-      <CardContent>
-        <Avatar className="aspect-video size-full rounded-lg">
-          <AvatarImage src={news.thumbnail} className="object-cover" />
-        </Avatar>
+    <Card onClick={() => router.visit(href ?? route('baca', news.slug))}>
+      <CardContent className="space-y-1.5 text-center">
+        <CardTitle className="leading-normal">{news.title}</CardTitle>
+        <CardDescription className="uppercase">
+          {dayjs(news.created_at).format('YYYY.MMM.DD')} - {news.user.name}
+        </CardDescription>
       </CardContent>
-      <CardHeader>
-        <CardTitle className="leading-6">{news.title}</CardTitle>
-      </CardHeader>
       <CardContent>
-        <CardDescription>{news.description}</CardDescription>
+        <Avatar className="aspect-square size-full rounded-lg">
+          <AvatarImage src={news.thumbnail} className="object-cover opacity-50" />
+        </Avatar>
       </CardContent>
     </Card>
   );

@@ -1,3 +1,4 @@
+import DataPagination from '@/components/data-pagination';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -5,8 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { formatRupiah } from '@/lib/utils';
-import { SharedData } from '@/types';
+import { formatRupiah, numberPad } from '@/lib/utils';
+import { Pagination, SharedData } from '@/types';
 import { Bill } from '@/types/bill';
 import { Link, usePage } from '@inertiajs/react';
 import { Edit, Filter, Folder, Plus, PlusCircle, Trash2 } from 'lucide-react';
@@ -19,7 +20,7 @@ import BillFormSheet from './components/bill-form-sheet';
 import BillStatusBadge from './components/bill-status-badge';
 
 type Props = {
-  bills: Bill[];
+  bills: Pagination<Bill>;
   query: { [key: string]: string };
 };
 
@@ -90,10 +91,10 @@ const BillList: FC<Props> = ({ bills, query }) => {
               <Button variant={'ghost'} size={'icon'} asChild>
                 <Label>
                   <Checkbox
-                    checked={ids.length === bills.length}
+                    checked={ids.length === bills.data.length}
                     onCheckedChange={(checked) => {
                       if (checked) {
-                        setIds(bills.map((bill) => bill.id));
+                        setIds(bills.data.map((bill) => bill.id));
                       } else {
                         setIds([]);
                       }
@@ -102,6 +103,7 @@ const BillList: FC<Props> = ({ bills, query }) => {
                 </Label>
               </Button>
             </TableHead>
+            <TableHead>Kode</TableHead>
             <TableHead>Nama siswa</TableHead>
             <TableHead>Untuk pembayaran</TableHead>
             <TableHead>Total Nominal</TableHead>
@@ -110,7 +112,7 @@ const BillList: FC<Props> = ({ bills, query }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {bills
+          {bills.data
             .filter((bill) => JSON.stringify(bill).toLowerCase().includes(cari.toLowerCase()))
             .map((bill) => (
               <TableRow key={bill.id}>
@@ -130,6 +132,7 @@ const BillList: FC<Props> = ({ bills, query }) => {
                     </Label>
                   </Button>
                 </TableCell>
+                <TableCell className="font-mono">#{numberPad(bill.id)}</TableCell>
                 <TableCell>{bill.student.name}</TableCell>
                 <TableCell>
                   <div className="flex items-center gap-1">
@@ -168,6 +171,8 @@ const BillList: FC<Props> = ({ bills, query }) => {
             ))}
         </TableBody>
       </Table>
+
+      <DataPagination links={bills.links} />
     </AppLayout>
   );
 };

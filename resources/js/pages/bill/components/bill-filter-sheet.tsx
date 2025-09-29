@@ -24,6 +24,7 @@ const BillFilterSheet: FC<Props> = ({ children, query }) => {
   const { data, setData, get } = useForm({
     student_id: query.student_id ?? '',
     status: query.status ?? '',
+    page: 1,
   });
 
   const applyFilter = () => {

@@ -12,7 +12,7 @@ const NewsSection = () => {
 
   return (
     <SectionContainer title="Kegiatan terbaru" description="Berita kegiatan sekolah terbaru">
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {news.map((berita) => (
           <NewsItemCard news={berita} key={berita.id} />
         ))}
