@@ -21,7 +21,7 @@ type Props = PropsWithChildren & {
 
 const GradeFormSheet: FC<Props> = ({ children, grade, purpose }) => {
   const [open, setOpen] = useState(false);
-  const { defaultGroups } = usePage<{ defaultGroups: string[] }>().props;
+  const { defaultGroups = [] } = usePage<{ defaultGroups: string[] }>().props;
 
   const { data, setData, put, post, reset, processing } = useForm({
     group: grade?.group ?? '',

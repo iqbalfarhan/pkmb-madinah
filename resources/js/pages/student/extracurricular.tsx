@@ -42,7 +42,7 @@ const StudentExtracurricularPage: FC<Props> = ({ activities, student }) => {
             <FormControl label="Academic year">
               <Select value={data.academic_year_id} onValueChange={(value) => setData('academic_year_id', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder={'Pilih pelajaran'} />
+                  <SelectValue placeholder={'Pilih tahun ajaran'} />
                 </SelectTrigger>
                 <SelectContent>
                   {academicYears.map((academicYear) => (
@@ -53,10 +53,10 @@ const StudentExtracurricularPage: FC<Props> = ({ activities, student }) => {
                 </SelectContent>
               </Select>
             </FormControl>
-            <FormControl label="Pelajaran">
+            <FormControl label="Nama ekstrakulikuler">
               <Select value={data.extracurricular_id} onValueChange={(value) => setData('extracurricular_id', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder={'Pilih pelajaran'} />
+                  <SelectValue placeholder={'Pilih ekstrakulikuler'} />
                 </SelectTrigger>
                 <SelectContent>
                   {extracurriculars.map((extracurricular) => (

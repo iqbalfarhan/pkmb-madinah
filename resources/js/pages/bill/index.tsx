@@ -1,4 +1,3 @@
-import DataPagination from '@/components/data-pagination';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -7,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { formatRupiah, numberPad } from '@/lib/utils';
-import { Pagination, SharedData } from '@/types';
+import { SharedData } from '@/types';
 import { Bill } from '@/types/bill';
 import { Link, usePage } from '@inertiajs/react';
 import { Edit, Filter, Folder, Plus, PlusCircle, Trash2 } from 'lucide-react';
@@ -20,11 +19,11 @@ import BillFormSheet from './components/bill-form-sheet';
 import BillStatusBadge from './components/bill-status-badge';
 
 type Props = {
-  bills: Pagination<Bill>;
+  bills: Bill[];
   query: { [key: string]: string };
 };
 
-const BillList: FC<Props> = ({ bills, query }) => {
+const BillList: FC<Props> = ({ bills = [], query }) => {
   const [ids, setIds] = useState<number[]>([]);
   const [cari, setCari] = useState('');
 
@@ -91,10 +90,10 @@ const BillList: FC<Props> = ({ bills, query }) => {
               <Button variant={'ghost'} size={'icon'} asChild>
                 <Label>
                   <Checkbox
-                    checked={ids.length === bills.data.length}
+                    checked={ids.length === bills.length}
                     onCheckedChange={(checked) => {
                       if (checked) {
-                        setIds(bills.data.map((bill) => bill.id));
+                        setIds(bills.map((bill) => bill.id));
                       } else {
                         setIds([]);
                       }
@@ -112,7 +111,7 @@ const BillList: FC<Props> = ({ bills, query }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {bills.data
+          {bills
             .filter((bill) => JSON.stringify(bill).toLowerCase().includes(cari.toLowerCase()))
             .map((bill) => (
               <TableRow key={bill.id}>
@@ -171,8 +170,6 @@ const BillList: FC<Props> = ({ bills, query }) => {
             ))}
         </TableBody>
       </Table>
-
-      <DataPagination links={bills.links} />
     </AppLayout>
   );
 };

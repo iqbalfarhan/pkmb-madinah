@@ -16,10 +16,11 @@ import { toast } from 'sonner';
 
 type Props = PropsWithChildren & {
   assessment?: Assessment;
+  grade?: Grade;
   purpose: FormPurpose;
 };
 
-const AssessmentFormSheet: FC<Props> = ({ children, assessment, purpose }) => {
+const AssessmentFormSheet: FC<Props> = ({ children, assessment, grade, purpose }) => {
   const [open, setOpen] = useState(false);
 
   const { groupLists = [], grades = [] } = usePage<{ groupLists: string[]; grades: Grade[] }>().props;
@@ -27,7 +28,7 @@ const AssessmentFormSheet: FC<Props> = ({ children, assessment, purpose }) => {
   const { data, setData, put, post, reset, processing } = useForm({
     group: assessment?.group ?? '',
     name: assessment?.name ?? '',
-    grade_id: assessment?.grade_id ?? '',
+    grade_id: assessment?.grade_id ?? grade?.id ?? '',
     semester: assessment?.semester ?? '',
   });
 

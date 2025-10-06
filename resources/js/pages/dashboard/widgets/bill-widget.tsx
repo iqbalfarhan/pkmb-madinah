@@ -1,13 +1,12 @@
 import WidgetCard from '@/components/widget-card';
-import { SharedData } from '@/types';
 import { Bill } from '@/types/bill';
 import { usePage } from '@inertiajs/react';
 import { HandCoins } from 'lucide-react';
 
 const BillWidget = () => {
-  const { bills = [], permissions } = usePage<SharedData & { bills: Bill[] }>().props;
+  const { bills = [], menus } = usePage<{ bills: Bill[]; menus: Record<string, boolean> }>().props;
 
-  if (!permissions?.canOpenStudentBill) return null;
+  if (!menus.studentBill) return null;
 
   return (
     <WidgetCard

@@ -86,6 +86,7 @@ class StudentController extends Controller
             'student' => $student->load(['user', 'grade', 'classroom', 'family', 'prevschool', 'media', 'absents']),
             'sallaryLists' => Family::$sallaryLists,
             'classrooms' => [$student->classroom],
+            'grades' => Grade::get(),
             'permissions' => [
                 'canUpdate' => $this->user->can('update student'),
             ],

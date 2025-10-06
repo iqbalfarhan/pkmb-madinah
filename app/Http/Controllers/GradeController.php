@@ -6,6 +6,7 @@ use App\Http\Requests\BulkDeleteGradeRequest;
 use App\Http\Requests\BulkUpdateGradeRequest;
 use App\Http\Requests\StoreGradeRequest;
 use App\Http\Requests\UpdateGradeRequest;
+use App\Models\Assessment;
 use App\Models\Grade;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -48,6 +49,12 @@ class GradeController extends Controller
     {
         return Inertia::render('grade/show', [
             'grade' => $grade->load('assessments'),
+            'defaultGroups' => Grade::$defaultGroups,
+            'groupLists' => Assessment::$groupLists,
+            'grades' => Grade::get(),
+            'permissions' => [
+                'canUpdate' => $this->user->can('update grade'),
+            ],
         ]);
     }
 

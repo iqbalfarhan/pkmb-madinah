@@ -50,24 +50,24 @@ const StudentBillLists: FC<Props> = ({ student, bills }) => {
       <Card>
         <CardContent>
           <div className="grid gap-6 md:grid-cols-3">
-            <FormControl label="Pelajaran">
+            <FormControl label="Jenis pembayaran">
               <Select value={data.payment_type_id} onValueChange={(value) => setData('payment_type_id', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder={'Pilih pelajaran'} />
+                  <SelectValue placeholder={'Pilih jenis pembayaran'} />
                 </SelectTrigger>
                 <SelectContent>
                   {paymentTypes.map((type) => (
                     <SelectItem value={type.id.toString()} key={type.id}>
-                      {type.name}
+                      {type.name} ({type.billing_cycle})
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </FormControl>
-            <FormControl label="Judul tugas">
+            <FormControl label="Status pembayaran">
               <Select value={data.status} onValueChange={(value) => setData('status', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder={'Pilih pelajaran'} />
+                  <SelectValue placeholder={'Pilih status pembayaran'} />
                 </SelectTrigger>
                 <SelectContent>
                   {statusLists.map((tugas) => (

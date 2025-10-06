@@ -59,14 +59,14 @@ const ScoreList: FC<Props> = ({ scores, student }) => {
             <FormControl label="Judul tugas">
               <Select value={data.assignment_id} onValueChange={(value) => setData('assignment_id', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder={'Pilih pelajaran'} />
+                  <SelectValue placeholder={'Pilih tugas'} />
                 </SelectTrigger>
                 <SelectContent>
                   {assignments
                     .filter((tugas) => data.lesson_id && tugas.lesson_id.toString() === data.lesson_id.toString())
                     .map((tugas) => (
                       <SelectItem value={tugas.id.toString()} key={tugas.id}>
-                        {tugas.name}
+                        {tugas.name} ({tugas.type})
                       </SelectItem>
                     ))}
                 </SelectContent>

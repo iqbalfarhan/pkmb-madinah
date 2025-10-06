@@ -1,6 +1,7 @@
 import { useIsMobile } from '@/hooks/use-mobile';
 import { NavItem } from '@/types';
 import { FC } from 'react';
+import { Card, CardContent } from './ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Tabs, TabsList, TabsTrigger } from './ui/tabs';
 
@@ -15,18 +16,22 @@ const SelectTab: FC<Props> = ({ options, value, onValueChange }) => {
 
   if (mobile) {
     return (
-      <Select value={value} onValueChange={onValueChange}>
-        <SelectTrigger>
-          <SelectValue placeholder="contoh" />
-        </SelectTrigger>
-        <SelectContent>
-          {options.map((item, index) => (
-            <SelectItem key={index} value={item.href}>
-              {item.title}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <Card className="p-2">
+        <CardContent className="p-2">
+          <Select value={value} onValueChange={onValueChange}>
+            <SelectTrigger>
+              <SelectValue placeholder="contoh" />
+            </SelectTrigger>
+            <SelectContent>
+              {options.map((item, index) => (
+                <SelectItem key={index} value={item.href}>
+                  {item.title}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </CardContent>
+      </Card>
     );
   } else {
     return (

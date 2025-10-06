@@ -1,3 +1,4 @@
+import DDump from '@/components/d-dump';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { Extracurricular } from '@/types/extracurricular';
@@ -19,6 +20,8 @@ const ShowExtracurricular: FC<Props> = ({ extracurricular }) => {
           </CardDescription>
         </CardHeader>
       </Card>
+
+      <DDump content={extracurricular.activities} />
     </AppLayout>
   );
 };

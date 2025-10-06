@@ -32,7 +32,9 @@ export default ({
   const isMobile = useIsMobile();
   return (
     <AppLayoutTemplate breadcrumbs={breadcrumbs}>
-      <Head title="Sistem informasi akademis :: SIAKAD :: PKBM AL-MADINAH" />
+      <Head title="Sistem informasi akademis :: SIAKAD :: PKBM AL-MADINAH">
+        <link rel="icon" type="image/svg+xml" href="/rapor-perkembangan.png" />
+      </Head>
       <div className={cn('mx-auto flex h-full w-full max-w-7xl flex-1 flex-col gap-4 space-y-4 overflow-x-auto rounded-xl p-6')}>
         <div className="flex items-start justify-between gap-6">
           <Heading title={title} description={description} />

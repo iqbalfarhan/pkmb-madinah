@@ -21,6 +21,7 @@ class UserController extends Controller
         $this->pass('index user');
 
         $data = User::query()
+            ->withoutRole('superadmin')
             ->when($request->role, function ($q, $v) {
                 $q->role($v);
             })

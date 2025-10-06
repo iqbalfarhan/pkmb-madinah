@@ -83,7 +83,7 @@ class PermissionSeeder extends Seeder
                 'show grade' => ['admin'],
                 'create grade' => ['admin'],
                 'update grade' => ['admin'],
-                'delete grade' => ['admin'],
+                'delete grade' => [],
             ],
             'lesson' => [
                 'menu lesson' => ['admin'],

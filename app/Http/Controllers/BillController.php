@@ -32,7 +32,7 @@ class BillController extends Controller
             ->when($request->status, fn ($q, $v) => $q->where('status', $v));
 
         return Inertia::render('bill/index', [
-            'bills' => $data->paginate(10),
+            'bills' => $data->get(),
             'query' => $request->input(),
             'students' => Student::aktif()->get(),
             'paymentTypes' => PaymentType::get(),

@@ -21,7 +21,7 @@ export default function Dashboard() {
     // permissions,
   } = usePage<SharedData>().props;
   return (
-    <AppLayout title="Dashboard" description={`Selamat datang, kamu masuk sebagai ${roles.join(', ')}`} breadcrumbs={breadcrumbs}>
+    <AppLayout title="Dashboard" description={`Selamat datang, Anda masuk sebagai ${roles.join(', ')}`} breadcrumbs={breadcrumbs}>
       <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         <UserProfileWidget />
         <BillWidget />

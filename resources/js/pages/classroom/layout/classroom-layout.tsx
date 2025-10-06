@@ -1,37 +1,41 @@
 import SelectTab from '@/components/select-tab';
 import AppLayout from '@/layouts/app-layout';
-import { SharedData } from '@/types';
+import { NavItem, SharedData } from '@/types';
 import { Classroom } from '@/types/classroom';
 import { router, usePage } from '@inertiajs/react';
 import { FC, PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren & {};
 
-const menuLists: { value: string; label: string }[] = [
+const menuLists: NavItem[] = [
   {
-    value: 'show',
-    label: 'Overview',
+    href: 'show',
+    title: 'Overview',
   },
   {
-    value: 'students',
-    label: 'Siswa',
+    href: 'students',
+    title: 'Siswa',
   },
   {
-    value: 'lessons',
-    label: 'Pelajaran',
+    href: 'lessons',
+    title: 'Pelajaran',
   },
   {
-    value: 'absents',
-    label: 'Ketidakhadiran',
+    href: 'absents',
+    title: 'Ketidakhadiran',
   },
   {
-    value: 'rapors',
-    label: 'E-repor',
+    href: 'rapors',
+    title: 'E-rapor',
   },
   {
-    value: 'extracurricular',
-    label: 'Ekskul',
+    href: 'extracurricular',
+    title: 'Kegiatan ekskul',
   },
+  // {
+  //   href: 'scores',
+  //   title: 'Nilai siswa',
+  // },
 ];
 
 const ClassroomLayout: FC<Props> = ({ children }) => {
@@ -43,14 +47,7 @@ const ClassroomLayout: FC<Props> = ({ children }) => {
 
   return (
     <AppLayout title={classroom.name} description={classroom.description}>
-      <SelectTab
-        value={tabname}
-        onValueChange={(v) => handleNavigate(v)}
-        options={menuLists.map((item) => ({
-          title: item.label,
-          href: item.value,
-        }))}
-      />
+      <SelectTab value={tabname} onValueChange={(v) => handleNavigate(v)} options={menuLists} />
       {children}
     </AppLayout>
   );

@@ -37,4 +37,9 @@ class Extracurricular extends Model
             ->nonQueued();
     }
     */
+
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
+    }
 }

@@ -48,7 +48,7 @@ class ExtracurricularController extends Controller
     public function show(Extracurricular $extracurricular)
     {
         return Inertia::render('extracurricular/show', [
-            'extracurricular' => $extracurricular,
+            'extracurricular' => $extracurricular->load(['activities.student']),
         ]);
     }
 

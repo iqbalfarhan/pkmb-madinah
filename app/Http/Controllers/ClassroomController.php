@@ -220,4 +220,12 @@ class ClassroomController extends Controller
             ],
         ]);
     }
+
+    public function scores(Classroom $classroom)
+    {
+        return Inertia::render('classroom/tabs/classroom-scores-tab', [
+            'classroom' => $classroom,
+            'tabname' => 'scores',
+        ]);
+    }
 }

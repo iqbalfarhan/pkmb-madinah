@@ -158,7 +158,7 @@ const AcademicyearList: FC<Props> = ({ academicyears, query }) => {
                 <TableCell>
                   {permissions?.canUpdate && (
                     <AcademicyearSetActiveDialog academicyear={academicyear}>
-                      <Button variant={'ghost'} size={'icon'}>
+                      <Button variant={'ghost'} size={'icon'} disabled={academicyear.active}>
                         <CheckCheck />
                       </Button>
                     </AcademicyearSetActiveDialog>

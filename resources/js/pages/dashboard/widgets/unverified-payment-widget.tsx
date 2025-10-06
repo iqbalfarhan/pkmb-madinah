@@ -3,7 +3,9 @@ import { usePage } from '@inertiajs/react';
 import { Wallet } from 'lucide-react';
 
 const UnverifiedPaymentWidget = () => {
-  const { unverifiedPaymentsCount = 0 } = usePage<{ unverifiedPaymentsCount: number }>().props;
+  const { unverifiedPaymentsCount = 0, menus } = usePage<{ unverifiedPaymentsCount: number; menus: Record<string, boolean> }>().props;
+
+  if (!menus.payment) return null;
 
   return (
     <WidgetCard

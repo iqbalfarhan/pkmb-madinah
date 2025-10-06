@@ -59,10 +59,10 @@ const StudentAbsentPage: FC<Props> = ({ absents, student }) => {
                 </SelectContent>
               </Select>
             </FormControl>
-            <FormControl label="Judul jenis">
+            <FormControl label="Alasan ketidakhadiran">
               <Select value={data.reason} onValueChange={(value) => setData('reason', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder={'Pilih pelajaran'} />
+                  <SelectValue placeholder={'Pilih alasan'} />
                 </SelectTrigger>
                 <SelectContent>
                   {reasonLists.map((jenis) => (

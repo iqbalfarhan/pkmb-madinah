@@ -64,7 +64,7 @@ const StudentRaporPage: FC<Props> = ({ reports, student }) => {
             <FormControl label="Jenis rapor">
               <Select value={data.report_type} onValueChange={(value) => setData('report_type', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder={'Pilih pelajaran'} />
+                  <SelectValue placeholder={'Pilih jenis rapor'} />
                 </SelectTrigger>
                 <SelectContent>
                   {reportTypes.map((jenis) => (
@@ -78,7 +78,7 @@ const StudentRaporPage: FC<Props> = ({ reports, student }) => {
             <FormControl label="Kelas">
               <Select value={data.classroom_id} onValueChange={(value) => setData('classroom_id', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder={'Pilih pelajaran'} />
+                  <SelectValue placeholder={'Pilih kelas'} />
                 </SelectTrigger>
                 <SelectContent>
                   {classrooms.map((kelas) => (
