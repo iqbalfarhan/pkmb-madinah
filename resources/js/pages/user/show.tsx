@@ -1,9 +1,12 @@
 import BackButton from '@/components/back-button';
 import HeadingSmall from '@/components/heading-small';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
-import { User } from '@/types';
+import { SharedData, User } from '@/types';
+import { Link, usePage } from '@inertiajs/react';
+import { LogIn } from 'lucide-react';
 import { FC } from 'react';
 import ClassroomItemCard from '../classroom/components/classroom-item-card';
 import LessonItemCard from '../lesson/components/lesson-item-card';
@@ -14,6 +17,8 @@ type Props = {
 };
 
 const ShowUser: FC<Props> = ({ user }) => {
+  const { permissions } = usePage<SharedData>().props;
+
   return (
     <AppLayout
       title="Detail User"
@@ -21,6 +26,14 @@ const ShowUser: FC<Props> = ({ user }) => {
       actions={
         <>
           <BackButton />
+          {permissions?.canLoginAs && (
+            <Button asChild>
+              <Link href={route('user.login-as', user.id)} method="patch">
+                <LogIn />
+                Login sebagai {user.name}
+              </Link>
+            </Button>
+          )}
         </>
       }
     >

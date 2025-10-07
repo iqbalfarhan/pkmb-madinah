@@ -1,3 +1,4 @@
+import { Address } from '@/types/student';
 import { type ClassValue, clsx } from 'clsx';
 import dayjs from 'dayjs';
 import { toast } from 'sonner';
@@ -130,28 +131,17 @@ export function implode(...parts: (string | number | null | undefined)[]): strin
   return parts.filter((p) => p !== null && p !== undefined && String(p).trim() !== '').join(', ');
 }
 
-type AddressPart = string | number | null | undefined;
-
-export function implodeAddress(
-  provinsi?: AddressPart,
-  kabupaten?: AddressPart,
-  kecamatan?: AddressPart,
-  kelurahan?: AddressPart,
-  jalan?: AddressPart,
-  rt?: AddressPart,
-  rw?: AddressPart,
-  kodepos?: AddressPart,
-): string {
+export function implodeAddress(address: Address): string {
   const parts: string[] = [];
 
-  if (jalan) parts.push(`${jalan}`);
-  if (rt) parts.push(`RT ${rt}`);
-  if (rw) parts.push(`RW ${rw}`);
-  if (kelurahan) parts.push(`${kelurahan}`);
-  if (kecamatan) parts.push(`Kec. ${kecamatan}`);
-  if (kabupaten) parts.push(`${kabupaten}`);
-  if (provinsi) parts.push(`${provinsi}`);
-  if (kodepos) parts.push(`${kodepos}`);
+  if (address.jalan) parts.push(`${address.jalan}`);
+  if (address.rt) parts.push(`RT ${address.rt}`);
+  if (address.rw) parts.push(`RW ${address.rw}`);
+  if (address.kelurahan) parts.push(`${address.kelurahan}`);
+  if (address.kecamatan) parts.push(`Kec. ${address.kecamatan}`);
+  if (address.kota) parts.push(`${address.kota}`);
+  if (address.provinsi) parts.push(`${address.provinsi}`);
+  if (address.kodepos) parts.push(`${address.kodepos}`);
 
   return parts.join(', ');
 }

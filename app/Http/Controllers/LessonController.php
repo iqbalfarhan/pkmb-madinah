@@ -70,7 +70,7 @@ class LessonController extends Controller
             'assignments' => $lesson->assignments,
             'lessons' => [$lesson],
             'students' => $students,
-            'scores' => $scores,
+            'scores' => $scores->load('assignment'),
             'exams' => $lesson->exams,
             'examscores' => Examscore::whereIn('exam_id', $lesson->exams->pluck('id'))->get(),
             'classrooms' => [$lesson->classroom],

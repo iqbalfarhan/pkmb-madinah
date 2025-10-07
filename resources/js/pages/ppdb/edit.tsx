@@ -19,6 +19,18 @@ type Props = {
 
 const EditPpdbStudent: FC<Props> = ({ student, query }) => {
   const [tab] = useState(query.tab ?? 'information');
+
+  const moveTo = (v: string) => {
+    router.get(
+      '',
+      { tab: v },
+      {
+        preserveScroll: true,
+        // preserveState: true,
+      },
+    );
+  };
+
   return (
     <AppLayout
       title="Pendaftaran Siswa Baru"
@@ -26,12 +38,12 @@ const EditPpdbStudent: FC<Props> = ({ student, query }) => {
       actions={
         <>
           <Button variant={'secondary'} disabled>
-            Kode pendaftaran: {`#${numberPad(student.id)}`}
+            Pendaftaran: {`#${numberPad(student.id)}`}
           </Button>
         </>
       }
     >
-      <Tabs className="space-y-6" value={tab} onValueChange={(v) => router.get('', { tab: v })}>
+      <Tabs className="space-y-6" value={tab} onValueChange={moveTo}>
         <div>
           <TabsList>
             <TabsTrigger value="information">Data Siswa</TabsTrigger>
@@ -43,19 +55,19 @@ const EditPpdbStudent: FC<Props> = ({ student, query }) => {
           </TabsList>
         </div>
         <TabsContent value="information">
-          <PpdbInformationForm />
+          <PpdbInformationForm onSuccess={() => moveTo('contact')} />
         </TabsContent>
         <TabsContent value="contact">
-          <PpdbContactForm />
+          <PpdbContactForm onSuccess={() => moveTo('family')} />
         </TabsContent>
         <TabsContent value="family">
-          <PpdbFamilyForm />
+          <PpdbFamilyForm onSuccess={() => moveTo('prevschool')} />
         </TabsContent>
         <TabsContent value="prevschool">
-          <PpdbSchoolForm />
+          <PpdbSchoolForm onSuccess={() => moveTo('document')} />
         </TabsContent>
         <TabsContent value="document">
-          <PpdbDocumentForm />
+          <PpdbDocumentForm onSuccess={() => moveTo('complete')} />
         </TabsContent>
         <TabsContent value="complete">
           <PpdbCompleteForm />

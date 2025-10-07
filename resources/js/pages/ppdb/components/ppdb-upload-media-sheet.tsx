@@ -15,13 +15,14 @@ import { toast } from 'sonner';
 
 type Props = PropsWithChildren & {
   student: Student;
+  collection?: string;
 };
 
-const PpdbUploadMediaSheet: FC<Props> = ({ student, children }) => {
+const PpdbUploadMediaSheet: FC<Props> = ({ student, children, collection }) => {
   const [open, setOpen] = useState(false);
 
   const { data, setData, post, processing } = useForm({
-    collection_name: '',
+    collection_name: collection ?? '',
     file: undefined as File | undefined,
   });
 
@@ -53,28 +54,24 @@ const PpdbUploadMediaSheet: FC<Props> = ({ student, children }) => {
               handleUploadMedia();
             }}
           >
-            <FormControl label="Pilih jenis file">
-              <Select value={data.collection_name} onValueChange={(val) => setData('collection_name', val)} required>
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih jenis file" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="kartu keluarga">Kartu Keluarga</SelectItem>
-                  <SelectItem value="akta kelahiran">Akta Kelahiran</SelectItem>
-                  <SelectItem value="photo siswa">Photo siswa</SelectItem>
-                </SelectContent>
-              </Select>
-            </FormControl>
+            {!collection && (
+              <FormControl label="Pilih jenis file">
+                <Select value={data.collection_name} onValueChange={(val) => setData('collection_name', val)} required>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih jenis file" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="kartu keluarga">Kartu Keluarga</SelectItem>
+                    <SelectItem value="akta kelahiran">Akta Kelahiran</SelectItem>
+                    <SelectItem value="photo siswa">Photo siswa</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            )}
             <FormControl label="Pilih file">
               <Input type="file" onChange={(e) => setData('file', e.target.files?.[0])} accept="image/*" />
               {data.file && <img src={URL.createObjectURL(data.file)} />}
             </FormControl>
-
-            <div className="grid grid-cols-3 gap-1">
-              {student.media?.map((media) => (
-                <img key={media.id} src={media.preview_url} alt={media.name} className="aspect-square w-full object-cover" />
-              ))}
-            </div>
           </form>
         </ScrollArea>
         <SheetFooter>

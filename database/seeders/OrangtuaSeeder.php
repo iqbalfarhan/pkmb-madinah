@@ -19,7 +19,7 @@ class OrangtuaSeeder extends Seeder
 
         $user->assignRole('orangtua');
 
-        User::factory()->count(3)->create()->each(function ($user) {
+        User::factory()->count(50)->create()->each(function ($user) {
             $user->assignRole('orangtua');
         });
     }

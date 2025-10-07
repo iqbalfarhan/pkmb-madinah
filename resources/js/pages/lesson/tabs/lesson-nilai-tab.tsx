@@ -94,8 +94,8 @@ const LessonNilaiTab = () => {
             const prakaryaScores = studentScores.filter((s) => s.assignment.type === 'prakarya');
             const avgPrakarya = safeAverage(prakaryaScores, (s) => Number(s.score));
 
-            const totalAvg = (avgJurnal + avgPrakarya) / 2;
-            // let ratedScore = 0;
+            const totalAvg = safeAverage([avgJurnal, avgPrakarya], (s) => s);
+
             return (
               <TableRow key={student.id}>
                 <TableCell className="border-r-2 border-border">
@@ -117,6 +117,9 @@ const LessonNilaiTab = () => {
                       </TableCell>
                     );
                   })}
+                {assignments.filter((assignment) => assignment.type === 'jurnal').length === 0 && (
+                  <TableCell className="w-fit bg-yellow-700/10 text-center">-</TableCell>
+                )}
                 {assignments
                   .filter((assignment) => assignment.type === 'prakarya')
                   .map((assignment) => {
@@ -128,6 +131,9 @@ const LessonNilaiTab = () => {
                       </TableCell>
                     );
                   })}
+                {assignments.filter((assignment) => assignment.type === 'prakarya').length === 0 && (
+                  <TableCell className="w-fit bg-green-700/10 text-center">-</TableCell>
+                )}
                 <TableCell className="w-fit border-l-2 border-border text-center">
                   <Button variant={'ghost'} size={'icon'}>
                     {/* {Math.round(ratedScore)} */}

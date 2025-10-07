@@ -18,7 +18,7 @@ class UpdateAssessmentRequest extends FormRequest
             'group' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'grade_id' => 'nullable|exists:grades,id',
-            'semester' => ['nullable', Rule::in(["ganjil", "genap"])]
+            'semester' => ['nullable', Rule::in(['ganjil', 'genap'])],
         ];
     }
 }

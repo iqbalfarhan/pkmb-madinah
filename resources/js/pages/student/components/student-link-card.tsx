@@ -8,19 +8,20 @@ type Props = {
   href?: string;
   title?: string;
   description?: string;
+  className?: string;
   show?: boolean;
   icon?: LucideIcon;
   badge?: string;
 };
 
-const StudentLinkCard: FC<Props> = ({ href, title = 'Card link title', description = 'Description', show = true, icon: Icon, badge }) => {
+const StudentLinkCard: FC<Props> = ({ href, title = 'Card link title', className, description = 'Description', show = true, icon: Icon, badge }) => {
   if (show == false) return null;
 
   const handleClick = () => {
     router.visit(href || '');
   };
   return (
-    <Card onClick={handleClick}>
+    <Card onClick={handleClick} className={className}>
       <CardHeader className="flex flex-row space-y-5 space-x-4">
         <div className="size-5">{Icon ? <Icon /> : <Book />}</div>
         <div className="space-y-1.5">

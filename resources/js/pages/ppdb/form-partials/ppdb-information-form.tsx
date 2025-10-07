@@ -11,10 +11,15 @@ import { Grade } from '@/types/grade';
 import { Student } from '@/types/student';
 import { useForm, usePage } from '@inertiajs/react';
 import dayjs from 'dayjs';
+import { FC } from 'react';
 import { toast } from 'sonner';
 import PpdbFormWrapper from '../layouts/ppdb-form-wrapper';
 
-const PpdbInformationForm = () => {
+type Props = {
+  onSuccess: () => void;
+};
+
+const PpdbInformationForm: FC<Props> = ({ onSuccess }) => {
   const { grades, student, permissions } = usePage<SharedData & { grades: Grade[]; student: Student }>().props;
 
   const { data, setData, put, processing } = useForm({
@@ -30,7 +35,10 @@ const PpdbInformationForm = () => {
   const handleSubmit = () => {
     put(route('ppdb.update', student.id), {
       preserveScroll: true,
-      onSuccess: () => toast.success('Data siswa berhasil disimpan'),
+      onSuccess: () => {
+        toast.success('Data siswa berhasil disimpan');
+        onSuccess();
+      },
       onError: (e) => toast.error(em(e)),
     });
   };

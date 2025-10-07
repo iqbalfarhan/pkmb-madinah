@@ -1,9 +1,7 @@
 import HeadingSmall from '@/components/heading-small';
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { SharedData } from '@/types';
@@ -15,8 +13,6 @@ import { BookCheck, CheckCheck, Edit, Folder, PencilRuler, Plus, Settings, Trash
 import { FC, useState } from 'react';
 import StudentStatusBadge from '../student/components/student-status-badge';
 import PpdbAcceptRegistrationSheet from './components/ppdb-accept-registration-sheet';
-import PpdbBulkDeleteDialog from './components/ppdb-bulk-delete-dialog';
-import PpdbBulkEditSheet from './components/ppdb-bulk-edit-sheet';
 import PpdbDeleteDialog from './components/ppdb-delete-dialog';
 import PpdbFormSheet from './components/ppdb-form-sheet';
 import PpdbSettingSheet from './components/ppdb-setting-sheet';
@@ -41,7 +37,6 @@ const PpdbList: FC<Props> = ({
   query,
 }) => {
   const [status] = useState(query.status ?? 'ppdb');
-  const [ids, setIds] = useState<number[]>([]);
   const [cari, setCari] = useState('');
 
   const { permissions } = usePage<SharedData>().props;
@@ -119,49 +114,16 @@ const PpdbList: FC<Props> = ({
           }
         />
       )}
-      {ids.length > 0 && (
-        <div className="flex gap-2">
-          <Button variant={'ghost'} disabled>
-            {ids.length} item selected
-          </Button>
-          <PpdbBulkEditSheet ppdbIds={ids}>
-            <Button>
-              <Edit /> Edit selected
-            </Button>
-          </PpdbBulkEditSheet>
-          <PpdbBulkDeleteDialog ppdbIds={ids}>
-            <Button variant={'destructive'}>
-              <Trash2 /> Delete selected
-            </Button>
-          </PpdbBulkDeleteDialog>
-        </div>
-      )}
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>
-              <Button variant={'ghost'} size={'icon'} asChild>
-                <Label>
-                  <Checkbox
-                    checked={ids.length === ppdbs.length}
-                    onCheckedChange={(checked) => {
-                      if (checked) {
-                        setIds(ppdbs.map((ppdb) => ppdb.id));
-                      } else {
-                        setIds([]);
-                      }
-                    }}
-                  />
-                </Label>
-              </Button>
-            </TableHead>
             <TableHead>NISN</TableHead>
             <TableHead>Nama calon pesdik</TableHead>
             <TableHead>Jenjang</TableHead>
             <TableHead>Asal sekolah</TableHead>
             <TableHead>Tanggal pendaftaran</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead className="text-center">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -169,22 +131,6 @@ const PpdbList: FC<Props> = ({
             .filter((ppdb) => JSON.stringify(ppdb).toLowerCase().includes(cari.toLowerCase()))
             .map((ppdb) => (
               <TableRow key={ppdb.id}>
-                <TableCell>
-                  <Button variant={'ghost'} size={'icon'} asChild>
-                    <Label>
-                      <Checkbox
-                        checked={ids.includes(ppdb.id)}
-                        onCheckedChange={(checked) => {
-                          if (checked) {
-                            setIds([...ids, ppdb.id]);
-                          } else {
-                            setIds(ids.filter((id) => id !== ppdb.id));
-                          }
-                        }}
-                      />
-                    </Label>
-                  </Button>
-                </TableCell>
                 <TableCell>{ppdb.nisn}</TableCell>
                 <TableCell>{ppdb.name}</TableCell>
                 <TableCell>{ppdb.grade?.group}</TableCell>
@@ -193,7 +139,7 @@ const PpdbList: FC<Props> = ({
                 <TableCell>
                   <StudentStatusBadge status={ppdb.status} />
                 </TableCell>
-                <TableCell>
+                <TableCell className="text-center">
                   {permissions?.canUpdate && status == 'ppdb' && (
                     <PpdbAcceptRegistrationSheet ppdb={ppdb}>
                       <Button variant={'ghost'} size={'icon'}>

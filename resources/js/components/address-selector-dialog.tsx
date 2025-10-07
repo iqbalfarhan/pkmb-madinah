@@ -1,5 +1,6 @@
 import { addressData } from '@/lib/enums';
 import { implodeAddress } from '@/lib/utils';
+import { Address } from '@/types/student';
 import { FC, useState } from 'react';
 import FormControl from './form-control';
 import SubmitButton from './submit-button';
@@ -10,21 +11,22 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Textarea } from './ui/textarea';
 
 type Props = {
-  value?: string;
-  onValueChange?: (value: string) => void;
+  value?: Address;
+  onValueChange?: (value: Address) => void;
 };
 
 const AddressSelectorDialog: FC<Props> = ({ value, onValueChange }) => {
   const [openDialog, setOpenDialog] = useState(false);
 
-  const [provinsi, setProvinsi] = useState('Kalimantan Timur');
-  const [kabupaten, setKabupaten] = useState('Balikpapan');
-  const [kecamatan, setKecamatan] = useState('');
-  const [kelurahan, setKelurahan] = useState('');
-  const [kodepos, setKodepos] = useState('');
-  const [jalan, setJalan] = useState('');
-  const [rt, setRt] = useState('');
-  const [rw, setRw] = useState('');
+  const [provinsi, setProvinsi] = useState(value?.provinsi);
+  const [dusun, setDusun] = useState(value?.dusun);
+  const [kabupaten, setKabupaten] = useState(value?.kota);
+  const [kecamatan, setKecamatan] = useState(value?.kecamatan);
+  const [kelurahan, setKelurahan] = useState(value?.kelurahan);
+  const [kodepos, setKodepos] = useState(value?.kodepos);
+  const [jalan, setJalan] = useState(value?.jalan);
+  const [rt, setRt] = useState(value?.rt);
+  const [rw, setRw] = useState(value?.rw);
 
   const provinsiList = [...new Set(addressData.map((item) => item.provinsi))];
   const kabupatenList = [...new Set(addressData.filter((item) => item.provinsi === provinsi).map((item) => item.kabupaten))];
@@ -40,7 +42,20 @@ const AddressSelectorDialog: FC<Props> = ({ value, onValueChange }) => {
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger>
-        <Textarea value={value} onChange={(e) => onValueChange?.(e.target.value)} />
+        {/* <Textarea value={implodeAddress(value as Address)} onChange={(e) => onValueChange?.(e.target.value)} /> */}
+        <Textarea
+          value={implodeAddress({
+            jalan: jalan?.toString(),
+            dusun: dusun?.toString(),
+            rt: rt?.toString(),
+            rw: rw?.toString(),
+            kelurahan: kelurahan?.toString(),
+            kodepos: kodepos?.toString(),
+            kecamatan: kecamatan?.toString(),
+            kota: kabupaten,
+            provinsi: provinsi?.toString(),
+          } as Address)}
+        />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -136,6 +151,10 @@ const AddressSelectorDialog: FC<Props> = ({ value, onValueChange }) => {
             <Input placeholder="Contoh: Jl. Durian No. 88" value={jalan} onChange={(e) => setJalan(e.target.value)} />
           </FormControl>
 
+          <FormControl label="Dusun">
+            <Input placeholder="Nama dusun" value={dusun} onChange={(e) => setDusun(e.target.value)} />
+          </FormControl>
+
           <FormControl label="RT">
             <Input placeholder="Misal: 01" value={rt} onChange={(e) => setRt(e.target.value)} />
           </FormControl>
@@ -154,8 +173,19 @@ const AddressSelectorDialog: FC<Props> = ({ value, onValueChange }) => {
           </DialogClose>
           <SubmitButton
             onClick={() => {
-              const address = implodeAddress(provinsi, kabupaten, kecamatan, kelurahan, jalan, rt, rw, kodepos);
-              onValueChange?.(address);
+              const address = implodeAddress(value as Address);
+              console.log(address);
+              onValueChange?.({
+                jalan: jalan?.toString(),
+                dusun: dusun?.toString(),
+                rt: rt?.toString(),
+                rw: rw?.toString(),
+                kelurahan: kelurahan?.toString(),
+                kodepos: kodepos?.toString(),
+                kecamatan: kecamatan?.toString(),
+                kota: kabupaten,
+                provinsi: provinsi?.toString(),
+              } as Address);
               setOpenDialog(false);
             }}
           />

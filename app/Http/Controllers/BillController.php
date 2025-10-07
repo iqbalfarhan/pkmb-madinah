@@ -111,9 +111,9 @@ class BillController extends Controller
     public function bulkCreate()
     {
         return Inertia::render('bill/bulk-create', [
-            "students" => Student::aktif()->get(),
+            'students' => Student::aktif()->get(),
             'classrooms' => Classroom::get(),
-            'paymenttypes' => PaymentType::get()
+            'paymenttypes' => PaymentType::get(),
         ]);
     }
 
@@ -124,7 +124,7 @@ class BillController extends Controller
         $ids = $data['student_ids'];
         unset($data['student_ids']);
 
-        DB::transaction(function() use($ids, $data){
+        DB::transaction(function () use ($ids, $data) {
             foreach ($ids as $student_id) {
                 Bill::create([
                     'student_id' => $student_id,

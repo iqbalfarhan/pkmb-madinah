@@ -27,8 +27,8 @@ class BulkUpdateassessmentRequest extends FormRequest
             'assessment_ids.*' => 'exists:assessments,id',
             'group' => 'nullable|string|max:255',
             'grade_id' => 'nullable|exists:grades,id',
-            'semester' => ['nullable', Rule::in(["ganjil", "genap"])]
-            
+            'semester' => ['nullable', Rule::in(['ganjil', 'genap'])],
+
         ];
     }
 }

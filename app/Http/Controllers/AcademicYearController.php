@@ -51,7 +51,7 @@ class AcademicYearController extends Controller
             $newAcademicYear = AcademicYear::create($data);
 
             // Clone classroom kalau diminta
-            if (!empty($data['new_classroom']) && $data['new_classroom']) {
+            if (! empty($data['new_classroom']) && $data['new_classroom']) {
                 $activeAcademicYear = AcademicYear::active();
 
                 if ($activeAcademicYear) {
@@ -60,20 +60,20 @@ class AcademicYearController extends Controller
                     foreach ($classrooms as $classroom) {
                         Classroom::create([
                             'academic_year_id' => $newAcademicYear->id,
-                            'name'             => $classroom->name,
-                            'grade_id'         => $classroom->grade_id,
+                            'name' => $classroom->name,
+                            'grade_id' => $classroom->grade_id,
                         ]);
                     }
                 }
             }
 
             // Set active cuma kalau diminta
-            if (!empty($data['active']) && $data['active']) {
+            if (! empty($data['active']) && $data['active']) {
                 $newAcademicYear->setActive();
             }
 
             // Sync student ke classroom baru
-            if (!empty($data['sync_student_classroom']) && $data['sync_student_classroom']) {
+            if (! empty($data['sync_student_classroom']) && $data['sync_student_classroom']) {
                 $activeAcademicYear = AcademicYear::active();
 
                 if ($activeAcademicYear) {
@@ -97,7 +97,6 @@ class AcademicYearController extends Controller
             }
         });
     }
-
 
     /**
      * Display the specified resource.

@@ -38,14 +38,14 @@ class StudentController extends Controller
             ->orderBy('grade_id')
             ->orderBy('name')
             ->when($request->grade_id, function ($q, $v) {
-                $q->where('grade_id',  $v);
+                $q->where('grade_id', $v);
             })
             ->when($request->classroom_id, function ($q, $v) {
-                $q->where('classroom_id',  $v);
+                $q->where('classroom_id', $v);
             });
 
         return Inertia::render('student/index', [
-            'students' => $data->aktif()->paginate(25),
+            'students' => $data->aktif()->get(),
             'query' => $request->input(),
             'users' => User::role('orangtua')->get(),
             'grades' => Grade::get(),
@@ -83,10 +83,11 @@ class StudentController extends Controller
     public function show(Student $student)
     {
         return Inertia::render('student/show', [
-            'student' => $student->load(['user', 'grade', 'classroom', 'family', 'prevschool', 'media', 'absents']),
+            'student' => $student->load(['user', 'grade.classrooms', 'classroom', 'family', 'prevschool', 'media', 'absents']),
             'sallaryLists' => Family::$sallaryLists,
-            'classrooms' => [$student->classroom],
             'grades' => Grade::get(),
+            'classrooms' => Classroom::get(),
+            'users' => User::role('orangtua')->get(),
             'permissions' => [
                 'canUpdate' => $this->user->can('update student'),
             ],
@@ -155,7 +156,7 @@ class StudentController extends Controller
     {
         return Inertia::render('student/archived', [
             // 'students' => Student::onlyTrashed()->get(),
-            "students" => Student::whereIn('status', ['lulus', 'dikeluarkan', 'pindah'])->get()
+            'students' => Student::whereIn('status', ['lulus', 'dikeluarkan', 'pindah'])->get(),
         ]);
     }
 

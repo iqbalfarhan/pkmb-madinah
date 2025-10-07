@@ -50,11 +50,45 @@ class Student extends Model implements HasMedia
         'pindah',
     ];
 
-    public $appends = ['kelahiran', 'umur', 'avatar'];
+    public $appends = ['kelahiran', 'umur', 'avatar', 'alamat'];
 
     public $casts = [
         'gender' => 'boolean',
+        'address' => 'array',
     ];
+
+    public function getAlamatAttribute()
+    {
+        $parts = [
+            'Jalan',
+            $this->address['jalan'] ?? '',
+        ];
+
+        if (! empty($this->address['dusun'])) {
+            $parts[] = 'Dusun';
+            $parts[] = $this->address['dusun'];
+        }
+
+        $parts[] = 'RT';
+        $parts[] = $this->address['rt'] ?? '';
+
+        if (! empty($this->address['rw'])) {
+            $parts[] = 'RW';
+            $parts[] = $this->address['rw'];
+        }
+
+        $parts[] = 'Kel.';
+        $parts[] = $this->address['kelurahan'] ?? '';
+        $parts[] = $this->address['kodepos'] ?? '';
+        $parts[] = 'Kec.';
+        $parts[] = $this->address['kecamatan'] ?? '';
+        $parts[] = 'Kota';
+        $parts[] = $this->address['kota'] ?? '';
+        $parts[] = ',';
+        $parts[] = $this->address['provinsi'] ?? '';
+
+        return implode(' ', array_filter($parts, 'strlen'));
+    }
 
     public function registerMediaConversions(?Media $media = null): void
     {
@@ -77,7 +111,7 @@ class Student extends Model implements HasMedia
     {
         return $query->where('status', 'lulus');
     }
-    
+
     public function scopeDikeluarkan($query)
     {
         return $query->where('status', 'dikeluarkan');
@@ -147,6 +181,8 @@ class Student extends Model implements HasMedia
 
     public function getAvatarAttribute()
     {
-        return 'https://api.dicebear.com/9.x/dylan/png?seed='.$this->name;
+        $photo = $this->getFirstMediaUrl('photo siswa');
+
+        return $photo ?: 'https://api.dicebear.com/9.x/dylan/png?seed='.$this->name;
     }
 }

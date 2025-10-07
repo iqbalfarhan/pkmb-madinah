@@ -19,7 +19,7 @@ class SettingController extends Controller
     {
         $data = Setting::query()
             ->when($request->name, function ($q, $v) {
-                $q->where('name',  $v);
+                $q->where('name', $v);
             });
 
         return Inertia::render('setting/index', [

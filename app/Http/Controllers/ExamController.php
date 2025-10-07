@@ -23,10 +23,10 @@ class ExamController extends Controller
         $data = Exam::query()
             ->with(['lesson', 'academic_year', 'classroom'])
             ->when($request->classroom_id, function ($q, $v) {
-                $q->where('classroom_id',  $v);
+                $q->where('classroom_id', $v);
             })
             ->when($request->lesson_id, function ($q, $v) {
-                $q->where('lesson_id',  $v);
+                $q->where('lesson_id', $v);
             });
 
         return Inertia::render('exam/index', [

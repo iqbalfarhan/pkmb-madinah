@@ -1,7 +1,9 @@
+export type Semester = 'ganjil' | 'genap';
+
 export type Academicyear = {
   id: number;
   year: string;
-  semester: string;
+  semester: Semester;
   label: string;
   active: boolean;
   created_at?: string;

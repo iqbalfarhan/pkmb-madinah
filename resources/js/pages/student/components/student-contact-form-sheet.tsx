@@ -1,10 +1,10 @@
+import AddressSelectorDialog from '@/components/address-selector-dialog';
 import FormControl from '@/components/form-control';
 import SubmitButton from '@/components/submit-button';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Textarea } from '@/components/ui/textarea';
 import { em } from '@/lib/utils';
 import { Student } from '@/types/student';
 import { useForm } from '@inertiajs/react';
@@ -22,7 +22,17 @@ const StudentContactFormSheet: FC<Props> = ({ children, student }) => {
   const { data, setData, put, processing } = useForm({
     phone: student?.phone ?? '',
     email: student?.email ?? '',
-    address: student?.address ?? '',
+    address: student?.address ?? {
+      jalan: '',
+      dusun: '',
+      rt: '',
+      rw: '',
+      kelurahan: '',
+      kodepos: '',
+      kecamatan: '',
+      kota: '',
+      provinsi: '',
+    },
   });
 
   const handleSubmit = () => {
@@ -59,7 +69,8 @@ const StudentContactFormSheet: FC<Props> = ({ children, student }) => {
               <Input type="text" placeholder="email address" value={data.email} onChange={(e) => setData('email', e.target.value)} />
             </FormControl>
             <FormControl label="Alamat">
-              <Textarea placeholder="Alamat tempat tinggal" value={data.address} onChange={(e) => setData('address', e.target.value)} />
+              <AddressSelectorDialog value={data.address} onValueChange={(value) => setData('address', value)} />
+              {/* <Textarea placeholder="Alamat tempat tinggal" value={data.address} onChange={(e) => setData('address', e.target.value)} /> */}
             </FormControl>
           </form>
         </ScrollArea>

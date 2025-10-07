@@ -27,7 +27,7 @@ class BulkStoreBillRequest extends FormRequest
 
             'payment_type_id' => 'required',
             'amount' => 'required|numeric',
-            'description' => 'required|string'
+            'description' => 'required|string',
         ];
     }
 }

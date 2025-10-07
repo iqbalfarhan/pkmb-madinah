@@ -63,11 +63,13 @@ const PpdbAcceptRegistrationSheet: FC<Props> = ({ children, ppdb }) => {
               <SelectValue placeholder="Pilih kelas" />
             </SelectTrigger>
             <SelectContent>
-              {classrooms.map((cl) => (
-                <SelectItem key={cl.id} value={cl.id.toString()}>
-                  {cl.name}
-                </SelectItem>
-              ))}
+              {classrooms
+                .filter((c) => c.grade_id === ppdb.grade_id)
+                .map((cl) => (
+                  <SelectItem key={cl.id} value={cl.id.toString()}>
+                    {cl.name}
+                  </SelectItem>
+                ))}
             </SelectContent>
           </Select>
         </FormControl>

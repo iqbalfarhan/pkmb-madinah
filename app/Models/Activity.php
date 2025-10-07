@@ -36,6 +36,12 @@ class Activity extends Model
         return $this->belongsTo(Student::class);
     }
 
+    public function scopeActive($q)
+    {
+        $active = AcademicYear::active();
+        $q->where('academic_year_id', $active->id);
+    }
+
     public function academic_year()
     {
         return $this->belongsTo(AcademicYear::class);

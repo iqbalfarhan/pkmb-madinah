@@ -6,12 +6,13 @@ import AppLayout from '@/layouts/app-layout';
 import { dateDFY, numberPad } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Student } from '@/types/student';
-import { Link, router, usePage } from '@inertiajs/react';
-import { ArrowRight, Clock, Download, RefreshCw, Wallet } from 'lucide-react';
+import { router, usePage } from '@inertiajs/react';
+import { ArrowRight, Download, Wallet } from 'lucide-react';
 import { FC } from 'react';
 import FamilyCardContent from '../family/components/family-card-content';
 import StudentMediaTable from '../student/components/student-media-table';
 import StudentStatusBadge from '../student/components/student-status-badge';
+import PpdbPendingCard from './components/ppdb-pending-card';
 
 type Props = {
   ppdb: Student;
@@ -51,33 +52,10 @@ const ShowPpdb: FC<Props> = ({ ppdb }) => {
         </>
       }
     >
-      <Card className="text-center">
-        <CardHeader>
-          <Clock className="mx-auto" />
-        </CardHeader>
-        <CardHeader className="mx-auto max-w-sm">
-          <CardTitle>Menunggu persetujuan admin</CardTitle>
-          <CardDescription>
-            Saat ini status siswa masih menunggu verifikasi dari pihak sekolah. dan menunggu pembuatan tagihan pendaftaran.
-          </CardDescription>
-        </CardHeader>
-        <CardFooter className="justify-center gap-2">
-          <Button asChild>
-            <Link href={route('ppdb.show', ppdb.id)}>
-              <RefreshCw />
-              Reload halaman
-            </Link>
-          </Button>
-          <Button asChild>
-            <Link href={route('bills')}>
-              <Wallet />
-              Lihat tagihan
-            </Link>
-          </Button>
-        </CardFooter>
-      </Card>
-      <div className="grid grid-cols-2 gap-6">
-        <Card className="col-span-2">
+      <PpdbPendingCard ppdb={ppdb} />
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        <Card className="lg:col-span-2">
           <div className="flex justify-between">
             <CardHeader>
               <Avatar className="size-10">
@@ -138,7 +116,7 @@ const ShowPpdb: FC<Props> = ({ ppdb }) => {
             </CardHeader>
             <CardHeader className="md:col-span-full">
               <CardDescription>Alamat tempat tinggal</CardDescription>
-              <CardTitle>{ppdb.address}</CardTitle>
+              <CardTitle>{ppdb.alamat}</CardTitle>
             </CardHeader>
           </div>
         </Card>

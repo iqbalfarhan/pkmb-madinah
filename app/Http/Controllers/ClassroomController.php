@@ -184,6 +184,7 @@ class ClassroomController extends Controller
             'reports' => Report::with(['student', 'academic_year'])->whereClassroomId($classroom->id)->get(),
             'permissions' => [
                 'canAdd' => $this->user->can('create report'),
+                'canShow' => $this->user->can('show report'),
                 'canUpdate' => $this->user->can('update report'),
                 'canDelete' => $this->user->can('delete report'),
             ],

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\AnyFormatter;
 use App\Helpers\ReportHelper;
 use App\Http\Requests\BulkDeleteReportRequest;
 use App\Http\Requests\BulkUpdateReportRequest;
@@ -12,10 +11,8 @@ use App\Http\Requests\UpdateReportRequest;
 use App\Models\AcademicYear;
 use App\Models\Assessment;
 use App\Models\Classroom;
-use App\Models\Examscore;
 use App\Models\Grade;
 use App\Models\Report;
-use App\Models\Score;
 use App\Models\Setting;
 use App\Models\Student;
 use App\Models\User;
@@ -72,8 +69,8 @@ class ReportController extends Controller
 
         $mockup = ReportHelper::generateReportData($data, $student, $academicYear, $classroom, $assessments, $settings);
         $data['data'] = $mockup;
-        
-        if (!isset($data['semester'])) {
+
+        if (! isset($data['semester'])) {
             $data['semester'] = $activeAcademicYearSemester;
         }
 
@@ -84,7 +81,7 @@ class ReportController extends Controller
      * Display the specified resource.
      */
     public function show(Report $report)
-    {   
+    {
         return Inertia::render('report/show', [
             'report' => $report->load('student', 'classroom', 'academic_year'),
             'student' => $report->student->load('activities', 'activities.extracurricular', 'absents'),
@@ -112,9 +109,10 @@ class ReportController extends Controller
     public function raw(Report $report)
     {
         $propmt = "Anggaplah dirimu wali kelas dan buatkan komentar guru yang formal, sopan, serta membangun dalam 1 paragraf (4–6 kalimat). Awali dengan Assalamualaikum lengkap (huruf indonesia saja), dan setiap kali menyebut nama murid gunakan format 'Ananda {nama}'. Sertakan apresiasi pada aspek yang sudah baik, lalu sampaikan catatan sopan tentang hal yang perlu ditingkatkan, dan akhiri dengan kalimat motivasi. Tulis jawaban dalam format markdown agar bisa langsung dicopas.";
+
         return response()->json([
-            "prompt" => $propmt,
-            "data" => $report->data
+            'prompt' => $propmt,
+            'data' => $report->data,
         ], 200);
     }
 
@@ -126,7 +124,7 @@ class ReportController extends Controller
         $data = $request->validated();
         $report->update($data);
 
-        if ($report->report_type === "nilai") {
+        if ($report->report_type === 'nilai') {
             $data = $report->data;
 
             $is_kenaikan_kelas = $data['rapor_kenaikan_kelas'];
@@ -134,10 +132,10 @@ class ReportController extends Controller
 
             if ($is_kenaikan_kelas) {
                 $grade_id = Grade::where('name', $ke_kelas)->first()->id ?? null;
-    
+
                 if ($grade_id) {
                     $report->student->update([
-                        'grade_id' => $grade_id
+                        'grade_id' => $grade_id,
                     ]);
                 }
             }
@@ -153,7 +151,7 @@ class ReportController extends Controller
         $classroom = Classroom::find($report->classroom_id);
 
         $mockup = $report->data;
-        $mockup['nilai'] = ReportHelper::generateLessonScores( $student, $classroom);
+        $mockup['nilai'] = ReportHelper::generateLessonScores($student, $classroom);
 
         $report->update([
             'data' => $mockup,
@@ -186,18 +184,18 @@ class ReportController extends Controller
         Report::whereIn('id', $data['report_ids'])->delete();
     }
 
-    public function download(Report $report, string $type = "stream")
+    public function download(Report $report, string $type = 'stream')
     {
         $data = collect($report->data);
         $reportType = $report->report_type;
         $allowed = [
-            "perkembangan" => "pdf.perkembangan",
-            "nilai" => "pdf.nilai",
-            "tahfidz" => "pdf.tahfidz",
-            "tahsin" => "pdf.tahsin",
-            "doa-hadist" => "pdf.doa-hadist",
-            "praktik-sholat" => "pdf.praktik-sholat",
-            "adzan-wudhu" => "pdf.adzan-wudhu",
+            'perkembangan' => 'pdf.perkembangan',
+            'nilai' => 'pdf.nilai',
+            'tahfidz' => 'pdf.tahfidz',
+            'tahsin' => 'pdf.tahsin',
+            'doa-hadist' => 'pdf.doa-hadist',
+            'praktik-sholat' => 'pdf.praktik-sholat',
+            'adzan-wudhu' => 'pdf.adzan-wudhu',
         ];
 
         if (! array_key_exists($reportType, $allowed)) {
@@ -205,15 +203,15 @@ class ReportController extends Controller
         }
 
         $pdf = Pdf::setOption('paper', 'a4')->loadView($allowed[$reportType], [
-            'data'     => $data,
+            'data' => $data,
             'settings' => Setting::pluck('value', 'key'),
-            'report'   => $report,
+            'report' => $report,
         ]);
 
         return match ($type) {
-            'download' => $pdf->download($report->name . '.pdf'),
-            'stream'   => $pdf->stream($report->name . '.pdf'),
-            default    => abort(404, 'Invalid download type'),
+            'download' => $pdf->download($report->name.'.pdf'),
+            'stream' => $pdf->stream($report->name.'.pdf'),
+            default => abort(404, 'Invalid download type'),
         };
     }
 }

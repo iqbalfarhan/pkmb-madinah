@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkDeleteAssessmentRequest;
+use App\Http\Requests\BulkUpdateAssessmentRequest;
 use App\Http\Requests\StoreAssessmentRequest;
 use App\Http\Requests\UpdateAssessmentRequest;
-use App\Http\Requests\BulkUpdateAssessmentRequest;
-use App\Http\Requests\BulkDeleteAssessmentRequest;
 use App\Models\Assessment;
 use App\Models\Grade;
 use Illuminate\Http\Request;
@@ -20,13 +20,13 @@ class AssessmentController extends Controller
     {
         $data = Assessment::query()
             ->with(['grade'])
-            ->when($request->group, function($q, $v) {
+            ->when($request->group, function ($q, $v) {
                 $q->where('group', $v);
             })
-            ->when($request->grade_id, function($q, $v) {
+            ->when($request->grade_id, function ($q, $v) {
                 $q->where('grade_id', $v);
             })
-            ->when($request->semester, function($q, $v) {
+            ->when($request->semester, function ($q, $v) {
                 $q->where('semester', $v);
             });
 
@@ -40,7 +40,7 @@ class AssessmentController extends Controller
                 'canUpdate' => $this->user->can('update assessment'),
                 'canDelete' => $this->user->can('delete assessment'),
                 'canShow' => $this->user->can('show assessment'),
-            ]
+            ],
         ]);
     }
 
@@ -59,7 +59,7 @@ class AssessmentController extends Controller
     public function show(Assessment $assessment)
     {
         return Inertia::render('assessment/show', [
-            'assessment' => $assessment
+            'assessment' => $assessment,
         ]);
     }
 
@@ -100,6 +100,4 @@ class AssessmentController extends Controller
         $data = $request->validated();
         Assessment::whereIn('id', $data['assessment_ids'])->delete();
     }
-
-    
 }

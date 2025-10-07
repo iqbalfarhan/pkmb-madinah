@@ -6,7 +6,10 @@ use App\Http\Requests\BulkDeleteExtracurricularRequest;
 use App\Http\Requests\BulkUpdateExtracurricularRequest;
 use App\Http\Requests\StoreExtracurricularRequest;
 use App\Http\Requests\UpdateExtracurricularRequest;
+use App\Models\AcademicYear;
+use App\Models\Activity;
 use App\Models\Extracurricular;
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -48,7 +51,16 @@ class ExtracurricularController extends Controller
     public function show(Extracurricular $extracurricular)
     {
         return Inertia::render('extracurricular/show', [
-            'extracurricular' => $extracurricular->load(['activities.student']),
+            'extracurricular' => $extracurricular,
+            'activities' => Activity::with(['student', 'academic_year'])->whereExtracurricularId($extracurricular->id)->active()->get(),
+            'academicYears' => AcademicYear::get(),
+            'students' => Student::aktif()->get(),
+            'extracurriculars' => [$extracurricular],
+            'permissions' => [
+                'canAdd' => $this->user->can('create activity'),
+                'canUpdate' => $this->user->can('update activity'),
+                'canDelete' => $this->user->can('delete activity'),
+            ],
         ]);
     }
 

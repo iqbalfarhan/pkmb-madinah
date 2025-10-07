@@ -25,7 +25,7 @@ class ActivityController extends Controller
             ->with(['academic_year', 'student', 'extracurricular'])
             ->when($request->academic_year_id, function ($q, $v) {
                 $q->where('academic_year_id', $v);
-            }, function($q) use($active){
+            }, function ($q) use ($active) {
                 $q->where('academic_year_id', $active->id);
             })
             ->when($request->extracurricular_id, function ($q, $v) {

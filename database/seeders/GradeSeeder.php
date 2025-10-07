@@ -13,41 +13,41 @@ class GradeSeeder extends Seeder
             [
                 'group' => 'SD',
                 'name' => '1 SD',
-                'characters' => ['Kasih Sayang', 'Bersih', 'Jujur', 'Disiplin']
+                'characters' => ['Kasih Sayang', 'Bersih', 'Jujur', 'Disiplin'],
             ],
             [
                 'group' => 'SD',
                 'name' => '2 SD',
-                'characters' => ['Kasih Sayang', 'Bersih', 'Jujur', 'Disiplin', 'Hormat', 'Rajin']
+                'characters' => ['Kasih Sayang', 'Bersih', 'Jujur', 'Disiplin', 'Hormat', 'Rajin'],
             ],
             [
                 'group' => 'SD',
                 'name' => '3 SD',
-                'characters' => ["Tanggung Jawab", "Qana'ah", "Syukur", "Taqwa"]
+                'characters' => ['Tanggung Jawab', "Qana'ah", 'Syukur', 'Taqwa'],
             ],
             [
                 'group' => 'SD',
                 'name' => '4 SD',
-                'characters' => ["Sabar", "Khusyuk", "Ikhlas", "Ramah"]
+                'characters' => ['Sabar', 'Khusyuk', 'Ikhlas', 'Ramah'],
             ],
             [
                 'group' => 'SD',
                 'name' => '5 SD',
-                'characters' => ["Istiqomah", "Rendah Hati", "Berpikir Positif", "Mutu"],
+                'characters' => ['Istiqomah', 'Rendah Hati', 'Berpikir Positif', 'Mutu'],
             ],
             [
                 'group' => 'SD',
                 'name' => '6 SD',
-                'characters' => ["Mutu"]
+                'characters' => ['Mutu'],
             ],
         ];
 
         foreach ($grades as $grade) {
             Grade::updateOrCreate([
-                "group" => $grade["group"],
-                "name" => $grade["name"],
+                'group' => $grade['group'],
+                'name' => $grade['name'],
             ], [
-                "characters" => $grade["characters"],
+                'characters' => $grade['characters'],
             ]);
         }
     }

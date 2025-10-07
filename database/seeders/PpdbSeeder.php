@@ -6,7 +6,6 @@ use App\Models\AcademicYear;
 use App\Models\Family;
 use App\Models\Prevschool;
 use App\Models\Student;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class PpdbSeeder extends Seeder
@@ -18,8 +17,8 @@ class PpdbSeeder extends Seeder
     {
         $activeYear = AcademicYear::active();
         Student::factory()->count(10)->create([
-            'status' => fake()->randomElement(['draft', 'ppdb'])
-        ])->each(function ($student) use($activeYear) {
+            'status' => fake()->randomElement(['draft', 'ppdb']),
+        ])->each(function ($student) {
             Family::factory()->create([
                 'student_id' => $student->id,
             ]);

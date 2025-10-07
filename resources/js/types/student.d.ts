@@ -6,6 +6,20 @@ import { Family } from './family';
 import { Grade } from './grade';
 import { Prevschool } from './prevschool';
 
+type AddressPart = string | number | null | undefined;
+
+export type Address = {
+  jalan: string;
+  dusun: string;
+  rt: string;
+  rw: string;
+  kelurahan: string;
+  kodepos: string;
+  kecamatan: string;
+  kota: string;
+  provinsi: string;
+};
+
 export type Student = {
   id: number;
   nisn: string;
@@ -13,7 +27,8 @@ export type Student = {
   name: string;
   gender: boolean;
   status: string;
-  address: string;
+  address: Address;
+  alamat: string;
   grade_id: number;
   classroom_id: number;
   phone: string;

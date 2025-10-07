@@ -31,7 +31,7 @@ class Report extends Model
 
     public $casts = [
         'data' => 'array',
-        'published' => 'boolean'
+        'published' => 'boolean',
     ];
 
     public $appends = [
@@ -49,11 +49,11 @@ class Report extends Model
     ];
 
     public static $perkembanganStatusList = [
-        "Belum Berkembang",
-        "Mulai Berkembang",
-        "Cukup Berkembang",
-        "Berkembang",
-        "Sangat Berkembang",
+        'Belum Berkembang',
+        'Mulai Berkembang',
+        'Cukup Berkembang',
+        'Berkembang',
+        'Sangat Berkembang',
     ];
 
     public function academic_year()

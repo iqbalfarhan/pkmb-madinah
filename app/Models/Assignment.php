@@ -47,6 +47,11 @@ class Assignment extends Model
         return $this->hasMany(Score::class);
     }
 
+    public function assignment()
+    {
+        return $this->belongsTo(Assignment::class);
+    }
+
     /*
     public function registerMediaConversions(?Media $media = null): void
     {

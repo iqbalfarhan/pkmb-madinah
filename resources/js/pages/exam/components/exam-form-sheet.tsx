@@ -73,8 +73,8 @@ const ExamFormSheet: FC<Props> = ({ children, lessonId, exam, purpose }) => {
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>{capitalizeWords(purpose)} data exam</SheetTitle>
-          <SheetDescription>Form untuk {purpose} data exam</SheetDescription>
+          <SheetTitle>{capitalizeWords(purpose)} data evaluasi</SheetTitle>
+          <SheetDescription>Form untuk {purpose} data evaluasi</SheetDescription>
         </SheetHeader>
         <ScrollArea className="flex-1 overflow-y-auto">
           <form
@@ -130,11 +130,11 @@ const ExamFormSheet: FC<Props> = ({ children, lessonId, exam, purpose }) => {
                 </FormControl>
               </>
             )}
-            <FormControl label="Nama exam">
+            <FormControl label="Nama evaluasi">
               <Input type="text" placeholder="Name" value={data.name} onChange={(e) => setData('name', e.target.value)} />
             </FormControl>
             <FormControl label="Deskripsi">
-              <Textarea placeholder="Name" value={data.description} onChange={(e) => setData('description', e.target.value)} />
+              <Textarea placeholder="Deskripsi singkat" value={data.description} onChange={(e) => setData('description', e.target.value)} />
             </FormControl>
             {/* <FormControl label="Bobot">
               <Input type="text" placeholder="Bobot nilai" value={data.rate} onChange={(e) => setData('rate', Number(e.target.value))} />

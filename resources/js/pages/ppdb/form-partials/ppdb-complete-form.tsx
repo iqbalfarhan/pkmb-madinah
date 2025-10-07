@@ -25,7 +25,7 @@ const PpdbCompleteForm = () => {
   const requiredDocs = ['akta kelahiran', 'kartu keluarga', 'photo siswa'];
   const documentComplete = requiredDocs.every((doc) => student.media?.some((m) => m.collection_name === doc));
 
-  const hasAddress = !!student.address && student.address.trim() !== '';
+  const hasAddress = !!student.alamat && student.alamat.trim() !== '';
 
   const hasParent = student.family !== undefined || student.family !== null;
 

@@ -12,6 +12,7 @@ export type Report = {
   student_id: number;
   report_type: ReportType;
   data: unknown;
+  semester: string;
   published: boolean;
   academic_year: Academicyear;
   student: Student;

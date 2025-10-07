@@ -7,7 +7,7 @@ import { SharedData } from '@/types';
 import { Absent } from '@/types/absent';
 import { Student } from '@/types/student';
 import { usePage } from '@inertiajs/react';
-import { Building, Calendar, Edit, Key, KeyRound, Palette, Settings, Upload, Wallet } from 'lucide-react';
+import { Building, Calendar, Download, Edit, Key, KeyRound, Palette, Settings, Upload, Wallet } from 'lucide-react';
 import { FC } from 'react';
 import AbsentPieChart from '../absent/components/absent-pie-chart';
 import FamilyCardContent from '../family/components/family-card-content';
@@ -26,7 +26,20 @@ const ShowStudent: FC<Props> = ({ student }) => {
   const { permissions } = usePage<SharedData>().props;
 
   return (
-    <AppLayout title="Detail Student" description="Detail student">
+    <AppLayout
+      title="Detail Student"
+      description="Detail student"
+      actions={
+        <>
+          <Button asChild>
+            <a href={route('ppdb.download', student.id)} target="_blank">
+              <Download />
+              Download
+            </a>
+          </Button>
+        </>
+      }
+    >
       <div className="grid-responsive grid gap-4">
         <Card className="md:col-span-4">
           <div className="flex items-center justify-between">
@@ -158,7 +171,7 @@ const ShowStudent: FC<Props> = ({ student }) => {
             </div>
             <div>
               <CardDescription>Alamat rumah</CardDescription>
-              <span className="text-sm">{student.address}</span>
+              <span className="text-sm">{student.alamat}</span>
             </div>
           </CardContent>
           {permissions?.canUpdate && (

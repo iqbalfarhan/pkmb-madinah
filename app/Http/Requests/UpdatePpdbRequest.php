@@ -35,7 +35,7 @@ class UpdatePpdbRequest extends FormRequest
                 'nullable',
                 Rule::in(Student::$statusLists),
             ],
-            'address' => 'nullable|string|max:255',
+            'address' => 'nullable|array',
             'phone' => 'nullable|string|max:255',
             'email' => 'nullable|email',
         ];

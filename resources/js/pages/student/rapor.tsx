@@ -7,7 +7,8 @@ import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { strLimit } from '@/lib/utils';
-import { Academicyear } from '@/types/academicyear';
+import { SharedData } from '@/types';
+import { Academicyear, Semester } from '@/types/academicyear';
 import { Classroom } from '@/types/classroom';
 import { Report } from '@/types/report';
 import { Student } from '@/types/student';
@@ -26,10 +27,11 @@ const StudentRaporPage: FC<Props> = ({ reports, student }) => {
     academicYears = [],
     reportTypes = [],
     classrooms = [],
-  } = usePage<{ academicYears: Academicyear[]; reportTypes: string[]; classrooms: Classroom[] }>().props;
+  } = usePage<SharedData & { academicYears: Academicyear[]; reportTypes: string[]; classrooms: Classroom[] }>().props;
 
   const { data, setData, reset } = useForm({
     academic_year_id: '',
+    semester: '',
     report_type: '',
     classroom_id: '',
   });
@@ -46,7 +48,7 @@ const StudentRaporPage: FC<Props> = ({ reports, student }) => {
     >
       <Card>
         <CardContent>
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-4">
             <FormControl label="Tahun ajaran">
               <Select value={data.academic_year_id} onValueChange={(value) => setData('academic_year_id', value)}>
                 <SelectTrigger>
@@ -55,9 +57,20 @@ const StudentRaporPage: FC<Props> = ({ reports, student }) => {
                 <SelectContent>
                   {academicYears.map((academic_year) => (
                     <SelectItem value={academic_year.id.toString()} key={academic_year.id}>
-                      {academic_year.label}
+                      {academic_year.year}
                     </SelectItem>
                   ))}
+                </SelectContent>
+              </Select>
+            </FormControl>
+            <FormControl label="Semester">
+              <Select value={data.semester} onValueChange={(value) => setData('semester', value as Semester)}>
+                <SelectTrigger>
+                  <SelectValue placeholder={'Pilih semester'} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={'ganjil'}>Ganjil</SelectItem>
+                  <SelectItem value={'genap'}>Genap</SelectItem>
                 </SelectContent>
               </Select>
             </FormControl>
@@ -94,7 +107,11 @@ const StudentRaporPage: FC<Props> = ({ reports, student }) => {
         <Separator />
         <CardContent>
           <div className="flex gap-2">
-            <Button variant={'destructive'} onClick={() => reset()} disabled={!data.academic_year_id && !data.report_type}>
+            <Button
+              variant={'destructive'}
+              onClick={() => reset()}
+              disabled={!data.academic_year_id && !data.report_type && !data.semester && !data.classroom_id}
+            >
               <X />
               Reset pencarian
             </Button>
@@ -106,6 +123,7 @@ const StudentRaporPage: FC<Props> = ({ reports, student }) => {
           <TableRow>
             <TableHead className="text-center">No</TableHead>
             <TableHead>Tahun ajaran</TableHead>
+            <TableHead>Semester</TableHead>
             <TableHead>Jenis rapor</TableHead>
             <TableHead>Kelas</TableHead>
             <TableHead>Nama file</TableHead>
@@ -115,6 +133,7 @@ const StudentRaporPage: FC<Props> = ({ reports, student }) => {
         <TableBody>
           {reports
             .filter((l) => (data.academic_year_id ? data.academic_year_id.toString() === l.academic_year_id.toString() : true))
+            .filter((s) => (data.semester ? data.semester.toString() === s.semester : true))
             .filter((c) => (data.classroom_id ? data.classroom_id.toString() === c.classroom_id.toString() : true))
             .filter((a) => (data.report_type ? data.report_type.toString() === a.report_type.toString() : true))
             .map((report, index) => (
@@ -124,7 +143,8 @@ const StudentRaporPage: FC<Props> = ({ reports, student }) => {
                     {index + 1}
                   </Button>
                 </TableCell>
-                <TableCell>{report.academic_year.label}</TableCell>
+                <TableCell>{report.academic_year.year}</TableCell>
+                <TableCell>{report.semester}</TableCell>
                 <TableCell>{report.report_type}</TableCell>
                 <TableCell>{report.classroom.name}</TableCell>
                 <TableCell>{strLimit(report.name)}</TableCell>

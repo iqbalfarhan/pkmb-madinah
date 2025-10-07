@@ -19,7 +19,7 @@ class WalikelasSeeder extends Seeder
 
         $user->assignRole('walikelas');
 
-        User::factory(2)->create()->each(function($user){
+        User::factory(2)->create()->each(function ($user) {
             $user->assignRole('walikelas');
         });
     }

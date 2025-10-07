@@ -8,22 +8,40 @@ import { em } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Student } from '@/types/student';
 import { useForm, usePage } from '@inertiajs/react';
+import { FC } from 'react';
 import { toast } from 'sonner';
 import PpdbFormWrapper from '../layouts/ppdb-form-wrapper';
 
-const PpdbContactForm = () => {
+type Props = {
+  onSuccess: () => void;
+};
+
+const PpdbContactForm: FC<Props> = ({ onSuccess }) => {
   const { student, permissions } = usePage<SharedData & { student: Student }>().props;
 
   const { data, setData, put } = useForm({
     phone: student.phone ?? '',
     email: student.email ?? '',
-    address: student.address ?? '',
+    address: student.address ?? {
+      jalan: '',
+      dusun: '',
+      rt: '',
+      rw: '',
+      kelurahan: '',
+      kodepos: '',
+      kecamatan: '',
+      kota: '',
+      provinsi: '',
+    },
   });
 
   const handleSubmit = () => {
     put(route('ppdb.update', student.id), {
       preserveScroll: true,
-      onSuccess: () => toast.success('Alamat berhasil disimpan!'),
+      onSuccess: () => {
+        toast.success('Data siswa berhasil disimpan');
+        onSuccess();
+      },
       onError: (e) => toast.error(em(e)),
     });
   };

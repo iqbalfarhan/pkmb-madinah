@@ -22,13 +22,13 @@ export default function Dashboard() {
   } = usePage<SharedData>().props;
   return (
     <AppLayout title="Dashboard" description={`Selamat datang, Anda masuk sebagai ${roles.join(', ')}`} breadcrumbs={breadcrumbs}>
+      <PpdbCardWidget />
       <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         <UserProfileWidget />
         <BillWidget />
         <UnverifiedPaymentWidget />
         <AcademicYearWidget />
       </div>
-      <PpdbCardWidget />
       <DraftStudentsGrid />
     </AppLayout>
   );

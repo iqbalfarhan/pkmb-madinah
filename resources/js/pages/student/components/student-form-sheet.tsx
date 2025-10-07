@@ -63,6 +63,8 @@ const StudentFormSheet: FC<Props> = ({ children, student, purpose }) => {
     }
   };
 
+  console.table(student);
+
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>{children}</SheetTrigger>

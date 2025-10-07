@@ -1,5 +1,6 @@
 import FormControl from '@/components/form-control';
 import SubmitButton from '@/components/submit-button';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
@@ -9,10 +10,15 @@ import { SharedData } from '@/types';
 import { Prevschool } from '@/types/prevschool';
 import { Student } from '@/types/student';
 import { useForm, usePage } from '@inertiajs/react';
+import { FC } from 'react';
 import { toast } from 'sonner';
 import PpdbFormWrapper from '../layouts/ppdb-form-wrapper';
 
-const PpdbSchoolForm = () => {
+type Props = {
+  onSuccess: () => void;
+};
+
+const PpdbSchoolForm: FC<Props> = ({ onSuccess }) => {
   const { prevschool, student, permissions } = usePage<SharedData & { prevschool?: Prevschool; student: Student }>().props;
 
   const { data, setData, processing, post, put } = useForm({
@@ -25,16 +31,26 @@ const PpdbSchoolForm = () => {
     if (prevschool) {
       put(route('prevschool.update', prevschool.id), {
         preserveScroll: true,
-        onSuccess: () => toast.success('Berhasil memperbarui data sekolah sebelumnya'),
+        onSuccess: () => {
+          toast.success('Data siswa berhasil disimpan');
+          onSuccess();
+        },
         onError: (e) => toast.error(em(e)),
       });
     } else {
       post(route('prevschool.store'), {
         preserveScroll: true,
-        onSuccess: () => toast.success('Berhasil menambahkan data sekolah sebelumnya'),
+        onSuccess: () => {
+          toast.success('Data siswa berhasil disimpan');
+          onSuccess();
+        },
         onError: (e) => toast.error(em(e)),
       });
     }
+  };
+
+  const handleSkip = () => {
+    onSuccess();
   };
 
   return (
@@ -60,6 +76,9 @@ const PpdbSchoolForm = () => {
             <Separator />
             <CardFooter>
               <SubmitButton label="Simpan data sekolah sebelumnya" onClick={handleSubmit} loading={processing} />
+              <Button onClick={handleSkip} variant={'ghost'}>
+                Lewati
+              </Button>
             </CardFooter>
           </>
         )}

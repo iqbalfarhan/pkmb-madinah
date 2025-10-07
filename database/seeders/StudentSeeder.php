@@ -16,8 +16,8 @@ class StudentSeeder extends Seeder
     {
         $activeYear = AcademicYear::active();
         Student::factory()->count(50)->create([
-            'status' => fake()->randomElement(['aktif'])
-        ])->each(function ($student) use($activeYear) {
+            'status' => fake()->randomElement(['aktif']),
+        ])->each(function ($student) use ($activeYear) {
             Family::factory()->create([
                 'student_id' => $student->id,
             ]);
@@ -26,11 +26,11 @@ class StudentSeeder extends Seeder
             ]);
             Absent::factory()->create([
                 'student_id' => $student->id,
-                'academic_year_id' => $activeYear->id
+                'academic_year_id' => $activeYear->id,
             ]);
             Activity::factory()->create([
                 'student_id' => $student->id,
-                'academic_year_id' => $activeYear->id
+                'academic_year_id' => $activeYear->id,
             ]);
         });
     }

@@ -8,7 +8,7 @@ type Props = {
 
 const FamilyCardContent: FC<Props> = ({ family }) => {
   return (
-    <div className="grid gap-6 md:grid-cols-2">
+    <div className="grid gap-6 xl:grid-cols-2">
       <CardHeader>
         <CardTitle>Ayah</CardTitle>
         <CardDescription>

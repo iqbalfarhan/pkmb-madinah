@@ -9,7 +9,6 @@ use App\Models\Examscore;
 use App\Models\Score;
 use App\Models\Student;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Number;
 
 class ReportHelper
 {
@@ -19,10 +18,10 @@ class ReportHelper
     public static function generateReportData(array $data, Student $student, AcademicYear $academicYear, Classroom $classroom, Collection $assessments, $settings): array
     {
         $mockup = config('report-mockup')[$data['report_type']];
-        
+
         // Set common data for all report types
         $mockup = self::setCommonData($mockup, $student, $academicYear, $classroom, $settings);
-        
+
         // Set specific data based on report type
         switch ($data['report_type']) {
             case 'perkembangan':
@@ -38,16 +37,16 @@ class ReportHelper
                 $mockup = self::setTahsinData($mockup, $student, $settings);
                 break;
             case 'doa-hadist':
-                $mockup = self::setAssessmentData($mockup, "doa-hadist", $assessments, $settings);
+                $mockup = self::setAssessmentData($mockup, 'doa-hadist', $assessments, $settings);
                 break;
             case 'praktik-sholat':
-                $mockup = self::setAssessmentData($mockup, "praktik-sholat", $assessments, $settings);
+                $mockup = self::setAssessmentData($mockup, 'praktik-sholat', $assessments, $settings);
                 break;
             case 'adzan-wudhu':
-                $mockup = self::setAssessmentData($mockup, "adzan-wudhu", $assessments, $settings);
+                $mockup = self::setAssessmentData($mockup, 'adzan-wudhu', $assessments, $settings);
                 break;
         }
-        
+
         return $mockup;
     }
 
@@ -63,8 +62,8 @@ class ReportHelper
         $mockup['walikelas'] = $classroom->user->name ?? '';
         $mockup['usia'] = $student->umur;
         $mockup['nisn'] = $student->nisn;
-        $mockup['tanggal'] = $settings['SCHOOL_CITY'] . ', ' . now()->format('d F Y');
-        
+        $mockup['tanggal'] = $settings['SCHOOL_CITY'].', '.now()->format('d F Y');
+
         return $mockup;
     }
 
@@ -93,7 +92,7 @@ class ReportHelper
         // Handle character traits
         $characters = collect($classroom->grade->characters);
         foreach ($characters as $sikap) {
-            $mockup["sikap"][$sikap] = 1;
+            $mockup['sikap'][$sikap] = 1;
         }
 
         return $mockup;
@@ -134,7 +133,7 @@ class ReportHelper
     {
         $mockup['koordinator'] = $settings['KOORDINATOR_Al-MUYASSAR'];
         $mockup['catatan'] = "Semoga ananda {$student->name} tetap rajin muroja'ah di rumah agar hafalan Surah Al Qur'an-nya tetap terjaga";
-        
+
         return $mockup;
     }
 
@@ -151,74 +150,72 @@ class ReportHelper
         $mockup['nilai_rentang'] = '';
         $mockup['titik_kuat'] = '';
         $mockup['titik_lemah'] = '';
-        $mockup['koordinator'] = $settings['KOORDINATOR_Al-MUYASSAR'] ?? "";
+        $mockup['koordinator'] = $settings['KOORDINATOR_Al-MUYASSAR'] ?? '';
         $mockup['komentar_guru'] = "Alhamdulillah Ananda {$student->name} semangat dalam mengikuti kegiatan tahsin dan pastikan tetap dipertahankan. Semoga Ananda {$student->name} menjadi anak yang selalu mengamalkan isi Al-Qur’an dan menjadi penghafal Al-Qur’an. Aamiin.";
         $mockup['pembimbing'] = '';
-        
+
         return $mockup;
     }
 
     /**
      * Set data specific to doa-hadist report type
      */
-    private static function setAssessmentData(array $mockup, string $type, Collection $assessments, $settings ): array
+    private static function setAssessmentData(array $mockup, string $type, Collection $assessments, $settings): array
     {
 
         $mockup['koordinator'] = $settings['KOORDINATOR_Al-MUYASSAR'];
 
-        if ($type === "doa-hadist") {
-            $mockup['doa'] = $assessments->where('group', 'doa harian')->map(function($doa){
+        if ($type === 'doa-hadist') {
+            $mockup['doa'] = $assessments->where('group', 'doa harian')->map(function ($doa) {
                 return [
-                    "judul" => $doa['name'],
-                    "pencapaian" => "Berkembang",
-                    "keterangan" => "",
+                    'judul' => $doa['name'],
+                    'pencapaian' => 'Berkembang',
+                    'keterangan' => '',
                 ];
             })->values() ?? [];
-    
-            $mockup['hadist'] = $assessments->where('group', 'hadist')->map(function($doa){
+
+            $mockup['hadist'] = $assessments->where('group', 'hadist')->map(function ($doa) {
                 return [
-                    "judul" => $doa['name'],
-                    "pencapaian" => "Berkembang",
-                    "keterangan" => "",
+                    'judul' => $doa['name'],
+                    'pencapaian' => 'Berkembang',
+                    'keterangan' => '',
+                ];
+            })->values() ?? [];
+        } elseif ($type === 'praktik-sholat') {
+            $mockup['gerakan'] = $assessments->where('group', 'gerakan sholat')->map(function ($doa) {
+                return [
+                    'judul' => $doa['name'],
+                    'pencapaian' => 'Berkembang',
+                    'keterangan' => '',
+                ];
+            })->values() ?? [];
+
+            $mockup['bacaan'] = $assessments->where('group', 'bacaan sholat')->map(function ($doa) {
+                return [
+                    'judul' => $doa['name'],
+                    'pencapaian' => 'Berkembang',
+                    'keterangan' => '',
+                ];
+            })->values() ?? [];
+
+        } elseif ($type === 'adzan-wudhu') {
+            $mockup['adzan'] = $assessments->where('group', 'adzan')->map(function ($doa) {
+                return [
+                    'judul' => $doa['name'],
+                    'pencapaian' => 'Berkembang',
+                    'keterangan' => '',
+                ];
+            })->values() ?? [];
+
+            $mockup['wudhu'] = $assessments->where('group', 'tata cara wudhu')->map(function ($doa) {
+                return [
+                    'judul' => $doa['name'],
+                    'pencapaian' => 'Berkembang',
+                    'keterangan' => '',
                 ];
             })->values() ?? [];
         }
-        elseif ($type === "praktik-sholat") {
-            $mockup['gerakan'] = $assessments->where('group', 'gerakan sholat')->map(function($doa){
-                return [
-                    "judul" => $doa['name'],
-                    "pencapaian" => "Berkembang",
-                    "keterangan" => "",
-                ];
-            })->values() ?? [];
-    
-            $mockup['bacaan'] = $assessments->where('group', 'bacaan sholat')->map(function($doa){
-                return [
-                    "judul" => $doa['name'],
-                    "pencapaian" => "Berkembang",
-                    "keterangan" => "",
-                ];
-            })->values() ?? [];
-            
-        }
-        elseif ($type === "adzan-wudhu") {
-            $mockup['adzan'] = $assessments->where('group', 'adzan')->map(function($doa){
-                return [
-                    "judul" => $doa['name'],
-                    "pencapaian" => "Berkembang",
-                    "keterangan" => "",
-                ];
-            })->values() ?? [];
-    
-            $mockup['wudhu'] = $assessments->where('group', 'tata cara wudhu')->map(function($doa){
-                return [
-                    "judul" => $doa['name'],
-                    "pencapaian" => "Berkembang",
-                    "keterangan" => "",
-                ];
-            })->values() ?? [];
-        }
-        
+
         return $mockup;
     }
 
@@ -235,8 +232,8 @@ class ReportHelper
                 ->whereLessonId($lesson->id)
                 ->with('assignment') // eager load assignment
                 ->get()
-                ->groupBy(fn($score) => $score->assignment->type)
-                ->map(fn($group) => $group->avg('score') ?? 0);
+                ->groupBy(fn ($score) => $score->assignment->type)
+                ->map(fn ($group) => $group->avg('score') ?? 0);
 
             $finalTugas = collect([$tugas['jurnal'] ?? 0, $tugas['prakarya'] ?? 0])->avg();
             $examscore = Examscore::whereStudentId($student->id)->whereLessonId($lesson->id)->get()->average('score') ?? 0;

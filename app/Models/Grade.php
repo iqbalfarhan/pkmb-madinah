@@ -33,7 +33,7 @@ class Grade extends Model
     ];
 
     public $casts = [
-        'characters' => 'array'
+        'characters' => 'array',
     ];
 
     /*
@@ -54,6 +54,4 @@ class Grade extends Model
     {
         return $this->hasMany(Classroom::class);
     }
-
-
 }

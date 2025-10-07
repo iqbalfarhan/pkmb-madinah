@@ -10,10 +10,14 @@ import { SharedData } from '@/types';
 import { Family } from '@/types/family';
 import { Student } from '@/types/student';
 import { useForm, usePage } from '@inertiajs/react';
+import { FC } from 'react';
 import { toast } from 'sonner';
 import PpdbFormWrapper from '../layouts/ppdb-form-wrapper';
 
-const PpdbFamilyForm = () => {
+type Props = {
+  onSuccess: () => void;
+};
+const PpdbFamilyForm: FC<Props> = ({ onSuccess }) => {
   const {
     family,
     salaryLists = [],
@@ -25,12 +29,12 @@ const PpdbFamilyForm = () => {
     student_id: family?.student_id ?? student.id,
     father_name: family?.father_name ?? '',
     father_ocupation: family?.father_ocupation ?? '',
-    father_address: family?.father_address ?? student.address ?? '',
+    father_address: family?.father_address ?? student.alamat ?? '',
     father_phone: family?.father_phone ?? '',
     father_sallary: family?.father_sallary ?? '',
     mother_name: family?.mother_name ?? '',
     mother_ocupation: family?.mother_ocupation ?? '',
-    mother_address: family?.mother_address ?? student.address ?? '',
+    mother_address: family?.mother_address ?? student.alamat ?? '',
     mother_phone: family?.mother_phone ?? '',
     mother_sallary: family?.mother_sallary ?? '',
   });
@@ -39,13 +43,19 @@ const PpdbFamilyForm = () => {
     if (family) {
       put(route('family.update', family.id), {
         preserveScroll: true,
-        onSuccess: () => toast.success('Data berhasil disimpan'),
+        onSuccess: () => {
+          toast.success('Data berhasil disimpan');
+          onSuccess();
+        },
         onError: (e) => toast.error(em(e)),
       });
     } else {
       post(route('family.store'), {
         preserveScroll: true,
-        onSuccess: () => toast.success('Data berhasil disimpan'),
+        onSuccess: () => {
+          toast.success('Data berhasil disimpan');
+          onSuccess();
+        },
         onError: (e) => toast.error(em(e)),
       });
     }
@@ -85,7 +95,7 @@ const PpdbFamilyForm = () => {
               required
               action={
                 <>
-                  <Badge onClick={() => setData('father_address', student.address)}>Sama dengan anak</Badge>
+                  <Badge onClick={() => setData('father_address', student.alamat)}>Sama dengan anak</Badge>
                 </>
               }
             >
@@ -127,7 +137,7 @@ const PpdbFamilyForm = () => {
               required
               action={
                 <>
-                  <Badge onClick={() => setData('mother_address', student.address)}>Sama dengan anak</Badge>
+                  <Badge onClick={() => setData('mother_address', student.alamat)}>Sama dengan anak</Badge>
                 </>
               }
             >

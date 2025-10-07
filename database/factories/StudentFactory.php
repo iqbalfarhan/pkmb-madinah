@@ -16,15 +16,17 @@ class StudentFactory extends Factory
     {
         $status = fake()->randomElement(Student::$statusLists);
 
+        $grade_id = Grade::pluck('id')->random();
+
         return [
             'nisn' => fake()->numerify('###'),
             'nis' => fake()->numerify('###'),
             'name' => fake()->name(),
             'gender' => fake()->boolean(),
             'status' => $status,
-            'address' => fake()->address(),
-            'grade_id' => Grade::pluck('id')->random(),
-            'classroom_id' => $status === 'aktif' ? Classroom::pluck('id')->random() : null,
+            'address' => config('report-mockup.address'),
+            'grade_id' => $grade_id,
+            'classroom_id' => $status === 'aktif' ? Classroom::whereGradeId($grade_id)->pluck('id')->random() : null,
             'phone' => fake()->e164PhoneNumber(),
             'email' => fake()->email(),
             'pob' => fake()->city(),

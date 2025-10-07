@@ -1,4 +1,3 @@
-import DataPagination from '@/components/data-pagination';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -8,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { strLimit } from '@/lib/utils';
-import { Pagination, SharedData } from '@/types';
+import { SharedData } from '@/types';
 import { Score } from '@/types/score';
 import { usePage } from '@inertiajs/react';
 import { Edit, Filter, Plus, Trash2 } from 'lucide-react';
@@ -20,7 +19,7 @@ import ScoreFilterSheet from './components/score-filter-sheet';
 import ScoreFormSheet from './components/score-form-sheet';
 
 type Props = {
-  scores: Pagination<Score>;
+  scores: Score[];
   query: { [key: string]: string };
 };
 
@@ -83,10 +82,10 @@ const ScoreList: FC<Props> = ({ scores, query }) => {
               <Button variant={'ghost'} size={'icon'} asChild>
                 <Label>
                   <Checkbox
-                    checked={ids.length === scores.data.length}
+                    checked={ids.length === scores.length}
                     onCheckedChange={(checked) => {
                       if (checked) {
-                        setIds(scores.data.map((score) => score.id));
+                        setIds(scores.map((score) => score.id));
                       } else {
                         setIds([]);
                       }
@@ -105,7 +104,7 @@ const ScoreList: FC<Props> = ({ scores, query }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {scores.data
+          {scores
             .filter((score) => JSON.stringify(score).toLowerCase().includes(cari.toLowerCase()))
             .map((score) => (
               <TableRow key={score.id}>
@@ -162,8 +161,6 @@ const ScoreList: FC<Props> = ({ scores, query }) => {
             ))}
         </TableBody>
       </Table>
-
-      <DataPagination links={scores.links} />
     </AppLayout>
   );
 };

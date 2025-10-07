@@ -8,6 +8,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
 
@@ -57,6 +58,9 @@ class UserController extends Controller
 
         return Inertia::render('user/show', [
             'user' => $user->load('students', 'lessons', 'classrooms.students'),
+            'permissions' => [
+                'canLoginAs' => $this->user->can('login as another user'),
+            ],
         ]);
     }
 
@@ -121,5 +125,12 @@ class UserController extends Controller
 
         $user = User::onlyTrashed()->find($user);
         $user->forceDelete();
+    }
+
+    public function loginAs(User $user)
+    {
+        Auth::login($user);
+
+        return redirect()->route('dashboard');
     }
 }

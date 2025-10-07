@@ -8,8 +8,8 @@ import AppLayout from '@/layouts/app-layout';
 import { dateDFY, strLimit } from '@/lib/utils';
 import { SharedData } from '@/types';
 import { Absent } from '@/types/absent';
-import { Link, usePage } from '@inertiajs/react';
-import { Edit, Filter, Folder, Plus, Trash2 } from 'lucide-react';
+import { usePage } from '@inertiajs/react';
+import { Edit, Filter, Plus, Trash2 } from 'lucide-react';
 import { FC, useState } from 'react';
 import AbsentBulkDeleteDialog from './components/absent-bulk-delete-dialog';
 import AbsentBulkEditSheet from './components/absent-bulk-edit-sheet';
@@ -130,13 +130,6 @@ const AbsentList: FC<Props> = ({ absents, query }) => {
                 <TableCell>{absent.reason}</TableCell>
                 <TableCell>{strLimit(absent.description)}</TableCell>
                 <TableCell>
-                  {permissions?.canShow && (
-                    <Button variant={'ghost'} size={'icon'}>
-                      <Link href={route('absent.show', absent.id)}>
-                        <Folder />
-                      </Link>
-                    </Button>
-                  )}
                   {permissions?.canUpdate && (
                     <AbsentFormSheet purpose="edit" absent={absent}>
                       <Button variant={'ghost'} size={'icon'}>

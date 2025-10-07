@@ -1,6 +1,17 @@
 <?php
 
 return [
+    'address' => [
+        'jalan' => fake()->address(),
+        'dusun' => fake()->word(),
+        'rt' => fake()->numerify('##'),
+        'rw' => '',
+        'kelurahan' => fake()->word(),
+        'kodepos' => fake()->numerify('######'),
+        'kecamatan' => fake()->word(),
+        'kota' => 'Balikpapan',
+        'provinsi' => 'Kalimantan Timur',
+    ],
     'perkembangan' => [
         'tahunajaran' => '',
         'semester' => '',
@@ -264,17 +275,17 @@ return [
         'walikelas' => '',
         'doa' => [
             [
-                "judul" => "",
-                "pencapaian" => "",
-                "keterangan" => "",
-            ]
+                'judul' => '',
+                'pencapaian' => '',
+                'keterangan' => '',
+            ],
         ],
         'hadist' => [
             [
-                "judul" => "",
-                "pencapaian" => "",
-                "keterangan" => "",
-            ]
+                'judul' => '',
+                'pencapaian' => '',
+                'keterangan' => '',
+            ],
         ],
     ],
     'praktik-sholat' => [

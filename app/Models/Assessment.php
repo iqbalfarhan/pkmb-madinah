@@ -5,13 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
 class Assessment extends Model
 {
     use HasFactory;
-    
 
-    //protected $table = 'assessments';
+    // protected $table = 'assessments';
 
     protected $fillable = [
         'group',
@@ -27,12 +25,12 @@ class Assessment extends Model
     // ];
 
     public static $groupLists = [
-        "doa harian",
-        "hadist",
-        "gerakan sholat",
-        "bacaan sholat",
-        "adzan",
-        "tata cara wudhu"
+        'doa harian',
+        'hadist',
+        'gerakan sholat',
+        'bacaan sholat',
+        'adzan',
+        'tata cara wudhu',
     ];
 
     /*
