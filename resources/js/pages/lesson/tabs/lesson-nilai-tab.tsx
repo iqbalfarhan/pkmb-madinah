@@ -16,6 +16,7 @@ import { Plus } from 'lucide-react';
 
 const LessonNilaiTab = () => {
   const {
+    permissions,
     lesson,
     students = [],
     scores = [],
@@ -29,12 +30,14 @@ const LessonNilaiTab = () => {
         description="Daftar nilai siswa untuk setiap tugas"
         actions={
           <>
-            <AssignmentFormSheet purpose="create">
-              <Button>
-                <Plus />
-                Tambah tugas baru
-              </Button>
-            </AssignmentFormSheet>
+            {permissions?.canAdd && (
+              <AssignmentFormSheet purpose="create">
+                <Button>
+                  <Plus />
+                  Tambah tugas baru
+                </Button>
+              </AssignmentFormSheet>
+            )}
           </>
         }
       />
