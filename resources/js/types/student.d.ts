@@ -20,6 +20,8 @@ export type Address = {
   provinsi: string;
 };
 
+export type Agama = 'islam' | 'kristen' | 'katolik' | 'hindu' | 'budha';
+
 export type Student = {
   id: number;
   nisn: string;
@@ -32,7 +34,9 @@ export type Student = {
   grade_id: number;
   classroom_id: number;
   phone: string;
+  home_phone: string;
   email: string;
+  agama: Agama;
   pob: string;
   dob: string;
   user_id: number;

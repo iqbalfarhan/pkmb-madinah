@@ -70,9 +70,9 @@ class Classroom extends Model
     public function getDescriptionAttribute()
     {
         return implode(', ', [
-            "Kelas untuk {$this->grade->name}",
-            "Tahun ajaran {$this->academic_year->label}",
-            "Walikelas {$this->user?->name}",
+            // "Kelas untuk {$this->grade->name}",
+            "Tahun ajaran {$this->academic_year->year}",
+            // "Walikelas {$this->user?->name}",
         ]);
     }
 

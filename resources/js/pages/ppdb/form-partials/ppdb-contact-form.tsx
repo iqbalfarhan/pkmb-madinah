@@ -21,6 +21,7 @@ const PpdbContactForm: FC<Props> = ({ onSuccess }) => {
 
   const { data, setData, put } = useForm({
     phone: student.phone ?? '',
+    home_phone: student.home_phone ?? '',
     email: student.email ?? '',
     address: student.address ?? {
       jalan: '',
@@ -51,8 +52,16 @@ const PpdbContactForm: FC<Props> = ({ onSuccess }) => {
       <Card>
         <CardContent>
           <div className="grid grid-cols-2 gap-6">
-            <FormControl label="Nomor telepon">
-              <Input placeholder="Masukkan nomor telepon" value={data.phone} onChange={(e) => setData('phone', e.target.value)} />
+            <FormControl label="Nomor telepon rumah" className="col-span-full">
+              <Input
+                type="tel"
+                placeholder="Masukkan nomor telepon"
+                value={data.home_phone}
+                onChange={(e) => setData('home_phone', e.target.value)}
+              />
+            </FormControl>
+            <FormControl label="Nomor telepon pribadi">
+              <Input type="tel" placeholder="Masukkan nomor telepon" value={data.phone} onChange={(e) => setData('phone', e.target.value)} />
             </FormControl>
             <FormControl label="Alamat email">
               <Input type="email" placeholder="Masukkan alamat email" value={data.email} onChange={(e) => setData('email', e.target.value)} />

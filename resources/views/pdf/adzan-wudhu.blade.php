@@ -39,7 +39,7 @@
 			font-family: 'Noto Serif';
 		}
 		body {
-			font-size: 10pt;
+			font-size: 9pt;
 			margin: 0.5in;
 		}
 		h1, h2, h3, h4{
@@ -56,8 +56,8 @@
 			border: 1px solid black;
 		}
 		.content table th, .content table td {
-			padding: 2px 7px;
-			padding-bottom: 7px;
+			padding: 3px;
+			/* padding-bottom: 5px; */
 		}
 		.content table tr th {
 			font-family: 'Noto Serif Bold';
@@ -69,6 +69,9 @@
 		}
 		.text-left{
 			text-align: left
+		}
+		.judul-rapor {
+			font-size: 10pt;
 		}
 	</style>
 </head>
@@ -82,7 +85,7 @@
 			<h3 class="judul-rapor">
 				LAPORAN PERKEMBANGAN HAFALAN <br>
 				PRAKTEK ADZAN DAN TATA CARA WUDHU<br>
-				{{ strtoupper($settings['SCHOOL_NAME']) }}<br>
+				{{ strtoupper($settings['SCHOOL_NAME']) }}
 				SEMESTER {{ strtoupper($data['semester']) }}<br>
 				TAHUN AJARAN {{ $data['tahunajaran'] }}
 			</h3>

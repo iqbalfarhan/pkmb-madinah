@@ -19,6 +19,14 @@ class Student extends Model implements HasMedia
 
     // protected $table = 'students';
 
+    private ?AcademicYear $active = null;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->active = AcademicYear::active()->first();
+    }
+
     protected $fillable = [
         'nisn',
         'nis',

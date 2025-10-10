@@ -39,7 +39,7 @@
 			font-family: 'Noto Serif';
 		}
 		body {
-			font-size: 10pt;
+			font-size: 9pt;
 			margin: 0.5in;
 		}
 		h1, h2, h3, h4{
@@ -56,8 +56,8 @@
 			border: 1px solid black;
 		}
 		.content table th, .content table td {
-			padding: 2px 7px;
-			padding-bottom: 7px;
+			padding: 3px;
+			/* padding-bottom: 5px; */
 		}
 		.content table tr th {
 			font-family: 'Noto Serif Bold';
@@ -69,6 +69,9 @@
 		}
 		.text-left{
 			text-align: left
+		}
+		.judul-rapor {
+			font-size: 10pt;
 		}
 	</style>
 </head>
@@ -82,7 +85,7 @@
 			<h3 class="judul-rapor">
 				LAPORAN PERKEMBANGAN HAFALAN <br>
 				GERAKAN DAN BACAAN SHOLAT<br>
-				{{ strtoupper($settings['SCHOOL_NAME']) }}<br>
+				{{ strtoupper($settings['SCHOOL_NAME']) }}
 				SEMESTER {{ strtoupper($data['semester']) }}<br>
 				TAHUN AJARAN {{ $data['tahunajaran'] }}
 			</h3>
@@ -93,7 +96,7 @@
 	<hr>
 
 	<div style="margin: 20px 0cm;">
-		<table>
+		<table class="judul-rapor">
 			<tr><td style="width: 100px"><strong>Nama siswa</strong></td><td><strong>:</strong></td><td><strong>{{ $data['nama'] }}</strong></td></tr>
 			<tr><td style="width: 100px"><strong>Kelas</strong></td><td><strong>:</strong></td><td><strong>{{ $data['kelas'] }}</strong></td></tr>
 			<tr><td style="width: 100px"><strong>Usia</strong></td><td><strong>:</strong></td><td><strong>{{ $data['usia'] }}</strong></td></tr>
@@ -101,15 +104,15 @@
 		</table>
 	</div>
 
-	@foreach (['bacaan', 'gerakan'] as $group)
-		<div class="content">
-			<table class="table" border="1">
-				<tr>
-					<th style="width: 20px">No</th>
-					<th style="width: 250px">Kemampuan yang dilakukan</th>
-					<th style="width: 250px">Kemampuan yang dicapai</th>
-					<th>Keterangan</th>
-				</tr>
+	<div class="content">
+		<table class="table" border="1">
+			<tr>
+				<th style="width: 20px">No</th>
+				<th style="width: 250px">Kemampuan yang dilakukan</th>
+				<th style="width: 250px">Kemampuan yang dicapai</th>
+				<th>Keterangan</th>
+			</tr>
+			@foreach (['bacaan', 'gerakan'] as $group)
 				<tr style="background-color: lightgrey">
 					<th colspan="4">{{ $group == "gerakan" ? "Gerakan Sholat" : "Bacaan Sholat" }}</th>
 				</tr>
@@ -121,10 +124,10 @@
 						<td>{{ $item['keterangan'] }}</td>
 					</tr>
 				@endforeach
-			</table>
-			<br>
-		</div>
-	@endforeach
+			@endforeach
+		</table>
+		<br>
+	</div>
 
 	<div>
 		<table border="0" style="width: 100%">
@@ -151,9 +154,6 @@
 					<br>
 					<strong>{{ $data['pembimbing'] ?? "_______________" }}</strong>
 				</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
 			</tr>
 			<tr>
 				<td style="text-align: center;" colspan="3">

@@ -53,7 +53,7 @@ const StudentAbsentPage: FC<Props> = ({ absents, student }) => {
                 <SelectContent>
                   {academicYears.map((academic_year) => (
                     <SelectItem value={academic_year.id.toString()} key={academic_year.id}>
-                      {academic_year.label}
+                      {academic_year.year}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -89,6 +89,7 @@ const StudentAbsentPage: FC<Props> = ({ absents, student }) => {
         <TableHeader>
           <TableRow>
             <TableHead className="text-center">No</TableHead>
+            <TableHead>Academic year</TableHead>
             <TableHead>Tanggal</TableHead>
             <TableHead>Nama siswa</TableHead>
             <TableHead>Alasan</TableHead>
@@ -106,6 +107,7 @@ const StudentAbsentPage: FC<Props> = ({ absents, student }) => {
                     {index + 1}
                   </Button>
                 </TableCell>
+                <TableCell>{absent.academic_year_id}</TableCell>
                 <TableCell>{dateDFY(absent.date)}</TableCell>
                 <TableCell>{absent.student?.name}</TableCell>
                 <TableCell>{absent.reason}</TableCell>

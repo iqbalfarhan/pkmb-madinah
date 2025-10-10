@@ -1,7 +1,9 @@
 import HeadingSmall from '@/components/heading-small';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { groupBy } from '@/lib/utils';
 import StudentDeleteDialog from '@/pages/student/components/student-delete-dialog';
 import StudentFormSheet from '@/pages/student/components/student-form-sheet';
 import { SharedData } from '@/types';
@@ -46,7 +48,24 @@ const ClassroomStudentsTab: FC<Props> = ({ students }) => {
                 </div>
               </TableCell>
               <TableCell>{student.phone}</TableCell>
-              <TableCell>{student.absents?.length}</TableCell>
+              <TableCell>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant={'ghost'}>{student.absents?.length} hari</Button>
+                  </PopoverTrigger>
+                  <PopoverContent asChild align="end" className="w-fit">
+                    <Table>
+                      {Object.entries(groupBy(student.absents ?? [], 'reason')).map(([reason, item]) => (
+                        <TableRow>
+                          <TableCell>{reason}</TableCell>
+                          <TableCell>:</TableCell>
+                          <TableCell className="w-full">{item.length} hari</TableCell>
+                        </TableRow>
+                      ))}
+                    </Table>
+                  </PopoverContent>
+                </Popover>
+              </TableCell>
               <TableCell>
                 {permissions?.canShow && (
                   <Button variant={'ghost'} size={'icon'}>

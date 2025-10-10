@@ -105,7 +105,7 @@ const ReportTahsin: FC<Props> = ({ data }) => {
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Pilih guru pembimbing tahsin</CardTitle>
+          <CardTitle>Pilih guru pembimbing</CardTitle>
         </CardHeader>
         <Separator />
         <CardContent>

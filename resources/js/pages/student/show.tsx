@@ -81,7 +81,7 @@ const ShowStudent: FC<Props> = ({ student }) => {
           <StudentLinkCard
             href={route('classroom.show', student.classroom_id)}
             title={`${student.classroom.name}`}
-            description={`${student.classroom.name}. walikelas : ${student.classroom.user?.name}`}
+            description={`${student.classroom.name}. T.A. ${student.classroom.academic_year.year} walikelas : ${student.classroom.user?.name}`}
             icon={KeyRound}
           />
         ) : (

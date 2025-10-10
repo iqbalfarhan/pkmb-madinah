@@ -34,7 +34,9 @@ type Props = {
 const AbsentPieChart: FC<Props> = ({ absents = [], href, className }) => {
   const { activeAcademicYear } = usePage<{ activeAcademicYear: Academicyear | null }>().props;
 
-  const chartData = Object.entries(groupBy(absents, 'reason')).map(([key, value]) => ({
+  const newAbsents = absents.filter((a) => (activeAcademicYear ? a.academic_year_id === activeAcademicYear.id : false));
+
+  const chartData = Object.entries(groupBy(newAbsents, 'reason')).map(([key, value]) => ({
     reason: key,
     count: value.length,
     fill: chartConfig[key as keyof ChartConfig]?.color,

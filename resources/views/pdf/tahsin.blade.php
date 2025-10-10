@@ -110,7 +110,7 @@
 				</td>
 				<td style="padding: 0px; margin: 0px;">
 					<table style="width: 100%">
-						<tr><td style="width: 120px"><strong>Semester</strong></td><td><strong>:</strong></td><td><strong>{{ $data['semester'] }}</strong></td></tr>
+						<tr><td style="width: 120px"><strong>Semester</strong></td><td><strong>:</strong></td><td><strong>{{ ucfirst($data['semester']) }}</strong></td></tr>
 						<tr><td style="width: 120px"><strong>Periode</strong></td><td><strong>:</strong></td><td><strong>{{ $data['periode'] ?? "" }}</strong></td></tr>
 						<tr><td style="width: 120px"><strong>Tahun ajaran</strong></td><td><strong>:</strong></td><td><strong>{{ $data['tahunajaran'] }}</strong></td></tr>
 						<tr><td>&nbsp;</td></tr>

@@ -107,6 +107,10 @@ class AcademicYearController extends Controller
 
         return Inertia::render('academicyear/show', [
             'academicyear' => $academicyear,
+            'permissions' => [
+                // 'canShow' => $this->user->can('show academicyear')
+                'canShow' => false
+            ]
         ]);
     }
 

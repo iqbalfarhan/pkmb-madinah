@@ -27,6 +27,7 @@ const PpdbInformationForm: FC<Props> = ({ onSuccess }) => {
     name: student?.name ?? '',
     gender: student?.gender ?? true,
     nisn: student?.nisn ?? '0',
+    agama: student?.agama ?? '',
     nis: student?.nis ?? '0',
     pob: student?.pob ?? '',
     dob: student?.dob ?? '',

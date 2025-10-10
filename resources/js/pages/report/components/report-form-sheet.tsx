@@ -2,10 +2,10 @@ import FormControl from '@/components/form-control';
 import SubmitButton from '@/components/submit-button';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { capitalizeWords, em } from '@/lib/utils';
+import { capitalizeWords, em, groupBy } from '@/lib/utils';
 import { FormPurpose, SharedData } from '@/types';
 import { Academicyear } from '@/types/academicyear';
 import { Classroom } from '@/types/classroom';
@@ -28,7 +28,7 @@ const ReportFormSheet: FC<Props> = ({ children, report, purpose }) => {
 
   const {
     students = [],
-    academicYears = [],
+    // academicYears = [],
     classrooms = [],
     reportTypes = [],
     activeAcademicYear,
@@ -43,7 +43,7 @@ const ReportFormSheet: FC<Props> = ({ children, report, purpose }) => {
 
   const { data, setData, put, post, processing } = useForm({
     student_id: (report?.student_id ?? students[0]?.id ?? undefined) as number | undefined,
-    academic_year_id: report?.academic_year_id ?? activeAcademicYear?.id ?? academicYears[0].id ?? 0,
+    academic_year_id: report?.academic_year_id ?? activeAcademicYear?.id ?? undefined,
     classroom_id: report?.classroom_id ?? students[0]?.classroom_id ?? '',
     report_type: report?.report_type ?? '',
   });
@@ -86,7 +86,7 @@ const ReportFormSheet: FC<Props> = ({ children, report, purpose }) => {
               handleSubmit();
             }}
           >
-            {academicYears.length > 1 && (
+            {/* {academicYears.length > 1 && (
               <FormControl label="Tahun ajaran">
                 <Select value={data.academic_year_id.toString()} onValueChange={(e) => setData('academic_year_id', Number(e))}>
                   <SelectTrigger>
@@ -101,9 +101,9 @@ const ReportFormSheet: FC<Props> = ({ children, report, purpose }) => {
                   </SelectContent>
                 </Select>
               </FormControl>
-            )}
+            )} */}
 
-            {classrooms.length > 1 && (
+            {/* {classrooms.length > 1 && (
               <FormControl label="Kelas">
                 <Select
                   value={data.classroom_id.toString()}
@@ -125,7 +125,7 @@ const ReportFormSheet: FC<Props> = ({ children, report, purpose }) => {
                   </SelectContent>
                 </Select>
               </FormControl>
-            )}
+            )} */}
 
             <FormControl label="Pilih siswa">
               <Select
@@ -140,13 +140,18 @@ const ReportFormSheet: FC<Props> = ({ children, report, purpose }) => {
                   <SelectValue placeholder="Pilih siswa" />
                 </SelectTrigger>
                 <SelectContent>
-                  {students
-                    .filter((s) => (data.classroom_id ? Number(data.classroom_id) === Number(s.classroom_id) : false))
-                    .map((s) => (
-                      <SelectItem key={s.id} value={s.id.toString()}>
-                        {s.name}
-                      </SelectItem>
-                    ))}
+                  {Object.entries(groupBy(students, 'classroom_id')).map(([classroom_id, items]) => {
+                    return (
+                      <SelectGroup>
+                        <SelectLabel>{classrooms.find((c) => c.id.toString() === classroom_id)?.name}</SelectLabel>
+                        {items.map((s) => (
+                          <SelectItem key={s.id} value={s.id.toString()}>
+                            {s.name}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    );
+                  })}
                 </SelectContent>
               </Select>
             </FormControl>

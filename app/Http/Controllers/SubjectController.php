@@ -17,6 +17,8 @@ class SubjectController extends Controller
      */
     public function index(Request $request)
     {
+        $this->user->can('index subject');
+
         $data = Subject::query()
             ->when($request->group, function ($q, $v) {
                 $q->where('group', $v);
@@ -31,6 +33,28 @@ class SubjectController extends Controller
                 'canUpdate' => $this->user->can('update subject'),
                 'canDelete' => $this->user->can('delete subject'),
                 'canShow' => $this->user->can('show subject'),
+            ],
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function bank(Request $request)
+    {
+        $this->user->can('bank subject');
+
+        $data = Subject::query()
+            ->when($request->group, function ($q, $v) {
+                $q->where('group', $v);
+            });
+
+        return Inertia::render('subject/bank', [
+            'subjects' => $data->get(),
+            'query' => $request->input(),
+            'permissions' => [
+                'canUpdate' => $this->user->can('update subject'),
+                'canDelete' => $this->user->can('delete subject'),
             ],
         ]);
     }

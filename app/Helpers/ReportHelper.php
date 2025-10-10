@@ -34,7 +34,7 @@ class ReportHelper
                 $mockup = self::setTahfidzData($mockup, $student, $settings);
                 break;
             case 'tahsin':
-                $mockup = self::setTahsinData($mockup, $student, $settings);
+                $mockup = self::setTahsinData($mockup, $student, $settings, $academicYear->semester);
                 break;
             case 'doa-hadist':
                 $mockup = self::setAssessmentData($mockup, 'doa-hadist', $assessments, $settings);
@@ -140,10 +140,10 @@ class ReportHelper
     /**
      * Set data specific to tahsin report type
      */
-    private static function setTahsinData(array $mockup, Student $student, $settings): array
+    private static function setTahsinData(array $mockup, Student $student, $settings, $semester): array
     {
         $mockup['jilid'] = '';
-        $mockup['periode'] = '';
+        $mockup['periode'] = $semester === "ganjil" ? $settings['PERIODE_GANJIL'] : $settings['PERIODE_GENAP'];
         $mockup['hal'] = '';
         $mockup['nilai_kkm'] = '';
         $mockup['nilai_rapor'] = '';
@@ -152,7 +152,7 @@ class ReportHelper
         $mockup['titik_lemah'] = '';
         $mockup['koordinator'] = $settings['KOORDINATOR_Al-MUYASSAR'] ?? '';
         $mockup['komentar_guru'] = "Alhamdulillah Ananda {$student->name} semangat dalam mengikuti kegiatan tahsin dan pastikan tetap dipertahankan. Semoga Ananda {$student->name} menjadi anak yang selalu mengamalkan isi Al-Qur’an dan menjadi penghafal Al-Qur’an. Aamiin.";
-        $mockup['pembimbing'] = '';
+        $mockup['pembimbing'] = null;
 
         return $mockup;
     }

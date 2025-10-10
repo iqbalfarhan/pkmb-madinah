@@ -9,6 +9,7 @@ import { Link, usePage } from '@inertiajs/react';
 import {
   Badge,
   Book,
+  BookA,
   BookOpen,
   CalendarCheck,
   ChevronsUpDown,
@@ -86,6 +87,12 @@ export function AppSidebar() {
               href: route('bills'),
               icon: Wallet,
               available: menus.studentBill,
+            },
+            {
+              title: 'Bank materi belajar',
+              href: route('subject.bank'),
+              icon: BookA,
+              available: menus.subject,
             },
           ]}
           label="Dashboard"

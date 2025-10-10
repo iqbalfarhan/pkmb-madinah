@@ -28,7 +28,7 @@ class ReportController extends Controller
     public function index(Request $request)
     {
         $data = Report::query()
-            ->with(['academic_year', 'classroom', 'student'])
+            ->with(['academic_year', 'classroom', 'student.classroom'])
             ->when($request->academic_year_id, fn ($q, $v) => $q->where('academic_year_id', $v))
             ->when($request->classroom_id, fn ($q, $v) => $q->where('classroom_id', $v))
             ->when($request->report_type, fn ($q, $v) => $q->where('report_type', $v))
@@ -62,9 +62,18 @@ class ReportController extends Controller
         $student = Student::find($data['student_id']);
         $academicYear = AcademicYear::find($data['academic_year_id']);
         $classroom = Classroom::find($data['classroom_id']);
+        
         $assessments = Assessment::query()
-            ->where('grade_id', $classroom->grade_id)
-            ->where('semester', $activeAcademicYearSemester)
+            ->when(
+                in_array($data['report_type'], ['doa-hadist']),
+                function ($q) use ($classroom, $activeAcademicYearSemester) {
+                    $q->where('grade_id', $classroom->grade_id)
+                        ->where('semester', $activeAcademicYearSemester);
+                },
+                function ($q) {
+                    $q->whereIn('group', ['gerakan sholat', 'bacaan sholat', 'adzan', 'tata cara wudhu']);
+                }
+            )
             ->get();
 
         $mockup = ReportHelper::generateReportData($data, $student, $academicYear, $classroom, $assessments, $settings);
