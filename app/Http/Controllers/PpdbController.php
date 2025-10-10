@@ -133,7 +133,7 @@ class PpdbController extends Controller
     {
         return Pdf::loadView('pdf.pendaftaran', [
             'student' => $ppdb->load(['family', 'prevschool']),
-            'photo' => $ppdb->getFirstMediaUrl('photo siswa')
+            'photo' => $ppdb->getFirstMediaUrl('photo siswa'),
         ])->stream();
     }
 }

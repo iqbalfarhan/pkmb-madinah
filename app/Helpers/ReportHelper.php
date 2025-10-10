@@ -143,7 +143,7 @@ class ReportHelper
     private static function setTahsinData(array $mockup, Student $student, $settings, $semester): array
     {
         $mockup['jilid'] = '';
-        $mockup['periode'] = $semester === "ganjil" ? $settings['PERIODE_GANJIL'] : $settings['PERIODE_GENAP'];
+        $mockup['periode'] = $semester === 'ganjil' ? $settings['PERIODE_GANJIL'] : $settings['PERIODE_GENAP'];
         $mockup['hal'] = '';
         $mockup['nilai_kkm'] = '';
         $mockup['nilai_rapor'] = '';

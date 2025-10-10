@@ -62,7 +62,7 @@ class ReportController extends Controller
         $student = Student::find($data['student_id']);
         $academicYear = AcademicYear::find($data['academic_year_id']);
         $classroom = Classroom::find($data['classroom_id']);
-        
+
         $assessments = Assessment::query()
             ->when(
                 in_array($data['report_type'], ['doa-hadist']),
