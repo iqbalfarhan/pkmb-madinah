@@ -274,7 +274,9 @@
 			<td>:</td>
 			<td colspan="7">
 				{{-- <img src="{{ $photo }}" style="height: 300px;" /> --}}
-				<img src="{{ public_path(str_replace(env('APP_URL'), "", $photo)) }}" alt="" style="height: 4cm;">
+				@if ($photo != "")
+						<img src="{{ public_path(str_replace(env('APP_URL'), "", $photo)) }}" alt="" style="height: 4cm;">
+				@endif
 			</td>
 		</tr>
 	</table>

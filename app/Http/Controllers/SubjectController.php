@@ -56,8 +56,9 @@ class SubjectController extends Controller
             'subjects' => $data->get(),
             'query' => $request->input(),
             'permissions' => [
-                'canUpload' => $this->user->can('update subject'),
-                'canDelete' => $this->user->can('delete subject'),
+                'canShow' => $this->user->can('show material'),
+                'canUpload' => $this->user->can('upload material'),
+                'canDelete' => $this->user->can('delete material'),
             ],
         ]);
     }

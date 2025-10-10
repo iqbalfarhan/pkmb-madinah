@@ -92,7 +92,7 @@ export function AppSidebar() {
               title: 'Bank materi belajar',
               href: route('subject.bank'),
               icon: BookA,
-              available: menus.subject,
+              available: menus.subjectbank,
             },
           ]}
           label="Dashboard"

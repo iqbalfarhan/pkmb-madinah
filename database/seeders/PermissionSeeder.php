@@ -155,6 +155,7 @@ class PermissionSeeder extends Seeder
             ],
             'subject' => [
                 'menu subject' => ['admin'],
+                'bank subject' => ['admin', 'guru'],
                 'index subject' => ['admin'],
                 'show subject' => ['admin'],
                 'create subject' => ['admin'],

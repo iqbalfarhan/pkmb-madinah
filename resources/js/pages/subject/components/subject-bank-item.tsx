@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Media } from '@/types';
-import { router } from '@inertiajs/react';
+import { Media, SharedData } from '@/types';
+import { router, usePage } from '@inertiajs/react';
 import { Download, ExternalLink, Trash2 } from 'lucide-react';
 import { FC } from 'react';
 import { toast } from 'sonner';
@@ -11,6 +11,8 @@ type Props = {
 };
 
 const SubjectBankItem: FC<Props> = ({ media }) => {
+  const { permissions } = usePage<SharedData>().props;
+
   const handleDelete = () => {
     router.delete(route('document.destroy', media.id), {
       preserveScroll: true,
@@ -26,20 +28,26 @@ const SubjectBankItem: FC<Props> = ({ media }) => {
       </CardHeader>
       <CardFooter className="flex justify-between">
         <div className="flex">
-          <Button variant={'ghost'} asChild>
-            <a href={route('document.show', media.id)} target="">
-              <Download />
-            </a>
-          </Button>
-          <Button variant={'ghost'} asChild>
-            <a href={media.original_url} target="">
-              <ExternalLink />
-            </a>
-          </Button>
+          {permissions?.canShow && (
+            <>
+              <Button variant={'ghost'} asChild>
+                <a href={route('document.show', media.id)} target="">
+                  <Download />
+                </a>
+              </Button>
+              <Button variant={'ghost'} asChild>
+                <a href={media.original_url} target="">
+                  <ExternalLink />
+                </a>
+              </Button>
+            </>
+          )}
         </div>
-        <Button variant={'ghost'} onClick={handleDelete}>
-          <Trash2 />
-        </Button>
+        {permissions?.canDelete && (
+          <Button variant={'ghost'} onClick={handleDelete}>
+            <Trash2 />
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

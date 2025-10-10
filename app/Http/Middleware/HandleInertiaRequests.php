@@ -71,6 +71,7 @@ class HandleInertiaRequests extends Middleware
                 // list master data
                 'grade' => $user?->can('menu grade'),
                 'subject' => $user?->can('menu subject'),
+                'subjectbank' => $user?->can('bank subject'),
                 'extracurricular' => $user?->can('menu extracurricular'),
                 'assessment' => $user?->can('menu assessment'),
 
