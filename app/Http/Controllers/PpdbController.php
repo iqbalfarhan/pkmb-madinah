@@ -132,9 +132,10 @@ class PpdbController extends Controller
     public function download(Student $ppdb)
     {
         $avatar = $ppdb->getFirstMediaUrl('photo siswa');
+
         return Pdf::loadView('pdf.pendaftaran', [
             'student' => $ppdb->load(['family', 'prevschool']),
-            'photo' => $avatar != "" ? $avatar : asset('nocontent.jpg'),
+            'photo' => $avatar != '' ? $avatar : asset('nocontent.jpg'),
         ])->stream();
     }
 }
