@@ -6,6 +6,7 @@ use App\Http\Requests\BulkDeleteSubjectRequest;
 use App\Http\Requests\BulkUpdateSubjectRequest;
 use App\Http\Requests\StoreSubjectRequest;
 use App\Http\Requests\UpdateSubjectRequest;
+use App\Http\Requests\UploadSubjectMediaRequest;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -20,6 +21,7 @@ class SubjectController extends Controller
         $this->user->can('index subject');
 
         $data = Subject::query()
+            ->with(['media'])
             ->when($request->group, function ($q, $v) {
                 $q->where('group', $v);
             });
@@ -45,6 +47,7 @@ class SubjectController extends Controller
         $this->user->can('bank subject');
 
         $data = Subject::query()
+            ->with(['media'])
             ->when($request->group, function ($q, $v) {
                 $q->where('group', $v);
             });
@@ -53,7 +56,7 @@ class SubjectController extends Controller
             'subjects' => $data->get(),
             'query' => $request->input(),
             'permissions' => [
-                'canUpdate' => $this->user->can('update subject'),
+                'canUpload' => $this->user->can('update subject'),
                 'canDelete' => $this->user->can('delete subject'),
             ],
         ]);
@@ -111,5 +114,12 @@ class SubjectController extends Controller
     {
         $data = $request->validated();
         Subject::whereIn('id', $data['subject_ids'])->delete();
+    }
+
+    public function uploadMedia(UploadSubjectMediaRequest $request, Subject $subject)
+    {
+        $data = $request->validated();
+
+        $subject->addMedia($data['file'])->toMediaCollection();
     }
 }

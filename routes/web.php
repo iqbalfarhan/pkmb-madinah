@@ -56,6 +56,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::apiResource('grade', GradeController::class);
 
     Route::get('subject/bank', [SubjectController::class, 'bank'])->name('subject.bank');
+    Route::post('subject/{subject}/uploadMedia', [SubjectController::class, 'uploadMedia'])->name('subject.upload-media');
     Route::put('subject/bulk', [SubjectController::class, 'bulkUpdate'])->name('subject.bulk.update');
     Route::delete('subject/bulk', [SubjectController::class, 'bulkDelete'])->name('subject.bulk.destroy');
     Route::apiResource('subject', SubjectController::class);
