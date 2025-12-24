@@ -325,4 +325,95 @@ class StudentController extends Controller
 
         $student->addMedia($data['file'])->toMediaCollection($collection);
     }
+
+    /**
+     * Assign student to classroom for active academic year
+     */
+    public function assignToClassroom(Request $request, Student $student)
+    {
+        $data = $request->validate([
+            'classroom_id' => 'required|exists:classrooms,id',
+        ]);
+
+        $activeAcademicYear = AcademicYear::active();
+        
+        if (!$activeAcademicYear) {
+            return response()->json(['error' => 'No active academic year found'], 400);
+        }
+
+        // Remove student from any existing classroom for this academic year
+        $student->classrooms()->wherePivot('academic_year_id', $activeAcademicYear->id)->detach();
+
+        // Assign student to new classroom
+        $student->classrooms()->attach($data['classroom_id'], [
+            'academic_year_id' => $activeAcademicYear->id
+        ]);
+
+        return response()->json(['message' => 'Student assigned to classroom successfully']);
+    }
+
+    /**
+     * Remove student from classroom for active academic year
+     */
+    public function removeFromClassroom(Request $request, Student $student)
+    {
+        $data = $request->validate([
+            'classroom_id' => 'required|exists:classrooms,id',
+        ]);
+
+        $activeAcademicYear = AcademicYear::active();
+        
+        if (!$activeAcademicYear) {
+            return response()->json(['error' => 'No active academic year found'], 400);
+        }
+
+        $student->classrooms()->wherePivot('academic_year_id', $activeAcademicYear->id)
+                ->wherePivot('classroom_id', $data['classroom_id'])->detach();
+
+        return response()->json(['message' => 'Student removed from classroom successfully']);
+    }
+
+    /**
+     * Get student's classrooms for active academic year
+     */
+    public function getClassrooms(Student $student)
+    {
+        $activeClassrooms = $student->activeClassrooms()->get();
+        
+        return response()->json([
+            'classrooms' => $activeClassrooms
+        ]);
+    }
+
+    /**
+     * Bulk assign students to classroom
+     */
+    public function bulkAssignToClassroom(Request $request)
+    {
+        $data = $request->validate([
+            'student_ids' => 'required|array',
+            'student_ids.*' => 'exists:students,id',
+            'classroom_id' => 'required|exists:classrooms,id',
+        ]);
+
+        $activeAcademicYear = AcademicYear::active();
+        
+        if (!$activeAcademicYear) {
+            return response()->json(['error' => 'No active academic year found'], 400);
+        }
+
+        foreach ($data['student_ids'] as $studentId) {
+            $student = Student::find($studentId);
+            
+            // Remove student from any existing classroom for this academic year
+            $student->classrooms()->wherePivot('academic_year_id', $activeAcademicYear->id)->detach();
+            
+            // Assign student to new classroom
+            $student->classrooms()->attach($data['classroom_id'], [
+                'academic_year_id' => $activeAcademicYear->id
+            ]);
+        }
+
+        return response()->json(['message' => 'Students assigned to classroom successfully']);
+    }
 }

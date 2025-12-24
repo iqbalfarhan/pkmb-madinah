@@ -150,6 +150,20 @@ class Student extends Model implements HasMedia
         return $this->belongsTo(Classroom::class);
     }
 
+    public function classrooms()
+    {
+        return $this->belongsToMany(Classroom::class, 'classroom_student')
+                    ->using(ClassroomStudent::class)
+                    ->withPivot('academic_year_id')
+                    ->withTimestamps();
+    }
+
+    public function activeClassrooms()
+    {
+        $activeAcademicYear = AcademicYear::active();
+        return $this->classrooms()->wherePivot('academic_year_id', $activeAcademicYear->id);
+    }
+
     public function absents()
     {
         return $this->hasMany(Absent::class);

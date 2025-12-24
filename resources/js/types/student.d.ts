@@ -42,6 +42,7 @@ export type Student = {
   user_id: number;
   grade?: Grade;
   classroom?: Classroom;
+  classrooms?: Classroom[];
   user?: User;
   kelahiran: string;
   umur: number;

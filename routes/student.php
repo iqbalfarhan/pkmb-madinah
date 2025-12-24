@@ -17,6 +17,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('student/{student}/bill', [StudentController::class, 'bill'])->name('student.bill');
 
     Route::post('student/{student}/upload-media', [StudentController::class, 'uploadMedia'])->name('student.upload-media');
+    
+    // Classroom assignment routes
+    Route::post('student/{student}/assign-classroom', [StudentController::class, 'assignToClassroom'])->name('student.assign-classroom');
+    Route::delete('student/{student}/remove-classroom', [StudentController::class, 'removeFromClassroom'])->name('student.remove-classroom');
+    Route::get('student/{student}/classrooms', [StudentController::class, 'getClassrooms'])->name('student.classrooms');
+    Route::post('student/bulk-assign-classroom', [StudentController::class, 'bulkAssignToClassroom'])->name('student.bulk-assign-classroom');
 
     Route::put('student/bulk', [StudentController::class, 'bulkUpdate'])->name('student.bulk.update');
     Route::delete('student/bulk', [StudentController::class, 'bulkDelete'])->name('student.bulk.destroy');

@@ -9,7 +9,7 @@ import { SharedData } from '@/types';
 import { Student } from '@/types/student';
 import { Link, usePage } from '@inertiajs/react';
 import { Edit, Filter, Folder, FolderArchive, Plus, Trash2 } from 'lucide-react';
-import { FC, useState } from 'react';
+import { useState } from 'react';
 import StudentBulkDeleteDialog from './components/student-bulk-delete-dialog';
 import StudentBulkEditSheet from './components/student-bulk-edit-sheet';
 import StudentDeleteDialog from './components/student-delete-dialog';
@@ -22,7 +22,7 @@ type Props = {
   query: { [key: string]: string };
 };
 
-const StudentList: FC<Props> = ({ students, query }) => {
+function StudentList({ students, query }: Props) {
   const [ids, setIds] = useState<number[]>([]);
   const [cari, setCari] = useState('');
 
@@ -135,7 +135,9 @@ const StudentList: FC<Props> = ({ students, query }) => {
                 <TableCell>{student.kelahiran}</TableCell>
                 <TableCell title={`Tingkat ${student.grade?.name}`}>
                   <div className="group flex flex-row gap-2">
-                    <span>{student.classroom?.name}</span>
+                    <span>
+                      {student.classroom_id} {student.classroom?.name}
+                    </span>
                     <Badge variant={'secondary'} className="opacity-0 group-hover:opacity-100">
                       grade {student.grade_id}
                     </Badge>
@@ -173,6 +175,6 @@ const StudentList: FC<Props> = ({ students, query }) => {
       </Table>
     </AppLayout>
   );
-};
+}
 
 export default StudentList;

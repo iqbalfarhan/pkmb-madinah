@@ -50,6 +50,20 @@ class Classroom extends Model
         return $this->hasMany(Student::class);
     }
 
+    public function studentsPivot()
+    {
+        return $this->belongsToMany(Student::class, 'classroom_student')
+                    ->using(ClassroomStudent::class)
+                    ->withPivot('academic_year_id')
+                    ->withTimestamps();
+    }
+
+    public function activeStudents()
+    {
+        $activeAcademicYear = AcademicYear::active();
+        return $this->studentsPivot()->wherePivot('academic_year_id', $activeAcademicYear->id);
+    }
+
     public function assignments()
     {
         return $this->hasManyThrough(Assignment::class, Lesson::class);

@@ -54,6 +54,11 @@ class AcademicYear extends Model
         return $this->year.' - Semester '.$this->semester;
     }
 
+    public function classroomStudents()
+    {
+        return $this->hasMany(ClassroomStudent::class);
+    }
+
     /*
     public function registerMediaConversions(?Media $media = null): void
     {
