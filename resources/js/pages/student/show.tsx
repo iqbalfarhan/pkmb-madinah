@@ -71,7 +71,11 @@ const ShowStudent: FC<Props> = ({ student }) => {
           icon={Wallet}
         />
         <StudentLinkCard href={route('student.rapor', student.id)} title="E-rapor" description="Rapor perkembangan, nilai, doa dan hafalan." />
-        <AbsentPieChart absents={student.absents as Absent[]} href={route('student.absent', student.id)} className="md:row-span-2" />
+        <AbsentPieChart
+          absents={student.absents as Absent[]}
+          href={route('student.absent', student.id)}
+          className="md:col-span-2 md:row-span-2 xl:col-span-1"
+        />
         <StudentLinkCard
           href={route('student.nilai', student.id)}
           title="Nilai siswa"

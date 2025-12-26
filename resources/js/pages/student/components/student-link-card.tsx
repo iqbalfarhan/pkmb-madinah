@@ -1,5 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 import { router } from '@inertiajs/react';
 import { Book, LucideIcon } from 'lucide-react';
 import { FC } from 'react';
@@ -21,7 +22,7 @@ const StudentLinkCard: FC<Props> = ({ href, title = 'Card link title', className
     router.visit(href || '');
   };
   return (
-    <Card onClick={handleClick} className={className}>
+    <Card onClick={handleClick} className={cn(className, 'sm:col-span-1 md:col-span-2 xl:col-span-1')}>
       <CardHeader className="flex flex-row space-y-5 space-x-4">
         <div className="size-5">{Icon ? <Icon /> : <Book />}</div>
         <div className="space-y-1.5">
