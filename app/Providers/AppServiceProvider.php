@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
         if (app()->environment('production')) {
             URL::forceScheme('https');
         }
-        
+
         // required
         Validator::replacer('required', function ($message, $attribute, $rule, $parameters) {
             return $attribute.' wajib diisi.';
