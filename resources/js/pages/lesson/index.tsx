@@ -125,7 +125,7 @@ const LessonList: FC<Props> = ({ lessons, query }) => {
                 <TableCell>
                   {permissions?.canShow && (
                     <Button variant={'ghost'} size={'icon'}>
-                      <Link href={route('lesson.show', lesson.id)}>
+                      <Link href={route('lesson.show', lesson?.id)}>
                         <Folder />
                       </Link>
                     </Button>

@@ -8,13 +8,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import AppLayout from '@/layouts/app-layout';
 import { User } from '@/types';
 import { Link } from '@inertiajs/react';
-import { Edit, Filter, Folder, FolderArchive, Plus, Trash2 } from 'lucide-react';
+import { Edit, Filter, Folder, FolderArchive, Key, Plus, Trash2 } from 'lucide-react';
 import { FC, useState } from 'react';
 import UserBulkDeleteDialog from './components/user-bulk-delete.dialog';
 import UserBulkEditSheet from './components/user-bulk-edit-sheet';
 import UserDeleteDialog from './components/user-delete-dialog';
 import UserFilterSheet from './components/user-filter-sheet';
 import UserFormSheet from './components/user-form-sheet';
+import UserResetPasswordDialog from './components/user-reset-password-dialog';
 
 type Props = {
   users: User[];
@@ -135,6 +136,11 @@ const UserList: FC<Props> = ({ users, query }) => {
                 <TableCell>{user.phone}</TableCell>
                 <TableCell>{user.role_lists?.join(', ')}</TableCell>
                 <TableCell>
+                  <UserResetPasswordDialog user={user}>
+                    <Button variant={'ghost'} size={'icon'}>
+                      <Key />
+                    </Button>
+                  </UserResetPasswordDialog>
                   <Button variant={'ghost'} size={'icon'}>
                     <Link href={route('user.show', user.id)}>
                       <Folder />

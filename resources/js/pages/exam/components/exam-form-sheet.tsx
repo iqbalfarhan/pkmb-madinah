@@ -40,8 +40,8 @@ const ExamFormSheet: FC<Props> = ({ children, lessonId, exam, purpose }) => {
     name: exam?.name ?? '',
     description: exam?.description ?? '',
     lesson_id: exam?.lesson_id ?? lessonId ?? '',
-    classroom_id: exam?.classroom_id ?? classrooms[0].id ?? '',
-    academic_year_id: exam?.academic_year_id ?? academicYears[0].id ?? '',
+    classroom_id: exam?.classroom_id ?? classrooms[0]?.id ?? '',
+    academic_year_id: exam?.academic_year_id ?? academicYears[0]?.id ?? '',
     // rate: exam?.rate ?? 100,
   });
 

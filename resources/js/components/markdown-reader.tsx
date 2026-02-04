@@ -9,7 +9,6 @@ type Props = {
 };
 
 const MarkdownReader: FC<Props> = ({ content, className }) => {
-
   return (
     <article className={cn('prose prose-lg max-w-full dark:prose-invert', className)}>
       <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>

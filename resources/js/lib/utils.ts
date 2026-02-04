@@ -99,6 +99,13 @@ export function groupBy<T, K extends keyof T>(array: T[], key: K): Record<string
   );
 }
 
+export function copyTextToClipboard(text: string) {
+  navigator.clipboard
+    .writeText(text)
+    .then(() => toast.success(`${text} copied to clipboard`))
+    .catch((err) => toast.error(err));
+}
+
 export function copyMarkdownImage(alt: string, url: string) {
   const markdown = `![${alt}](${url})`;
 

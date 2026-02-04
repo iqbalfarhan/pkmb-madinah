@@ -35,7 +35,7 @@ const LessonFormSheet: FC<Props> = ({ children, lesson, purpose }) => {
   const { data, setData, put, post, reset, processing } = useForm({
     user_id: lesson?.user_id ?? '',
     subject_id: lesson?.subject_id ?? '',
-    classroom_id: lesson?.classroom_id ?? classrooms[0].id ?? '',
+    classroom_id: lesson?.classroom_id ?? classrooms[0]?.id ?? '',
   });
 
   const handleSubmit = () => {

@@ -39,6 +39,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('user/bulk', [UserController::class, 'bulkDelete'])->name('user.bulk.destroy');
     Route::get('user/archived', [UserController::class, 'archived'])->name('user.archived');
     Route::put('user/{user}/restore', [UserController::class, 'restore'])->name('user.restore');
+    Route::put('user/{user}/reset-password', [UserController::class, 'resetPassword'])->name('user.reset-password');
     Route::delete('user/{user}/force-delete', [UserController::class, 'forceDelete'])->name('user.force-delete');
     Route::apiResource('user', UserController::class);
 

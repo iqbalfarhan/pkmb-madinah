@@ -6,6 +6,7 @@ use App\Http\Requests\BulkDeleteUserRequest;
 use App\Http\Requests\BulkUpdateUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UserResetPasswordRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -75,6 +76,17 @@ class UserController extends Controller
         $user->update($data);
 
         $user->syncRoles($data['roles']);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function resetPassword(UserResetPasswordRequest $request, User $user)
+    {
+        $this->pass('update user');
+
+        $data = $request->validated();
+        $user->update($data);
     }
 
     /**

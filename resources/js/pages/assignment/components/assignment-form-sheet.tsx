@@ -33,7 +33,7 @@ const AssignmentFormSheet: FC<Props> = ({ children, assignment, purpose, type })
   const { lessons = [], typeLists = [] } = usePage<{ lessons: Lesson[]; typeLists: AssignmentType[] }>().props;
 
   const { data, setData, put, post, reset, processing } = useForm({
-    lesson_id: assignment?.lesson_id ?? lessons[0].id ?? '',
+    lesson_id: assignment?.lesson_id ?? lessons[0]?.id ?? '',
     name: assignment?.name ?? '',
     type: assignment?.type ?? type ?? '',
     description: assignment?.description ?? '',
