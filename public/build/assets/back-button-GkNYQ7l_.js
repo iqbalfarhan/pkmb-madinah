@@ -1,1 +1,0 @@
-import{j as o}from"./app-CI3wX0jW.js";import{B as t}from"./button-bybqhk3S.js";import{A as s}from"./arrow-left-OQy8HoNS.js";const m=({label:r="Kembali"})=>o.jsxs(t,{variant:"secondary",onClick:()=>{window.history.back()},children:[o.jsx(s,{}),r]});export{m as B};
