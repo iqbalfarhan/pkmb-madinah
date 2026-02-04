@@ -111,7 +111,7 @@ const PaymentList: FC<Props> = ({ payments, query }) => {
                 </TableCell>
                 <TableCell>
                   <div className="flex flex-col">
-                    <div>{payment.bill.student.name}</div>
+                    <div>{payment.bill.student?.name}</div>
                     <div className="text-muted-foreground">{strLimit(payment.bill.description)}</div>
                   </div>
                 </TableCell>

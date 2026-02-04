@@ -58,7 +58,7 @@ class SettingSeeder extends Seeder
             [
                 'key' => 'KEPALA_SEKOLAH',
                 'hint' => 'Nama kepala sekolah',
-                'value' => 'Semi Hidayati, A.Md., S.Pd',
+                'value' => '-',
             ],
             [
                 'key' => 'PERIODE_GANJIL',
