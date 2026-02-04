@@ -30,19 +30,21 @@ const ShowBill: FC<Props> = ({ bill }) => {
       description="Detail bill"
       actions={
         <>
-          <Button asChild>
-            <Link href={route(bill.student.status == 'ppdb' ? 'ppdb.show' : 'student.show', bill.student_id)}>
-              <UserIcon />
-              Lihat detail siswa
-            </Link>
-          </Button>
+          {bill.student && (
+            <Button asChild>
+              <Link href={route(bill.student?.status == 'ppdb' ? 'ppdb.show' : 'student.show', bill.student_id)}>
+                <UserIcon />
+                Lihat detail siswa
+              </Link>
+            </Button>
+          )}
         </>
       }
     >
       <Card>
         <div className="flex flex-col md:flex-row">
           <CardHeader className="flex-1">
-            <CardTitle>{bill.student.name}</CardTitle>
+            <CardTitle>{bill.student?.name ?? "siswa tidak ditemukan"}</CardTitle>
             <CardDescription>{bill.description}</CardDescription>
           </CardHeader>
           <CardFooter>
