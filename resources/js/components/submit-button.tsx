@@ -1,4 +1,4 @@
-import { Check, Loader2, LucideIcon } from 'lucide-react';
+import { Check, LucideIcon } from 'lucide-react';
 import { FC } from 'react';
 import { Button } from './ui/button';
 import { Spinner } from './ui/spinner';

@@ -22,7 +22,7 @@ type Props = PropsWithChildren & {
 };
 
 const UserResetPasswordDialog: FC<Props> = ({ children, user }) => {
-  const [open, setOpen] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false);
   const { put, data, processing } = useForm({
     password: generatePassword(),
   });
@@ -31,8 +31,7 @@ const UserResetPasswordDialog: FC<Props> = ({ children, user }) => {
     put(route('user.reset-password', user.id), {
       preserveScroll: true,
       onSuccess: () => {
-        toast.success('Password user berhasil di ubah'),
-        setOpen(false);
+        (toast.success('Password user berhasil di ubah'), setOpen(false));
       },
       onError: (er) => toast.error(em(er)),
     });

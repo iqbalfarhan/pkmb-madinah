@@ -1,15 +1,13 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { useAppearance } from '@/hooks/use-appearance';
 import { cn } from '@/lib/utils';
 import SectionContainer from '../layout/section-container';
 
 const SyaratSection = () => {
-  const { appearance } = useAppearance();
   return (
     <SectionContainer title="Persiapan pendaftaran" description="Apa aja yang perlu dipersiapkan dalam pendaftaran">
       <Card>
         <CardContent>
-          <article className={cn('prose prose-lg min-w-full', appearance != 'light' && 'prose-invert')}>
+          <article className={cn('prose prose-lg min-w-full dark:prose-invert')}>
             <p>
               Untuk mengikuti proses Penerimaan Peserta Didik Baru (PPDB) secara online, calon peserta didik diwajibkan mengunggah dokumen-dokumen
               berikut melalui sistem PPDB:

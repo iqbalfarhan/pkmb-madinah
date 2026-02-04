@@ -18,22 +18,22 @@ class SettingSeeder extends Seeder
             [
                 'key' => 'SCHOOL_ADDRESS',
                 'hint' => 'Alamat sekolah. ini akan ditampilkan diprofile sekolah',
-                'value' => fake()->address(),
+                'value' => 'Jalan Karang Jawa rt. 11 no. 84 Kelurahan Karang Jati Kecamatan Balikpapan Tengah 76123 Kalimantan Timur',
             ],
             [
                 'key' => 'SCHOOL_PHONE',
                 'hint' => 'Nomor telepon sekolah. ini akan ditampilkan diprofile sekolah',
-                'value' => fake()->phoneNumber(),
+                'value' => '085553001020',
             ],
             [
                 'key' => 'SCHOOL_EMAIL',
                 'hint' => 'Email sekolah. ini akan ditampilkan diprofile sekolah',
-                'value' => fake()->safeEmail(),
+                'value' => 'pkbmalmadinah2023@gmail.com',
             ],
             [
                 'key' => 'SCHOOL_WEBSITE',
                 'hint' => 'Website sekolah. ini akan ditampilkan diprofile sekolah',
-                'value' => 'https://'.fake()->domainName(),
+                'value' => 'https://pkbm-madinah.my.id',
             ],
             [
                 'key' => 'SCHOOL_CITY',
