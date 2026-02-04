@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         ], [
             'name' => 'Super administrator',
             'username' => 'superadmin',
-            'password' => 'password',
+            'password' => 'offz1331',
         ]);
         $superadmin->assignRole(['superadmin']);
 
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
         ], [
             'name' => 'Administrator',
             'username' => 'admin',
-            'password' => 'password',
+            'password' => 'Password1!',
         ]);
         $admin->assignRole('admin');
     }
